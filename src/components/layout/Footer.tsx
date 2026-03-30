@@ -91,7 +91,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to bottom, transparent 0%, transparent 15%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.92) 65%, #000000 80%)',
+            'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 15%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,0.92) 55%, #000000 70%)',
         }}
       />
 

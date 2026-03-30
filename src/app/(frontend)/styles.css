@@ -228,6 +228,11 @@ svg {
   background: transparent;
   border-bottom: none;
   box-shadow: none;
+  pointer-events: none;
+}
+
+.header--menu-open .header__logo {
+  opacity: 0;
 }
 
 .header__inner {

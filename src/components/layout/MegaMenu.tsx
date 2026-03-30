@@ -171,7 +171,12 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
       <div className="mega-overlay__topbar">
         <div className="mega-overlay__brand">
           <Link href="/" onClick={onClose} className="mega-overlay__logo">
-            <img src="/images/logo/logo.svg" alt="Delicious Planet" className="h-8 w-auto" />
+            <img
+              src="/images/logo/logo.svg"
+              alt="Delicious Planet"
+              className="h-8 w-auto"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
           </Link>
           <span className="mega-overlay__tagline">Premium Food Ingredients, Worldwide</span>
         </div>

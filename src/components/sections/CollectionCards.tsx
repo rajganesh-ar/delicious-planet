@@ -26,11 +26,14 @@ const STATIC_IMAGES: Record<string, string> = {
 }
 
 function getCollectionImage(col: ProductCollection): string | null {
+  // Prefer static images bundled in public/ — they survive container restarts
+  if (STATIC_IMAGES[col.slug]) return STATIC_IMAGES[col.slug]
+
   if (typeof col.image === 'object' && col.image !== null) {
     const media = col.image as Media
     return media.sizes?.hero?.url ?? media.sizes?.card?.url ?? media.url ?? null
   }
-  return STATIC_IMAGES[col.slug] ?? null
+  return null
 }
 
 interface CollectionCardsProps {
@@ -113,11 +116,7 @@ export function CollectionCards({ collections }: CollectionCardsProps) {
                 <FadeIn key={col.id} delay={i * 0.04}>
                   <Link
                     href={`/products?collection=${col.slug}`}
-                    className="group shrink-0 snap-start block no-underline"
-                    style={{
-                      width: 'calc((100vw - 3rem - 4 * 1rem) / 2.3)',
-                      maxWidth: 'calc((100vw - 8rem - 4 * 1rem) / 5)',
-                    }}
+                    className="group shrink-0 snap-start block no-underline w-[40vw] sm:w-[35vw] md:w-[28vw] lg:w-[18vw] min-w-[140px]"
                   >
                     <div className="relative aspect-[2/3] overflow-hidden bg-charcoal">
                       {imgUrl ? (
@@ -136,12 +135,12 @@ export function CollectionCards({ collections }: CollectionCardsProps) {
                       <div className="absolute inset-0 bg-linear-to-t from-obsidian/80 via-obsidian/40 to-obsidian/10 transition-opacity duration-500 group-hover:from-obsidian/90" />
 
                       {/* Text at the bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 z-10 p-4 lg:p-5">
-                        <h3 className="font-sans text-xs lg:text-sm font-bold uppercase tracking-wide text-cream m-0 leading-snug">
+                      <div className="absolute bottom-0 left-0 right-0 z-10 p-3 lg:p-5">
+                        <h3 className="font-sans text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wide text-cream m-0 leading-snug">
                           {col.title}
                         </h3>
                         {col.description && (
-                          <p className="text-[11px] text-cream/70 m-0 mt-0.5 leading-relaxed line-clamp-2">
+                          <p className="hidden sm:block text-[11px] text-cream/70 m-0 mt-0.5 leading-relaxed line-clamp-2">
                             {col.description}
                           </p>
                         )}

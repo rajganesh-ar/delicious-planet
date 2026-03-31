@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ProductCard } from '@/components/ui/ProductCard'
+import { FadeIn } from '@/components/animations/FadeIn'
 import { useCart } from '@/components/layout/CartContext'
 import type { Product, Media, Category, Brand, Supplier, ProductCollection } from '@/payload-types'
 
@@ -36,57 +37,45 @@ function getThumbUrl(product: Product): string | undefined {
   return undefined
 }
 
-const dietaryLabels: { key: keyof NonNullable<Product['dietary']>; label: string }[] = [
-  { key: 'isOrganic', label: 'Organic' },
-  { key: 'isVegan', label: 'Vegan' },
-  { key: 'isVegetarian', label: 'Vegetarian' },
-  { key: 'isGlutenFree', label: 'Gluten-Free' },
-  { key: 'isHalal', label: 'Halal' },
-  { key: 'isLactoseFree', label: 'Lactose-Free' },
+const dietaryLabels: { key: keyof NonNullable<Product['dietary']>; label: string; icon: string }[] = [
+  { key: 'isOrganic', label: 'Organic', icon: '🌿' },
+  { key: 'isVegan', label: 'Vegan', icon: '🌱' },
+  { key: 'isVegetarian', label: 'Vegetarian', icon: '🥬' },
+  { key: 'isGlutenFree', label: 'Gluten-Free', icon: '🌾' },
+  { key: 'isHalal', label: 'Halal', icon: '✦' },
+  { key: 'isLactoseFree', label: 'Lactose-Free', icon: '🥛' },
 ]
 
-function AccordionItem({
+function NutritionBar({
   label,
-  children,
-  isOpen,
-  onToggle,
+  value,
+  unit,
+  dailyMax,
 }: {
   label: string
-  children: React.ReactNode
-  isOpen: boolean
-  onToggle: () => void
+  value: number
+  unit: string
+  dailyMax: number
 }) {
+  const pct = Math.min(Math.round((value / dailyMax) * 100), 100)
   return (
-    <div className="border-t border-mist">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left bg-transparent border-0 cursor-pointer group"
-      >
-        <span className="text-xs uppercase tracking-[0.2em] font-medium text-obsidian group-hover:text-gold transition-colors">
-          {label}
+    <div>
+      <div className="flex items-baseline justify-between mb-1">
+        <span className="text-xs text-obsidian font-medium">{label}</span>
+        <span className="text-[11px] text-stone">
+          {value} {unit}{' '}
+          <span className="text-stone/50">({pct}%)</span>
         </span>
-        <motion.span
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-stone text-lg leading-none"
-        >
-          +
-        </motion.span>
-      </button>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="pb-6 text-sm text-stone leading-relaxed">{children}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
+      <div className="h-1.5 bg-parchment rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-gold rounded-full"
+          initial={{ width: 0 }}
+          whileInView={{ width: `${pct}%` }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        />
+      </div>
     </div>
   )
 }
@@ -95,22 +84,11 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
   const images = getImages(product)
   const [activeImage, setActiveImage] = useState(0)
   const [qty, setQty] = useState(1)
-  const [openAccordion, setOpenAccordion] = useState<string | null>('description')
   const { addItem, openCart } = useCart()
 
   const price = product.prices?.[0]
   const compareAt = price?.compareAtAmount
   const thumbUrl = getThumbUrl(product)
-
-  const categoryTitle =
-    typeof product.category === 'object' && product.category !== null
-      ? (product.category as Category).title
-      : null
-
-  const categorySlug =
-    typeof product.category === 'object' && product.category !== null
-      ? (product.category as Category).slug
-      : null
 
   const brandName =
     typeof product.brand === 'object' && product.brand !== null
@@ -121,6 +99,22 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
     typeof product.collection === 'object' && product.collection !== null
       ? (product.collection as ProductCollection).title
       : null
+
+  const collectionSlug =
+    typeof product.collection === 'object' && product.collection !== null
+      ? (product.collection as ProductCollection).slug
+      : null
+
+  // Subcategory hierarchy: if category has a parent, the parent is the "category" and actual is "subcategory"
+  const categoryObj = typeof product.category === 'object' && product.category !== null ? (product.category as Category) : null
+  const parentCategoryObj = categoryObj && typeof categoryObj.parent === 'object' && categoryObj.parent !== null ? (categoryObj.parent as Category) : null
+
+  const parentCategoryTitle = parentCategoryObj?.title ?? null
+  const parentCategorySlug = parentCategoryObj?.slug ?? null
+  const subcategoryTitle = parentCategoryObj ? categoryObj?.title ?? null : null
+  const subcategorySlug = parentCategoryObj ? categoryObj?.slug ?? null : null
+  const mainCategoryTitle = parentCategoryObj ? parentCategoryTitle : categoryObj?.title ?? null
+  const mainCategorySlug = parentCategoryObj ? parentCategorySlug : categoryObj?.slug ?? null
 
   const activeDietary = dietaryLabels.filter((d) => product.dietary?.[d.key])
 
@@ -139,51 +133,72 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
     openCart()
   }
 
-  const toggleAccordion = (key: string) =>
-    setOpenAccordion((prev) => (prev === key ? null : key))
-
   const hasNutrition =
     product.nutritionPer100g &&
     Object.values(product.nutritionPer100g).some((v) => v !== null && v !== undefined)
 
   return (
-    <div className="bg-cream min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* ── Breadcrumb ─────────────────────────────────────────── */}
-      <div className="border-b border-mist pt-20">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-3">
+      <div className="bg-parchment/40 border-b border-mist pt-20 relative">
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold/30 to-transparent" />
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-4">
           <nav className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-stone">
             <Link href="/" className="hover:text-obsidian transition-colors no-underline text-stone">
               Home
             </Link>
-            <span>/</span>
+            <span className="text-mist">/</span>
             <Link
               href="/products"
               className="hover:text-obsidian transition-colors no-underline text-stone"
             >
               Shop
             </Link>
-            {categoryTitle && categorySlug && (
+            {collectionTitle && collectionSlug && (
               <>
-                <span>/</span>
+                <span className="text-mist">/</span>
                 <Link
-                  href={`/products?category=${categorySlug}`}
+                  href={`/products?collection=${collectionSlug}`}
                   className="hover:text-obsidian transition-colors no-underline text-stone"
                 >
-                  {categoryTitle}
+                  {collectionTitle}
                 </Link>
               </>
             )}
-            <span>/</span>
-            <span className="text-obsidian">{product.title}</span>
+            {mainCategoryTitle && mainCategorySlug && (
+              <>
+                <span className="text-mist">/</span>
+                <Link
+                  href={`/products?category=${mainCategorySlug}`}
+                  className="hover:text-obsidian transition-colors no-underline text-stone"
+                >
+                  {mainCategoryTitle}
+                </Link>
+              </>
+            )}
+            {subcategoryTitle && subcategorySlug && (
+              <>
+                <span className="text-mist">/</span>
+                <Link
+                  href={`/products?category=${subcategorySlug}`}
+                  className="hover:text-obsidian transition-colors no-underline text-stone"
+                >
+                  {subcategoryTitle}
+                </Link>
+              </>
+            )}
+            <span className="text-mist">/</span>
+            <span className="text-obsidian font-medium">{product.title}</span>
           </nav>
         </div>
       </div>
 
       {/* ── Main two-column layout ─────────────────────────────── */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-0 lg:gap-16 xl:gap-24">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-0 lg:gap-16 xl:gap-24">
           {/* ── LEFT: Sticky gallery ──────────────────────────── */}
-          <div className="lg:sticky lg:top-20 lg:self-start py-10 lg:py-16">
+          <FadeIn direction="left" duration={0.7}>
+            <div className="lg:sticky lg:top-20 lg:self-start py-10 lg:py-16">
             {/* Main image */}
             <div className="relative aspect-square overflow-hidden bg-parchment">
               <AnimatePresence mode="wait">
@@ -268,18 +283,21 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </div>
             )}
           </div>
+          </FadeIn>
 
           {/* ── RIGHT: Scrollable product info ────────────────── */}
+          <FadeIn direction="right" duration={0.7} delay={0.15}>
           <div className="py-10 lg:py-16 lg:border-l lg:border-mist lg:pl-16 xl:pl-24">
             {/* Collection / brand tag */}
-            {(collectionTitle || categoryTitle || brandName) && (
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium m-0 mb-4">
-                {collectionTitle ?? categoryTitle ?? brandName}
+            {(collectionTitle || mainCategoryTitle || brandName) && (
+              <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-heading font-medium m-0 mb-4 flex items-center gap-3">
+                <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+                {collectionTitle ?? mainCategoryTitle ?? brandName}
               </p>
             )}
 
             {/* Title */}
-            <h1 className="font-luxury text-3xl lg:text-4xl xl:text-[42px] font-medium m-0 mb-1 text-obsidian tracking-tight leading-[1.1]">
+            <h1 className="font-luxury text-3xl md:text-4xl lg:text-[44px] xl:text-[48px] font-medium m-0 mb-1 text-obsidian tracking-tight leading-[1.1]">
               {product.title}
             </h1>
 
@@ -317,49 +335,68 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </p>
             )}
 
-            {/* Dietary badges */}
+            {/* Dietary badges — larger visual cards */}
             {activeDietary.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="grid grid-cols-3 gap-2 mb-6">
                 {activeDietary.map((d) => (
-                  <span
+                  <div
                     key={d.key}
-                    className="text-[10px] uppercase tracking-[0.15em] border border-mist text-stone px-3 py-1"
+                    className="flex flex-col items-center justify-center py-3 px-2 border border-mist bg-parchment/30 text-center"
                   >
-                    {d.label}
-                  </span>
+                    <span className="text-lg mb-1">{d.icon}</span>
+                    <span className="text-[9px] uppercase tracking-[0.15em] text-stone font-medium">
+                      {d.label}
+                    </span>
+                  </div>
                 ))}
               </div>
             )}
 
-            {/* Origin / Weight / SKU */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              {product.countryOfOrigin && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
-                    Origin
-                  </p>
-                  <p className="text-xs font-medium text-obsidian m-0">
-                    {product.countryOfOrigin}
-                  </p>
+            {/* At a Glance */}
+            {(product.countryOfOrigin || product.weight || product.packaging || product.sku) && (
+              <div className="mb-8">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-3 flex items-center gap-3">
+                  <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+                  At a Glance
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  {product.countryOfOrigin && (
+                    <div className="border border-mist p-3">
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                        <span className="text-sm">🌍</span> Origin
+                      </p>
+                      <p className="text-xs font-medium text-obsidian m-0">
+                        {product.countryOfOrigin}
+                      </p>
+                    </div>
+                  )}
+                  {product.weight && (
+                    <div className="border border-mist p-3">
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                        <span className="text-sm">⚖️</span> Weight
+                      </p>
+                      <p className="text-xs font-medium text-obsidian m-0">{product.weight}</p>
+                    </div>
+                  )}
+                  {product.packaging && (
+                    <div className="border border-mist p-3">
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                        <span className="text-sm">📦</span> Packaging
+                      </p>
+                      <p className="text-xs font-medium text-obsidian m-0">{product.packaging}</p>
+                    </div>
+                  )}
+                  {product.sku && (
+                    <div className="border border-mist p-3">
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                        <span className="text-sm">🏷️</span> SKU
+                      </p>
+                      <p className="text-xs font-medium text-obsidian m-0">{product.sku}</p>
+                    </div>
+                  )}
                 </div>
-              )}
-              {product.weight && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
-                    Weight
-                  </p>
-                  <p className="text-xs font-medium text-obsidian m-0">{product.weight}</p>
-                </div>
-              )}
-              {product.sku && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
-                    SKU
-                  </p>
-                  <p className="text-xs font-medium text-obsidian m-0">{product.sku}</p>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Size variants */}
             {product.sizeVariants && product.sizeVariants.length > 0 && (
@@ -440,168 +477,152 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
             )}
 
             <div className="border-t border-mist" />
+          </div>
+          </FadeIn>
+        </div>
+      </div>
 
-            {/* ── Accordions ───────────────────────────────────── */}
-            <div className="mt-0">
-              <AccordionItem
-                label="Description"
-                isOpen={openAccordion === 'description'}
-                onToggle={() => toggleAccordion('description')}
-              >
-                {product.shortDescription ? (
-                  <p className="m-0">{product.shortDescription}</p>
-                ) : (
-                  <p className="m-0 text-stone/60">No description available.</p>
+      {/* ── Product Details — Four-column section ──────────────── */}
+      <div className="border-t border-mist">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-12 lg:py-16">
+          <FadeIn>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-8 flex items-center gap-3">
+              <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+              Product Details
+            </p>
+          </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {/* Column 1: Ingredients & Allergens */}
+            <FadeIn delay={0}>
+              <div className="border-t border-obsidian pt-5">
+                <h4 className="text-xs uppercase tracking-[0.2em] font-medium text-obsidian m-0 mb-4">
+                  Ingredients & Allergens
+                </h4>
+                {product.ingredients ? (
+                  <div className="mb-3">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Ingredients</p>
+                    <p className="text-sm text-stone leading-relaxed m-0">{product.ingredients}</p>
+                  </div>
+                ) : null}
+                {product.allergens ? (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Allergens</p>
+                    <p className="text-sm font-medium text-obsidian leading-relaxed m-0">{product.allergens}</p>
+                  </div>
+                ) : null}
+                {!product.ingredients && !product.allergens && (
+                  <p className="text-sm text-stone/50 m-0">No information available.</p>
                 )}
-              </AccordionItem>
+              </div>
+            </FadeIn>
 
-              {(product.ingredients || product.allergens) && (
-                <AccordionItem
-                  label="Ingredients & Allergens"
-                  isOpen={openAccordion === 'ingredients'}
-                  onToggle={() => toggleAccordion('ingredients')}
-                >
-                  {product.ingredients && (
-                    <div className="mb-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-obsidian m-0 mb-1">
-                        Ingredients
-                      </p>
-                      <p className="m-0">{product.ingredients}</p>
-                    </div>
-                  )}
-                  {product.allergens && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-obsidian m-0 mb-1">
-                        Allergens
-                      </p>
-                      <p className="m-0 font-medium text-obsidian">{product.allergens}</p>
-                    </div>
-                  )}
-                </AccordionItem>
-              )}
-
-              {hasNutrition && (
-                <AccordionItem
-                  label="Nutritional Info"
-                  isOpen={openAccordion === 'nutrition'}
-                  onToggle={() => toggleAccordion('nutrition')}
-                >
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-obsidian m-0 mb-3">
-                    Per 100g
-                  </p>
-                  <table className="w-full text-xs">
-                    <tbody>
+            {/* Column 2: Nutritional Info */}
+            <FadeIn delay={0.06}>
+              <div className="border-t border-obsidian pt-5">
+                <h4 className="text-xs uppercase tracking-[0.2em] font-medium text-obsidian m-0 mb-4">
+                  Nutritional Info
+                </h4>
+                {hasNutrition ? (
+                  <>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-3">Per 100g</p>
+                    <div className="space-y-3">
                       {product.nutritionPer100g?.energyKcal != null && (
-                        <tr className="border-b border-mist/50">
-                          <td className="py-2 text-obsidian">Energy</td>
-                          <td className="py-2 text-right text-stone">
-                            {product.nutritionPer100g.energyKcal} kcal
-                          </td>
-                        </tr>
+                        <NutritionBar label="Energy" value={product.nutritionPer100g.energyKcal} unit="kcal" dailyMax={2000} />
                       )}
                       {product.nutritionPer100g?.protein != null && (
-                        <tr className="border-b border-mist/50">
-                          <td className="py-2 text-obsidian">Protein</td>
-                          <td className="py-2 text-right text-stone">
-                            {product.nutritionPer100g.protein}g
-                          </td>
-                        </tr>
+                        <NutritionBar label="Protein" value={product.nutritionPer100g.protein} unit="g" dailyMax={50} />
                       )}
                       {product.nutritionPer100g?.carbohydrates != null && (
-                        <tr className="border-b border-mist/50">
-                          <td className="py-2 text-obsidian">Carbohydrates</td>
-                          <td className="py-2 text-right text-stone">
-                            {product.nutritionPer100g.carbohydrates}g
-                          </td>
-                        </tr>
+                        <NutritionBar label="Carbs" value={product.nutritionPer100g.carbohydrates} unit="g" dailyMax={260} />
                       )}
                       {product.nutritionPer100g?.fat != null && (
-                        <tr className="border-b border-mist/50">
-                          <td className="py-2 text-obsidian">Fat</td>
-                          <td className="py-2 text-right text-stone">
-                            {product.nutritionPer100g.fat}g
-                          </td>
-                        </tr>
+                        <NutritionBar label="Fat" value={product.nutritionPer100g.fat} unit="g" dailyMax={70} />
                       )}
                       {product.nutritionPer100g?.salt != null && (
-                        <tr>
-                          <td className="py-2 text-obsidian">Salt</td>
-                          <td className="py-2 text-right text-stone">
-                            {product.nutritionPer100g.salt}g
-                          </td>
-                        </tr>
+                        <NutritionBar label="Salt" value={product.nutritionPer100g.salt} unit="g" dailyMax={6} />
                       )}
-                    </tbody>
-                  </table>
-                </AccordionItem>
-              )}
-
-              {(product.storageInstructions || product.packaging) && (
-                <AccordionItem
-                  label="Storage & Packaging"
-                  isOpen={openAccordion === 'storage'}
-                  onToggle={() => toggleAccordion('storage')}
-                >
-                  {product.storageInstructions && (
-                    <div className="mb-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-obsidian m-0 mb-1">
-                        Storage
-                      </p>
-                      <p className="m-0">{product.storageInstructions}</p>
                     </div>
-                  )}
-                  {product.packaging && (
+                  </>
+                ) : (
+                  <p className="text-sm text-stone/50 m-0">No nutritional data available.</p>
+                )}
+              </div>
+            </FadeIn>
+
+            {/* Column 3: Storage & Packaging */}
+            <FadeIn delay={0.12}>
+              <div className="border-t border-obsidian pt-5">
+                <h4 className="text-xs uppercase tracking-[0.2em] font-medium text-obsidian m-0 mb-4">
+                  Storage & Packaging
+                </h4>
+                {product.storageInstructions ? (
+                  <div className="mb-3">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Storage</p>
+                    <p className="text-sm text-stone leading-relaxed m-0">{product.storageInstructions}</p>
+                  </div>
+                ) : null}
+                {product.packaging ? (
+                  <div className="mb-3">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Packaging</p>
+                    <p className="text-sm text-stone leading-relaxed m-0">{product.packaging}</p>
+                  </div>
+                ) : null}
+                {product.specifications && product.specifications.length > 0 && (
+                  <div className="mt-4 border-t border-mist pt-3">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-2">Specs</p>
+                    {product.specifications.map((spec, i) => (
+                      <div key={i} className="flex justify-between text-xs py-1">
+                        <span className="text-obsidian font-medium">{spec.label}</span>
+                        <span className="text-stone">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {!product.storageInstructions && !product.packaging && (!product.specifications || product.specifications.length === 0) && (
+                  <p className="text-sm text-stone/50 m-0">No information available.</p>
+                )}
+              </div>
+            </FadeIn>
+
+            {/* Column 4: Shipping */}
+            <FadeIn delay={0.18}>
+              <div className="border-t border-obsidian pt-5">
+                <h4 className="text-xs uppercase tracking-[0.2em] font-medium text-obsidian m-0 mb-4">
+                  Shipping
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 shrink-0" />
                     <div>
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-obsidian m-0 mb-1">
-                        Packaging
-                      </p>
-                      <p className="m-0">{product.packaging}</p>
+                      <p className="text-xs font-medium text-obsidian m-0">Standard</p>
+                      <p className="text-[11px] text-stone m-0">3–7 business days</p>
                     </div>
-                  )}
-                </AccordionItem>
-              )}
-
-              {product.specifications && product.specifications.length > 0 && (
-                <AccordionItem
-                  label="Specifications"
-                  isOpen={openAccordion === 'specs'}
-                  onToggle={() => toggleAccordion('specs')}
-                >
-                  <table className="w-full text-xs">
-                    <tbody>
-                      {product.specifications.map((spec, i) => (
-                        <tr
-                          key={i}
-                          className={i % 2 === 0 ? 'bg-parchment/40' : ''}
-                        >
-                          <td className="py-2.5 px-3 font-medium text-obsidian">{spec.label}</td>
-                          <td className="py-2.5 px-3 text-stone">{spec.value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </AccordionItem>
-              )}
-
-              <AccordionItem
-                label="Shipping"
-                isOpen={openAccordion === 'shipping'}
-                onToggle={() => toggleAccordion('shipping')}
-              >
-                <div className="space-y-1.5">
-                  <p className="m-0">Free shipping on orders over $150.</p>
-                  <p className="m-0">Standard delivery: 3–7 business days.</p>
-                  <p className="m-0">Express delivery: 1–3 business days.</p>
-                  <p className="m-0">International shipping available to select countries.</p>
-                  {product.shipping?.handlingDays != null && (
-                    <p className="m-0">
-                      Handling time: {product.shipping.handlingDays} business day
-                      {product.shipping.handlingDays !== 1 ? 's' : ''}.
-                    </p>
-                  )}
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-medium text-obsidian m-0">Express</p>
+                      <p className="text-[11px] text-stone m-0">1–3 business days</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-medium text-obsidian m-0">International</p>
+                      <p className="text-[11px] text-stone m-0">Select countries</p>
+                    </div>
+                  </div>
+                  <div className="border-t border-mist pt-3 mt-1 space-y-1.5">
+                    <p className="m-0 text-[11px] text-stone">✓ Free shipping over $150</p>
+                    {product.shipping?.handlingDays != null && (
+                      <p className="m-0 text-[11px] text-stone">
+                        Handling: {product.shipping.handlingDays} day{product.shipping.handlingDays !== 1 ? 's' : ''}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </AccordionItem>
-            </div>
+              </div>
+            </FadeIn>
           </div>
         </div>
       </div>
@@ -609,28 +630,83 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       {/* ── Related products ───────────────────────────────────── */}
       {relatedProducts.length > 0 && (
         <section className="border-t border-mist mt-12">
-          <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
+          <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
+            <FadeIn>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-3 flex items-center gap-3">
+                <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+                Curated For You
+              </p>
+            </FadeIn>
             <div className="flex items-baseline justify-between mb-10">
-              <h2 className="font-luxury text-2xl lg:text-3xl font-medium tracking-tight m-0 text-obsidian">
-                You May Also Like
-              </h2>
-              <Link
-                href="/products"
-                className="text-[11px] uppercase tracking-[0.2em] text-stone hover:text-obsidian transition-colors no-underline"
-              >
-                View All
-              </Link>
+              <FadeIn delay={0.05}>
+                <h2 className="font-luxury text-2xl lg:text-3xl font-medium tracking-tight m-0 text-obsidian">
+                  You May Also Like
+                </h2>
+              </FadeIn>
+              <FadeIn delay={0.1}>
+                <Link
+                  href="/products"
+                  className="text-[11px] uppercase tracking-[0.2em] text-stone hover:text-obsidian transition-colors no-underline"
+                >
+                  View All →
+                </Link>
+              </FadeIn>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-mist border border-mist">
-              {relatedProducts.map((p) => (
-                <div key={p.id} className="bg-cream">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6 lg:gap-8">
+              {relatedProducts.map((p, i) => (
+                <FadeIn key={p.id} delay={i * 0.06}>
                   <ProductCard product={p} />
-                </div>
+                </FadeIn>
               ))}
             </div>
           </div>
         </section>
       )}
+
+      {/* ── CTA Banner ─────────────────────────────────────────── */}
+      <section className="relative bg-obsidian overflow-hidden">
+        <div className="absolute inset-0 bg-linear-to-r from-obsidian via-charcoal to-obsidian opacity-90" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.4) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-30" />
+        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <FadeIn>
+                <p className="text-[10px] uppercase tracking-[0.25em] text-gold/80 font-heading font-medium m-0 mb-3 flex items-center gap-3">
+                  <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+                  For Professionals
+                </p>
+              </FadeIn>
+              <FadeIn delay={0.1}>
+                <h3 className="font-luxury text-2xl lg:text-3xl font-medium text-cream m-0">
+                  Need Bulk Pricing?
+                </h3>
+              </FadeIn>
+              <FadeIn delay={0.15}>
+                <p className="text-stone/60 text-sm mt-2 mb-0 max-w-md">
+                  We supply restaurants, hotels, and specialty retailers worldwide. Get in touch for wholesale pricing and custom orders.
+                </p>
+              </FadeIn>
+            </div>
+            <FadeIn delay={0.2}>
+              <div className="flex gap-3">
+                <Link
+                  href="/contact?type=b2b"
+                  className="inline-flex items-center px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] bg-gold text-obsidian no-underline hover:bg-gold-light transition-colors"
+                >
+                  Get in Touch
+                </Link>
+                <Link
+                  href="/products"
+                  className="inline-flex items-center px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] border border-cream/20 text-cream no-underline hover:bg-cream/10 transition-colors"
+                >
+                  Browse All
+                </Link>
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

@@ -22,15 +22,18 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
       : null
 
   return (
-    <section className="py-(--spacing-section-lg) bg-parchment">
-      <div className="max-w-[1440px] mx-auto px-5 md:px-8 lg:px-16">
+    <section className="py-10 md:py-14 lg:py-20 bg-parchment">
+      <div className="max-w-360 mx-auto px-5 md:px-8 lg:px-16">
         <FadeIn>
-          <h2 className="font-serif text-2xl md:text-3xl lg:text-[44px] font-medium m-0 mb-10 md:mb-16 lg:mb-20 text-center text-obsidian tracking-tight">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-2 text-center">
+            Testimonials
+          </p>
+          <h2 className="font-luxury text-2xl md:text-3xl lg:text-4xl font-medium m-0 mb-8 md:mb-12 lg:mb-16 text-center text-obsidian tracking-tight">
             What Our Clients Say
           </h2>
         </FadeIn>
 
-        <div className="max-w-3xl mx-auto text-center min-h-[160px] md:min-h-[180px] flex flex-col items-center justify-center">
+        <div className="max-w-3xl mx-auto text-center min-h-40 md:min-h-45 flex flex-col items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -40,7 +43,7 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center"
             >
-              <blockquote className="font-serif text-xl md:text-2xl lg:text-3xl font-medium text-obsidian leading-[1.35] tracking-tight m-0 mb-6 md:mb-10">
+              <blockquote className="font-luxury text-xl md:text-2xl lg:text-3xl font-medium text-obsidian leading-[1.35] tracking-tight m-0 mb-6 md:mb-10">
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
 

@@ -31,10 +31,10 @@ export function PartnersMarquee({ suppliers }: PartnersMarqueeProps) {
   const logos = cmsLogos.length > 0 ? cmsLogos : PARTNER_LOGOS
 
   return (
-    <section className="bg-black py-12 md:py-20 lg:py-28 px-5 md:px-6 lg:px-16">
-      <div className="max-w-[1440px] mx-auto">
+    <section className="bg-black py-10 md:py-14 lg:py-16 px-5 md:px-8 lg:px-16 border-t border-cream/10">
+      <div className="max-w-360 mx-auto">
         <FadeIn>
-          <p className="text-xs md:text-sm text-cream/40 text-center m-0 mb-8 md:mb-12 lg:mb-16 font-light tracking-wide">
+          <p className="text-[10px] md:text-xs text-cream/40 text-center m-0 mb-6 md:mb-8 lg:mb-12 font-heading font-light tracking-wide uppercase">
             Trusted by culinary professionals from farm to fine dining
           </p>
         </FadeIn>

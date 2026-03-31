@@ -105,7 +105,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
         <div className="w-full px-6 lg:px-16 pb-12 pt-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             {/* Left: Logo + copyright */}
-            <div className="shrink-0 lg:max-w-[260px]">
+            <div className="shrink-0 lg:max-w-65">
               <Link href="/" className="no-underline inline-block">
                 <img
                   src="/images/logo/logo.svg"

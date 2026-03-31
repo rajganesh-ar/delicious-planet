@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -42,96 +42,128 @@ const slides = [
   },
 ]
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
+const DURATION_ENTER = 0.4
+const DURATION_EXIT = 0.3
+const DURATION_CINEMATIC = 1.2
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      staggerChildren: 0.06,
-      delayChildren: 0.15,
+      duration: DURATION_ENTER,
+      ease: EASE,
+      staggerChildren: 0.04,
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.45,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      when: 'afterChildren' as const,
-      staggerChildren: 0.03,
+      duration: DURATION_EXIT,
+      ease: EASE,
+      staggerChildren: 0.02,
       staggerDirection: -1,
     },
   },
 }
 
 const linkVariants = {
-  hidden: { opacity: 0, x: 40 },
+  hidden: { opacity: 0, x: 30 },
   visible: {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+      duration: DURATION_ENTER,
+      ease: EASE,
     },
   },
   exit: {
     opacity: 0,
-    x: 20,
+    x: 15,
     transition: {
-      duration: 0.25,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+      duration: DURATION_EXIT,
+      ease: EASE,
     },
   },
 }
 
+const defaultNavColumns: MegaMenuColumn[] = [
+  {
+    heading: 'Shop',
+    links: [
+      { label: 'All Products', href: '/products' },
+      { label: 'Categories', href: '/categories' },
+      { label: 'Brands', href: '/brands' },
+      { label: 'Recipes', href: '/recipes' },
+      { label: 'B2B Solutions', href: '/b2b' },
+    ],
+  },
+  {
+    heading: 'Discover',
+    links: [
+      { label: 'Experiences', href: '/experiences' },
+      { label: 'Journal', href: '/journal' },
+      { label: 'Sourcing', href: '/about#sourcing' },
+    ],
+  },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About', href: '/about' },
+      { label: 'Vendors & Partnerships', href: '/b2b' },
+      { label: 'Contact', href: '/contact' },
+    ],
+  },
+  {
+    heading: 'Account',
+    links: [
+      { label: 'Login', href: '/login' },
+      { label: 'Register', href: '/login' },
+    ],
+  },
+]
+
+/** Derive nav columns from CMS navItems, falling back to hardcoded defaults */
+function buildNavColumns(navItems: NavItem[]): MegaMenuColumn[] {
+  // If CMS provides mega-menu columns, flatten them
+  const cmsColumns = navItems.flatMap((item) => item.megaMenuColumns ?? [])
+  return cmsColumns.length > 0 ? cmsColumns : defaultNavColumns
+}
+
 export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
   const [activeSlide, setActiveSlide] = useState(0)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  const nextSlide = useCallback(() => {
-    setActiveSlide((prev) => (prev + 1) % slides.length)
+  const startAutoAdvance = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length)
+    }, 5000)
   }, [])
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000)
-    return () => clearInterval(interval)
-  }, [nextSlide])
+    startAutoAdvance()
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [startAutoAdvance])
 
-  const navColumns = [
-    {
-      heading: 'Shop',
-      links: [
-        { label: 'All Products', href: '/products' },
-        { label: 'Categories', href: '/categories' },
-        { label: 'Brands', href: '/brands' },
-        { label: 'Recipes', href: '/recipes' },
-        { label: 'B2B Solutions', href: '/b2b' },
-      ],
-    },
-    {
-      heading: 'Discover',
-      links: [
-        { label: 'Experiences', href: '/experiences' },
-        { label: 'Journal', href: '/journal' },
-        { label: 'Sourcing', href: '/about#sourcing' },
-      ],
-    },
-    {
-      heading: 'Company',
-      links: [
-        { label: 'About', href: '/about' },
-        { label: 'Vendors & Partnerships', href: '/b2b' },
-        { label: 'Contact', href: '/contact' },
-      ],
-    },
-    {
-      heading: 'Account',
-      links: [
-        { label: 'Login', href: '/login' },
-        { label: 'Register', href: '/login' },
-      ],
-    },
-  ]
+  // Close on Escape key
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
+
+  const handleThumbClick = (index: number) => {
+    setActiveSlide(index)
+    startAutoAdvance() // Reset the timer so it doesn't jump immediately
+  }
+
+  const navColumns = buildNavColumns(navItems)
 
   return (
     <motion.div
@@ -150,7 +182,7 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
             initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: DURATION_CINEMATIC, ease: EASE }}
           >
             {slides[activeSlide].type === 'image' && (
               <img
@@ -167,32 +199,9 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
         <div className="mega-overlay__bg-mobile-overlay" />
       </div>
 
-      {/* Top bar: Logo + tagline | Close button */}
+      {/* Top bar: tagline only (logo & close handled by header) */}
       <div className="mega-overlay__topbar">
-        <div className="mega-overlay__brand">
-          <Link href="/" onClick={onClose} className="mega-overlay__logo">
-            <img
-              src="/images/logo/logo.svg"
-              alt="Delicious Planet"
-              className="h-8 w-auto"
-              style={{ filter: 'brightness(0) invert(1)' }}
-            />
-          </Link>
-          <span className="mega-overlay__tagline">Premium Food Ingredients, Worldwide</span>
-        </div>
-        <button className="mega-overlay__close" onClick={onClose} aria-label="Close menu">
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path d="M18 6 6 18" strokeLinecap="round" />
-            <path d="m6 6 12 12" strokeLinecap="round" />
-          </svg>
-        </button>
+        <span className="mega-overlay__tagline">Premium Food Ingredients, Worldwide</span>
       </div>
 
       {/* Slide caption — bottom-left on desktop */}
@@ -203,7 +212,7 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: DURATION_ENTER, ease: EASE }}
         >
           <span className="mega-overlay__slide-label">[{slides[activeSlide].label}]</span>
           <p className="mega-overlay__slide-desc">{slides[activeSlide].desc}</p>
@@ -216,7 +225,7 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
           <button
             key={i}
             className={`mega-overlay__thumb ${i === activeSlide ? 'mega-overlay__thumb--active' : ''}`}
-            onClick={() => setActiveSlide(i)}
+            onClick={() => handleThumbClick(i)}
             aria-label={`Slide ${i + 1}: ${slide.label}`}
           >
             <img src={slide.src} alt={slide.label} className="mega-overlay__thumb-media" />
@@ -231,7 +240,7 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
             <motion.div key={col.heading} variants={linkVariants} className="mega-overlay__col">
               <span className="mega-overlay__col-heading">{col.heading}</span>
               <ul className="mega-overlay__nav-list">
-                {col.links.map((link) => (
+                {col.links?.map((link) => (
                   <li key={link.href + link.label} className="mega-overlay__nav-item">
                     <Link href={link.href} onClick={onClose} className="mega-overlay__nav-link">
                       {link.label}
@@ -322,8 +331,8 @@ export function MegaMenu({ columns }: MegaMenuProps) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-cream/95 backdrop-blur-xl border border-mist/60 rounded-md shadow-xl min-w-[640px] p-8"
+      transition={{ duration: DURATION_EXIT, ease: EASE }}
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-cream/95 backdrop-blur-xl border border-mist/60 rounded-md shadow-xl min-w-160 p-8"
     >
       <div className="grid grid-cols-3 gap-8">
         {columns.map((col, idx) => (

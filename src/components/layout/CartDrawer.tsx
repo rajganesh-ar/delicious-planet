@@ -15,7 +15,7 @@ export function CartDrawer() {
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[200] bg-obsidian/30 backdrop-blur-sm"
+            className="fixed inset-0 z-200 bg-obsidian/30 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -24,7 +24,7 @@ export function CartDrawer() {
 
           {/* Drawer */}
           <motion.aside
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-cream z-[201] flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-cream z-201 flex flex-col shadow-2xl"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -92,7 +92,7 @@ export function CartDrawer() {
                         <Link
                           href={`/products/${item.slug}`}
                           onClick={closeCart}
-                          className="flex-shrink-0"
+                          className="shrink-0"
                         >
                           <Image
                             src={item.image}

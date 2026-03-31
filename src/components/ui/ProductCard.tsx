@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useCart } from '@/components/layout/CartContext'
-import type { Product, Media } from '@/payload-types'
+import type { Product, Media, Category, Brand, Supplier, ProductCollection } from '@/payload-types'
 
 interface ProductCardProps {
   product: Product
@@ -28,16 +28,40 @@ function getThumbUrl(product: Product): string | undefined {
   return undefined
 }
 
-function getPrice(product: Product): { amount: number; currency: string } | null {
+function getPrice(product: Product): { amount: number; currency: string; compareAt?: number } | null {
   const p = product.prices?.[0]
   if (!p) return null
-  return { amount: p.amount, currency: p.currency }
+  return { amount: p.amount, currency: p.currency, compareAt: p.compareAtAmount ?? undefined }
+}
+
+function getCategoryTitle(product: Product): string | null {
+  if (typeof product.category === 'object' && product.category !== null) {
+    return (product.category as Category).title ?? null
+  }
+  return null
+}
+
+function getCollectionTitle(product: Product): string | null {
+  if (typeof product.collection === 'object' && product.collection !== null) {
+    return (product.collection as ProductCollection).title ?? null
+  }
+  return null
+}
+
+function getBrandName(product: Product): string | null {
+  if (typeof product.brand === 'object' && product.brand !== null) {
+    return (product.brand as Brand).title ?? null
+  }
+  return null
 }
 
 export function ProductCard({ product }: ProductCardProps) {
   const imageUrl = getImageUrl(product)
   const price = getPrice(product)
   const { addItem, openCart } = useCart()
+  const categoryTitle = getCategoryTitle(product)
+  const collectionTitle = getCollectionTitle(product)
+  const brandName = getBrandName(product)
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -56,15 +80,14 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <motion.div className="group relative" whileHover="hover" initial="rest" animate="rest">
-      <Link href={`/products/${product.slug}`} className="block no-underline text-obsidian">
-        {/* Image */}
-        <div className="relative aspect-4/5 overflow-hidden bg-parchment mb-3 md:mb-5">
+      <Link href={`/products/${product.slug}`} className="block no-underline">
+        <div className="relative aspect-2/3 overflow-hidden bg-[#f7f6f3]">
           {imageUrl ? (
             <Image
               src={imageUrl}
               alt={product.title}
               fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
           ) : (
@@ -84,65 +107,88 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Featured badge */}
+          {/* Dark gradient overlay */}
+          <div className="absolute inset-0 bg-linear-to-t from-obsidian/80 via-obsidian/30 to-obsidian/5 pointer-events-none" />
+
+          {/* Top badges */}
           {product.isFeatured && (
-            <span className="absolute top-2 left-2 md:top-3 md:left-3 bg-obsidian text-cream text-[8px] md:text-[9px] font-medium uppercase tracking-[0.25em] px-2 py-1 md:px-3 md:py-1.5">
+            <span className="absolute top-2 left-2 md:top-3 md:left-3 bg-gold text-obsidian text-[8px] md:text-[9px] font-medium uppercase tracking-[0.25em] px-2 py-1 md:px-3 md:py-1.5 z-10">
               Featured
             </span>
           )}
-
-          {/* Out of stock badge */}
           {!product.inStock && (
-            <span className="absolute top-2 right-2 md:top-3 md:right-3 bg-stone text-cream text-[8px] md:text-[9px] font-medium uppercase tracking-[0.25em] px-2 py-1 md:px-3 md:py-1.5">
+            <span className="absolute top-2 right-2 md:top-3 md:right-3 bg-stone text-cream text-[8px] md:text-[9px] font-medium uppercase tracking-[0.25em] px-2 py-1 md:px-3 md:py-1.5 z-10">
               Sold Out
             </span>
           )}
-        </div>
-
-        {/* Info */}
-        <div>
-          <h3 className="font-luxury text-sm md:text-base font-normal m-0 mb-1 md:mb-1.5 leading-snug tracking-tight">
-            {product.title}
-          </h3>
-
-          {product.shortDescription && (
-            <p className="text-[11px] md:text-xs text-stone leading-relaxed m-0 mb-1.5 md:mb-2 line-clamp-2 hidden md:block">
-              {product.shortDescription}
-            </p>
+          {price?.compareAt && price.compareAt > price.amount && product.inStock && (
+            <span className="absolute top-2 right-2 md:top-3 md:right-3 bg-gold text-obsidian text-[8px] md:text-[9px] font-medium uppercase tracking-[0.25em] px-2 py-1 md:px-3 md:py-1.5 z-10">
+              Sale
+            </span>
           )}
 
-          {price && (
-            <p className="text-xs md:text-sm font-medium m-0 text-obsidian">
-              {new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: price.currency,
-              }).format(price.amount)}
-            </p>
-          )}
+          {/* Bottom info overlay */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 p-3 lg:p-5">
+            {/* Category / Collection label */}
+            {(collectionTitle || categoryTitle) && (
+              <p className="text-[8px] md:text-[9px] uppercase tracking-[0.25em] text-gold/90 m-0 mb-1">
+                {collectionTitle ?? categoryTitle}
+              </p>
+            )}
+
+            <h3 className="font-sans text-[11px] sm:text-xs lg:text-sm font-bold uppercase tracking-wide text-cream m-0 leading-snug">
+              {product.title}
+            </h3>
+
+            {brandName && (
+              <p className="text-[9px] md:text-[10px] text-cream/50 uppercase tracking-[0.15em] m-0 mt-0.5">
+                {brandName}
+              </p>
+            )}
+
+            {price && (
+              <div className="flex items-baseline gap-2 mt-1.5">
+                <span className="text-xs md:text-sm font-medium text-cream">
+                  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: price.currency,
+                  }).format(price.amount)}
+                </span>
+                {price.compareAt && price.compareAt > price.amount && (
+                  <span className="text-[10px] md:text-[11px] text-cream/40 line-through">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: price.currency,
+                    }).format(price.compareAt)}
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Quick add on hover */}
+            <motion.div
+              className="flex gap-2 mt-3 pointer-events-none"
+              variants={{
+                rest: { y: 8, opacity: 0 },
+                hover: { y: 0, opacity: 1, pointerEvents: 'auto' as const },
+              }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {product.inStock && (
+                <button
+                  onClick={handleQuickAdd}
+                  className="flex-1 bg-cream/95 backdrop-blur-sm text-obsidian text-[9px] md:text-[10px] font-medium uppercase tracking-[0.2em] py-2 md:py-2.5 border-0 cursor-pointer hover:bg-white transition-colors"
+                >
+                  Add to Cart
+                </button>
+              )}
+              <span className="flex-1 bg-white/10 backdrop-blur-sm text-cream text-[9px] md:text-[10px] font-medium uppercase tracking-[0.2em] py-2 md:py-2.5 text-center border border-cream/20">
+                View
+              </span>
+            </motion.div>
+          </div>
         </div>
       </Link>
-
-      {/* Quick add overlay — outside <Link> to avoid invalid <button> inside <a> */}
-      <motion.div
-        className="absolute inset-x-0 bottom-[calc(theme(spacing.5)+theme(spacing.1))] flex gap-2 px-4 pb-4 pointer-events-none"
-        variants={{
-          rest: { y: 10, opacity: 0 },
-          hover: { y: 0, opacity: 1, pointerEvents: 'auto' as const },
-        }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {product.inStock && (
-          <button
-            onClick={handleQuickAdd}
-            className="flex-1 bg-obsidian text-cream text-xs font-medium uppercase tracking-[0.2em] py-3 border-0 cursor-pointer hover:bg-charcoal transition-colors"
-          >
-            Add to Cart
-          </button>
-        )}
-        <span className="flex-1 bg-cream/90 backdrop-blur-sm text-obsidian text-xs font-medium uppercase tracking-[0.2em] py-3 text-center">
-          View Details
-        </span>
-      </motion.div>
     </motion.div>
   )
 }

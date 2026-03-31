@@ -45,10 +45,10 @@ export function FAQSection() {
   }
 
   return (
-    <section className="bg-obsidian lg:py-0 py-12 md:py-20 px-5 md:px-6 lg:px-0 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto">
+    <section className="bg-obsidian lg:py-0 py-10 md:py-14 px-5 md:px-8 lg:px-0 overflow-hidden border-t border-cream/10">
+      <div className="max-w-360 mx-auto">
         <FadeIn>
-          <h2 className="font-luxury text-cream text-center lg:text-left lg:hidden text-xl md:text-2xl font-normal m-0 mb-8 md:mb-12 tracking-tight">
+          <h2 className="font-luxury text-cream text-center lg:text-left lg:hidden text-xl md:text-2xl font-normal m-0 mb-6 md:mb-8 tracking-tight">
             FAQ
           </h2>
         </FadeIn>
@@ -66,16 +66,16 @@ export function FAQSection() {
             <div className="absolute inset-0 bg-linear-to-r from-transparent to-obsidian/60" />
           </div>
           {/* Questions — vertically centered */}
-          <div className="flex-1 flex flex-col justify-center lg:py-20 lg:px-16">
+          <div className="flex-1 flex flex-col justify-center lg:py-16 lg:px-16">
             <FadeIn>
-              <h2 className="hidden lg:block font-luxury text-cream text-2xl lg:text-[36px] font-normal m-0 mb-12 lg:mb-16 tracking-tight">
+              <h2 className="hidden lg:block font-luxury text-cream text-2xl lg:text-4xl font-medium m-0 mb-8 lg:mb-12 tracking-tight">
                 FAQ
               </h2>
             </FadeIn>
             {FAQ_ITEMS.map((item, i) => {
               const isOpen = openIndex === i
               return (
-                <FadeIn key={i} delay={i * 0.05}>
+                <FadeIn key={i} delay={i * 0.06}>
                   <div className="border-b border-cream/10">
                     <button
                       onClick={() => toggle(i)}

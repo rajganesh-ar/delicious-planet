@@ -34,9 +34,8 @@ export function WordReveal({ text, className, style }: WordRevealProps) {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        pin: section,
-        start: 'top top',
-        end: '+=700',
+        start: 'top 80%',
+        end: 'bottom 20%',
         scrub: 1,
       },
     })

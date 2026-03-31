@@ -15,7 +15,7 @@ export default async function SingleProductPage({ params }: Props) {
     collection: 'products',
     where: { slug: { equals: slug }, _status: { equals: 'published' } },
     limit: 1,
-    depth: 2,
+    depth: 3,
   })
 
   const product = result.docs[0]

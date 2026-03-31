@@ -39,7 +39,7 @@ export function Header({ navItems }: HeaderProps) {
         className={`header ${scrolled ? 'header--scrolled' : ''} ${menuOpen ? 'header--menu-open' : ''}`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="header__inner">
           {/* Logo */}
@@ -49,47 +49,50 @@ export function Header({ navItems }: HeaderProps) {
               alt="Delicious Planet"
               width={220}
               height={56}
-              className={`header__logo-img ${scrolled ? 'header__logo-img--dark' : ''}`}
+              className={`header__logo-img ${scrolled && !menuOpen ? 'header__logo-img--dark' : ''}`}
               priority
             />
           </Link>
 
           {/* Right side: Cart + Hamburger */}
           <div className="header__actions">
-            {/* Cart — always visible */}
-            <button
-              onClick={toggleCart}
-              className={`header__action-btn ${scrolled ? 'header__action-btn--dark' : ''}`}
-              aria-label="Cart"
-            >
-              <svg
-                width="20"
-                height="20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
+            {/* Cart — hidden when menu is open */}
+            {!menuOpen && (
+              <button
+                onClick={toggleCart}
+                className={`header__action-btn ${scrolled ? 'header__action-btn--dark' : ''}`}
+                aria-label="Cart"
               >
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
-                <path d="M3 6h18" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-              {totalItems > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="header__cart-badge"
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
                 >
-                  {totalItems}
-                </motion.span>
-              )}
-            </button>
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                  <path d="M3 6h18" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                {totalItems > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="header__cart-badge"
+                  >
+                    {totalItems}
+                  </motion.span>
+                )}
+              </button>
+            )}
 
-            {/* Hamburger menu toggle */}
+            {/* Hamburger menu toggle — transforms to X when open */}
             <button
               onClick={() => setMenuOpen((o) => !o)}
-              className={`header__hamburger ${scrolled ? 'header__hamburger--dark' : ''}`}
-              aria-label="Menu"
+              className={`header__hamburger ${scrolled && !menuOpen ? 'header__hamburger--dark' : ''} ${menuOpen ? 'header__hamburger--open' : ''}`}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             >
               <div className="header__hamburger-lines">
                 <span

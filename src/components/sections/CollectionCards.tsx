@@ -52,13 +52,13 @@ export function CollectionCards({ collections }: CollectionCardsProps) {
   }
 
   return (
-    <section className="bg-cream py-12 md:py-16 lg:py-24 overflow-hidden">
-      <div className="px-5 md:px-6 lg:px-16 flex items-center justify-between mb-5 md:mb-6 lg:mb-8">
+    <section className="bg-cream py-10 md:py-14 lg:py-20 overflow-hidden">
+      <div className="px-5 md:px-8 lg:px-16 flex items-center justify-between mb-6 md:mb-8">
         <FadeIn>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium m-0 mb-2 md:mb-3">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-2 md:mb-3">
             Curated Excellence
           </p>
-          <h2 className="font-luxury text-xl md:text-2xl lg:text-[36px] font-normal m-0 text-obsidian tracking-tight">
+          <h2 className="font-luxury text-2xl md:text-3xl lg:text-4xl font-medium m-0 text-obsidian tracking-tight">
             The Collection
           </h2>
         </FadeIn>
@@ -105,20 +105,20 @@ export function CollectionCards({ collections }: CollectionCardsProps) {
         {/* Scrollable carousel */}
         <div
           ref={scrollRef}
-          className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-pl-5 md:scroll-pl-6 lg:scroll-pl-16"
+          className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-pl-5 md:scroll-pl-8 lg:scroll-pl-16"
           style={{ scrollbarWidth: 'none' }}
         >
           <div className="flex gap-4 w-fit">
-            <div className="w-5 md:w-6 lg:w-16 shrink-0" />
+            <div className="w-5 md:w-8 lg:w-16 shrink-0" />
             {collections.map((col, i) => {
               const imgUrl = getCollectionImage(col)
               return (
-                <FadeIn key={col.id} delay={i * 0.04}>
+                <FadeIn key={col.id} delay={i * 0.06}>
                   <Link
                     href={`/products?collection=${col.slug}`}
-                    className="group shrink-0 snap-start block no-underline w-[40vw] sm:w-[35vw] md:w-[28vw] lg:w-[18vw] min-w-[140px]"
+                    className="group shrink-0 snap-start block no-underline w-[40vw] sm:w-[35vw] md:w-[28vw] lg:w-[18vw] min-w-35"
                   >
-                    <div className="relative aspect-[2/3] overflow-hidden bg-charcoal">
+                    <div className="relative aspect-2/3 overflow-hidden bg-charcoal">
                       {imgUrl ? (
                         <Image
                           src={imgUrl}
@@ -150,7 +150,7 @@ export function CollectionCards({ collections }: CollectionCardsProps) {
                 </FadeIn>
               )
             })}
-            <div className="w-5 md:w-6 lg:w-16 shrink-0" />
+            <div className="w-5 md:w-8 lg:w-16 shrink-0" />
           </div>
         </div>
       </div>

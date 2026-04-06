@@ -11,7 +11,7 @@ interface ContactPageClientProps {
   offices: OfficeLocation[]
 }
 
-type FormTab = 'general' | 'b2b'
+type FormTab = 'general' | 'commercial'
 
 export function ContactPageClient({ offices }: ContactPageClientProps) {
   const [activeTab, setActiveTab] = useState<FormTab>('general')
@@ -28,7 +28,7 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
     setSubmitted(true)
   }
 
-  async function handleB2BSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleCommercialSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
     const formData = new FormData(form)
@@ -114,16 +114,16 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                   </button>
                   <button
                     onClick={() => {
-                      setActiveTab('b2b')
+                      setActiveTab('commercial')
                       setSubmitted(false)
                     }}
                     className={`text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent ${
-                      activeTab === 'b2b'
+                      activeTab === 'commercial'
                         ? 'border-gold text-gold font-medium'
                         : 'border-transparent text-stone hover:text-obsidian'
                     }`}
                   >
-                    B2B / Wholesale
+                    Commercial / Wholesale
                   </button>
                 </div>
               </FadeIn>
@@ -229,11 +229,11 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                   </motion.form>
                 ) : (
                   <motion.form
-                    key="b2b"
+                    key="commercial"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    onSubmit={handleB2BSubmit}
+                    onSubmit={handleCommercialSubmit}
                     className="space-y-6"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -77,6 +77,7 @@ export interface Config {
     'product-collections': ProductCollection;
     orders: Order;
     'b2b-inquiries': B2BInquiry;
+    'vendor-applications': VendorApplication;
     pages: Page;
     'blog-posts': BlogPost;
     'blog-categories': BlogCategory;
@@ -99,6 +100,7 @@ export interface Config {
     'product-collections': ProductCollectionsSelect<false> | ProductCollectionsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     'b2b-inquiries': B2BInquiriesSelect<false> | B2BInquiriesSelect<true>;
+    'vendor-applications': VendorApplicationsSelect<false> | VendorApplicationsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
@@ -569,6 +571,54 @@ export interface OfficeLocation {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-applications".
+ */
+export interface VendorApplication {
+  id: number;
+  company: string;
+  contactName: string;
+  email: string;
+  phone?: string | null;
+  website?: string | null;
+  country: string;
+  category: (
+    | 'honey'
+    | 'oils'
+    | 'dried_fruits'
+    | 'plant_extracts'
+    | 'specialty_culinary'
+    | 'natural_sweeteners'
+    | 'functional_agricultural'
+    | 'other'
+  )[];
+  partnershipType: 'direct_supply' | 'private_label' | 'regional_distribution' | 'category_specific';
+  /**
+   * Estimated annual production capacity relevant to proposed supply.
+   */
+  annualCapacity?: string | null;
+  /**
+   * List any relevant certifications (e.g., ISO, HACCP, organic, fair trade, etc.).
+   */
+  certifications?: string | null;
+  exportExperience?: ('active' | 'previous' | 'none') | null;
+  /**
+   * Brief overview of primary products proposed for supply, including specifications and packaging formats.
+   */
+  productDescription: string;
+  /**
+   * Any additional context relevant to this application (distribution history, target markets, etc.).
+   */
+  additionalInformation?: string | null;
+  status: 'new' | 'under_review' | 'docs_requested' | 'sample_stage' | 'approved' | 'declined';
+  /**
+   * Internal notes (not visible to the applicant).
+   */
+  internalNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
@@ -859,6 +909,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'b2b-inquiries';
         value: number | B2BInquiry;
+      } | null)
+    | ({
+        relationTo: 'vendor-applications';
+        value: number | VendorApplication;
       } | null)
     | ({
         relationTo: 'pages';
@@ -1274,6 +1328,29 @@ export interface B2BInquiriesSelect<T extends boolean = true> {
   status?: T;
   assignedOffice?: T;
   notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-applications_select".
+ */
+export interface VendorApplicationsSelect<T extends boolean = true> {
+  company?: T;
+  contactName?: T;
+  email?: T;
+  phone?: T;
+  website?: T;
+  country?: T;
+  category?: T;
+  partnershipType?: T;
+  annualCapacity?: T;
+  certifications?: T;
+  exportExperience?: T;
+  productDescription?: T;
+  additionalInformation?: T;
+  status?: T;
+  internalNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

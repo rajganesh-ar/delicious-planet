@@ -5,7 +5,7 @@ import { ContactPageClient } from '@/components/sections/ContactPageClient'
 export const metadata = {
   title: 'Contact — Delicious Planet',
   description:
-    'Get in touch with Delicious Planet. General inquiries, B2B partnerships, and wholesale orders.',
+    'Get in touch with Delicious Planet. General inquiries, commercial partnerships, and wholesale orders.',
 }
 
 export default async function ContactPage() {

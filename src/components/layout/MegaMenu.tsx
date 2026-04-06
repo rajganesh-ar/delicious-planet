@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLocale, LOCALES, type Locale } from '@/i18n/LocaleContext'
 
 export interface MegaMenuColumn {
   heading?: string | null
@@ -96,7 +97,7 @@ const defaultNavColumns: MegaMenuColumn[] = [
       { label: 'Categories', href: '/categories' },
       { label: 'Brands', href: '/brands' },
       { label: 'Recipes', href: '/recipes' },
-      { label: 'B2B Solutions', href: '/b2b' },
+      { label: 'Commercial Supply', href: '/commercial' },
     ],
   },
   {
@@ -111,7 +112,7 @@ const defaultNavColumns: MegaMenuColumn[] = [
     heading: 'Company',
     links: [
       { label: 'About', href: '/about' },
-      { label: 'Vendors & Partnerships', href: '/b2b' },
+      { label: 'Commercial Supply', href: '/commercial' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -134,6 +135,7 @@ function buildNavColumns(navItems: NavItem[]): MegaMenuColumn[] {
 export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const { locale, setLocale } = useLocale()
 
   const startAutoAdvance = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)
@@ -252,8 +254,25 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
           ))}
         </div>
 
-        {/* Bottom section: Socials + Support */}
+        {/* Bottom section: Language + Socials + Support */}
         <motion.div className="mega-overlay__bottom" variants={linkVariants}>
+          {/* Language switcher */}
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-cream/30 text-[10px] uppercase tracking-[0.25em] font-heading">
+              Language:
+            </span>
+            {LOCALES.map((l) => (
+              <button
+                key={l.code}
+                onClick={() => setLocale(l.code as Locale)}
+                className={`text-[11px] uppercase tracking-wider font-heading transition-colors border-0 bg-transparent cursor-pointer px-1 ${
+                  locale === l.code ? 'text-gold' : 'text-cream/40 hover:text-cream/70'
+                }`}
+              >
+                {l.code.toUpperCase()}
+              </button>
+            ))}
+          </div>
           <div className="mega-overlay__socials">
             <span className="mega-overlay__socials-label">Follow Delicious Planet on:</span>
             <div className="mega-overlay__socials-links">

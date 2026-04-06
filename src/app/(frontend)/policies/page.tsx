@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Policies — Delicious Planet',
   description:
-    'Terms of service, privacy policy, returns, cancellation, and B2B terms for Delicious Planet.',
+    'Terms of service, privacy policy, returns, cancellation, and commercial terms for Delicious Planet.',
 }
 
 const policies = [
@@ -41,7 +41,7 @@ const policies = [
       'Returns are accepted for damaged or incorrectly dispatched items only.',
       'Perishable and temperature-controlled products cannot be returned once delivered.',
       'Refunds are processed to the original payment method within 7–10 business days.',
-      'For B2B orders, returns are subject to the terms agreed at the time of order.',
+      'For commercial orders, returns are subject to the terms agreed at the time of order.',
     ],
   },
   {
@@ -52,14 +52,14 @@ const policies = [
     points: [
       'To cancel an order, contact us as soon as possible after placing it.',
       'Cancellations are not guaranteed once order processing has begun.',
-      'B2B and contract orders are subject to separate cancellation terms.',
+      'Commercial and contract orders are subject to separate cancellation terms.',
     ],
   },
   {
-    id: 'b2b-terms',
-    title: 'B2B Terms',
+    id: 'commercial-terms',
+    title: 'Commercial Terms',
     summary:
-      'Business-to-business supply agreements are governed by individually negotiated terms. The following general principles apply unless otherwise specified in a written agreement.',
+      'Commercial supply agreements are governed by individually negotiated terms. The following general principles apply unless otherwise specified in a written agreement.',
     points: [
       'Volume pricing, lead times, and payment terms are confirmed in writing prior to first delivery.',
       'Minimum order quantities apply and vary by product category.',

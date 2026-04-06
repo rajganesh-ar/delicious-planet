@@ -37,14 +37,15 @@ function getThumbUrl(product: Product): string | undefined {
   return undefined
 }
 
-const dietaryLabels: { key: keyof NonNullable<Product['dietary']>; label: string; icon: string }[] = [
-  { key: 'isOrganic', label: 'Organic', icon: '🌿' },
-  { key: 'isVegan', label: 'Vegan', icon: '🌱' },
-  { key: 'isVegetarian', label: 'Vegetarian', icon: '🥬' },
-  { key: 'isGlutenFree', label: 'Gluten-Free', icon: '🌾' },
-  { key: 'isHalal', label: 'Halal', icon: '✦' },
-  { key: 'isLactoseFree', label: 'Lactose-Free', icon: '🥛' },
-]
+const dietaryLabels: { key: keyof NonNullable<Product['dietary']>; label: string; icon: string }[] =
+  [
+    { key: 'isOrganic', label: 'Organic', icon: '🌿' },
+    { key: 'isVegan', label: 'Vegan', icon: '🌱' },
+    { key: 'isVegetarian', label: 'Vegetarian', icon: '🥬' },
+    { key: 'isGlutenFree', label: 'Gluten-Free', icon: '🌾' },
+    { key: 'isHalal', label: 'Halal', icon: '✦' },
+    { key: 'isLactoseFree', label: 'Lactose-Free', icon: '🥛' },
+  ]
 
 function NutritionBar({
   label,
@@ -63,8 +64,7 @@ function NutritionBar({
       <div className="flex items-baseline justify-between mb-1">
         <span className="text-xs text-obsidian font-medium">{label}</span>
         <span className="text-[11px] text-stone">
-          {value} {unit}{' '}
-          <span className="text-stone/50">({pct}%)</span>
+          {value} {unit} <span className="text-stone/50">({pct}%)</span>
         </span>
       </div>
       <div className="h-1.5 bg-parchment rounded-full overflow-hidden">
@@ -106,15 +106,21 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       : null
 
   // Subcategory hierarchy: if category has a parent, the parent is the "category" and actual is "subcategory"
-  const categoryObj = typeof product.category === 'object' && product.category !== null ? (product.category as Category) : null
-  const parentCategoryObj = categoryObj && typeof categoryObj.parent === 'object' && categoryObj.parent !== null ? (categoryObj.parent as Category) : null
+  const categoryObj =
+    typeof product.category === 'object' && product.category !== null
+      ? (product.category as Category)
+      : null
+  const parentCategoryObj =
+    categoryObj && typeof categoryObj.parent === 'object' && categoryObj.parent !== null
+      ? (categoryObj.parent as Category)
+      : null
 
   const parentCategoryTitle = parentCategoryObj?.title ?? null
   const parentCategorySlug = parentCategoryObj?.slug ?? null
-  const subcategoryTitle = parentCategoryObj ? categoryObj?.title ?? null : null
-  const subcategorySlug = parentCategoryObj ? categoryObj?.slug ?? null : null
-  const mainCategoryTitle = parentCategoryObj ? parentCategoryTitle : categoryObj?.title ?? null
-  const mainCategorySlug = parentCategoryObj ? parentCategorySlug : categoryObj?.slug ?? null
+  const subcategoryTitle = parentCategoryObj ? (categoryObj?.title ?? null) : null
+  const subcategorySlug = parentCategoryObj ? (categoryObj?.slug ?? null) : null
+  const mainCategoryTitle = parentCategoryObj ? parentCategoryTitle : (categoryObj?.title ?? null)
+  const mainCategorySlug = parentCategoryObj ? parentCategorySlug : (categoryObj?.slug ?? null)
 
   const activeDietary = dietaryLabels.filter((d) => product.dietary?.[d.key])
 
@@ -144,7 +150,10 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold/30 to-transparent" />
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-4">
           <nav className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-stone">
-            <Link href="/" className="hover:text-obsidian transition-colors no-underline text-stone">
+            <Link
+              href="/"
+              className="hover:text-obsidian transition-colors no-underline text-stone"
+            >
               Home
             </Link>
             <span className="text-mist">/</span>
@@ -199,285 +208,285 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
           {/* ── LEFT: Sticky gallery ──────────────────────────── */}
           <FadeIn direction="left" duration={0.7}>
             <div className="lg:sticky lg:top-20 lg:self-start py-10 lg:py-16">
-            {/* Main image */}
-            <div className="relative aspect-square overflow-hidden bg-parchment">
-              <AnimatePresence mode="wait">
-                {images[activeImage] ? (
-                  <motion.div
-                    key={activeImage}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35 }}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={images[activeImage].url}
-                      alt={images[activeImage].alt}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 55vw"
-                      className="object-cover"
-                      priority
-                    />
-                  </motion.div>
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      width="64"
-                      height="64"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="0.75"
-                      viewBox="0 0 24 24"
-                      className="text-mist"
+              {/* Main image */}
+              <div className="relative aspect-square overflow-hidden bg-parchment">
+                <AnimatePresence mode="wait">
+                  {images[activeImage] ? (
+                    <motion.div
+                      key={activeImage}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.35 }}
+                      className="absolute inset-0"
                     >
-                      <rect x="3" y="3" width="18" height="18" rx="1" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <path d="m21 15-5-5L5 21" />
-                    </svg>
-                  </div>
-                )}
-              </AnimatePresence>
+                      <Image
+                        src={images[activeImage].url}
+                        alt={images[activeImage].alt}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 55vw"
+                        className="object-cover"
+                        priority
+                      />
+                    </motion.div>
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg
+                        width="64"
+                        height="64"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="0.75"
+                        viewBox="0 0 24 24"
+                        className="text-mist"
+                      >
+                        <rect x="3" y="3" width="18" height="18" rx="1" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <path d="m21 15-5-5L5 21" />
+                      </svg>
+                    </div>
+                  )}
+                </AnimatePresence>
 
-              {/* Badges */}
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                {product.isFeatured && (
-                  <span className="bg-obsidian text-cream text-[9px] uppercase tracking-[0.25em] px-3 py-1.5">
-                    Featured
-                  </span>
-                )}
-                {compareAt && compareAt > (price?.amount ?? 0) && (
-                  <span className="bg-gold text-cream text-[9px] uppercase tracking-[0.25em] px-3 py-1.5">
-                    Sale
+                {/* Badges */}
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  {product.isFeatured && (
+                    <span className="bg-obsidian text-cream text-[9px] uppercase tracking-[0.25em] px-3 py-1.5">
+                      Featured
+                    </span>
+                  )}
+                  {compareAt && compareAt > (price?.amount ?? 0) && (
+                    <span className="bg-gold text-cream text-[9px] uppercase tracking-[0.25em] px-3 py-1.5">
+                      Sale
+                    </span>
+                  )}
+                </div>
+
+                {!product.inStock && (
+                  <span className="absolute top-4 right-4 bg-stone text-cream text-[9px] uppercase tracking-[0.25em] px-3 py-1.5">
+                    Sold Out
                   </span>
                 )}
               </div>
 
-              {!product.inStock && (
-                <span className="absolute top-4 right-4 bg-stone text-cream text-[9px] uppercase tracking-[0.25em] px-3 py-1.5">
-                  Sold Out
-                </span>
+              {/* Thumbnail strip */}
+              {images.length > 1 && (
+                <div className="flex gap-2 mt-3">
+                  {images.map((img, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveImage(i)}
+                      className={`relative flex-shrink-0 w-[72px] h-[72px] overflow-hidden border transition-colors cursor-pointer p-0 ${
+                        i === activeImage ? 'border-obsidian' : 'border-mist hover:border-stone'
+                      }`}
+                    >
+                      <Image
+                        src={img.url}
+                        alt={img.alt}
+                        fill
+                        sizes="72px"
+                        className="object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
-
-            {/* Thumbnail strip */}
-            {images.length > 1 && (
-              <div className="flex gap-2 mt-3">
-                {images.map((img, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveImage(i)}
-                    className={`relative flex-shrink-0 w-[72px] h-[72px] overflow-hidden border transition-colors cursor-pointer p-0 ${
-                      i === activeImage ? 'border-obsidian' : 'border-mist hover:border-stone'
-                    }`}
-                  >
-                    <Image
-                      src={img.url}
-                      alt={img.alt}
-                      fill
-                      sizes="72px"
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
           </FadeIn>
 
           {/* ── RIGHT: Scrollable product info ────────────────── */}
           <FadeIn direction="right" duration={0.7} delay={0.15}>
-          <div className="py-10 lg:py-16 lg:border-l lg:border-mist lg:pl-16 xl:pl-24">
-            {/* Collection / brand tag */}
-            {(collectionTitle || mainCategoryTitle || brandName) && (
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-heading font-medium m-0 mb-4 flex items-center gap-3">
-                <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
-                {collectionTitle ?? mainCategoryTitle ?? brandName}
-              </p>
-            )}
+            <div className="py-10 lg:py-16 lg:border-l lg:border-mist lg:pl-16 xl:pl-24">
+              {/* Collection / brand tag */}
+              {(collectionTitle || mainCategoryTitle || brandName) && (
+                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-heading font-medium m-0 mb-4 flex items-center gap-3">
+                  <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+                  {collectionTitle ?? mainCategoryTitle ?? brandName}
+                </p>
+              )}
 
-            {/* Title */}
-            <h1 className="font-luxury text-3xl md:text-4xl lg:text-[44px] xl:text-[48px] font-medium m-0 mb-1 text-obsidian tracking-tight leading-[1.1]">
-              {product.title}
-            </h1>
+              {/* Title */}
+              <h1 className="font-heading text-3xl md:text-4xl lg:text-[44px] xl:text-[48px] font-semibold m-0 mb-1 text-obsidian tracking-tight leading-[1.1]">
+                {product.title}
+              </h1>
 
-            {/* Brand sub-label */}
-            {brandName && collectionTitle && (
-              <p className="text-xs text-stone uppercase tracking-widest m-0 mb-6">{brandName}</p>
-            )}
+              {/* Brand sub-label */}
+              {brandName && collectionTitle && (
+                <p className="text-xs text-stone uppercase tracking-widest m-0 mb-6">{brandName}</p>
+              )}
 
-            {/* Price */}
-            {price && (
-              <div className="flex items-baseline gap-3 mt-5 mb-6">
-                <span className="text-2xl font-medium text-obsidian">
-                  {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: price.currency,
-                  }).format(price.amount)}
-                </span>
-                {compareAt && compareAt > price.amount && (
-                  <span className="text-base text-stone line-through">
+              {/* Price */}
+              {price && (
+                <div className="flex items-baseline gap-3 mt-5 mb-6">
+                  <span className="text-2xl font-medium text-obsidian">
                     {new Intl.NumberFormat('en-US', {
                       style: 'currency',
                       currency: price.currency,
-                    }).format(compareAt)}
+                    }).format(price.amount)}
                   </span>
-                )}
-              </div>
-            )}
-
-            <div className="w-8 border-t border-mist mb-6" />
-
-            {/* Short description */}
-            {product.shortDescription && (
-              <p className="text-sm text-stone leading-relaxed m-0 mb-6">
-                {product.shortDescription}
-              </p>
-            )}
-
-            {/* Dietary badges — larger visual cards */}
-            {activeDietary.length > 0 && (
-              <div className="grid grid-cols-3 gap-2 mb-6">
-                {activeDietary.map((d) => (
-                  <div
-                    key={d.key}
-                    className="flex flex-col items-center justify-center py-3 px-2 border border-mist bg-parchment/30 text-center"
-                  >
-                    <span className="text-lg mb-1">{d.icon}</span>
-                    <span className="text-[9px] uppercase tracking-[0.15em] text-stone font-medium">
-                      {d.label}
+                  {compareAt && compareAt > price.amount && (
+                    <span className="text-base text-stone line-through">
+                      {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: price.currency,
+                      }).format(compareAt)}
                     </span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* At a Glance */}
-            {(product.countryOfOrigin || product.weight || product.packaging || product.sku) && (
-              <div className="mb-8">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-3 flex items-center gap-3">
-                  <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
-                  At a Glance
-                </p>
-                <div className="grid grid-cols-2 gap-3">
-                  {product.countryOfOrigin && (
-                    <div className="border border-mist p-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
-                        <span className="text-sm">🌍</span> Origin
-                      </p>
-                      <p className="text-xs font-medium text-obsidian m-0">
-                        {product.countryOfOrigin}
-                      </p>
-                    </div>
-                  )}
-                  {product.weight && (
-                    <div className="border border-mist p-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
-                        <span className="text-sm">⚖️</span> Weight
-                      </p>
-                      <p className="text-xs font-medium text-obsidian m-0">{product.weight}</p>
-                    </div>
-                  )}
-                  {product.packaging && (
-                    <div className="border border-mist p-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
-                        <span className="text-sm">📦</span> Packaging
-                      </p>
-                      <p className="text-xs font-medium text-obsidian m-0">{product.packaging}</p>
-                    </div>
-                  )}
-                  {product.sku && (
-                    <div className="border border-mist p-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
-                        <span className="text-sm">🏷️</span> SKU
-                      </p>
-                      <p className="text-xs font-medium text-obsidian m-0">{product.sku}</p>
-                    </div>
                   )}
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Size variants */}
-            {product.sizeVariants && product.sizeVariants.length > 0 && (
-              <div className="mb-6">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-stone m-0 mb-3">Size</p>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizeVariants.map((v) => (
-                    <button
-                      key={v.id}
-                      disabled={v.inStock === false}
-                      className={`text-xs uppercase tracking-wide border px-4 py-2 cursor-pointer transition-colors ${
-                        v.inStock === false
-                          ? 'border-mist text-stone/40 cursor-not-allowed line-through'
-                          : 'border-obsidian text-obsidian hover:bg-obsidian hover:text-cream'
-                      }`}
+              <div className="w-8 border-t border-mist mb-6" />
+
+              {/* Short description */}
+              {product.shortDescription && (
+                <p className="text-sm text-stone leading-relaxed m-0 mb-6">
+                  {product.shortDescription}
+                </p>
+              )}
+
+              {/* Dietary badges — larger visual cards */}
+              {activeDietary.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-6">
+                  {activeDietary.map((d) => (
+                    <div
+                      key={d.key}
+                      className="flex flex-col items-center justify-center py-3 px-2 border border-mist bg-parchment/30 text-center"
                     >
-                      {v.size}
-                    </button>
+                      <span className="text-lg mb-1">{d.icon}</span>
+                      <span className="text-[9px] uppercase tracking-[0.15em] text-stone font-medium">
+                        {d.label}
+                      </span>
+                    </div>
                   ))}
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Quantity + CTA */}
-            <div className="flex gap-3 mb-4">
-              {/* Quantity selector */}
-              <div className="flex items-center border border-mist">
+              {/* At a Glance */}
+              {(product.countryOfOrigin || product.weight || product.packaging || product.sku) && (
+                <div className="mb-8">
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-3 flex items-center gap-3">
+                    <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
+                    At a Glance
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {product.countryOfOrigin && (
+                      <div className="border border-mist p-3">
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                          <span className="text-sm">🌍</span> Origin
+                        </p>
+                        <p className="text-xs font-medium text-obsidian m-0">
+                          {product.countryOfOrigin}
+                        </p>
+                      </div>
+                    )}
+                    {product.weight && (
+                      <div className="border border-mist p-3">
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                          <span className="text-sm">⚖️</span> Weight
+                        </p>
+                        <p className="text-xs font-medium text-obsidian m-0">{product.weight}</p>
+                      </div>
+                    )}
+                    {product.packaging && (
+                      <div className="border border-mist p-3">
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                          <span className="text-sm">📦</span> Packaging
+                        </p>
+                        <p className="text-xs font-medium text-obsidian m-0">{product.packaging}</p>
+                      </div>
+                    )}
+                    {product.sku && (
+                      <div className="border border-mist p-3">
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1 flex items-center gap-1.5">
+                          <span className="text-sm">🏷️</span> SKU
+                        </p>
+                        <p className="text-xs font-medium text-obsidian m-0">{product.sku}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Size variants */}
+              {product.sizeVariants && product.sizeVariants.length > 0 && (
+                <div className="mb-6">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-stone m-0 mb-3">Size</p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.sizeVariants.map((v) => (
+                      <button
+                        key={v.id}
+                        disabled={v.inStock === false}
+                        className={`text-xs uppercase tracking-wide border px-4 py-2 cursor-pointer transition-colors ${
+                          v.inStock === false
+                            ? 'border-mist text-stone/40 cursor-not-allowed line-through'
+                            : 'border-obsidian text-obsidian hover:bg-obsidian hover:text-cream'
+                        }`}
+                      >
+                        {v.size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Quantity + CTA */}
+              <div className="flex gap-3 mb-4">
+                {/* Quantity selector */}
+                <div className="flex items-center border border-mist">
+                  <button
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    className="w-11 h-12 flex items-center justify-center text-obsidian hover:bg-parchment transition-colors border-0 bg-transparent cursor-pointer text-lg"
+                  >
+                    −
+                  </button>
+                  <span className="w-10 text-center text-sm font-medium text-obsidian select-none">
+                    {qty}
+                  </span>
+                  <button
+                    onClick={() => setQty((q) => q + 1)}
+                    className="w-11 h-12 flex items-center justify-center text-obsidian hover:bg-parchment transition-colors border-0 bg-transparent cursor-pointer text-lg"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Add to cart */}
                 <button
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  className="w-11 h-12 flex items-center justify-center text-obsidian hover:bg-parchment transition-colors border-0 bg-transparent cursor-pointer text-lg"
+                  onClick={handleAddToCart}
+                  disabled={!product.inStock}
+                  className={`flex-1 h-12 text-xs font-medium uppercase tracking-[0.2em] border-0 cursor-pointer transition-colors ${
+                    product.inStock
+                      ? 'bg-obsidian text-cream hover:bg-charcoal'
+                      : 'bg-mist text-stone cursor-not-allowed'
+                  }`}
                 >
-                  −
-                </button>
-                <span className="w-10 text-center text-sm font-medium text-obsidian select-none">
-                  {qty}
-                </span>
-                <button
-                  onClick={() => setQty((q) => q + 1)}
-                  className="w-11 h-12 flex items-center justify-center text-obsidian hover:bg-parchment transition-colors border-0 bg-transparent cursor-pointer text-lg"
-                >
-                  +
+                  {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                 </button>
               </div>
 
-              {/* Add to cart */}
-              <button
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
-                className={`flex-1 h-12 text-xs font-medium uppercase tracking-[0.2em] border-0 cursor-pointer transition-colors ${
-                  product.inStock
-                    ? 'bg-obsidian text-cream hover:bg-charcoal'
-                    : 'bg-mist text-stone cursor-not-allowed'
-                }`}
+              {/* Inquire for bulk */}
+              <Link
+                href="/contact?type=commercial"
+                className="flex items-center justify-center w-full h-12 text-xs font-medium uppercase tracking-[0.2em] border border-obsidian text-obsidian no-underline hover:bg-obsidian hover:text-cream transition-colors mb-6"
               >
-                {product.inStock ? 'Add to Cart' : 'Out of Stock'}
-              </button>
+                Inquire for Bulk
+              </Link>
+
+              {/* Shipping badge */}
+              {product.shipping?.freeShippingEligible && (
+                <p className="text-[11px] text-stone text-center m-0 mb-6">
+                  ✓ &nbsp;Free shipping eligible
+                </p>
+              )}
+
+              {!product.inStock && (
+                <p className="text-xs text-stone text-center m-0 mb-6">
+                  Currently out of stock — contact us for availability.
+                </p>
+              )}
+
+              <div className="border-t border-mist" />
             </div>
-
-            {/* Inquire for bulk */}
-            <Link
-              href="/contact?type=b2b"
-              className="flex items-center justify-center w-full h-12 text-xs font-medium uppercase tracking-[0.2em] border border-obsidian text-obsidian no-underline hover:bg-obsidian hover:text-cream transition-colors mb-6"
-            >
-              Inquire for Bulk
-            </Link>
-
-            {/* Shipping badge */}
-            {product.shipping?.freeShippingEligible && (
-              <p className="text-[11px] text-stone text-center m-0 mb-6">
-                ✓ &nbsp;Free shipping eligible
-              </p>
-            )}
-
-            {!product.inStock && (
-              <p className="text-xs text-stone text-center m-0 mb-6">
-                Currently out of stock — contact us for availability.
-              </p>
-            )}
-
-            <div className="border-t border-mist" />
-          </div>
           </FadeIn>
         </div>
       </div>
@@ -500,14 +509,20 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                 </h4>
                 {product.ingredients ? (
                   <div className="mb-3">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Ingredients</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
+                      Ingredients
+                    </p>
                     <p className="text-sm text-stone leading-relaxed m-0">{product.ingredients}</p>
                   </div>
                 ) : null}
                 {product.allergens ? (
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Allergens</p>
-                    <p className="text-sm font-medium text-obsidian leading-relaxed m-0">{product.allergens}</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
+                      Allergens
+                    </p>
+                    <p className="text-sm font-medium text-obsidian leading-relaxed m-0">
+                      {product.allergens}
+                    </p>
                   </div>
                 ) : null}
                 {!product.ingredients && !product.allergens && (
@@ -524,22 +539,49 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                 </h4>
                 {hasNutrition ? (
                   <>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-3">Per 100g</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-3">
+                      Per 100g
+                    </p>
                     <div className="space-y-3">
                       {product.nutritionPer100g?.energyKcal != null && (
-                        <NutritionBar label="Energy" value={product.nutritionPer100g.energyKcal} unit="kcal" dailyMax={2000} />
+                        <NutritionBar
+                          label="Energy"
+                          value={product.nutritionPer100g.energyKcal}
+                          unit="kcal"
+                          dailyMax={2000}
+                        />
                       )}
                       {product.nutritionPer100g?.protein != null && (
-                        <NutritionBar label="Protein" value={product.nutritionPer100g.protein} unit="g" dailyMax={50} />
+                        <NutritionBar
+                          label="Protein"
+                          value={product.nutritionPer100g.protein}
+                          unit="g"
+                          dailyMax={50}
+                        />
                       )}
                       {product.nutritionPer100g?.carbohydrates != null && (
-                        <NutritionBar label="Carbs" value={product.nutritionPer100g.carbohydrates} unit="g" dailyMax={260} />
+                        <NutritionBar
+                          label="Carbs"
+                          value={product.nutritionPer100g.carbohydrates}
+                          unit="g"
+                          dailyMax={260}
+                        />
                       )}
                       {product.nutritionPer100g?.fat != null && (
-                        <NutritionBar label="Fat" value={product.nutritionPer100g.fat} unit="g" dailyMax={70} />
+                        <NutritionBar
+                          label="Fat"
+                          value={product.nutritionPer100g.fat}
+                          unit="g"
+                          dailyMax={70}
+                        />
                       )}
                       {product.nutritionPer100g?.salt != null && (
-                        <NutritionBar label="Salt" value={product.nutritionPer100g.salt} unit="g" dailyMax={6} />
+                        <NutritionBar
+                          label="Salt"
+                          value={product.nutritionPer100g.salt}
+                          unit="g"
+                          dailyMax={6}
+                        />
                       )}
                     </div>
                   </>
@@ -557,19 +599,27 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                 </h4>
                 {product.storageInstructions ? (
                   <div className="mb-3">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Storage</p>
-                    <p className="text-sm text-stone leading-relaxed m-0">{product.storageInstructions}</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
+                      Storage
+                    </p>
+                    <p className="text-sm text-stone leading-relaxed m-0">
+                      {product.storageInstructions}
+                    </p>
                   </div>
                 ) : null}
                 {product.packaging ? (
                   <div className="mb-3">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">Packaging</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-1">
+                      Packaging
+                    </p>
                     <p className="text-sm text-stone leading-relaxed m-0">{product.packaging}</p>
                   </div>
                 ) : null}
                 {product.specifications && product.specifications.length > 0 && (
                   <div className="mt-4 border-t border-mist pt-3">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-2">Specs</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-stone m-0 mb-2">
+                      Specs
+                    </p>
                     {product.specifications.map((spec, i) => (
                       <div key={i} className="flex justify-between text-xs py-1">
                         <span className="text-obsidian font-medium">{spec.label}</span>
@@ -578,9 +628,11 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                     ))}
                   </div>
                 )}
-                {!product.storageInstructions && !product.packaging && (!product.specifications || product.specifications.length === 0) && (
-                  <p className="text-sm text-stone/50 m-0">No information available.</p>
-                )}
+                {!product.storageInstructions &&
+                  !product.packaging &&
+                  (!product.specifications || product.specifications.length === 0) && (
+                    <p className="text-sm text-stone/50 m-0">No information available.</p>
+                  )}
               </div>
             </FadeIn>
 
@@ -616,7 +668,8 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                     <p className="m-0 text-[11px] text-stone">✓ Free shipping over $150</p>
                     {product.shipping?.handlingDays != null && (
                       <p className="m-0 text-[11px] text-stone">
-                        Handling: {product.shipping.handlingDays} day{product.shipping.handlingDays !== 1 ? 's' : ''}
+                        Handling: {product.shipping.handlingDays} day
+                        {product.shipping.handlingDays !== 1 ? 's' : ''}
                       </p>
                     )}
                   </div>
@@ -639,7 +692,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
             </FadeIn>
             <div className="flex items-baseline justify-between mb-10">
               <FadeIn delay={0.05}>
-                <h2 className="font-luxury text-2xl lg:text-3xl font-medium tracking-tight m-0 text-obsidian">
+                <h2 className="font-heading text-2xl lg:text-3xl font-semibold tracking-tight m-0 text-obsidian">
                   You May Also Like
                 </h2>
               </FadeIn>
@@ -666,7 +719,14 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       {/* ── CTA Banner ─────────────────────────────────────────── */}
       <section className="relative bg-obsidian overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-r from-obsidian via-charcoal to-obsidian opacity-90" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.4) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.4) 1px, transparent 0)',
+            backgroundSize: '40px 40px',
+          }}
+        />
         <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-30" />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -678,20 +738,21 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                 </p>
               </FadeIn>
               <FadeIn delay={0.1}>
-                <h3 className="font-luxury text-2xl lg:text-3xl font-medium text-cream m-0">
+                <h3 className="font-heading text-2xl lg:text-3xl font-semibold text-cream m-0">
                   Need Bulk Pricing?
                 </h3>
               </FadeIn>
               <FadeIn delay={0.15}>
                 <p className="text-stone/60 text-sm mt-2 mb-0 max-w-md">
-                  We supply restaurants, hotels, and specialty retailers worldwide. Get in touch for wholesale pricing and custom orders.
+                  We supply restaurants, hotels, and specialty retailers worldwide. Get in touch for
+                  wholesale pricing and custom orders.
                 </p>
               </FadeIn>
             </div>
             <FadeIn delay={0.2}>
               <div className="flex gap-3">
                 <Link
-                  href="/contact?type=b2b"
+                  href="/contact?type=commercial"
                   className="inline-flex items-center px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] bg-gold text-obsidian no-underline hover:bg-gold-light transition-colors"
                 >
                   Get in Touch

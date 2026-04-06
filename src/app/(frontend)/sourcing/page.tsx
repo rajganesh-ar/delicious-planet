@@ -2,9 +2,9 @@ import { SourcingPageClient } from '@/components/sections/SourcingPageClient'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Sourcing & Sustainability — Delicious Planet',
+  title: 'Sourcing — Delicious Planet',
   description:
-    'Ingredient quality begins at origin. Our sourcing model prioritises long-term relationships and consistent product integrity across Mediterranean, European, and international markets.',
+    'Structured procurement for professional supply environments. Our sourcing network aligns agricultural producers, specialized processors, and export-capable partners for reliability and continuity.',
 }
 
 export default function SourcingPage() {

@@ -46,8 +46,8 @@ export default function ShippingPolicyPage() {
               will receive a confirmation when your order has been dispatched.
             </p>
             <p className="text-stone text-base leading-relaxed m-0">
-              Bulk and B2B orders may require additional processing coordination. Our team will be
-              in touch to confirm lead times for larger volume orders.
+              Bulk and commercial orders may require additional processing coordination. Our team
+              will be in touch to confirm lead times for larger volume orders.
             </p>
           </Section>
 

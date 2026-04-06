@@ -16,7 +16,7 @@ const FALLBACK_COLUMNS = [
       { label: 'All Products', href: '/products' },
       { label: 'Categories', href: '/categories' },
       { label: 'Brands', href: '/brands' },
-      { label: 'B2B Solutions', href: '/b2b' },
+      { label: 'Commercial Supply', href: '/commercial' },
     ],
   },
   {
@@ -41,7 +41,7 @@ const FALLBACK_COLUMNS = [
     links: [
       { label: 'Policies', href: '/policies' },
       { label: 'Shipping Policy', href: '/shipping' },
-      { label: 'B2B Terms', href: '/policies#b2b-terms' },
+      { label: 'Commercial Terms', href: '/policies#commercial-terms' },
     ],
   },
   {

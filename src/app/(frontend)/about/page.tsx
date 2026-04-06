@@ -5,7 +5,7 @@ import { AboutPageClient } from '@/components/sections/AboutPageClient'
 export const metadata = {
   title: 'About — Delicious Planet',
   description:
-    'The story behind Delicious Planet. Our mission, values, and the team bringing the finest ingredients to your table.',
+    'Rooted in Algeria. Structured for global supply. Delicious Planet connects natural agricultural producers with professional buyers across international markets.',
 }
 
 export default async function AboutPage() {

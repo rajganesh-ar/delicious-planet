@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCart } from './CartContext'
+import { useCurrency, CURRENCIES, type CurrencyCode } from './CurrencyContext'
 import { FullScreenMenu, type NavItem } from './MegaMenu'
 
 interface HeaderProps {
@@ -14,7 +15,21 @@ interface HeaderProps {
 export function Header({ navItems }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [currencyOpen, setCurrencyOpen] = useState(false)
+  const currencyRef = useRef<HTMLDivElement>(null)
   const { toggleCart, totalItems } = useCart()
+  const { currency, setCurrency } = useCurrency()
+
+  // Close currency dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) {
+        setCurrencyOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -54,8 +69,59 @@ export function Header({ navItems }: HeaderProps) {
             />
           </Link>
 
-          {/* Right side: Cart + Hamburger */}
+          {/* Right side: Currency + Cart + Hamburger */}
           <div className="header__actions">
+            {/* Currency selector — hidden when menu is open */}
+            {!menuOpen && (
+              <div ref={currencyRef} className="relative">
+                <button
+                  onClick={() => setCurrencyOpen((o) => !o)}
+                  className={`header__action-btn header__currency-btn ${scrolled ? 'header__action-btn--dark' : ''}`}
+                  aria-label="Select currency"
+                >
+                  <span className="text-[11px] font-medium tracking-wider">{currency}</span>
+                  <svg
+                    className={`w-2.5 h-2.5 transition-transform duration-200 ${currencyOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 10 6"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M1 1l4 4 4-4" />
+                  </svg>
+                </button>
+
+                <AnimatePresence>
+                  {currencyOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.18, ease: 'easeOut' }}
+                      className="absolute right-0 top-full mt-2 bg-obsidian border border-cream/10 rounded-sm shadow-xl z-50 overflow-hidden min-w-[90px]"
+                    >
+                      {CURRENCIES.map((c) => (
+                        <button
+                          key={c.code}
+                          onClick={() => {
+                            setCurrency(c.code as CurrencyCode)
+                            setCurrencyOpen(false)
+                          }}
+                          className={`w-full text-left px-4 py-2.5 text-[11px] font-medium tracking-wider transition-colors cursor-pointer border-0 ${
+                            currency === c.code
+                              ? 'text-gold bg-gold/10'
+                              : 'text-cream/60 hover:text-cream hover:bg-cream/5'
+                          }`}
+                        >
+                          {c.code}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
             {/* Cart — hidden when menu is open */}
             {!menuOpen && (
               <button

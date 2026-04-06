@@ -327,6 +327,14 @@ svg {
   color: var(--color-gold);
 }
 
+.header__currency-btn {
+  width: auto;
+  padding: 0 10px;
+  gap: 5px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
 .header__cart-badge {
   position: absolute;
   top: 2px;
@@ -818,6 +826,10 @@ svg {
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
 }
 
 /* ── Hero ─────────────────────────────────────────────────── */

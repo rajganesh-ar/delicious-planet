@@ -16,9 +16,9 @@ const FAQ_ITEMS: FAQItem[] = [
       'We work directly with artisan producers across 30+ countries — from truffle hunters in Piedmont to saffron farmers in Kashmir. Every supplier is personally vetted for quality, sustainability, and ethical practices.',
   },
   {
-    question: 'Do you offer wholesale or B2B pricing?',
+    question: 'Do you offer wholesale or commercial pricing?',
     answer:
-      'Yes. We partner with restaurants, hotels, and specialty retailers worldwide. Visit our B2B page or contact our trade team for volume pricing and custom sourcing.',
+      'Yes. We partner with restaurants, hotels, and specialty retailers worldwide. Visit our Commercial Supply page or contact our trade team for volume pricing and custom sourcing.',
   },
   {
     question: 'How do you ensure freshness and quality?',

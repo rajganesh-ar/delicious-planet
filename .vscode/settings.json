@@ -36,5 +36,6 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }
-  }
+  },
+  "js/ts.tsserver.maxMemory": 8192
 }

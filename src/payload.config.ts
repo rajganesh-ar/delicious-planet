@@ -20,6 +20,7 @@ import { OfficeLocations } from './collections/OfficeLocations'
 import { Warehouses } from './collections/Warehouses'
 import { Brands } from './collections/Brands'
 import { ProductCollections } from './collections/ProductCollections'
+import { VendorApplications } from './collections/VendorApplications'
 import { SiteSettings } from './globals/SiteSettings'
 import { Navigation } from './globals/Navigation'
 
@@ -44,6 +45,7 @@ export default buildConfig({
     ProductCollections,
     Orders,
     B2BInquiries,
+    VendorApplications,
     Pages,
     BlogPosts,
     BlogCategories,

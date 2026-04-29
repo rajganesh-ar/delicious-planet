@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeIn } from '@/components/animations/FadeIn'
 import { MagneticButton } from '@/components/animations/MagneticButton'
+import { FAQSection } from '@/components/sections/FAQSection'
 import type { OfficeLocation, Media } from '@/payload-types'
 
 interface ContactPageClientProps {
@@ -390,6 +391,9 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FAQSection />
     </>
   )
 }

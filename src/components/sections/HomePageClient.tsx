@@ -6,7 +6,6 @@ import { FeaturedGrid } from '@/components/sections/FeaturedGrid'
 import { TestimonialCarousel } from '@/components/sections/TestimonialCarousel'
 import { ContactUsSection } from '@/components/sections/NewsletterSection'
 import { PartnersMarquee } from '@/components/sections/PartnersMarquee'
-import { FAQSection } from '@/components/sections/FAQSection'
 import { CollectionCards } from '@/components/sections/CollectionCards'
 import { SustainabilitySection } from '@/components/sections/SustainabilitySection'
 import { WordReveal } from '@/components/animations/WordReveal'
@@ -122,9 +121,6 @@ export function HomePageClient({
 
       {/* Contact Us */}
       <ContactUsSection />
-
-      {/* FAQ */}
-      <FAQSection />
 
       {/* Partners marquee */}
       <PartnersMarquee suppliers={suppliers} />

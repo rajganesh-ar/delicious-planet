@@ -12,6 +12,7 @@ interface ProductsListingProps {
   categories: Category[]
   suppliers: Supplier[]
   collections: ProductCollection[]
+  originCountries: string[]
   totalPages: number
   totalDocs: number
   currentPage: number
@@ -29,6 +30,7 @@ export function ProductsListing({
   categories,
   suppliers,
   collections,
+  originCountries,
   totalPages,
   totalDocs,
   currentPage,
@@ -71,18 +73,31 @@ export function ProductsListing({
     }
   }, [])
 
+  useEffect(() => {
+    setSearchValue(searchParams.get('search') ?? '')
+  }, [searchParams])
+
   const activeCategory = searchParams.get('category') ?? ''
   const activeSupplier = searchParams.get('supplier') ?? ''
   const activeCollection = searchParams.get('collection') ?? ''
   const activeSort = searchParams.get('sort') ?? '-createdAt'
   const activeSearch = searchParams.get('search') ?? ''
   const activeFeatured = searchParams.get('featured') === 'true'
+  const activeInStock = searchParams.get('inStock') === 'true'
+  const activeOriginCountry = searchParams.get('originCountry') ?? ''
 
   const activeCategoryLabel = categories.find((c) => c.slug === activeCategory)?.title ?? null
   const activeSupplierLabel = suppliers.find((s) => s.slug === activeSupplier)?.name ?? null
   const activeCollectionLabel = collections.find((c) => c.slug === activeCollection)?.title ?? null
 
-  const hasActiveFilters = activeCategory || activeSupplier || activeCollection || activeSearch || activeFeatured
+  const hasActiveFilters =
+    activeCategory ||
+    activeSupplier ||
+    activeCollection ||
+    activeSearch ||
+    activeFeatured ||
+    activeInStock ||
+    activeOriginCountry
 
   const clearFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
@@ -91,6 +106,8 @@ export function ProductsListing({
     params.delete('collection')
     params.delete('search')
     params.delete('featured')
+    params.delete('inStock')
+    params.delete('originCountry')
     params.delete('page')
     setSearchValue('')
     router.push(`${pathname}?${params.toString()}`)
@@ -102,7 +119,14 @@ export function ProductsListing({
       <div className="relative bg-obsidian overflow-hidden pt-20">
         <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
         {/* Subtle decorative pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.4) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.4) 1px, transparent 0)',
+            backgroundSize: '40px 40px',
+          }}
+        />
         {/* Decorative gold line */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
         <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-24">
@@ -121,7 +145,7 @@ export function ProductsListing({
             <p className="text-cream/40 text-sm md:text-base mt-4 mb-0 max-w-lg leading-relaxed">
               {activeSupplierLabel
                 ? `Curated ingredients by ${activeSupplierLabel}`
-                : 'Exceptional ingredients sourced from the world\'s finest artisan producers.'}
+                : "Exceptional ingredients sourced from the world's finest artisan producers."}
             </p>
           </FadeIn>
           <FadeIn delay={0.3}>
@@ -140,7 +164,15 @@ export function ProductsListing({
           <div className="flex items-center justify-between py-3 gap-4">
             {/* Search */}
             <div className="flex items-center flex-1 max-w-sm">
-              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="text-cream/40 mr-2.5 shrink-0">
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+                className="text-cream/40 mr-2.5 shrink-0"
+              >
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
               </svg>
@@ -160,7 +192,14 @@ export function ProductsListing({
                 onClick={() => setFilterOpen((v) => !v)}
                 className="lg:hidden flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-cream/70 border border-cream/20 bg-transparent cursor-pointer hover:text-cream hover:border-cream/40 transition-colors px-3 py-1.5"
               >
-                <svg width="12" height="8" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg
+                  width="12"
+                  height="8"
+                  viewBox="0 0 14 10"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
                   <line x1="0" y1="1" x2="14" y2="1" />
                   <line x1="2" y1="5" x2="12" y2="5" />
                   <line x1="4" y1="9" x2="10" y2="9" />
@@ -185,112 +224,128 @@ export function ProductsListing({
 
               {/* Sort */}
               <div className="flex items-center">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mr-2 hidden sm:inline">Sort:</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-cream/30 mr-2 hidden sm:inline">
+                  Sort:
+                </span>
                 <select
                   value={activeSort}
                   onChange={(e) => setFilter('sort', e.target.value)}
                   className="text-[11px] uppercase tracking-[0.15em] bg-transparent border-0 text-cream/70 outline-none cursor-pointer"
                 >
                   {sortOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value} className="bg-obsidian text-cream">{opt.label}</option>
+                    <option key={opt.value} value={opt.value} className="bg-obsidian text-cream">
+                      {opt.label}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
           </div>
 
-          {/* Bottom row: Collection + Category + Supplier filters (desktop) */}
-          <div className="hidden lg:flex items-center gap-1 pb-3 flex-wrap">
-            {/* Quick filter pills */}
-            <button
-              onClick={() => setFilter('featured', activeFeatured ? '' : 'true')}
-              className={`py-1.5 px-3.5 text-[10px] uppercase tracking-[0.2em] border cursor-pointer transition-all ${
-                activeFeatured
-                  ? 'bg-gold text-obsidian border-gold'
-                  : 'bg-transparent text-cream/60 border-cream/20 hover:border-cream/40 hover:text-cream'
-              }`}
-            >
-              ★ Featured
-            </button>
-            <button
-              onClick={() => setFilter('sort', '-createdAt')}
-              className={`py-1.5 px-3.5 text-[10px] uppercase tracking-[0.2em] border cursor-pointer transition-all ${
-                activeSort === '-createdAt' && !activeCategory && !activeSupplier && !activeCollection && !activeSearch && !activeFeatured
-                  ? 'bg-gold text-obsidian border-gold'
-                  : 'bg-transparent text-cream/60 border-cream/20 hover:border-cream/40 hover:text-cream'
-              }`}
-            >
-              New Arrivals
-            </button>
-
-            {/* Divider */}
-            <span className="w-px h-4 bg-cream/15 mx-2" />
-
-            {/* Collection tabs */}
-            {collections.length > 0 && (
-              <>
-                <button
-                  onClick={() => setFilter('collection', '')}
-                  className={`py-1.5 px-3 text-[10px] uppercase tracking-[0.2em] border-0 bg-transparent cursor-pointer transition-colors ${
-                    !activeCollection ? 'text-gold font-semibold' : 'text-cream/50 hover:text-cream'
-                  }`}
-                >
+          {/* Bottom row: compact dropdown filters (desktop) */}
+          <div className="hidden lg:grid grid-cols-12 gap-3 pb-3 items-end">
+            <label className="col-span-3">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-cream/35 mb-1">
+                Collection
+              </span>
+              <select
+                value={activeCollection}
+                onChange={(e) => setFilter('collection', e.target.value)}
+                className="w-full h-9 px-2 text-[10px] uppercase tracking-[0.15em] bg-transparent border border-cream/20 text-cream/75 outline-none cursor-pointer"
+              >
+                <option value="" className="bg-obsidian text-cream">
                   All Collections
-                </button>
+                </option>
                 {collections.map((col) => (
-                  <button
-                    key={col.id}
-                    onClick={() => setFilter('collection', col.slug)}
-                    className={`py-1.5 px-3 text-[10px] uppercase tracking-[0.2em] border-0 bg-transparent cursor-pointer transition-colors ${
-                      activeCollection === col.slug
-                        ? 'text-gold font-semibold'
-                        : 'text-cream/50 hover:text-cream'
-                    }`}
-                  >
+                  <option key={col.id} value={col.slug} className="bg-obsidian text-cream">
                     {col.title}
-                  </button>
+                  </option>
                 ))}
-                <span className="w-px h-4 bg-cream/15 mx-2" />
-              </>
-            )}
+              </select>
+            </label>
 
-            {/* Category tabs */}
-            <button
-              onClick={() => setFilter('category', '')}
-              className={`py-1.5 px-3 text-[10px] uppercase tracking-[0.2em] border-0 bg-transparent cursor-pointer transition-colors ${
-                !activeCategory ? 'text-cream font-semibold' : 'text-cream/50 hover:text-cream'
-              }`}
-            >
-              All
-            </button>
-            {categories.map((cat) => (
+            <label className="col-span-3">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-cream/35 mb-1">
+                Category
+              </span>
+              <select
+                value={activeCategory}
+                onChange={(e) => setFilter('category', e.target.value)}
+                className="w-full h-9 px-2 text-[10px] uppercase tracking-[0.15em] bg-transparent border border-cream/20 text-cream/75 outline-none cursor-pointer"
+              >
+                <option value="" className="bg-obsidian text-cream">
+                  All Categories
+                </option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.slug} className="bg-obsidian text-cream">
+                    {cat.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="col-span-3">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-cream/35 mb-1">
+                Supplier
+              </span>
+              <select
+                value={activeSupplier}
+                onChange={(e) => setFilter('supplier', e.target.value)}
+                className="w-full h-9 px-2 text-[10px] uppercase tracking-[0.15em] bg-transparent border border-cream/20 text-cream/75 outline-none cursor-pointer"
+              >
+                <option value="" className="bg-obsidian text-cream">
+                  All Suppliers
+                </option>
+                {suppliers.map((s) => (
+                  <option key={s.id} value={s.slug} className="bg-obsidian text-cream">
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="col-span-3 flex items-center gap-2">
               <button
-                key={cat.id}
-                onClick={() => setFilter('category', cat.slug)}
-                className={`py-1.5 px-3 text-[10px] uppercase tracking-[0.2em] border-0 bg-transparent cursor-pointer transition-colors ${
-                  activeCategory === cat.slug
-                    ? 'text-cream font-semibold'
-                    : 'text-cream/50 hover:text-cream'
+                onClick={() => setFilter('featured', activeFeatured ? '' : 'true')}
+                className={`h-9 px-3 text-[10px] uppercase tracking-[0.2em] border cursor-pointer transition-all ${
+                  activeFeatured
+                    ? 'bg-gold text-obsidian border-gold'
+                    : 'bg-transparent text-cream/60 border-cream/20 hover:border-cream/40 hover:text-cream'
                 }`}
               >
-                {cat.title}
+                Featured
               </button>
-            ))}
+              <button
+                onClick={() => setFilter('inStock', activeInStock ? '' : 'true')}
+                className={`h-9 px-3 text-[10px] uppercase tracking-[0.2em] border cursor-pointer transition-all ${
+                  activeInStock
+                    ? 'bg-gold text-obsidian border-gold'
+                    : 'bg-transparent text-cream/60 border-cream/20 hover:border-cream/40 hover:text-cream'
+                }`}
+              >
+                In Stock
+              </button>
+            </div>
 
-            {/* Divider */}
-            <span className="w-px h-4 bg-cream/15 mx-2" />
-
-            {/* Supplier select */}
-            <select
-              value={activeSupplier}
-              onChange={(e) => setFilter('supplier', e.target.value)}
-              className="py-1.5 text-[10px] uppercase tracking-[0.2em] bg-transparent border-0 text-cream/50 outline-none cursor-pointer hover:text-cream transition-colors"
-            >
-              <option value="" className="bg-obsidian text-cream">All Suppliers</option>
-              {suppliers.map((s) => (
-                <option key={s.id} value={s.slug} className="bg-obsidian text-cream">{s.name}</option>
-              ))}
-            </select>
+            <label className="col-span-4">
+              <span className="block text-[9px] uppercase tracking-[0.2em] text-cream/35 mb-1">
+                Origin Country
+              </span>
+              <select
+                value={activeOriginCountry}
+                onChange={(e) => setFilter('originCountry', e.target.value)}
+                className="w-full h-9 px-2 text-[10px] uppercase tracking-[0.15em] bg-transparent border border-cream/20 text-cream/75 outline-none cursor-pointer"
+              >
+                <option value="" className="bg-obsidian text-cream">
+                  All Countries
+                </option>
+                {originCountries.map((country) => (
+                  <option key={country} value={country} className="bg-obsidian text-cream">
+                    {country}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
 
           {/* Mobile filter panel */}
@@ -321,83 +376,86 @@ export function ProductsListing({
                     </button>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-6">
-                    {/* Collection list */}
-                    {collections.length > 0 && (
-                      <div>
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-3">Collection</p>
-                        <ul className="list-none m-0 p-0 space-y-2">
-                          <li>
-                            <button
-                              onClick={() => { setFilter('collection', ''); setFilterOpen(false) }}
-                              className={`text-xs bg-transparent border-0 cursor-pointer transition-colors p-0 uppercase tracking-wide ${
-                                !activeCollection ? 'text-cream font-medium' : 'text-cream/50 hover:text-cream'
-                              }`}
-                            >All</button>
-                          </li>
-                          {collections.map((col) => (
-                            <li key={col.id}>
-                              <button
-                                onClick={() => { setFilter('collection', col.slug); setFilterOpen(false) }}
-                                className={`text-xs bg-transparent border-0 cursor-pointer transition-colors p-0 uppercase tracking-wide ${
-                                  activeCollection === col.slug ? 'text-cream font-medium' : 'text-cream/50 hover:text-cream'
-                                }`}
-                              >{col.title}</button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                  <div className="grid grid-cols-1 gap-4">
+                    <label>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-2">Collection</p>
+                      <select
+                        value={activeCollection}
+                        onChange={(e) => {
+                          setFilter('collection', e.target.value)
+                          setFilterOpen(false)
+                        }}
+                        className="w-full py-2.5 px-3 text-xs uppercase tracking-[0.12em] bg-transparent border border-cream/20 text-cream outline-none"
+                      >
+                        <option value="" className="bg-obsidian text-cream">All Collections</option>
+                        {collections.map((col) => (
+                          <option key={col.id} value={col.slug} className="bg-obsidian text-cream">
+                            {col.title}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
 
-                    {/* Category list */}
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-3">Category</p>
-                      <ul className="list-none m-0 p-0 space-y-2">
-                        <li>
-                          <button
-                            onClick={() => { setFilter('category', ''); setFilterOpen(false) }}
-                            className={`text-xs bg-transparent border-0 cursor-pointer transition-colors p-0 uppercase tracking-wide ${
-                              !activeCategory ? 'text-cream font-medium' : 'text-cream/50 hover:text-cream'
-                            }`}
-                          >All</button>
-                        </li>
+                    <label>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-2">Category</p>
+                      <select
+                        value={activeCategory}
+                        onChange={(e) => {
+                          setFilter('category', e.target.value)
+                          setFilterOpen(false)
+                        }}
+                        className="w-full py-2.5 px-3 text-xs uppercase tracking-[0.12em] bg-transparent border border-cream/20 text-cream outline-none"
+                      >
+                        <option value="" className="bg-obsidian text-cream">All Categories</option>
                         {categories.map((cat) => (
-                          <li key={cat.id}>
-                            <button
-                              onClick={() => { setFilter('category', cat.slug); setFilterOpen(false) }}
-                              className={`text-xs bg-transparent border-0 cursor-pointer transition-colors p-0 uppercase tracking-wide ${
-                                activeCategory === cat.slug ? 'text-cream font-medium' : 'text-cream/50 hover:text-cream'
-                              }`}
-                            >{cat.title}</button>
-                          </li>
+                          <option key={cat.id} value={cat.slug} className="bg-obsidian text-cream">
+                            {cat.title}
+                          </option>
                         ))}
-                      </ul>
-                    </div>
+                      </select>
+                    </label>
 
-                    {/* Supplier list */}
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-3">Supplier</p>
-                      <ul className="list-none m-0 p-0 space-y-2">
-                        <li>
-                          <button
-                            onClick={() => { setFilter('supplier', ''); setFilterOpen(false) }}
-                            className={`text-xs bg-transparent border-0 cursor-pointer transition-colors p-0 uppercase tracking-wide ${
-                              !activeSupplier ? 'text-cream font-medium' : 'text-cream/50 hover:text-cream'
-                            }`}
-                          >All</button>
-                        </li>
+                    <label>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-2">Supplier</p>
+                      <select
+                        value={activeSupplier}
+                        onChange={(e) => {
+                          setFilter('supplier', e.target.value)
+                          setFilterOpen(false)
+                        }}
+                        className="w-full py-2.5 px-3 text-xs uppercase tracking-[0.12em] bg-transparent border border-cream/20 text-cream outline-none"
+                      >
+                        <option value="" className="bg-obsidian text-cream">All Suppliers</option>
                         {suppliers.map((s) => (
-                          <li key={s.id}>
-                            <button
-                              onClick={() => { setFilter('supplier', s.slug); setFilterOpen(false) }}
-                              className={`text-xs bg-transparent border-0 cursor-pointer transition-colors p-0 uppercase tracking-wide ${
-                                activeSupplier === s.slug ? 'text-cream font-medium' : 'text-cream/50 hover:text-cream'
-                              }`}
-                            >{s.name}</button>
-                          </li>
+                          <option key={s.id} value={s.slug} className="bg-obsidian text-cream">
+                            {s.name}
+                          </option>
                         ))}
-                      </ul>
-                    </div>
+                      </select>
+                    </label>
+
+                    <label>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold m-0 mb-2">
+                        Origin Country
+                      </p>
+                      <select
+                        value={activeOriginCountry}
+                        onChange={(e) => {
+                          setFilter('originCountry', e.target.value)
+                          setFilterOpen(false)
+                        }}
+                        className="w-full py-2.5 px-3 text-xs uppercase tracking-[0.12em] bg-transparent border border-cream/20 text-cream outline-none"
+                      >
+                        <option value="" className="bg-obsidian text-cream">
+                          All Countries
+                        </option>
+                        {originCountries.map((country) => (
+                          <option key={country} value={country} className="bg-obsidian text-cream">
+                            {country}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
                   </div>
                 </div>
               </motion.div>
@@ -429,6 +487,24 @@ export function ProductsListing({
             >
               Featured
               <span className="text-base leading-none">×</span>
+            </button>
+          )}
+          {activeInStock && (
+            <button
+              onClick={() => setFilter('inStock', '')}
+              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] border border-gold/40 text-obsidian px-3 py-1.5 hover:bg-obsidian hover:text-cream hover:border-obsidian transition-colors cursor-pointer bg-transparent"
+            >
+              In Stock
+              <span className="text-base leading-none">&times;</span>
+            </button>
+          )}
+                    {activeOriginCountry && (
+            <button
+              onClick={() => setFilter('originCountry', '')}
+              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] border border-gold/40 text-obsidian px-3 py-1.5 hover:bg-obsidian hover:text-cream hover:border-obsidian transition-colors cursor-pointer bg-transparent"
+            >
+              {activeOriginCountry}
+              <span className="text-base leading-none">&times;</span>
             </button>
           )}
           {activeCollectionLabel && (
@@ -477,9 +553,7 @@ export function ProductsListing({
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-            <p className="text-obsidian text-base font-luxury m-0 mb-2">
-              No products found
-            </p>
+            <p className="text-obsidian text-base font-luxury m-0 mb-2">No products found</p>
             <p className="text-stone text-sm m-0 mb-6">
               Try adjusting your filters or search terms.
             </p>
@@ -494,7 +568,7 @@ export function ProductsListing({
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 lg:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5 lg:gap-6">
               {products.map((product, i) => (
                 <FadeIn key={product.id} delay={i * 0.04}>
                   <ProductCard product={product} />
@@ -560,3 +634,4 @@ export function ProductsListing({
     </div>
   )
 }
+

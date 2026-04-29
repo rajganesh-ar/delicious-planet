@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import type { Navigation as NavigationType, SiteSetting } from '@/payload-types'
+import type { Media, Navigation as NavigationType, SiteSetting } from '@/payload-types'
 
 interface FooterProps {
   navigation: NavigationType
@@ -16,7 +16,7 @@ const FALLBACK_COLUMNS = [
       { label: 'All Products', href: '/products' },
       { label: 'Categories', href: '/categories' },
       { label: 'Brands', href: '/brands' },
-      { label: 'B2B Solutions', href: '/b2b' },
+      { label: 'Recipes', href: '/recipes' },
     ],
   },
   {
@@ -24,24 +24,25 @@ const FALLBACK_COLUMNS = [
     links: [
       { label: 'Experiences', href: '/experiences' },
       { label: 'Journal', href: '/journal' },
-      { label: 'Recipes', href: '/recipes' },
       { label: 'Sourcing', href: '/sourcing' },
+      { label: 'Sustainability', href: '/sourcing#sustainability' },
+    ],
+  },
+  {
+    heading: 'Commercial',
+    links: [
+      { label: 'B2B Solutions', href: '/b2b' },
+      { label: 'Vendors & Partnerships', href: '/vendors' },
+      { label: 'Commercial Terms', href: '/policies#b2b-terms' },
     ],
   },
   {
     heading: 'Company',
     links: [
       { label: 'About', href: '/about' },
-      { label: 'Vendors & Partnerships', href: '/vendors' },
       { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { label: 'Policies', href: '/policies' },
+      { label: 'Legal Policies', href: '/policies' },
       { label: 'Shipping Policy', href: '/shipping' },
-      { label: 'B2B Terms', href: '/policies#b2b-terms' },
     ],
   },
   {
@@ -49,13 +50,17 @@ const FALLBACK_COLUMNS = [
     links: [
       { label: 'Login', href: '/login' },
       { label: 'Register', href: '/register' },
-      { label: 'Account', href: '/account' },
+      { label: 'My Account', href: '/account' },
     ],
   },
 ]
 
 export function Footer({ navigation, siteSettings }: FooterProps) {
   const socials = siteSettings.socials
+  const footerLogo =
+    typeof siteSettings.logo === 'object' && siteSettings.logo !== null
+      ? ((siteSettings.logo as Media).url ?? '/images/logo/logo.svg')
+      : '/images/logo/logo.svg'
   const cmsColumns = navigation.footerColumns ?? []
   const columns = cmsColumns.length > 0 ? cmsColumns : FALLBACK_COLUMNS
 
@@ -108,10 +113,9 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
             <div className="shrink-0 lg:max-w-65">
               <Link href="/" className="no-underline inline-block">
                 <img
-                  src="/images/logo/logo.svg"
+                  src={footerLogo}
                   alt="Delicious Planet"
                   className="h-10 w-auto"
-                  style={{ filter: 'brightness(0) invert(1)' }}
                 />
               </Link>
               <p className="text-xs text-cream/30 m-0 mt-5">

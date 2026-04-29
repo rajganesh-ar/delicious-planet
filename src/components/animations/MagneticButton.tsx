@@ -9,7 +9,7 @@ interface MagneticButtonProps {
   strength?: number
 }
 
-export function MagneticButton({ children, className, strength = 0.4 }: MagneticButtonProps) {
+export function MagneticButton({ children, className, strength = 0.25 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   const mouseX = useMotionValue(0)

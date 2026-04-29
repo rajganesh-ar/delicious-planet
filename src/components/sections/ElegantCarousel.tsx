@@ -86,12 +86,12 @@ export default function ElegantCarousel({ items, autoPlayInterval = 5000 }: Eleg
   return (
     <div className="relative" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Main content */}
-      <div className="max-w-360 mx-auto">
+      <div className="w-full px-5 md:px-8 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-100 sm:min-h-110 lg:min-h-125">
           {/* Left: Text */}
           <FadeIn
             direction="left"
-            className="flex flex-col justify-center px-5 sm:px-8 lg:px-12 py-10 lg:py-12 order-2 lg:order-1"
+            className="flex flex-col justify-center py-10 lg:py-12 order-2 lg:order-1"
           >
             <div
               className={`transition-all duration-500 ${
@@ -179,7 +179,7 @@ export default function ElegantCarousel({ items, autoPlayInterval = 5000 }: Eleg
 
       {/* Progress indicators */}
       <div
-        className="max-w-360 mx-auto grid gap-3 px-5 sm:px-8 lg:px-12 pt-5 pb-4"
+        className="w-full grid gap-3 px-5 md:px-8 lg:px-16 pt-5 pb-4"
         style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}
       >
         {items.map((item, index) => (

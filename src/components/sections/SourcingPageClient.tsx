@@ -104,7 +104,7 @@ export function SourcingPageClient() {
 
       {/* Philosophy */}
       <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <FadeIn>
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
@@ -137,7 +137,7 @@ export function SourcingPageClient() {
 
       {/* Sourcing Criteria */}
       <section className="py-(--spacing-section) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             <div className="lg:w-80 shrink-0">
               <FadeIn>
@@ -172,7 +172,7 @@ export function SourcingPageClient() {
 
       {/* Network / Regions */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
             <div className="text-center mb-14">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
@@ -201,7 +201,7 @@ export function SourcingPageClient() {
 
       {/* Sustainability */}
       <section className="py-(--spacing-section-lg) bg-obsidian">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
             <div className="flex-1">
               <FadeIn>
@@ -253,7 +253,7 @@ export function SourcingPageClient() {
 
       {/* CTA */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <FadeIn>
             <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
               Partner With Us

@@ -32,11 +32,25 @@ export function FloatingElements() {
     }
   }, [newsletterDismissed])
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setNewsletterDismissed(true)
-    setNewsletterOpen(false)
-    setEmail('')
+    setSubmitting(true)
+    try {
+      await fetch('/api/newsletter-subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'popup' }),
+      })
+    } catch {
+      // Best-effort — dismiss either way
+    } finally {
+      setSubmitting(false)
+      setNewsletterDismissed(true)
+      setNewsletterOpen(false)
+      setEmail('')
+    }
   }
 
   return (
@@ -190,13 +204,15 @@ export function FloatingElements() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="flex-1 text-sm px-3 py-2 border border-black/10 rounded-lg bg-[#F5F5F5] outline-none focus:border-[#1B512D] transition-colors"
+                disabled={submitting}
+                className="flex-1 text-sm px-3 py-2 border border-black/10 rounded-lg bg-[#F5F5F5] outline-none focus:border-[#1B512D] transition-colors disabled:opacity-60"
               />
               <button
                 type="submit"
-                className="px-4 py-2 bg-[#1B512D] text-white text-sm font-medium rounded-lg border-none cursor-pointer hover:bg-[#5FAD56] transition-colors"
+                disabled={submitting}
+                className="px-4 py-2 bg-[#1B512D] text-white text-sm font-medium rounded-lg border-none cursor-pointer hover:bg-[#5FAD56] transition-colors disabled:opacity-60 disabled:cursor-wait"
               >
-                Join
+                {submitting ? '...' : 'Join'}
               </button>
             </form>
           </motion.div>

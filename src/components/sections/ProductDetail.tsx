@@ -142,7 +142,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       {/* ── Breadcrumb ─────────────────────────────────────────── */}
       <div className="bg-parchment/40 border-b border-mist pt-20 relative">
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold/30 to-transparent" />
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-4">
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-4">
           <nav className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-stone">
             <Link href="/" className="hover:text-obsidian transition-colors no-underline text-stone">
               Home
@@ -194,7 +194,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       </div>
 
       {/* ── Main two-column layout ─────────────────────────────── */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-0 lg:gap-16 xl:gap-24">
           {/* ── LEFT: Sticky gallery ──────────────────────────── */}
           <FadeIn direction="left" duration={0.7}>
@@ -484,7 +484,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
 
       {/* ── Product Details — Four-column section ──────────────── */}
       <div className="border-t border-mist">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-12 lg:py-16">
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-12 lg:py-16">
           <FadeIn>
             <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-8 flex items-center gap-3">
               <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
@@ -630,7 +630,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       {/* ── Related products ───────────────────────────────────── */}
       {relatedProducts.length > 0 && (
         <section className="border-t border-mist mt-12">
-          <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
+          <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-16 lg:py-20">
             <FadeIn>
               <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-3 flex items-center gap-3">
                 <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
@@ -668,7 +668,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
         <div className="absolute inset-0 bg-linear-to-r from-obsidian via-charcoal to-obsidian opacity-90" />
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.4) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-30" />
-        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-20">
+        <div className="relative max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-16 lg:py-20">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <FadeIn>

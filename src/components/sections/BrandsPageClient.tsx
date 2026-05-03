@@ -15,9 +15,9 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-obsidian py-40 lg:py-52 overflow-hidden">
+      <section className="relative bg-obsidian py-24 sm:py-32 md:py-40 lg:py-52 overflow-hidden pt-32 sm:pt-36">
         <div className="absolute inset-0 bg-gradient-to-br from-espresso/80 via-obsidian to-obsidian" />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <motion.p
             className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4"
             initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
             Our Brands
           </motion.p>
           <motion.h1
-            className="font-luxury text-4xl sm:text-5xl lg:text-[56px] font-light text-cream leading-[1.1] tracking-[-0.03em] m-0 mb-6"
+            className="font-luxury text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-light text-cream leading-[1.08] tracking-[-0.03em] m-0 mb-6"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -50,7 +50,7 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
 
       {/* Introduction */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <FadeIn>
               <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-obsidian leading-[1.2] tracking-tight m-0 mb-6">
@@ -71,7 +71,7 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
       {/* Brands grid */}
       {suppliers.length > 0 ? (
         <section className="py-(--spacing-section-lg) bg-parchment">
-          <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {suppliers.map((supplier, i) => {
                 const logoUrl =
@@ -148,7 +148,7 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
         </section>
       ) : (
         <section className="py-(--spacing-section-lg) bg-parchment">
-          <div className="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
             <FadeIn>
               <p className="text-stone text-lg">Portfolio details coming soon.</p>
             </FadeIn>
@@ -158,7 +158,7 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
 
       {/* CTA — become a vendor */}
       <section className="py-(--spacing-section) bg-obsidian">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <FadeIn>
             <p className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium mb-4">
               For Producers

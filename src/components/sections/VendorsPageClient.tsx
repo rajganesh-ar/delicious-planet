@@ -39,7 +39,7 @@ export function VendorsPageClient() {
           priority
         />
         <div className="absolute inset-0 bg-obsidian/60" />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <motion.p
             className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4"
             initial={{ opacity: 0, y: 20 }}
@@ -72,7 +72,7 @@ export function VendorsPageClient() {
 
       {/* Introduction */}
       <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <FadeIn>
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
@@ -98,7 +98,7 @@ export function VendorsPageClient() {
 
       {/* Partner Profile */}
       <section className="py-(--spacing-section) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             <div className="lg:w-72 shrink-0">
               <FadeIn>
@@ -131,7 +131,7 @@ export function VendorsPageClient() {
 
       {/* Collaboration Focus */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
             <div className="flex-1">
               <FadeIn>
@@ -172,7 +172,7 @@ export function VendorsPageClient() {
 
       {/* CTA */}
       <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="max-w-2xl mx-auto text-center">
             <FadeIn>
               <span className="inline-block w-8 h-px bg-gold mb-6" />

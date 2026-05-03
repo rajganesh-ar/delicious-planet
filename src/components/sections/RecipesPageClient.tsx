@@ -66,7 +66,7 @@ export function RecipesPageClient() {
       {/* Hero */}
       <section className="relative bg-obsidian py-40 lg:py-52 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-forest/15 via-obsidian to-obsidian" />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <motion.p
             className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4"
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +98,7 @@ export function RecipesPageClient() {
 
       {/* Overview */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 items-start">
             <div className="flex-1 max-w-xl">
               <FadeIn>
@@ -149,7 +149,7 @@ export function RecipesPageClient() {
 
       {/* Cuisine Categories */}
       <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
             <div className="text-center mb-14">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
@@ -194,7 +194,7 @@ export function RecipesPageClient() {
 
       {/* CTA — journal */}
       <section className="py-(--spacing-section) bg-obsidian">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <FadeIn>
             <span className="inline-block w-8 h-px bg-gold mb-8" />
           </FadeIn>

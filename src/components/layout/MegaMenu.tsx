@@ -42,11 +42,11 @@ export const MENU_SLIDES = [
   },
 ]
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const OVERLAY_TRANSITION = { duration: 0.46, ease: EASE }
-const PANEL_TRANSITION = { duration: 0.38, ease: EASE }
-const CAPTION_TRANSITION = { duration: 0.34, ease: EASE }
-const SLIDE_TRANSITION = { duration: 0.56, ease: EASE }
+const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1]
+const OVERLAY_TRANSITION = { duration: 0.55, ease: EASE }
+const PANEL_TRANSITION = { duration: 0.5, ease: EASE }
+const CAPTION_TRANSITION = { duration: 0.48, ease: EASE }
+const SLIDE_TRANSITION = { duration: 0.75, ease: EASE }
 
 const defaultNavColumns: MegaMenuColumn[] = [
   {
@@ -55,7 +55,7 @@ const defaultNavColumns: MegaMenuColumn[] = [
       { label: 'All Products', href: '/products' },
       { label: 'Categories', href: '/categories' },
       { label: 'Brands', href: '/brands' },
-      { label: 'Retail', href: '/products' },
+      { label: 'Retail', href: '/retail' },
       { label: 'Recipes', href: '/recipes' },
     ],
   },
@@ -149,9 +149,9 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
           <motion.div
             key={activeSlide}
             className="mega-overlay__bg-slide"
-            initial={{ opacity: 0.94 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0.94 }}
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
             transition={SLIDE_TRANSITION}
           >
             {MENU_SLIDES[activeSlide].type === 'image' && (
@@ -172,7 +172,7 @@ export function FullScreenMenu({ navItems, onClose }: FullScreenMenuProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ ...PANEL_TRANSITION, delay: 0.08 }}
+        transition={{ ...PANEL_TRANSITION, delay: 0.06 }}
       >
         <span className="mega-overlay__tagline">Premium Food Ingredients, Worldwide</span>
       </motion.div>

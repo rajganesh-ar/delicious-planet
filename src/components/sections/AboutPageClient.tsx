@@ -130,8 +130,9 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
   return (
     <>
       {/* ═══ Hero — Editorial Grid (Image 1 + 4 hybrid) ═══ */}
-      <section className="bg-cream overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
+      <section className="relative bg-obsidian overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
+        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pt-28 lg:pt-36 pb-20 lg:pb-28">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left — copy */}
             <div className="flex-shrink-0 lg:w-[38%] pt-4 lg:pt-8">
@@ -141,19 +142,19 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
                 </p>
               </FadeIn>
               <FadeIn delay={0.1}>
-                <h1 className="font-serif text-4xl sm:text-5xl xl:text-[56px] font-medium text-obsidian leading-[1.08] tracking-[-0.04em] m-0 mb-8">
+                <h1 className="font-luxury text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-medium text-cream leading-[1.08] tracking-[-0.03em] m-0 mb-8">
                   Structured Natural Supply, Designed for Global Continuity
                 </h1>
               </FadeIn>
               <FadeIn delay={0.2}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0 mb-5">
+                <p className="text-cream/60 text-base lg:text-lg leading-relaxed m-0 mb-5">
                   Delicious Planet is a sourcing and distribution platform connecting disciplined
                   agricultural production environments with professional markets requiring
                   reliability, specification consistency, and scalable procurement capability.
                 </p>
               </FadeIn>
               <FadeIn delay={0.3}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
+                <p className="text-cream/60 text-base lg:text-lg leading-relaxed m-0">
                   Rooted in Algeria and headquartered in the United Arab Emirates, the company
                   coordinates sourcing relationships across multiple regions to support stable
                   access to natural products across Middle East and Africa markets.
@@ -166,26 +167,26 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
               <div className="grid grid-cols-2 gap-3 lg:gap-4">
                 {/* Large portrait — spans 1 col, 2 rows */}
                 <FadeIn delay={0.15}>
-                  <div className="row-span-2 aspect-[3/4] rounded-lg overflow-hidden bg-parchment">
-                    <div className="w-full h-full bg-gradient-to-br from-forest/20 via-parchment to-gold/10" />
+                  <div className="row-span-2 aspect-[3/4] rounded-lg overflow-hidden bg-charcoal">
+                    <div className="w-full h-full bg-linear-to-br from-forest/30 via-charcoal to-gold/10" />
                   </div>
                 </FadeIn>
                 {/* Top-right landscape */}
                 <FadeIn delay={0.25}>
-                  <div className="aspect-[4/3] rounded-lg overflow-hidden bg-mist">
-                    <div className="w-full h-full bg-gradient-to-br from-mist via-stone/10 to-parchment" />
+                  <div className="aspect-[4/3] rounded-lg overflow-hidden bg-charcoal">
+                    <div className="w-full h-full bg-linear-to-br from-charcoal via-stone/20 to-obsidian" />
                   </div>
                 </FadeIn>
                 {/* Bottom-right — 2 small side by side */}
                 <div className="grid grid-cols-2 gap-3 lg:gap-4">
                   <FadeIn delay={0.35}>
-                    <div className="aspect-square rounded-lg overflow-hidden bg-parchment">
-                      <div className="w-full h-full bg-gradient-to-br from-gold/15 via-parchment to-mist" />
+                    <div className="aspect-square rounded-lg overflow-hidden bg-charcoal">
+                      <div className="w-full h-full bg-linear-to-br from-gold/20 via-charcoal to-obsidian" />
                     </div>
                   </FadeIn>
                   <FadeIn delay={0.4}>
-                    <div className="aspect-square rounded-lg overflow-hidden bg-mist">
-                      <div className="w-full h-full bg-gradient-to-br from-forest/10 via-mist to-parchment" />
+                    <div className="aspect-square rounded-lg overflow-hidden bg-charcoal">
+                      <div className="w-full h-full bg-linear-to-br from-forest/20 via-charcoal to-obsidian" />
                     </div>
                   </FadeIn>
                 </div>
@@ -193,16 +194,17 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
             </div>
           </div>
         </div>
+        <div className="h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
       </section>
 
       {/* ═══ Brand Introduction — Centered Text ═══ */}
-      <section className="py-20 lg:py-28 bg-cream">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-cream">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <FadeIn>
             <div className="w-12 h-px bg-gold mx-auto mb-10" />
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian leading-[1.15] tracking-[-0.03em] m-0 mb-8">
+            <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian leading-[1.15] tracking-[-0.03em] m-0 mb-8">
               Built on Agricultural Continuity
             </h2>
           </FadeIn>
@@ -231,13 +233,13 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       </section>
 
       {/* ═══ Global Presence — Stat + Image Columns (Image 4 style) ═══ */}
-      <section className="py-20 lg:py-28 bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-parchment">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left — headline + text */}
             <div className="lg:w-[35%] flex-shrink-0">
               <FadeIn>
-                <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian leading-[1.12] tracking-[-0.03em] m-0 mb-6">
+                <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian leading-[1.12] tracking-[-0.03em] m-0 mb-6">
                   International Structure
                 </h2>
               </FadeIn>
@@ -257,7 +259,7 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
             </div>
 
             {/* Right — 3 tall stat-image cards */}
-            <div className="flex-1 grid grid-cols-3 gap-3 lg:gap-4">
+            <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
               {presenceStats.map((item, i) => (
                 <FadeIn key={item.label} delay={0.1 + i * 0.1}>
                   <div className="relative aspect-[2/3] rounded-xl overflow-hidden bg-mist">
@@ -279,10 +281,10 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       </section>
 
       {/* ═══ Capabilities — Card Grid (Image 2 style) ═══ */}
-      <section className="py-20 lg:py-28 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-cream">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
-            <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian tracking-[-0.03em] m-0 mb-4">
+            <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian tracking-[-0.03em] m-0 mb-4">
               Structured Supply for Professional Environments
             </h2>
           </FadeIn>
@@ -324,14 +326,14 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       </section>
 
       {/* ═══ Operational Principles — 3×2 Grid ═══ */}
-      <section className="py-20 lg:py-28 bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-parchment">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
             <div className="text-center mb-16">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
                 Our Principles
               </p>
-              <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian tracking-tight m-0">
+              <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian tracking-tight m-0">
                 Operational Principles
               </h2>
             </div>
@@ -353,14 +355,14 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       </section>
 
       {/* ═══ Timeline — 2020–2026 ═══ */}
-      <section className="py-20 lg:py-28 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-cream">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
             <div className="text-center mb-16">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
                 Our Journey
               </p>
-              <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian tracking-tight m-0">
+              <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian tracking-tight m-0">
                 Development Timeline
               </h2>
             </div>
@@ -398,14 +400,14 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       </section>
 
       {/* ═══ Traction — Stat Cards (Image 3 style) ═══ */}
-      <section className="py-20 lg:py-28 bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-parchment">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
-            <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian tracking-[-0.03em] m-0 mb-12">
+            <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian tracking-[-0.03em] m-0 mb-12">
               Operational Scope
             </h2>
           </FadeIn>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {traction.map((item, i) => (
               <FadeIn key={item.label} delay={i * 0.06}>
                 <div
@@ -423,8 +425,8 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       </section>
 
       {/* ═══ Founder Section ═══ */}
-      <section className="py-20 lg:py-28 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-cream">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
             {/* Portrait placeholder */}
             <div className="lg:w-[40%] flex-shrink-0 w-full max-w-md">
@@ -483,13 +485,13 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
 
       {/* ═══ Team Placeholder ═══ */}
       <section className="py-(--spacing-section) bg-obsidian">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           <FadeIn>
             <div className="text-center mb-16">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
                 Our People
               </p>
-              <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-cream tracking-tight m-0">
+              <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-cream tracking-tight m-0">
                 The Team Behind the Taste
               </h2>
             </div>
@@ -515,13 +517,13 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
       {/* ═══ Office Locations (CMS-driven) ═══ */}
       {offices.length > 0 && (
         <section className="py-(--spacing-section) bg-parchment">
-          <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
             <FadeIn>
               <div className="text-center mb-16">
                 <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
                   Global Presence
                 </p>
-                <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian tracking-tight m-0">
+                <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-obsidian tracking-tight m-0">
                   Our Offices
                 </h2>
               </div>
@@ -590,9 +592,9 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
 
       {/* ═══ CTA / Closing ═══ */}
       <section className="py-(--spacing-section) bg-forest">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <FadeIn>
-            <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-cream tracking-tight m-0 mb-4">
+            <h2 className="font-luxury text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] xl:text-[44px] font-medium text-cream tracking-tight m-0 mb-4">
               Continuity of Origin, Structured for Scale
             </h2>
           </FadeIn>

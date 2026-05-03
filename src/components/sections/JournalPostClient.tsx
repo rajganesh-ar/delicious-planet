@@ -132,7 +132,7 @@ export function JournalPostClient({ post, relatedPosts }: JournalPostClientProps
       {/* Related posts */}
       {relatedPosts.length > 0 && (
         <section className="py-(--spacing-section) bg-parchment">
-          <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
             <FadeIn>
               <h2 className="font-serif text-2xl lg:text-3xl font-medium text-obsidian tracking-tight m-0 mb-10">
                 Related Articles

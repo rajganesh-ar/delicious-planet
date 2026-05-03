@@ -82,6 +82,7 @@ export interface Config {
     'blog-categories': BlogCategory;
     testimonials: Testimonial;
     'office-locations': OfficeLocation;
+    'newsletter-subscribers': NewsletterSubscriber;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -104,6 +105,7 @@ export interface Config {
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
+    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -524,6 +526,10 @@ export interface Order {
    * Stripe payment intent ID for this order.
    */
   stripePaymentIntentId?: string | null;
+  /**
+   * Optional notes left by the customer at checkout.
+   */
+  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -798,6 +804,20 @@ export interface BlogCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers".
+ */
+export interface NewsletterSubscriber {
+  id: number;
+  email: string;
+  /**
+   * Where the subscription originated, e.g. "footer", "popup".
+   */
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -879,6 +899,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'office-locations';
         value: number | OfficeLocation;
+      } | null)
+    | ({
+        relationTo: 'newsletter-subscribers';
+        value: number | NewsletterSubscriber;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1257,6 +1281,7 @@ export interface OrdersSelect<T extends boolean = true> {
         country?: T;
       };
   stripePaymentIntentId?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1475,6 +1500,16 @@ export interface OfficeLocationsSelect<T extends boolean = true> {
         lng?: T;
       };
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers_select".
+ */
+export interface NewsletterSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }

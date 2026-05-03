@@ -50,24 +50,22 @@ export function Header({ navItems }: HeaderProps) {
   useEffect(() => {
     if (!menuVisible) return
 
-    const { body, documentElement } = document
-    const previousDocumentOverflow = documentElement.style.overflow
-    const previousOverflow = body.style.overflow
-    const previousPaddingRight = body.style.paddingRight
-    const scrollbarWidth = window.innerWidth - documentElement.clientWidth
+    const { body } = document
+    const scrollY = window.scrollY
 
-    documentElement.style.overflow = 'hidden'
-    body.style.overflow = 'hidden'
-    if (scrollbarWidth > 0) {
-      body.style.paddingRight = `${scrollbarWidth}px`
-    }
+    body.style.position = 'fixed'
+    body.style.top = `-${scrollY}px`
+    body.style.width = '100%'
+    body.style.overflowY = 'scroll'
 
     window.dispatchEvent(new CustomEvent(MENU_LOCK_EVENT, { detail: { locked: true } }))
 
     return () => {
-      documentElement.style.overflow = previousDocumentOverflow
-      body.style.overflow = previousOverflow
-      body.style.paddingRight = previousPaddingRight
+      body.style.position = ''
+      body.style.top = ''
+      body.style.width = ''
+      body.style.overflowY = ''
+      window.scrollTo({ top: scrollY, behavior: 'instant' })
       window.dispatchEvent(new CustomEvent(MENU_LOCK_EVENT, { detail: { locked: false } }))
     }
   }, [menuVisible])

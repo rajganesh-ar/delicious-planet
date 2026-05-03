@@ -90,7 +90,7 @@ export default async function ProductsPage({ searchParams }: Props) {
       where,
       sort,
       page,
-      limit: 12,
+      limit: 24,
       depth: 2,
     }),
     payload.find({ collection: 'categories', limit: 50, depth: 1 }),

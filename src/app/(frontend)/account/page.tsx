@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeIn } from '@/components/animations/FadeIn'
 import type { User, Order } from '@/payload-types'
+import { Button, Container, FormField, Heading, Input, ProseText } from '@/components/ui'
+import { cn } from '@/lib/cn'
 
 type Tab = 'orders' | 'addresses' | 'profile'
 
@@ -103,7 +105,7 @@ export default function AccountPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream">
-        <div className="text-stone text-sm">Loading...</div>
+        <div className="text-stone text-sm">Loading…</div>
       </div>
     )
   }
@@ -121,16 +123,20 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream pt-32 pb-20">
-      <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
-        {/* Header */}
+    <div className="min-h-screen bg-cream pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-20">
+      <Container size="lg">
         <FadeIn>
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex items-start sm:items-center justify-between mb-8 sm:mb-10 gap-4 flex-col sm:flex-row">
             <div>
-              <h1 className="font-luxury text-4xl font-light text-obsidian m-0 mb-1">My Account</h1>
-              <p className="text-stone text-sm m-0">{user.email}</p>
+              <Heading as="h1" variant="display" className="m-0 mb-1">
+                My Account
+              </Heading>
+              <ProseText size="sm" tone="muted" className="m-0">
+                {user.email}
+              </ProseText>
             </div>
             <button
+              type="button"
               onClick={handleLogout}
               className="text-sm text-stone hover:text-obsidian transition-colors cursor-pointer bg-transparent border-0"
             >
@@ -139,9 +145,8 @@ export default function AccountPage() {
           </div>
         </FadeIn>
 
-        {/* Tabs */}
         <FadeIn delay={0.1}>
-          <div className="flex gap-6 mb-10 border-b border-mist/40">
+          <div className="flex gap-5 sm:gap-6 mb-8 sm:mb-10 border-b border-mist/60 overflow-x-auto">
             {[
               { key: 'orders' as Tab, label: 'Orders' },
               { key: 'addresses' as Tab, label: 'Addresses' },
@@ -149,12 +154,14 @@ export default function AccountPage() {
             ].map((tab) => (
               <button
                 key={tab.key}
+                type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent ${
+                className={cn(
+                  'text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent whitespace-nowrap',
                   activeTab === tab.key
-                    ? 'border-gold text-gold font-medium'
-                    : 'border-transparent text-stone hover:text-obsidian'
-                }`}
+                    ? 'border-forest-green text-forest-green font-medium'
+                    : 'border-transparent text-stone hover:text-obsidian',
+                )}
               >
                 {tab.label}
               </button>
@@ -163,7 +170,6 @@ export default function AccountPage() {
         </FadeIn>
 
         <AnimatePresence mode="wait">
-          {/* Orders */}
           {activeTab === 'orders' && (
             <motion.div
               key="orders"
@@ -174,7 +180,7 @@ export default function AccountPage() {
               {orders.length > 0 ? (
                 <div className="space-y-4">
                   {orders.map((order) => (
-                    <div key={order.id} className="bg-white p-6 rounded-sm border border-mist/40">
+                    <div key={order.id} className="bg-white p-5 sm:p-6 rounded-sm border border-mist/60">
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div>
                           <p className="text-sm font-medium text-obsidian m-0">
@@ -188,9 +194,12 @@ export default function AccountPage() {
                             })}
                           </p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 flex-wrap">
                           <span
-                            className={`text-xs px-3 py-1 rounded-full font-medium ${statusColors[order.status] || 'bg-gray-100 text-gray-700'}`}
+                            className={cn(
+                              'text-xs px-3 py-1 rounded-full font-medium',
+                              statusColors[order.status] || 'bg-gray-100 text-gray-700',
+                            )}
                           >
                             {order.status}
                           </span>
@@ -204,18 +213,20 @@ export default function AccountPage() {
                         {(order.items ?? []).length} item
                         {(order.items ?? []).length !== 1 ? 's' : ''}
                         {order.type === 'b2b' && (
-                          <span className="ml-2 text-gold font-medium">B2B</span>
+                          <span className="ml-2 text-forest-green font-medium">B2B</span>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20">
-                  <p className="text-stone text-lg m-0 mb-4">No orders yet</p>
+                <div className="text-center py-16 sm:py-20">
+                  <ProseText size="md" tone="muted" className="m-0 mb-4">
+                    No orders yet
+                  </ProseText>
                   <Link
                     href="/products"
-                    className="text-sm text-gold no-underline hover:underline font-medium"
+                    className="text-sm text-forest-green no-underline hover:underline font-medium"
                   >
                     Start shopping
                   </Link>
@@ -224,7 +235,6 @@ export default function AccountPage() {
             </motion.div>
           )}
 
-          {/* Addresses */}
           {activeTab === 'addresses' && (
             <motion.div
               key="addresses"
@@ -233,20 +243,23 @@ export default function AccountPage() {
               exit={{ opacity: 0 }}
             >
               {addresses.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {addresses.map((addr, i) => (
                     <div
                       key={addr.id || i}
-                      className={`p-6 rounded-sm border ${
-                        addr.isDefault ? 'border-gold bg-gold/5' : 'border-mist/40 bg-white'
-                      }`}
+                      className={cn(
+                        'p-5 sm:p-6 rounded-sm border',
+                        addr.isDefault
+                          ? 'border-forest-green bg-forest-green/5'
+                          : 'border-mist/60 bg-white',
+                      )}
                     >
                       <div className="flex justify-between items-start mb-3">
                         <p className="text-sm font-medium text-obsidian m-0">
                           {addr.label || `Address ${i + 1}`}
                         </p>
                         {addr.isDefault && (
-                          <span className="text-xs text-gold font-medium">Default</span>
+                          <span className="text-xs text-forest-green font-medium">Default</span>
                         )}
                       </div>
                       <p className="text-sm text-stone m-0 leading-relaxed">
@@ -267,14 +280,15 @@ export default function AccountPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20">
-                  <p className="text-stone text-lg m-0">No saved addresses</p>
+                <div className="text-center py-16 sm:py-20">
+                  <ProseText size="md" tone="muted" className="m-0">
+                    No saved addresses
+                  </ProseText>
                 </div>
               )}
             </motion.div>
           )}
 
-          {/* Profile */}
           {activeTab === 'profile' && (
             <motion.div
               key="profile"
@@ -284,59 +298,47 @@ export default function AccountPage() {
             >
               <form onSubmit={handleProfileUpdate} className="max-w-lg space-y-6">
                 {profileMsg && (
-                  <div className="bg-forest/10 text-forest text-sm px-4 py-3 rounded-sm">
+                  <div className="bg-forest-green/10 text-forest-green text-sm px-4 py-3 rounded-sm">
                     {profileMsg}
                   </div>
                 )}
 
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                    Email
-                  </label>
-                  <input
+                <FormField label="Email" htmlFor="profile-email">
+                  <Input
+                    id="profile-email"
                     type="email"
                     value={user.email}
                     disabled
-                    className="w-full bg-mist/30 border border-mist text-stone text-sm px-4 py-3 rounded-sm"
+                    className="bg-mist/30 text-stone"
                   />
-                </div>
+                </FormField>
 
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                    Name
-                  </label>
-                  <input
+                <FormField label="Name" htmlFor="profile-name">
+                  <Input
+                    id="profile-name"
                     type="text"
                     value={profileName}
                     onChange={(e) => setProfileName(e.target.value)}
-                    className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
                   />
-                </div>
+                </FormField>
 
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                    Phone
-                  </label>
-                  <input
+                <FormField label="Phone" htmlFor="profile-phone">
+                  <Input
+                    id="profile-phone"
                     type="tel"
                     value={profilePhone}
                     onChange={(e) => setProfilePhone(e.target.value)}
-                    className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
                   />
-                </div>
+                </FormField>
 
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-10 py-4 rounded-sm border-0 cursor-pointer hover:bg-gold-light transition-colors disabled:opacity-50"
-                >
-                  {saving ? 'Saving...' : 'Save Changes'}
-                </button>
+                <Button type="submit" variant="primary" size="lg" loading={saving}>
+                  {saving ? 'Saving…' : 'Save Changes'}
+                </Button>
               </form>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </Container>
     </div>
   )
 }

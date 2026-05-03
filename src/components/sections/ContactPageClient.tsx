@@ -7,6 +7,18 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { MagneticButton } from '@/components/animations/MagneticButton'
 import { FAQSection } from '@/components/sections/FAQSection'
 import type { OfficeLocation, Media } from '@/payload-types'
+import {
+  Button,
+  Container,
+  Eyebrow,
+  FormField,
+  Heading,
+  Input,
+  ProseText,
+  Select,
+  Textarea,
+} from '@/components/ui'
+import { cn } from '@/lib/cn'
 
 interface ContactPageClientProps {
   offices: OfficeLocation[]
@@ -22,11 +34,30 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
 
   async function handleGeneralSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const form = e.currentTarget
+    const formData = new FormData(form)
     setSubmitting(true)
-    // Simulate submission delay
-    await new Promise((r) => setTimeout(r, 1000))
-    setSubmitting(false)
-    setSubmitted(true)
+
+    try {
+      const subject = (formData.get('subject') as string) || ''
+      const message = (formData.get('message') as string) || ''
+      const res = await fetch('/api/b2b-inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          company: 'Individual / General',
+          contactName: formData.get('name'),
+          email: formData.get('email'),
+          message: subject ? `[${subject}]\n\n${message}` : message,
+        }),
+      })
+
+      if (res.ok) {
+        setSubmitted(true)
+      }
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   async function handleB2BSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -57,72 +88,75 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
     }
   }
 
-  const activeOffice = offices.find((o) => o.id === selectedOffice)
-
   return (
     <>
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <motion.p
-            className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3"
+      <section className="relative bg-obsidian overflow-hidden pt-20 sm:pt-24">
+        <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
+        <Container size="lg" className="relative py-12 sm:py-16 md:py-20 lg:py-24">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Get in Touch
-          </motion.p>
-          <motion.h1
-            className="font-serif text-4xl lg:text-[50px] font-medium text-obsidian tracking-[-0.04em] m-0 mb-4"
+            <Eyebrow tone="gold" className="mb-4">
+              Get in Touch
+            </Eyebrow>
+          </motion.div>
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            Let&apos;s Connect
-          </motion.h1>
-          <motion.p
-            className="text-stone text-lg max-w-xl m-0"
+            <Heading as="h1" variant="display" className="text-cream m-0">
+              Let&apos;s Connect
+            </Heading>
+          </motion.div>
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Whether you&apos;re a home cook, chef, or business — we&apos;d love to hear from you.
-          </motion.p>
-        </div>
+            <ProseText size="md" tone="cream" className="mt-4 mb-0 max-w-lg">
+              Whether you&apos;re a home cook, chef, or business — we&apos;d love to hear from you.
+            </ProseText>
+          </motion.div>
+        </Container>
       </section>
 
-      {/* Main content */}
-      <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-            {/* Form */}
-            <div className="flex-1 max-w-2xl">
-              {/* Tabs */}
+      <section className="bg-cream py-12 sm:py-16 md:py-20 lg:py-24">
+        <Container size="lg">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 md:gap-14 lg:gap-20">
+            <div className="max-w-2xl">
               <FadeIn>
-                <div className="flex gap-6 mb-10 border-b border-mist/40">
+                <div className="flex gap-6 mb-8 sm:mb-10 border-b border-mist/60">
                   <button
+                    type="button"
                     onClick={() => {
                       setActiveTab('general')
                       setSubmitted(false)
                     }}
-                    className={`text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent ${
+                    className={cn(
+                      'text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent',
                       activeTab === 'general'
-                        ? 'border-gold text-gold font-medium'
-                        : 'border-transparent text-stone hover:text-obsidian'
-                    }`}
+                        ? 'border-forest-green text-forest-green font-medium'
+                        : 'border-transparent text-stone hover:text-obsidian',
+                    )}
                   >
                     General Inquiry
                   </button>
                   <button
+                    type="button"
                     onClick={() => {
                       setActiveTab('b2b')
                       setSubmitted(false)
                     }}
-                    className={`text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent ${
+                    className={cn(
+                      'text-sm pb-3 border-b-2 transition-colors cursor-pointer bg-transparent',
                       activeTab === 'b2b'
-                        ? 'border-gold text-gold font-medium'
-                        : 'border-transparent text-stone hover:text-obsidian'
-                    }`}
+                        ? 'border-forest-green text-forest-green font-medium'
+                        : 'border-transparent text-stone hover:text-obsidian',
+                    )}
                   >
                     B2B / Wholesale
                   </button>
@@ -138,7 +172,7 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                     exit={{ opacity: 0 }}
                     className="text-center py-16"
                   >
-                    <div className="w-16 h-16 rounded-full bg-forest/10 flex items-center justify-center mx-auto mb-6">
+                    <div className="w-16 h-16 rounded-full bg-forest-green/10 flex items-center justify-center mx-auto mb-6">
                       <svg
                         width="32"
                         height="32"
@@ -146,20 +180,21 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                         stroke="currentColor"
                         strokeWidth="2"
                         viewBox="0 0 24 24"
-                        className="text-forest"
+                        className="text-forest-green"
                       >
                         <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
-                    <h3 className="font-serif text-2xl font-medium text-obsidian m-0 mb-2">
+                    <Heading as="h3" variant="section" className="m-0 mb-2">
                       Thank You
-                    </h3>
-                    <p className="text-stone m-0 mb-6">
+                    </Heading>
+                    <ProseText size="md" tone="muted" className="m-0 mb-6">
                       We&apos;ve received your message and will get back to you shortly.
-                    </p>
+                    </ProseText>
                     <button
+                      type="button"
                       onClick={() => setSubmitted(false)}
-                      className="text-sm text-gold underline cursor-pointer bg-transparent border-0"
+                      className="text-sm text-forest-green underline cursor-pointer bg-transparent border-0"
                     >
                       Send another message
                     </button>
@@ -174,58 +209,23 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                     className="space-y-6"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          required
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          required
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                        />
-                      </div>
+                      <FormField label="Name" required htmlFor="contact-name">
+                        <Input id="contact-name" type="text" name="name" required />
+                      </FormField>
+                      <FormField label="Email" required htmlFor="contact-email">
+                        <Input id="contact-email" type="email" name="email" required />
+                      </FormField>
                     </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                        Subject
-                      </label>
-                      <input
-                        type="text"
-                        name="subject"
-                        className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                        Message *
-                      </label>
-                      <textarea
-                        name="message"
-                        required
-                        rows={5}
-                        className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors resize-vertical"
-                      />
-                    </div>
+                    <FormField label="Subject" htmlFor="contact-subject">
+                      <Input id="contact-subject" type="text" name="subject" />
+                    </FormField>
+                    <FormField label="Message" required htmlFor="contact-message">
+                      <Textarea id="contact-message" name="message" required rows={5} />
+                    </FormField>
                     <MagneticButton>
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        className="bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-10 py-4 rounded-sm border-0 cursor-pointer hover:bg-gold-light transition-colors disabled:opacity-50"
-                      >
-                        {submitting ? 'Sending...' : 'Send Message'}
-                      </button>
+                      <Button type="submit" variant="primary" size="lg" loading={submitting}>
+                        {submitting ? 'Sending…' : 'Send Message'}
+                      </Button>
                     </MagneticButton>
                   </motion.form>
                 ) : (
@@ -238,65 +238,30 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                     className="space-y-6"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Company Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="company"
-                          required
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Contact Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="contactName"
-                          required
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                        />
-                      </div>
+                      <FormField label="Company Name" required htmlFor="b2b-company">
+                        <Input id="b2b-company" type="text" name="company" required />
+                      </FormField>
+                      <FormField label="Contact Name" required htmlFor="b2b-contact">
+                        <Input id="b2b-contact" type="text" name="contactName" required />
+                      </FormField>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          required
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Phone
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
-                        />
-                      </div>
+                      <FormField label="Email" required htmlFor="b2b-email">
+                        <Input id="b2b-email" type="email" name="email" required />
+                      </FormField>
+                      <FormField label="Phone" htmlFor="b2b-phone">
+                        <Input id="b2b-phone" type="tel" name="phone" />
+                      </FormField>
                     </div>
 
-                    {/* Office selector */}
                     {offices.length > 0 && (
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                          Preferred Office
-                        </label>
-                        <select
+                      <FormField label="Preferred Office" htmlFor="b2b-office">
+                        <Select
+                          id="b2b-office"
                           value={selectedOffice ?? ''}
                           onChange={(e) =>
                             setSelectedOffice(e.target.value ? Number(e.target.value) : null)
                           }
-                          className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors"
                         >
                           <option value="">Select an office</option>
                           {offices.map((o) => (
@@ -304,43 +269,35 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                               {o.city}, {o.country}
                             </option>
                           ))}
-                        </select>
-                      </div>
+                        </Select>
+                      </FormField>
                     )}
 
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-stone mb-2">
-                        Tell us about your needs *
-                      </label>
-                      <textarea
+                    <FormField label="Tell us about your needs" required htmlFor="b2b-message">
+                      <Textarea
+                        id="b2b-message"
                         name="message"
                         required
                         rows={5}
                         placeholder="Products of interest, estimated volumes, delivery requirements..."
-                        className="w-full bg-transparent border border-mist text-obsidian text-sm px-4 py-3 rounded-sm outline-none focus:border-gold transition-colors resize-vertical placeholder:text-stone/40"
                       />
-                    </div>
+                    </FormField>
                     <MagneticButton>
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        className="bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-10 py-4 rounded-sm border-0 cursor-pointer hover:bg-gold-light transition-colors disabled:opacity-50"
-                      >
-                        {submitting ? 'Submitting...' : 'Submit Inquiry'}
-                      </button>
+                      <Button type="submit" variant="primary" size="lg" loading={submitting}>
+                        {submitting ? 'Submitting…' : 'Submit Inquiry'}
+                      </Button>
                     </MagneticButton>
                   </motion.form>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* Sidebar: offices */}
-            <div className="lg:w-80 lg:shrink-0">
+            <div>
               <FadeIn direction="right">
-                <h3 className="font-serif text-xl font-medium text-obsidian m-0 mb-6">
+                <Heading as="h3" variant="card" className="m-0 mb-6">
                   Our Offices
-                </h3>
-                <div className="space-y-6">
+                </Heading>
+                <div className="space-y-4 sm:space-y-6">
                   {offices.map((office) => {
                     const imgUrl =
                       typeof office.image === 'object' && office.image !== null
@@ -351,12 +308,14 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                     return (
                       <button
                         key={office.id}
+                        type="button"
                         onClick={() => setSelectedOffice(office.id)}
-                        className={`w-full text-left p-4 rounded-sm border transition-all cursor-pointer bg-transparent ${
+                        className={cn(
+                          'w-full text-left p-4 rounded-sm border transition-all cursor-pointer bg-transparent',
                           selectedOffice === office.id
-                            ? 'border-gold bg-gold/5'
-                            : 'border-mist/40 hover:border-gold/40'
-                        }`}
+                            ? 'border-forest-green bg-forest-green/5'
+                            : 'border-mist/60 hover:border-forest-green/40',
+                        )}
                       >
                         <div className="flex gap-4">
                           {imgUrl && (
@@ -378,7 +337,7 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                               <p className="text-stone/70 text-xs m-0 mt-1">{office.address}</p>
                             )}
                             {office.email && (
-                              <p className="text-gold text-xs m-0 mt-1">{office.email}</p>
+                              <p className="text-forest-green text-xs m-0 mt-1">{office.email}</p>
                             )}
                           </div>
                         </div>
@@ -389,10 +348,9 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
               </FadeIn>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
-      {/* FAQ */}
       <FAQSection />
     </>
   )

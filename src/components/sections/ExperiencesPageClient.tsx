@@ -72,7 +72,7 @@ function ParallaxThemeSection({ theme, index }: { theme: (typeof themes)[number]
         <div className="w-full h-[120%] bg-gradient-to-br from-current to-transparent" />
       </motion.div>
 
-      <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
         <div
           className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center`}
         >
@@ -162,7 +162,7 @@ export function ExperiencesPageClient({ categories }: ExperiencesPageClientProps
 
       {/* Categories CTA */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
           <FadeIn>
             <h2 className="font-serif text-3xl lg:text-[44px] font-medium text-obsidian tracking-tight m-0 mb-4">
               Browse by Category

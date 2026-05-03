@@ -1,5 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
+const generateOrderNumber = () => {
+  const ts = Date.now().toString(36).toUpperCase()
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase()
+  return `DP-${ts}-${rand}`
+}
+
 export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
@@ -15,6 +21,16 @@ export const Orders: CollectionConfig = {
     },
     update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
     delete: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
+  },
+  hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        if (data && !data.orderNumber) {
+          data.orderNumber = generateOrderNumber()
+        }
+        return data
+      },
+    ],
   },
   fields: [
     {
@@ -112,6 +128,13 @@ export const Orders: CollectionConfig = {
       index: true,
       admin: {
         description: 'Stripe payment intent ID for this order.',
+      },
+    },
+    {
+      name: 'notes',
+      type: 'textarea',
+      admin: {
+        description: 'Optional notes left by the customer at checkout.',
       },
     },
   ],

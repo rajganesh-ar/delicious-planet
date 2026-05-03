@@ -96,8 +96,7 @@ export function ProductsListing({
     activeCollection ||
     activeSearch ||
     activeFeatured ||
-    activeInStock ||
-    activeOriginCountry
+    activeInStock
 
   const clearFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
@@ -129,20 +128,20 @@ export function ProductsListing({
         />
         {/* Decorative gold line */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
-        <div className="relative max-w-[1600px] mx-auto px-6 lg:px-12 py-16 lg:py-24">
+        <div className="relative max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-24">
           <FadeIn>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold/80 font-heading font-medium m-0 mb-4 flex items-center gap-3">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-gold/80 font-heading font-medium m-0 mb-4 flex items-center gap-3">
               <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
               Delicious Planet
             </p>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h1 className="font-luxury text-4xl md:text-5xl lg:text-[60px] font-medium m-0 text-cream tracking-tight leading-[1.05]">
+            <h1 className="font-luxury text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-medium m-0 text-cream tracking-[-0.03em] leading-[1.08]">
               {activeCollectionLabel ?? activeCategoryLabel ?? 'The Collection'}
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="text-cream/40 text-sm md:text-base mt-4 mb-0 max-w-lg leading-relaxed">
+            <p className="text-cream/60 text-[15px] sm:text-[16px] mt-4 mb-0 max-w-lg leading-relaxed">
               {activeSupplierLabel
                 ? `Curated ingredients by ${activeSupplierLabel}`
                 : "Exceptional ingredients sourced from the world's finest artisan producers."}
@@ -158,8 +157,8 @@ export function ProductsListing({
       </div>
 
       {/* ── Filter / Search Bar ───────────────────────────────── */}
-      <div className="sticky top-0 z-30 bg-obsidian backdrop-blur-md border-b border-cream/10">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+      <div className="sticky z-40 bg-obsidian backdrop-blur-md border-b border-cream/10" style={{ top: 'var(--header-h)' }}>
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           {/* Top row: Search + Sort */}
           <div className="flex items-center justify-between py-3 gap-4">
             {/* Search */}
@@ -187,10 +186,10 @@ export function ProductsListing({
 
             {/* Right controls */}
             <div className="flex items-center gap-4">
-              {/* Filter toggle (mobile) */}
+              {/* Filter toggle (mobile + tablet) */}
               <button
                 onClick={() => setFilterOpen((v) => !v)}
-                className="lg:hidden flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-cream/70 border border-cream/20 bg-transparent cursor-pointer hover:text-cream hover:border-cream/40 transition-colors px-3 py-1.5"
+                className="lg:hidden flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-cream/70 border border-cream/20 bg-transparent cursor-pointer hover:text-cream hover:border-cream/40 transition-colors px-3 py-2 min-h-[36px]"
               >
                 <svg
                   width="12"
@@ -326,26 +325,6 @@ export function ProductsListing({
                 In Stock
               </button>
             </div>
-
-            <label className="col-span-4">
-              <span className="block text-[9px] uppercase tracking-[0.2em] text-cream/35 mb-1">
-                Origin Country
-              </span>
-              <select
-                value={activeOriginCountry}
-                onChange={(e) => setFilter('originCountry', e.target.value)}
-                className="w-full h-9 px-2 text-[10px] uppercase tracking-[0.15em] bg-transparent border border-cream/20 text-cream/75 outline-none cursor-pointer"
-              >
-                <option value="" className="bg-obsidian text-cream">
-                  All Countries
-                </option>
-                {originCountries.map((country) => (
-                  <option key={country} value={country} className="bg-obsidian text-cream">
-                    {country}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
 
           {/* Mobile filter panel */}
@@ -466,7 +445,7 @@ export function ProductsListing({
 
       {/* ── Active filter chips ───────────────────────────────── */}
       {hasActiveFilters && (
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-12 pt-4 pb-0 flex flex-wrap items-center gap-2">
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pt-4 pb-3 flex flex-wrap items-center gap-2 border-b border-stone/10">
           <span className="text-[10px] uppercase tracking-[0.2em] text-stone/50 mr-1">Active:</span>
           {activeSearch && (
             <button
@@ -538,9 +517,9 @@ export function ProductsListing({
       )}
 
       {/* ── Product Grid ──────────────────────────────────────── */}
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-10 lg:py-14">
+      <div className="max-w-[1600px] mx-auto py-8 sm:py-10 md:py-12 lg:py-14">
         {products.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32">
+          <div className="flex flex-col items-center justify-center py-32 px-6">
             <svg
               width="48"
               height="48"
@@ -568,66 +547,71 @@ export function ProductsListing({
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5 lg:gap-6">
+            {/* Border-grid: top+left border on container, each card adds right+bottom */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-t border-stone/15 items-stretch">
               {products.map((product, i) => (
-                <FadeIn key={product.id} delay={i * 0.04}>
-                  <ProductCard product={product} />
+                <FadeIn key={product.id} delay={i * 0.03} className="h-full">
+                  <ProductCard product={product} index={i} />
                 </FadeIn>
               ))}
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-1 mt-16 lg:mt-20">
-                {/* Prev */}
-                {currentPage > 1 && (
+            {/* Persistent pagination footer */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 px-5 sm:px-6 md:px-8 lg:px-12 py-5 border-t border-stone/15">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-stone/40 m-0">
+                {totalDocs <= 24
+                  ? `${totalDocs} product${totalDocs !== 1 ? 's' : ''}`
+                  : `Page ${currentPage} of ${totalPages} · ${totalDocs} products`}
+              </p>
+
+              {totalPages > 1 && (
+                <div className="flex items-center gap-1">
                   <button
                     onClick={() => {
                       const params = new URLSearchParams(searchParams.toString())
                       params.set('page', String(currentPage - 1))
                       router.push(`${pathname}?${params.toString()}`)
                     }}
-                    className="w-10 h-10 flex items-center justify-center text-stone hover:text-obsidian border border-mist hover:border-obsidian bg-transparent cursor-pointer transition-colors text-sm"
+                    disabled={currentPage <= 1}
+                    className="w-9 h-9 flex items-center justify-center text-stone border border-stone/20 bg-transparent cursor-pointer hover:border-obsidian hover:text-obsidian transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
                   >
                     ←
                   </button>
-                )}
 
-                {Array.from({ length: totalPages }).map((_, i) => {
-                  const page = i + 1
-                  const params = new URLSearchParams(searchParams.toString())
-                  params.set('page', String(page))
-                  const isActive = page === currentPage
-                  return (
-                    <button
-                      key={page}
-                      onClick={() => router.push(`${pathname}?${params.toString()}`)}
-                      className={`w-10 h-10 text-[11px] tracking-widest border cursor-pointer transition-colors ${
-                        isActive
-                          ? 'bg-obsidian text-cream border-obsidian'
-                          : 'bg-transparent text-stone border-mist hover:border-obsidian hover:text-obsidian'
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  )
-                })}
+                  {Array.from({ length: totalPages }).map((_, i) => {
+                    const page = i + 1
+                    const params = new URLSearchParams(searchParams.toString())
+                    params.set('page', String(page))
+                    const isActive = page === currentPage
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => router.push(`${pathname}?${params.toString()}`)}
+                        className={`w-9 h-9 text-[10px] tracking-widest border cursor-pointer transition-colors ${
+                          isActive
+                            ? 'bg-obsidian text-cream border-obsidian'
+                            : 'bg-transparent text-stone border-stone/20 hover:border-obsidian hover:text-obsidian'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  })}
 
-                {/* Next */}
-                {currentPage < totalPages && (
                   <button
                     onClick={() => {
                       const params = new URLSearchParams(searchParams.toString())
                       params.set('page', String(currentPage + 1))
                       router.push(`${pathname}?${params.toString()}`)
                     }}
-                    className="w-10 h-10 flex items-center justify-center text-stone hover:text-obsidian border border-mist hover:border-obsidian bg-transparent cursor-pointer transition-colors text-sm"
+                    disabled={currentPage >= totalPages}
+                    className="w-9 h-9 flex items-center justify-center text-stone border border-stone/20 bg-transparent cursor-pointer hover:border-obsidian hover:text-obsidian transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
                   >
                     →
                   </button>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

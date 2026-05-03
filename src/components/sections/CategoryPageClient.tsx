@@ -49,9 +49,9 @@ export function CategoryPageClient({
             <div className="w-full h-full bg-gradient-to-br from-forest to-obsidian" />
           )}
         </div>
-        <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 lg:px-12 pb-12">
+        <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pb-12">
           <motion.h1
-            className="font-serif text-3xl lg:text-[44px] font-medium m-0 text-cream tracking-tight"
+            className="font-luxury text-[28px] sm:text-[32px] md:text-[40px] lg:text-[44px] font-medium m-0 text-cream tracking-[-0.03em] leading-[1.1]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -73,14 +73,14 @@ export function CategoryPageClient({
 
       {/* Products grid */}
       <section className="py-(--spacing-section) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
           {products.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-stone text-lg m-0">No products in this category yet.</p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
                 {products.map((product, i) => (
                   <FadeIn key={product.id} delay={i * 0.05}>
                     <ProductCard product={product} />

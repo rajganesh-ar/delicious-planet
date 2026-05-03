@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { Container, Eyebrow, Heading, ProseText, Divider } from '@/components/ui'
 
 export const metadata: Metadata = {
   title: 'Policies — Delicious Planet',
@@ -69,17 +70,24 @@ const policies = [
   },
 ]
 
-function Section({ id, title, summary, points }: (typeof policies)[number]) {
+function PolicySection({ id, title, summary, points }: (typeof policies)[number]) {
   return (
-    <div id={id} className="border-t border-mist/40 pt-10 scroll-mt-32">
-      <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">{title}</p>
-      <p className="text-stone text-base leading-relaxed m-0 mb-6">{summary}</p>
+    <div id={id} className="scroll-mt-32">
+      <Divider variant="hairline" tone="mist" className="mb-8 sm:mb-10" />
+      <Eyebrow tone="forest" withLine={false} className="mb-4">
+        {title}
+      </Eyebrow>
+      <ProseText size="md" className="m-0 mb-6">
+        {summary}
+      </ProseText>
       {points.length > 0 && (
         <ul className="list-none m-0 p-0 space-y-3">
           {points.map((point) => (
             <li key={point} className="flex items-start gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0" />
-              <span className="text-stone text-sm leading-relaxed">{point}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-forest-green mt-2 shrink-0" />
+              <ProseText as="span" size="sm" tone="muted">
+                {point}
+              </ProseText>
             </li>
           ))}
         </ul>
@@ -90,50 +98,58 @@ function Section({ id, title, summary, points }: (typeof policies)[number]) {
 
 export default function PoliciesPage() {
   return (
-    <div className="min-h-screen bg-cream pt-36 pb-24">
-      <div className="max-w-2xl mx-auto px-6 lg:px-0">
-        {/* Header */}
-        <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">Legal</p>
-        <h1 className="font-luxury text-4xl lg:text-[56px] font-light text-obsidian leading-[1.1] tracking-[-0.03em] m-0 mb-4">
-          Policies
-        </h1>
-        <p className="text-stone text-sm m-0 mb-10">
-          Structured policies ensure clarity and consistency across transactions.
-        </p>
+    <>
+      <header className="relative bg-obsidian overflow-hidden pt-20 sm:pt-24">
+        <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
+        <Container size="lg" className="relative py-12 sm:py-16 md:py-20 lg:py-24">
+          <Eyebrow tone="gold" className="mb-4">
+            Legal
+          </Eyebrow>
+          <Heading as="h1" variant="display" className="text-cream m-0">
+            Policies
+          </Heading>
+          <ProseText size="md" tone="cream" className="mt-4 mb-0 max-w-lg">
+            Structured policies ensure clarity and consistency across transactions.
+          </ProseText>
+        </Container>
+      </header>
 
-        {/* Jump links */}
-        <nav className="flex flex-wrap gap-x-6 gap-y-3 mb-16 border-b border-mist/40 pb-8">
-          {policies.map((p) => (
-            <a
-              key={p.id}
-              href={`#${p.id}`}
-              className="text-sm text-stone hover:text-gold transition-colors no-underline"
-            >
-              {p.title}
-            </a>
-          ))}
-        </nav>
+      <section className="bg-cream py-12 sm:py-16 md:py-20 lg:py-24">
+        <Container size="md">
+          <nav className="flex flex-wrap gap-x-5 gap-y-3 mb-12 sm:mb-16 pb-6 sm:pb-8 border-b border-mist/60">
+            {policies.map((p) => (
+              <a
+                key={p.id}
+                href={`#${p.id}`}
+                className="text-[13px] sm:text-sm text-stone hover:text-forest-green transition-colors no-underline"
+              >
+                {p.title}
+              </a>
+            ))}
+          </nav>
 
-        <div className="space-y-10">
-          {policies.map((policy) => (
-            <Section key={policy.id} {...policy} />
-          ))}
+          <div className="space-y-10 sm:space-y-12">
+            {policies.map((policy) => (
+              <PolicySection key={policy.id} {...policy} />
+            ))}
 
-          {/* Contact */}
-          <div className="border-t border-mist/40 pt-10">
-            <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-              Questions
-            </p>
-            <p className="text-stone text-base leading-relaxed m-0">
-              For any questions regarding these policies, please{' '}
-              <Link href="/contact" className="text-gold no-underline hover:underline">
-                contact us
-              </Link>
-              . Response timelines vary depending on inquiry category.
-            </p>
+            <div className="scroll-mt-32">
+              <Divider variant="hairline" tone="mist" className="mb-8 sm:mb-10" />
+              <Eyebrow tone="forest" withLine={false} className="mb-4">
+                Questions
+              </Eyebrow>
+              <ProseText size="md">
+                For any questions regarding these policies, please{' '}
+                <Link href="/contact" className="text-forest-green no-underline hover:underline">
+                  contact us
+                </Link>
+                . Response timelines vary depending on inquiry category.
+              </ProseText>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Container>
+      </section>
+    </>
   )
 }

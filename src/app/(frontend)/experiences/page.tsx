@@ -1,21 +1,14 @@
-import { getPayload } from 'payload'
-import config from '@/payload.config'
-import { ExperiencesPageClient } from '@/components/sections/ExperiencesPageClient'
+import type { Metadata } from 'next'
+import { ExperiencePageClient } from '@/components/sections/ExperiencePageClient'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Experiences — Delicious Planet',
   description:
-    'Immerse yourself in the stories, origins, and craft behind every premium ingredient.',
+    'Explore our integrated ecosystem, from farms and vineyards to restaurants and retail. We connect source to table with deep operational context.',
 }
 
-export default async function ExperiencesPage() {
-  const payload = await getPayload({ config: await config })
-
-  const categoriesRes = await payload.find({
-    collection: 'categories',
-    limit: 12,
-    depth: 1,
-  })
-
-  return <ExperiencesPageClient categories={categoriesRes.docs} />
+export default function ExperiencesPage() {
+  // In a real app, you might fetch data from Payload CMS here
+  // For example: const pageData = await getPage('experiences')
+  return <ExperiencePageClient />
 }

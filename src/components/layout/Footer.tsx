@@ -26,7 +26,7 @@ const FALLBACK_COLUMNS = [
       { label: 'Experiences', href: '/experiences' },
       { label: 'Journal', href: '/journal' },
       { label: 'Sourcing', href: '/sourcing' },
-      { label: 'Sustainability', href: '/sourcing#sustainability' },
+      { label: 'Sustainability', href: '/sustainability' },
     ],
   },
   {

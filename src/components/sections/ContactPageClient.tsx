@@ -91,7 +91,17 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
   return (
     <>
       <section className="relative bg-obsidian overflow-hidden pt-20 sm:pt-24">
-        <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
+        <div className="absolute inset-0">
+          <Image
+            src="/images/contact/contact-cover.avif"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+            priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-obsidian/70" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
         <Container size="lg" className="relative py-12 sm:py-16 md:py-20 lg:py-24">
           <motion.div
@@ -349,6 +359,17 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
             </div>
           </div>
         </Container>
+      </section>
+
+      <section className="relative h-64 sm:h-80 overflow-hidden">
+        <Image
+          src="/images/contact/contact-misc.avif"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-obsidian/40" />
       </section>
 
       <FAQSection />

@@ -10,7 +10,7 @@ interface MagneticButtonProps {
 }
 
 export function MagneticButton({ children, className, strength = 0.25 }: MagneticButtonProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -22,7 +22,7 @@ export function MagneticButton({ children, className, strength = 0.25 }: Magneti
   const y = useTransform(springY, (v) => v * strength)
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    const rect = ref.current?.getBoundingClientRect()
+    const rect = wrapperRef.current?.getBoundingClientRect()
     if (!rect) return
     mouseX.set(e.clientX - rect.left - rect.width / 2)
     mouseY.set(e.clientY - rect.top - rect.height / 2)
@@ -33,15 +33,21 @@ export function MagneticButton({ children, className, strength = 0.25 }: Magneti
     mouseY.set(0)
   }
 
+  const isFullWidth = !!className && /\bw-full\b/.test(className)
+
   return (
-    <motion.div
-      ref={ref}
-      style={{ x, y }}
+    <div
+      ref={wrapperRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={className}
+      style={isFullWidth ? undefined : { display: 'inline-block' }}
     >
-      {children}
-    </motion.div>
+      <motion.div
+        style={{ x, y, display: isFullWidth ? 'block' : 'inline-block', width: '100%' }}
+      >
+        {children}
+      </motion.div>
+    </div>
   )
 }

@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -20,6 +21,7 @@ import { OfficeLocations } from './collections/OfficeLocations'
 import { Warehouses } from './collections/Warehouses'
 import { Brands } from './collections/Brands'
 import { ProductCollections } from './collections/ProductCollections'
+import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
 import { SiteSettings } from './globals/SiteSettings'
 import { Navigation } from './globals/Navigation'
 
@@ -49,6 +51,7 @@ export default buildConfig({
     BlogCategories,
     Testimonials,
     OfficeLocations,
+    NewsletterSubscribers,
   ],
   globals: [SiteSettings, Navigation],
   editor: lexicalEditor(),
@@ -62,5 +65,13 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN || '',
+    }),
+  ],
 })

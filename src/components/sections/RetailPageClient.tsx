@@ -323,27 +323,21 @@ export function RetailPageClient() {
           ))}
         </div>
 
-        {/* Row 3: Cold (1 col) + Drinks (2 cols wide) */}
+        {/* Row 3: three equal cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0.5 pb-16 lg:pb-20">
           {bottomCategories.map((cat, i) => (
             <FadeIn
               key={cat.label}
               delay={(i + 5) * 0.07}
-              className={`${cat.colSpan} group ${cat.useHFull ? 'h-full' : ''}`}
+              className="group"
             >
               <Link href={cat.href} className="block no-underline h-full">
-                <div
-                  className={`relative ${cat.aspectClass} overflow-hidden min-h-60 ${cat.useHFull ? 'h-full' : ''}`}
-                >
+                <div className="relative aspect-4/3 overflow-hidden min-h-60">
                   <Image
                     src={cat.image}
                     alt={cat.label}
                     fill
-                    sizes={
-                      cat.colSpan === 'lg:col-span-2'
-                        ? '(max-width: 1024px) 100vw, 66vw'
-                        : '(max-width: 1024px) 100vw, 33vw'
-                    }
+                    sizes="(max-width: 1024px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <CardOverlay label={cat.label} description={cat.description} />

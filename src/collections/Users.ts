@@ -1,5 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
+const isAdmin = (user: { roles?: ('admin' | 'customer')[] | null } | null): boolean =>
+  Boolean(user?.roles?.includes('admin'))
+
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
@@ -7,6 +10,40 @@ export const Users: CollectionConfig = {
     defaultColumns: ['email', 'name', 'role'],
   },
   auth: true,
+  access: {
+    // Storefront sign-up posts straight to /api/users, so create has to be public.
+    // The beforeValidate hook below is what stops it from being an admin factory.
+    create: () => true,
+    admin: ({ req: { user } }) => isAdmin(user),
+    unlock: ({ req: { user } }) => isAdmin(user),
+    read: ({ req: { user } }) => {
+      if (!user) return false
+      if (isAdmin(user)) return true
+      return { id: { equals: user.id } }
+    },
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      if (isAdmin(user)) return true
+      return { id: { equals: user.id } }
+    },
+    delete: ({ req: { user } }) => {
+      if (!user) return false
+      if (isAdmin(user)) return true
+      return { id: { equals: user.id } }
+    },
+  },
+  hooks: {
+    beforeValidate: [
+      ({ data, operation, req }) => {
+        // `roles` arrives from an unauthenticated request body on sign-up. Only an
+        // admin gets to pick roles; everyone else is pinned to 'customer'.
+        if (operation === 'create' && !isAdmin(req.user)) {
+          return { ...data, roles: ['customer'] }
+        }
+        return data
+      },
+    ],
+  },
   fields: [
     {
       name: 'name',
@@ -28,7 +65,7 @@ export const Users: CollectionConfig = {
         { label: 'Customer', value: 'customer' },
       ],
       access: {
-        update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
+        update: ({ req: { user } }) => isAdmin(user),
       },
     },
     {

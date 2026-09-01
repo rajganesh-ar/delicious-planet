@@ -1,13 +1,21 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useCart } from '@/components/layout/CartContext'
 import { Button, Container, Eyebrow, Heading, ProseText } from '@/components/ui'
 
 function SuccessInner() {
   const params = useSearchParams()
   const orderNumber = params.get('order') ?? ''
+  const { clearCart } = useCart()
+
+  // The cart is kept through the Stripe redirect so a cancelled payment lands
+  // back on a full basket. Reaching this page is what makes the sale final.
+  useEffect(() => {
+    if (orderNumber) clearCart()
+  }, [orderNumber, clearCart])
 
   return (
     <>
@@ -68,8 +76,8 @@ function SuccessInner() {
           </Heading>
 
           <ProseText size="md" tone="muted" className="m-0 mb-3">
-            Our team will reach out shortly to confirm pricing, shipping, and arrange invoice
-            payment.
+            Your payment has gone through and our team is preparing your order. We&apos;ll be in
+            touch with shipping details shortly.
           </ProseText>
           <ProseText size="md" tone="muted" className="m-0 mb-10 sm:mb-12">
             A copy of this confirmation will be sent to your email.

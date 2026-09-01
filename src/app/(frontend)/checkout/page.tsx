@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { CheckoutClient } from '@/components/sections/CheckoutClient'
 
 export const metadata = {
@@ -6,5 +7,15 @@ export const metadata = {
 }
 
 export default function CheckoutPage() {
-  return <CheckoutClient />
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <p className="text-stone text-sm">Loading…</p>
+        </div>
+      }
+    >
+      <CheckoutClient />
+    </Suspense>
+  )
 }

@@ -1,14 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { MagneticButton } from '@/components/animations/MagneticButton'
-import { Button, FormField, Heading, Input, ProseText } from '@/components/ui'
+import { useRouter, useSearchParams } from 'next/navigation'
+import {
+  AuthAlert,
+  AuthField,
+  AuthFooterLink,
+  AuthShell,
+  AuthSubmit,
+  authInputClass,
+} from '@/components/sections/AuthShell'
+import { safeRedirect, withRedirect } from '@/lib/redirect'
 
-export default function LoginPage() {
+const PANEL_IMAGE = { src: '/images/about/about-retail.avif', label: 'Account panel — portrait' }
+
+const PANEL_POINTS = [
+  'Track every dispatch from the warehouse to your door',
+  'Reorder past baskets without rebuilding them',
+  'Keep delivery addresses and invoicing details on file',
+]
+
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectParam = searchParams.get('redirect')
+  const destination = safeRedirect(redirectParam)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -28,7 +45,7 @@ export default function LoginPage() {
       })
 
       if (res.ok) {
-        router.push('/account')
+        router.push(destination)
         router.refresh()
       } else {
         const data = await res.json()
@@ -42,80 +59,71 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cream px-5 sm:px-6 py-16 sm:py-20">
-      <motion.div
-        className="w-full max-w-[420px]"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="text-center mb-8 sm:mb-10">
-          <Link
-            href="/"
-            className="font-luxury text-2xl font-semibold text-obsidian no-underline tracking-tight"
-          >
-            Delicious Planet
-          </Link>
-          <Heading as="h1" variant="section" align="center" className="m-0 mt-6 mb-2">
-            Welcome Back
-          </Heading>
-          <ProseText size="sm" tone="muted" className="m-0">
-            Sign in to your account
-          </ProseText>
-        </div>
+    <AuthShell
+      eyebrow="Your account"
+      panelTitle="Everything you've ordered, in one place"
+      panelLede="Signing in keeps your order history, saved addresses and dispatch tracking together — so the next order takes a minute rather than ten."
+      points={PANEL_POINTS}
+      image={PANEL_IMAGE}
+      title="Welcome back"
+      subtitle="Sign in to pick up where you left off."
+      footer={
+        <AuthFooterLink
+          prefix="Don't have an account yet?"
+          href={withRedirect('/register', redirectParam)}
+          label="Create one"
+        />
+      }
+    >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {error ? <AuthAlert>{error}</AuthAlert> : null}
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {error && (
-            <div className="bg-red-50 text-red-700 text-sm px-4 py-3 rounded-sm border border-red-200">
-              {error}
-            </div>
-          )}
+        <AuthField label="Email" htmlFor="login-email">
+          <input
+            id="login-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="email"
+            className={authInputClass}
+          />
+        </AuthField>
 
-          <FormField label="Email" htmlFor="login-email">
-            <Input
-              id="login-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
-          </FormField>
-
-          <FormField label="Password" htmlFor="login-password">
-            <Input
-              id="login-password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
-          </FormField>
-
-          <div className="flex justify-end">
-            <Link
-              href="/forgot-password"
-              className="text-xs text-forest-green no-underline hover:underline"
-            >
-              Forgot password?
+        <AuthField
+          label="Password"
+          htmlFor="login-password"
+          action={
+            <Link href="/forgot-password" className="no-underline">
+              <span className="font-sans text-[11.5px] text-stone hover:text-obsidian transition-colors">
+                Forgot password?
+              </span>
             </Link>
-          </div>
+          }
+        >
+          <input
+            id="login-password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="current-password"
+            className={authInputClass}
+          />
+        </AuthField>
 
-          <MagneticButton className="w-full">
-            <Button type="submit" variant="primary" size="lg" fullWidth loading={loading}>
-              {loading ? 'Signing in…' : 'Sign In'}
-            </Button>
-          </MagneticButton>
-        </form>
+        <AuthSubmit loading={loading} className="mt-1">
+          {loading ? 'Signing in…' : 'Sign in'}
+        </AuthSubmit>
+      </form>
+    </AuthShell>
+  )
+}
 
-        <p className="text-center text-sm text-stone mt-8 m-0">
-          Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-forest-green no-underline hover:underline font-medium">
-            Create one
-          </Link>
-        </p>
-      </motion.div>
-    </div>
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] bg-cream" />}>
+      <LoginForm />
+    </Suspense>
   )
 }

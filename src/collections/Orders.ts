@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
-const generateOrderNumber = () => {
+/** Exported so server-side checkout can stamp the number it will show the buyer. */
+export const generateOrderNumber = () => {
   const ts = Date.now().toString(36).toUpperCase()
   const rand = Math.random().toString(36).slice(2, 6).toUpperCase()
   return `DP-${ts}-${rand}`
@@ -13,7 +14,9 @@ export const Orders: CollectionConfig = {
     defaultColumns: ['orderNumber', 'user', 'status', 'currency', 'createdAt'],
   },
   access: {
-    create: () => true, // Created via checkout API
+    // Orders are only ever created server-side by /api/checkout/session, which
+    // prices the cart itself. A public create would let anyone name their price.
+    create: () => false,
     read: ({ req: { user } }) => {
       if (!user) return false
       if (user.roles?.includes('admin')) return true
@@ -121,6 +124,30 @@ export const Orders: CollectionConfig = {
         { name: 'postalCode', type: 'text' },
         { name: 'country', type: 'text' },
       ],
+    },
+    {
+      name: 'paymentStatus',
+      type: 'select',
+      required: true,
+      defaultValue: 'unpaid',
+      options: [
+        { label: 'Unpaid', value: 'unpaid' },
+        { label: 'Paid', value: 'paid' },
+        { label: 'Failed', value: 'failed' },
+        { label: 'Refunded', value: 'refunded' },
+        { label: 'Invoiced (B2B)', value: 'invoice' },
+      ],
+      admin: {
+        description: 'Set by the Stripe webhook — not by the checkout redirect.',
+      },
+    },
+    {
+      name: 'stripeCheckoutSessionId',
+      type: 'text',
+      index: true,
+      admin: {
+        description: 'Stripe Checkout session that was opened for this order.',
+      },
     },
     {
       name: 'stripePaymentIntentId',

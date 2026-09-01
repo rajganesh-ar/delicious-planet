@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -53,6 +53,9 @@ const EMPTY_ADDRESS: AddressForm = {
 
 export function CheckoutClient() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  // Stripe sends people back here with ?cancelled=1 if they abandon the payment page.
+  const paymentCancelled = searchParams.get('cancelled') === '1'
   const { items, subtotal, clearCart } = useCart()
   const currency = items[0]?.currency ?? 'USD'
 
@@ -139,55 +142,52 @@ export function CheckoutClient() {
       return
     }
 
+    // The cart carries product IDs as strings, but Payload keys products on
+    // integer IDs. Only ids and quantities go up — the server re-prices the
+    // cart from the product records, so nothing here can set a price.
+    const lineItems = items.map((i) => ({
+      productId: Number(i.productId),
+      quantity: i.quantity,
+    }))
+
+    if (lineItems.some((i) => !Number.isInteger(i.productId))) {
+      setError('Something is wrong with your cart. Please empty it and add your items again.')
+      return
+    }
+
     setSubmitting(true)
 
-    const payload: Record<string, unknown> = {
-      items: items.map((i) => ({
-        product: i.productId,
-        quantity: i.quantity,
-        unitAmount: i.price,
-        currency: i.currency,
-      })),
-      totals: {
-        subtotal,
-        shipping: 0,
-        tax: 0,
-        total: subtotal,
-      },
-      currency,
-      status: 'pending',
-      type: 'retail',
-      shippingAddress: shipping,
-    }
-
-    if (user) {
-      payload.user = user.id
-    } else {
-      payload.guestEmail = email
-    }
-
-    if (notes.trim()) {
-      payload.notes = notes.trim()
-    }
-
     try {
-      const res = await fetch('/api/orders', {
+      const res = await fetch('/api/checkout/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          items: lineItems,
+          email,
+          notes: notes.trim() || undefined,
+          type: 'retail',
+          shippingAddress: shipping,
+        }),
       })
 
+      const data = await res.json().catch(() => null)
+
       if (!res.ok) {
-        setError('Could not place your order. Please try again.')
+        setError(data?.error ?? 'Could not place your order. Please try again.')
         setSubmitting(false)
         return
       }
 
-      const data = await res.json()
-      const orderNumber = data?.doc?.orderNumber ?? data?.orderNumber ?? ''
+      if (data?.url) {
+        // Hand off to Stripe's hosted page. The cart is deliberately left intact
+        // until payment succeeds, so a cancelled payment returns to a full cart.
+        window.location.href = data.url
+        return
+      }
+
       clearCart()
-      router.push(`/checkout/success?order=${encodeURIComponent(orderNumber)}`)
+      router.push(`/checkout/success?order=${encodeURIComponent(data?.orderNumber ?? '')}`)
     } catch {
       setError('Network error. Please try again.')
       setSubmitting(false)
@@ -232,7 +232,8 @@ export function CheckoutClient() {
             transition={{ delay: 0.4 }}
           >
             <ProseText size="md" tone="cream" className="mt-4 mb-0 max-w-lg">
-              Our team will reach out shortly to confirm payment details and arrange shipping.
+              Confirm your details, then pay securely by card. Our team arranges shipping once
+              payment clears.
             </ProseText>
           </motion.div>
         </Container>
@@ -245,6 +246,16 @@ export function CheckoutClient() {
             className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8 md:gap-12 lg:gap-16"
           >
             <div className="space-y-10">
+              {paymentCancelled && (
+                <div
+                  className="border border-gold/40 bg-gold/10 text-obsidian text-sm px-4 py-3 rounded-sm"
+                  role="status"
+                >
+                  Payment was cancelled — your basket is untouched. You can review your details and
+                  try again whenever you&apos;re ready.
+                </div>
+              )}
+
               <div>
                 <Heading as="h2" variant="card" className="m-0 mb-6">
                   Contact
@@ -481,12 +492,12 @@ export function CheckoutClient() {
                   loading={submitting}
                   className="mt-6"
                 >
-                  {submitting ? 'Placing order…' : 'Place order'}
+                  {submitting ? 'Redirecting to payment…' : 'Continue to payment'}
                 </Button>
 
                 <p className="text-[11px] text-stone/60 m-0 mt-4 leading-relaxed">
-                  No payment is collected here. Our team will contact you to confirm pricing,
-                  shipping, and arrange invoice payment.
+                  You&apos;ll be taken to our secure payment provider, Stripe, to complete your
+                  order. Shipping is arranged by our team once payment clears.
                 </p>
               </div>
             </aside>

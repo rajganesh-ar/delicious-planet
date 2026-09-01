@@ -1,15 +1,38 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState } from 'react'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { MagneticButton } from '@/components/animations/MagneticButton'
+import { ImagePlaceholder } from '@/components/ui'
+import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
 
-/* ────────────────────────────────────────────────────────────
-   DATA
-   ──────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+ * Media slots.
+ *
+ * Every image on this page is declared here. `src: null` renders the
+ * designed placeholder from <ImagePlaceholder>; dropping a file in and
+ * setting its path is the only change needed to go live with real art.
+ * ────────────────────────────────────────────────────────────── */
+const MEDIA = {
+  hero: { src: '/images/retail/retail-grocery.avif', label: 'Retail hero — 4:3' },
+  fresh: { src: '/images/retail/retail-fresh.avif', label: 'Fresh & perishable — 16:9' },
+  shelfStable: { src: '/images/retail/retail-breads.avif', label: 'Packaged & shelf-stable — 16:9' },
+  specialty: { src: '/images/retail/retail-organic.avif', label: 'Specialty & regional — 16:9' },
+  privateLabel: { src: '/images/retail/retail-dairy.avif', label: 'Private label — 16:9' },
+  quality: { src: '/images/retail/retail-cold.avif', label: 'Quality & compliance' },
+  privateLabelFeature: { src: '/images/retail/retail-veg.avif', label: 'Private label programme' },
+  regionMature: { src: null, label: 'Mature markets — 16:9' },
+  regionGrowth: { src: null, label: 'Growth markets — 16:9' },
+  regionLocal: { src: '/images/retail/retail-softdrinks.avif', label: 'Local assortment — 16:9' },
+} satisfies Record<string, { src: string | null; label: string }>
+
+/* ── Content ── */
+
+const heroStats = [
+  { value: '4', label: 'Portfolio categories' },
+  { value: 'Multi', label: 'Origin sourcing' },
+  { value: 'Scheduled', label: 'Replenishment' },
+  { value: '1', label: 'Accountable interface' },
+]
 
 const focusPoints = [
   {
@@ -32,35 +55,27 @@ const focusPoints = [
 const portfolio = [
   {
     label: 'Category 01',
-    title: 'Fresh & Perishable',
+    title: 'Fresh & perishable',
     body: 'Produce, dairy, and short-shelf-life lines moved through controlled, time-critical flows.',
-    img: '/images/retail/category-fresh.avif',
-    span: 'lg:col-span-7',
-    aspect: 'aspect-[16/10]',
+    media: MEDIA.fresh,
   },
   {
     label: 'Category 02',
-    title: 'Packaged & Shelf-Stable',
+    title: 'Packaged & shelf-stable',
     body: 'Pantry essentials and ambient ranges built for predictable replenishment cycles.',
-    img: '/images/retail/category-shelfstable.avif',
-    span: 'lg:col-span-5',
-    aspect: 'aspect-[4/3]',
+    media: MEDIA.shelfStable,
   },
   {
     label: 'Category 03',
-    title: 'Specialty & Regional',
+    title: 'Specialty & regional',
     body: 'Origin-specific items that differentiate assortments and serve local consumption patterns.',
-    img: '/images/retail/category-specialty.avif',
-    span: 'lg:col-span-5',
-    aspect: 'aspect-[4/3]',
+    media: MEDIA.specialty,
   },
   {
     label: 'Category 04',
-    title: 'Private Label–Ready',
+    title: 'Private label–ready',
     body: 'Sourced and finished to retailer brand specifications, with flexible packaging support.',
-    img: '/images/retail/category-privatelabel.avif',
-    span: 'lg:col-span-7',
-    aspect: 'aspect-[16/10]',
+    media: MEDIA.privateLabel,
   },
 ]
 
@@ -84,7 +99,7 @@ const fulfilment = [
 
 const compliance = [
   {
-    kicker: 'Supplier Qualification',
+    kicker: 'Supplier qualification',
     points: [
       'Verified onboarding before any product enters the network',
       'Documented food safety and hygiene capability',
@@ -92,7 +107,7 @@ const compliance = [
     ],
   },
   {
-    kicker: 'Product Documentation',
+    kicker: 'Product documentation',
     points: [
       'Specifications, certificates, and lot records on file',
       'Batch-level traceability across the supply chain',
@@ -100,7 +115,7 @@ const compliance = [
     ],
   },
   {
-    kicker: 'Handling & Storage',
+    kicker: 'Handling & storage',
     points: [
       'Temperature integrity maintained across distribution points',
       'Approved logistics partners with documented handling standards',
@@ -130,12 +145,12 @@ const privateLabelCapabilities = [
 const demandSteps = [
   {
     n: '01',
-    title: 'Demand Signal',
+    title: 'Demand signal',
     body: 'Sales and inventory data captured through structured retailer communication.',
   },
   {
     n: '02',
-    title: 'Forecast Alignment',
+    title: 'Forecast alignment',
     body: 'Demand patterns mapped against sourcing lead times and origin capacity.',
   },
   {
@@ -153,45 +168,48 @@ const demandSteps = [
 const partnershipAttributes = [
   { t: 'Defined service levels', d: 'Expectations set up front, not negotiated mid-cycle.' },
   { t: 'Open communication', d: 'A single channel for forecasts, escalations, and issue resolution.' },
-  { t: 'Demand-responsive', d: 'Capacity adjusts in line with retailer cycles, not the other way round.' },
+  {
+    t: 'Demand-responsive',
+    d: 'Capacity adjusts in line with retailer cycles, not the other way round.',
+  },
   { t: 'Incremental scaling', d: 'Engagement expands with reliability — never with volume alone.' },
 ]
 
 const regions = [
   {
     label: 'Established',
-    title: 'Mature Retail Markets',
+    title: 'Mature retail markets',
     body: 'Modern trade chains and specialty retailers in markets with structured demand and clear regulatory frameworks.',
-    img: '/images/retail/region-mature.avif',
+    media: MEDIA.regionMature,
   },
   {
     label: 'Emerging',
-    title: 'Growth Markets',
+    title: 'Growth markets',
     body: 'Selected emerging markets where sourcing feasibility and regulatory clarity allow disciplined entry.',
-    img: '/images/retail/region-growth.avif',
+    media: MEDIA.regionGrowth,
   },
   {
     label: 'Adaptive',
-    title: 'Local Assortment',
+    title: 'Local assortment',
     body: 'Product mix calibrated to regional consumption patterns, not transplanted from one market to another.',
-    img: '/images/retail/region-local.avif',
+    media: MEDIA.regionLocal,
   },
 ]
 
 const roadmap = [
   {
     horizon: 'Now',
-    title: 'Operational Foundations',
+    title: 'Operational foundations',
     body: 'Defined fulfilment processes, qualified supplier base, batch-level documentation, and structured partner onboarding.',
   },
   {
     horizon: 'Next',
-    title: 'Capability Expansion',
+    title: 'Capability expansion',
     body: 'Broader category depth, deeper logistics infrastructure, and improved demand-planning integration with retailers.',
   },
   {
     horizon: 'Later',
-    title: 'Network Maturity',
+    title: 'Network maturity',
     body: 'Multi-region distribution at scale, advanced data and analytics, and a private-label programme operating across categories.',
   },
 ]
@@ -202,511 +220,72 @@ const partnerChecklist = [
   'Volume requirements and timelines',
 ]
 
-/* ────────────────────────────────────────────────────────────
-   COMPONENT
-   ──────────────────────────────────────────────────────────── */
-
 export function RetailPageClient() {
-  const heroRef = useRef<HTMLDivElement | null>(null)
-  const [heroTarget, setHeroTarget] = useState<HTMLDivElement | null>(null)
-
-  const refCallback = (node: HTMLDivElement | null) => {
-    heroRef.current = node
-    setHeroTarget(node)
-  }
-
-  const { scrollYProgress } = useScroll({
-    ...(heroTarget ? { target: { current: heroTarget } } : {}),
-    offset: ['start start', 'end start'],
-  })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-
   return (
-    <>
-      {/* ═══ Hero — Editorial split, parallax background ═══ */}
-      <section
-        ref={refCallback}
-        className="relative min-h-[88vh] flex items-end overflow-hidden bg-obsidian"
-      >
-        <motion.div style={{ y: imgY }} className="absolute inset-0">
-          <Image
-            src="/images/retail/hero-retail.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-obsidian via-obsidian/70 to-obsidian/30" />
-        </motion.div>
-
-        <div className="relative z-10 max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pb-20 lg:pb-28 pt-32 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-7">
-              <motion.p
-                className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Retail
-              </motion.p>
-              <motion.h1
-                className="font-luxury text-4xl sm:text-5xl lg:text-[64px] xl:text-[76px] font-light text-cream leading-[1.02] tracking-[-0.03em] m-0"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                Built to supply.
-                <br />
-                <span className="text-gold">Designed to scale.</span>
-              </motion.h1>
-            </div>
-
-            <motion.div
-              className="lg:col-span-4 lg:col-start-9"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.6 }}
-            >
-              <div className="w-12 h-px bg-gold mb-5" />
-              <p className="text-cream/70 text-base lg:text-lg leading-relaxed m-0">
-                A retail supply model engineered around reliability, transparency, and structured
-                partnership — bridging global sourcing with local market requirements.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Approach Statement ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <div className="lg:col-span-4">
+    <div className="bg-cream">
+      {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
+      <section className="bg-obsidian">
+        <div className={cn(GUTTER, 'pt-10 pb-8 md:pt-14 md:pb-10')}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-6">
               <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Our Retail Approach
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Built to be relied upon.
-                </h2>
+                <Eyebrow tone="light">Retail</Eyebrow>
               </FadeIn>
-            </div>
-            <div className="lg:col-span-7 lg:col-start-6">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-lg lg:text-xl leading-relaxed m-0 mb-6">
-                  We work with retail partners to deliver consistent, high-quality food products
-                  supported by dependable supply and transparent sourcing — bridging global
-                  capability with the rhythm of local markets.
-                </p>
-                <p className="text-stone/80 text-base lg:text-lg leading-relaxed m-0">
-                  Our objective is to be a structured and predictable supply partner for retailers
-                  operating in both established and emerging markets.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          {/* Three focus points — minimal numbered grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-mist/40 mt-16 lg:mt-24 rounded-sm overflow-hidden">
-            {focusPoints.map((p, i) => (
-              <FadeIn key={p.n} delay={i * 0.1}>
-                <div className="bg-cream p-8 lg:p-10 h-full">
-                  <span className="font-luxury text-gold text-sm tracking-[0.3em] block mb-5">
-                    {p.n}
+              <FadeIn delay={0.06}>
+                <h1 className="m-0! mt-3!">
+                  <span className="block font-luxury text-cream font-semibold leading-[1.12] tracking-tight text-[clamp(1.9rem,5vw,3.5rem)]">
+                    Built to supply. <span className="text-gold">Designed to scale.</span>
                   </span>
-                  <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                    {p.title}
-                  </h3>
-                  <p className="text-stone text-sm leading-relaxed m-0">{p.body}</p>
+                </h1>
+              </FadeIn>
+              <FadeIn delay={0.12}>
+                <p className="m-0! mt-4! font-sans text-cream/75 text-sm md:text-base leading-relaxed max-w-xl">
+                  A retail supply model engineered around reliability, transparency, and structured
+                  partnership — bridging global sourcing with local market requirements.
+                </p>
+              </FadeIn>
+              <FadeIn delay={0.18}>
+                <p className="m-0! mt-3! font-sans text-cream/55 text-[13px] md:text-sm leading-relaxed max-w-xl">
+                  Consistent, high-quality food products supported by dependable supply and
+                  transparent sourcing — built to be relied upon.
+                </p>
+              </FadeIn>
+              <FadeIn delay={0.24}>
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <Cta href="/contact#enquiry">Start a conversation</Cta>
+                  <Cta href="/b2b" variant="outline">
+                    B2B distribution
+                  </Cta>
                 </div>
               </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Product Portfolio — bento mosaic ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-14 lg:mb-20">
-              <div className="max-w-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                  Product Portfolio
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  A portfolio shaped by retail demand — not by what&rsquo;s easy to source.
-                </h2>
-              </div>
-              <p className="text-stone text-sm max-w-sm">
-                Curated categories aligned to retail demand patterns, scalable supply, and evolving
-                consumer preferences.
-              </p>
-            </div>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
-            {portfolio.map((c, i) => (
-              <FadeIn key={c.title} delay={i * 0.08} className={`${c.span} group`}>
-                <article className="relative h-full bg-cream rounded-sm overflow-hidden">
-                  <div className={`relative ${c.aspect} overflow-hidden`}>
-                    <Image
-                      src={c.img}
-                      alt={c.title}
-                      fill
-                      sizes="(max-width:1024px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-obsidian/55 via-obsidian/10 to-transparent" />
-                    <span className="absolute top-6 left-6 text-[10px] uppercase tracking-[0.3em] text-cream/85 font-medium">
-                      {c.label}
-                    </span>
-                    <div className="absolute bottom-0 left-0 right-0 p-7 lg:p-9">
-                      <h3 className="font-luxury text-2xl lg:text-3xl font-medium text-cream m-0 mb-3">
-                        {c.title}
-                      </h3>
-                      <p className="text-cream/75 text-sm lg:text-base leading-relaxed m-0 max-w-md">
-                        {c.body}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              </FadeIn>
-            ))}
-          </div>
-
-          <FadeIn delay={0.3}>
-            <p className="text-stone/70 text-sm italic font-luxury mt-10 max-w-2xl">
-              As our sourcing network expands, category depth and geographic variety will broaden
-              alongside it — paced by quality, not quantity.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ═══ Supply Reliability & Fulfilment ═══ */}
-      <section className="py-(--spacing-section-lg) bg-obsidian">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-14 lg:mb-20">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium mb-4">
-                  Supply Reliability
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-6">
-                  Predictable supply, engineered.
-                </h2>
-                <p className="text-cream/65 text-base lg:text-lg leading-relaxed m-0">
-                  Retail operations run on predictability. Our supply chain is structured to deliver
-                  it — through diversified sourcing, central coordination, and disciplined
-                  replenishment.
-                </p>
-              </FadeIn>
             </div>
 
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
+            <div className="lg:col-span-6">
               <FadeIn delay={0.1}>
-                <div className="grid grid-cols-3 gap-6 lg:gap-10 w-full">
-                  {[
-                    { v: 'Multi', l: 'Origin sourcing' },
-                    { v: '1', l: 'Central interface' },
-                    { v: '24/7', l: 'Forecast aligned' },
-                  ].map((s) => (
-                    <div key={s.l}>
-                      <p className="font-luxury text-3xl lg:text-5xl font-light text-gold m-0 mb-2">
-                        {s.v}
-                      </p>
-                      <p className="text-[10px] uppercase tracking-[0.25em] text-cream/50 font-medium m-0">
-                        {s.l}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-cream/10 rounded-sm overflow-hidden">
-            {fulfilment.map((f, i) => (
-              <FadeIn key={f.title} delay={i * 0.1}>
-                <div className="bg-obsidian p-8 lg:p-10 h-full flex flex-col">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-gold/80 font-medium mb-6">
-                    {f.kicker}
-                  </span>
-                  <h3 className="font-luxury text-xl lg:text-2xl font-medium text-cream m-0 mb-4">
-                    {f.title}
-                  </h3>
-                  <p className="text-cream/65 text-sm leading-relaxed m-0">{f.body}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Quality & Compliance — sticky image + standards stack ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <div className="lg:col-span-4">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Quality & Compliance
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-obsidian leading-[1.15] tracking-tight m-0 mb-6">
-                  Compliance is the floor.
-                  <br />
-                  Not the ceiling.
-                </h2>
-                <p className="text-stone text-base leading-relaxed m-0 mb-8">
-                  Every product supplied to retail partners is aligned with applicable food safety
-                  and regulatory requirements — supported by documentation that holds up to audit.
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.15}>
-                <div className="relative aspect-4/5 rounded-sm overflow-hidden">
-                  <Image
-                    src="/images/retail/retail-quality.avif"
-                    alt="Quality verification"
-                    fill
-                    sizes="(max-width:1024px) 100vw, 33vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-obsidian/40 to-transparent" />
-                </div>
-              </FadeIn>
-            </div>
-
-            <div className="lg:col-span-7 lg:col-start-6 space-y-px bg-mist/40 rounded-sm overflow-hidden">
-              {compliance.map((s, i) => (
-                <FadeIn key={s.kicker} delay={i * 0.1}>
-                  <div className="bg-cream p-7 lg:p-9">
-                    <div className="flex items-center gap-4 mb-5">
-                      <span className="font-luxury text-gold text-xs tracking-[0.3em]">
-                        0{i + 1}
-                      </span>
-                      <div className="w-8 h-px bg-gold/50" />
-                      <h3 className="font-luxury text-lg lg:text-xl font-medium text-obsidian m-0">
-                        {s.kicker}
-                      </h3>
-                    </div>
-                    <ul className="list-none m-0 p-0 space-y-3">
-                      {s.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-3">
-                          <span className="text-gold mt-0.5 shrink-0" aria-hidden>
-                            —
-                          </span>
-                          <span className="text-stone text-sm leading-relaxed">{pt}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Private Label — full-bleed split feature ═══ */}
-      <section className="bg-forest text-cream overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12">
-          <FadeIn className="lg:col-span-6">
-            <div className="relative aspect-4/5 lg:aspect-auto lg:min-h-170">
-              <Image
-                src="/images/retail/retail-privatelabel.avif"
-                alt="Private label packaging"
-                fill
-                sizes="(max-width:1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-linear-to-r from-forest/30 via-transparent to-forest/30" />
-            </div>
-          </FadeIn>
-
-          <div className="lg:col-span-6 px-5 sm:px-6 md:px-10 lg:px-16 py-16 lg:py-24 flex flex-col justify-center">
-            <FadeIn>
-              <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                Private Label & Customisation
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-6">
-                Your brand.
-                <br />
-                Our infrastructure.
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <p className="text-cream/75 text-base lg:text-lg leading-relaxed m-0 mb-10 max-w-lg">
-                Structured private-label support — sourcing, packaging, and manufacturing
-                co-ordination — that maintains consistency in quality and supply while letting your
-                brand take the foreground.
-              </p>
-            </FadeIn>
-
-            <div className="space-y-px bg-cream/15 rounded-sm overflow-hidden max-w-xl">
-              {privateLabelCapabilities.map((c, i) => (
-                <FadeIn key={c.n} delay={0.2 + i * 0.08}>
-                  <div className="bg-forest p-6 lg:p-7 flex items-start gap-6">
-                    <span className="font-luxury text-gold text-sm tracking-[0.3em] shrink-0 mt-1">
-                      {c.n}
-                    </span>
-                    <div>
-                      <h3 className="font-luxury text-lg font-medium text-cream m-0 mb-2">
-                        {c.title}
-                      </h3>
-                      <p className="text-cream/70 text-sm leading-relaxed m-0">{c.body}</p>
-                    </div>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Data & Demand Alignment — horizontal stepped journey ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
-              <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                Data & Demand Alignment
-              </p>
-              <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                Demand visibility, not guesswork.
-              </h2>
-              <p className="text-stone text-base lg:text-lg leading-relaxed m-0 mt-6 max-w-2xl mx-auto">
-                Supply that aligns to retail demand cycles — through structured planning,
-                tracking, and two-way communication that improves with each cycle.
-              </p>
-            </div>
-          </FadeIn>
-
-          <div className="relative">
-            <div className="hidden lg:block absolute top-8 left-0 right-0 h-px bg-gold/30" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
-              {demandSteps.map((s, i) => (
-                <FadeIn key={s.n} delay={i * 0.1}>
-                  <div className="relative">
-                    <div className="hidden lg:flex w-4 h-4 rounded-full bg-gold absolute top-8 left-0 -translate-y-1/2 ring-8 ring-cream" />
-                    <div className="lg:pl-10">
-                      <span className="font-luxury text-gold text-sm tracking-[0.3em] block mb-3">
-                        {s.n}
-                      </span>
-                      <h3 className="font-luxury text-xl font-medium text-obsidian m-0 mb-3">
-                        {s.title}
-                      </h3>
-                      <p className="text-stone text-sm leading-relaxed m-0">{s.body}</p>
-                    </div>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Partnership Model — editorial pull-quote ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <FadeIn delay={0.05} className="lg:col-span-5">
-              <div className="relative aspect-4/5 rounded-sm overflow-hidden">
-                <Image
-                  src="/images/retail/retail-partnership.avif"
-                  alt="Retail partnership"
-                  fill
-                  sizes="(max-width:1024px) 100vw, 40vw"
-                  className="object-cover"
+                <ImagePlaceholder
+                  {...MEDIA.hero}
+                  ratio="4/3"
+                  tone="dark"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 46vw"
+                  className="rounded-sm"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-obsidian/30 to-transparent" />
-              </div>
-            </FadeIn>
-
-            <div className="lg:col-span-6 lg:col-start-7">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                  Partnership Model
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <p className="font-luxury text-2xl lg:text-[34px] font-light text-obsidian leading-tight tracking-tight m-0 mb-8">
-                  &ldquo;Distributors transact. Partners build. We measure ourselves on the
-                  relationships that compound — not the orders that close.&rdquo;
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.15}>
-                <div className="w-12 h-px bg-gold mb-6" />
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-                  {partnershipAttributes.map((x) => (
-                    <div key={x.t}>
-                      <p className="font-luxury text-base text-obsidian m-0 mb-1">{x.t}</p>
-                      <p className="text-stone text-sm leading-relaxed m-0">{x.d}</p>
-                    </div>
-                  ))}
-                </div>
               </FadeIn>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ═══ Geographic Expansion — region mosaic ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-14 lg:mb-16">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Geographic Expansion
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Global by design.
-                  <br />
-                  Local by execution.
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  Expansion is paced to maintain operational control. We enter markets where
-                  sourcing and logistics feasibility align — and adapt the assortment to local
-                  consumption rather than transplanting it.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-mist/40 rounded-sm overflow-hidden">
-            {regions.map((r, i) => (
-              <FadeIn key={r.label} delay={i * 0.1}>
-                <div className="bg-cream h-full flex flex-col">
-                  <div className="relative aspect-5/3 overflow-hidden">
-                    <Image
-                      src={r.img}
-                      alt={r.title}
-                      fill
-                      sizes="(max-width:768px) 100vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-7 lg:p-9 flex-1 flex flex-col">
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                      {r.label}
-                    </span>
-                    <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                      {r.title}
-                    </h3>
-                    <p className="text-stone text-sm leading-relaxed m-0">{r.body}</p>
-                  </div>
+        <div className={cn(GUTTER, 'border-t border-cream/10')}>
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {heroStats.map((s, i) => (
+              <FadeIn key={s.label} delay={i * 0.05}>
+                <div className="py-4 md:py-5 pr-4">
+                  <span className="block font-luxury text-2xl md:text-3xl font-semibold text-cream leading-none">
+                    {s.value}
+                  </span>
+                  <span className="block font-sans text-[10px] md:text-[11px] uppercase tracking-[0.16em] text-cream/45 mt-2">
+                    {s.label}
+                  </span>
                 </div>
               </FadeIn>
             ))}
@@ -714,127 +293,320 @@ export function RetailPageClient() {
         </div>
       </section>
 
-      {/* ═══ Looking Ahead — Now/Next/Later ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-360 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
-              <div className="max-w-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                  Looking Ahead
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  The retail roadmap.
-                </h2>
-              </div>
-              <p className="text-stone text-sm max-w-sm">
-                Becoming a dependable, scalable retail supply partner — paced by quality and
-                operational discipline.
-              </p>
-            </div>
-          </FadeIn>
+      {/* ═══ 2 · APPROACH ═══════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Our retail approach"
+          title="Built to be relied upon"
+          lede="Three things a retail buyer actually measures — availability, compliance, and how well a supplier bends to their cadence."
+        />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {roadmap.map((r, i) => (
-              <FadeIn key={r.horizon} delay={i * 0.1}>
-                <div
-                  className={`rounded-sm p-8 lg:p-10 h-full flex flex-col ${
-                    i === 0
-                      ? 'bg-obsidian text-cream'
-                      : i === 1
-                        ? 'bg-cream text-obsidian'
-                        : 'bg-cream/60 text-obsidian'
-                  }`}
-                >
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-6">
-                    {r.horizon}
+        <ul className="list-none m-0 p-0 grid grid-cols-1 md:grid-cols-3 bg-white border border-stone/15 rounded-sm overflow-hidden">
+          {focusPoints.map((p) => (
+            <li
+              key={p.n}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-stone/10 last:border-r-0"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-luxury text-lg text-forest-green/60 leading-none">{p.n}</span>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  {p.title}
+                </span>
+              </div>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                {p.body}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* ═══ 3 · PORTFOLIO ══════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Product portfolio"
+          title="Four categories, four handling regimes"
+          lede="From time-critical fresh flows to ambient ranges built for predictable replenishment."
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4">
+          {portfolio.map((c, i) => (
+            <FadeIn key={c.label} delay={i * 0.05}>
+              <article className="h-full flex flex-col bg-white border border-stone/15 rounded-sm overflow-hidden">
+                <ImagePlaceholder
+                  {...c.media}
+                  ratio="16/9"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 24vw"
+                />
+                <div className="p-4 md:p-5 flex-1">
+                  <Eyebrow>{c.label}</Eyebrow>
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-2">
+                    {c.title}
                   </span>
-                  <h3
-                    className={`font-luxury text-2xl lg:text-3xl font-light m-0 mb-4 ${
-                      i === 0 ? 'text-cream' : 'text-obsidian'
-                    }`}
-                  >
+                  <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {c.body}
+                  </p>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 4 · FULFILMENT ═════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Supply reliability & fulfilment"
+          title="Sourcing, coordination, replenishment"
+          lede="The three levers that decide whether a shelf stays stocked."
+          tone="light"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {fulfilment.map((b, i) => (
+            <FadeIn key={b.kicker} delay={i * 0.06}>
+              <div className="h-full border border-cream/12 rounded-sm p-4 md:p-5">
+                <Eyebrow tone="light">{b.kicker}</Eyebrow>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight mt-2">
+                  {b.title}
+                </span>
+                <p className="m-0! mt-2! font-sans text-[12.5px] text-cream/60 leading-relaxed">
+                  {b.body}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 5 · QUALITY & COMPLIANCE ═══════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Quality & compliance"
+          title="What a retail buyer can ask us to produce"
+          lede="Qualification, documentation, and handling — evidenced rather than asserted."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-stretch">
+          <div className="lg:col-span-4">
+            <FadeIn>
+              <ImagePlaceholder
+                {...MEDIA.quality}
+                sizes="(max-width: 1024px) 100vw, 30vw"
+                className="rounded-sm h-full min-h-55"
+              />
+            </FadeIn>
+          </div>
+
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+            {compliance.map((c, i) => (
+              <FadeIn key={c.kicker} delay={i * 0.06}>
+                <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-luxury text-lg text-forest-green/60 leading-none">
+                      0{i + 1}
+                    </span>
+                    <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                      {c.kicker}
+                    </span>
+                  </div>
+                  <ul className="list-none m-0 p-0 mt-3 flex flex-col gap-2">
+                    {c.points.map((pt) => (
+                      <Point key={pt}>{pt}</Point>
+                    ))}
+                  </ul>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 6 · PRIVATE LABEL ══════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Private label"
+          title="Your brand, our supply discipline"
+          lede="Sourced and finished to retailer specification, from taste profile to pack language."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-stretch">
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <ImagePlaceholder
+                {...MEDIA.privateLabelFeature}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="rounded-sm h-full min-h-55"
+              />
+            </FadeIn>
+          </div>
+
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+            {privateLabelCapabilities.map((c, i) => (
+              <FadeIn key={c.n} delay={i * 0.05}>
+                <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                  <span className="block font-luxury text-lg text-forest-green/50 leading-none">
+                    {c.n}
+                  </span>
+                  <span className="block font-luxury text-base font-semibold text-obsidian leading-tight mt-2">
+                    {c.title}
+                  </span>
+                  <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {c.body}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 7 · DEMAND ALIGNMENT ═══════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Data & demand alignment"
+          title="Signal, forecast, replenish, review"
+          lede="A loop that tightens each time it runs."
+        />
+
+        <ul className="list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 bg-white border border-stone/15 rounded-sm overflow-hidden">
+          {demandSteps.map((s) => (
+            <li
+              key={s.n}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-stone/10 last:border-r-0"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-luxury text-lg text-forest-green/60 leading-none">{s.n}</span>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  {s.title}
+                </span>
+              </div>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                {s.body}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mt-3 md:mt-4">
+          {partnershipAttributes.map((x, i) => (
+            <FadeIn key={x.t} delay={i * 0.05}>
+              <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                <span className="block font-luxury text-base font-semibold text-obsidian leading-tight">
+                  {x.t}
+                </span>
+                <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                  {x.d}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 8 · GEOGRAPHIC REACH ═══════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Geographic expansion"
+          title="Entered market by market, not all at once"
+          lede="Assortment calibrated to regional consumption rather than transplanted between markets."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {regions.map((r, i) => (
+            <FadeIn key={r.label} delay={i * 0.06}>
+              <article className="h-full flex flex-col bg-white border border-stone/15 rounded-sm overflow-hidden">
+                <ImagePlaceholder
+                  {...r.media}
+                  ratio="16/9"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="p-4 md:p-5 flex-1">
+                  <Eyebrow>{r.label}</Eyebrow>
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-2">
                     {r.title}
-                  </h3>
-                  <p
-                    className={`text-sm lg:text-base leading-relaxed m-0 ${
-                      i === 0 ? 'text-cream/70' : 'text-stone'
-                    }`}
-                  >
+                  </span>
+                  <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
                     {r.body}
                   </p>
                 </div>
-              </FadeIn>
-            ))}
-          </div>
+              </article>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
-      {/* ═══ Partner With Us — checklist + CTA ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-275 mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="bg-obsidian rounded-sm p-10 lg:p-16 relative overflow-hidden">
-            <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
+      {/* ═══ 9 · ROADMAP ════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Looking ahead"
+          title="Where the retail capability goes next"
+          lede="Depth before breadth — category coverage grows as the infrastructure earns it."
+          tone="light"
+        />
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-7">
-                <FadeIn>
-                  <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                    Partner With Us
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.1}>
-                  <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-6">
-                    Engaging retail partners — one structured relationship at a time.
-                  </h2>
-                </FadeIn>
-                <FadeIn delay={0.15}>
-                  <p className="text-cream/70 text-base leading-relaxed m-0 mb-8">
-                    We are actively engaging with retail partners seeking a structured and reliable
-                    sourcing and distribution partner. To explore collaboration, share:
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.2}>
-                  <ul className="list-none m-0 p-0 space-y-3 mb-10">
-                    {partnerChecklist.map((c) => (
-                      <li key={c} className="flex items-start gap-3">
-                        <span
-                          className="w-5 h-5 rounded-full border border-gold/60 shrink-0 flex items-center justify-center mt-0.5"
-                          aria-hidden
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                        </span>
-                        <span className="text-cream/85 text-sm leading-relaxed">{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </FadeIn>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {roadmap.map((r, i) => (
+            <FadeIn key={r.horizon} delay={i * 0.06}>
+              <div
+                className={cn(
+                  'h-full rounded-sm border p-4 md:p-5',
+                  i === 0 ? 'bg-forest-green border-forest-green' : 'border-cream/12',
+                )}
+              >
+                <Eyebrow tone="light">{r.horizon}</Eyebrow>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight mt-2">
+                  {r.title}
+                </span>
+                <p
+                  className={cn(
+                    'm-0! mt-2! font-sans text-[12.5px] leading-relaxed',
+                    i === 0 ? 'text-cream/80' : 'text-cream/60',
+                  )}
+                >
+                  {r.body}
+                </p>
               </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
 
-              <div className="lg:col-span-4 lg:col-start-9">
-                <FadeIn delay={0.25}>
-                  <MagneticButton>
-                    <Link
-                      href="/contact"
-                      className="inline-block w-full text-center bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-10 py-5 rounded-sm no-underline hover:bg-gold-light transition-colors"
-                    >
-                      Start a Retail Conversation
-                    </Link>
-                  </MagneticButton>
-                </FadeIn>
-                <FadeIn delay={0.3}>
-                  <Link
-                    href="/b2b"
-                    className="block text-center mt-4 text-cream/60 text-xs uppercase tracking-widest hover:text-gold transition-colors no-underline"
-                  >
-                    or explore B2B distribution &rarr;
-                  </Link>
-                </FadeIn>
-              </div>
+      {/* ═══ 10 · PARTNER WITH US ═══════════════════════════════ */}
+      <section className={cn(GUTTER, 'pb-8 md:pb-11')}>
+        <FadeIn>
+          <div className="bg-forest-green rounded-sm px-6 md:px-10 lg:px-14 py-8 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-7">
+              <Eyebrow tone="light">Partner with us</Eyebrow>
+              <h2 className="m-0! mt-2!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl">
+                  One structured retail relationship at a time
+                </span>
+              </h2>
+              <p className="m-0! mt-3! font-sans text-cream/75 text-[13px] md:text-sm leading-relaxed max-w-xl">
+                We are actively engaging retail partners looking for a structured, reliable sourcing
+                and distribution partner. To explore collaboration, share:
+              </p>
+              <ul className="list-none m-0 p-0 mt-4 flex flex-col gap-2">
+                {partnerChecklist.map((c) => (
+                  <Point key={c} tone="light">
+                    {c}
+                  </Point>
+                ))}
+              </ul>
+            </div>
+
+            <div className="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
+              <Cta href="/contact#enquiry" variant="light">
+                Start a conversation
+              </Cta>
+              <Cta href="/b2b" variant="outline">
+                B2B distribution
+              </Cta>
             </div>
           </div>
-        </div>
+        </FadeIn>
       </section>
-    </>
+    </div>
   )
 }

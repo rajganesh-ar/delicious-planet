@@ -1,0 +1,53 @@
+{
+  "disabledAt": "2026-09-01T05:15:50.763Z",
+  "products": [
+    {
+      "id": 57,
+      "slug": "caputo-pasta-fresca-flour-1kg",
+      "title": "Caputo Pasta Fresca e Gnocchi Flour – 1 kg",
+      "reason": "no images"
+    },
+    {
+      "id": 55,
+      "slug": "caputo-integrale-flour-1kg",
+      "title": "Caputo Integrale Wholemeal Flour – 1 kg",
+      "reason": "no images"
+    },
+    {
+      "id": 52,
+      "slug": "caputo-gluten-free-flour-1kg",
+      "title": "Caputo Fioreglut Gluten-Free Flour – 1 kg",
+      "reason": "no images"
+    },
+    {
+      "id": 11,
+      "slug": "admiral-discovery-trio-gift-set",
+      "title": "Admiral Discovery Trio Gift Set",
+      "reason": "no images"
+    },
+    {
+      "id": 10,
+      "slug": "admiral-luxury-corporate-gift-set",
+      "title": "Admiral Luxury Corporate Gift Set",
+      "reason": "no images"
+    },
+    {
+      "id": 9,
+      "slug": "admiral-prestige-gift-set",
+      "title": "Admiral Prestige Gift Set",
+      "reason": "no images"
+    },
+    {
+      "id": 8,
+      "slug": "imperial-duo-gift-set",
+      "title": "Imperial Duo Gift Set",
+      "reason": "no images"
+    },
+    {
+      "id": 7,
+      "slug": "admiral-classic-gift-set",
+      "title": "Admiral Classic Gift Set",
+      "reason": "no images"
+    }
+  ]
+}

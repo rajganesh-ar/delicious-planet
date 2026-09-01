@@ -1,64 +1,88 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState } from 'react'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { MagneticButton } from '@/components/animations/MagneticButton'
+import { ImagePlaceholder } from '@/components/ui'
+import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
 
-/* ────────────────────────────────────────────────────────────
-   DATA
-   ──────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+ * Media slots.
+ *
+ * Every image on this page is declared here. `src: null` renders the
+ * designed placeholder from <ImagePlaceholder>; dropping a file in and
+ * setting its path is the only change needed to go live with real art.
+ * ────────────────────────────────────────────────────────────── */
+const MEDIA = {
+  hero: { src: '/images/sourcing/sourcing-farmer.avif', label: 'Sourcing hero — 4:3' },
+  pillarQuality: { src: '/images/sourcing/sourcing-lab.avif', label: 'Quality & safety — 4:3' },
+  pillarEthics: { src: '/images/sourcing/sourcing-farmer-2.avif', label: 'Responsible procurement — 4:3' },
+  pillarResilience: { src: '/images/sourcing/sourcing-farm-2.avif', label: 'Resilient supply — 4:3' },
+  networkDirect: { src: '/images/sourcing/sourcing-1.avif', label: 'Producer relationships — 16:9' },
+  networkStrategic: { src: '/images/sourcing/sourcing-agriculture.avif', label: 'Regional partnerships — 16:9' },
+  networkPhased: { src: null, label: 'Measured expansion — 16:9' },
+  standards: { src: null, label: 'Quality verification — 4:5' },
+  environmental: { src: null, label: 'Environmental responsibility — 16:9' },
+  social: { src: null, label: 'Social impact — 16:9' },
+  partnership: { src: null, label: 'Supplier partnership — 4:3' },
+} satisfies Record<string, { src: string | null; label: string }>
+
+/* ── Content ── */
+
+const heroStats = [
+  { value: '3', label: 'Sourcing priorities' },
+  { value: '4', label: 'Traceability stages' },
+  { value: 'Multi', label: 'Supplier strategy' },
+  { value: '100%', label: 'Documented origin' },
+]
 
 const pillars = [
   {
     n: '01',
-    title: 'Quality & Safety',
+    title: 'Quality & safety',
     line: 'Without compromise.',
     body: 'Every product entering our network meets internationally recognised food safety benchmarks — from HACCP-aligned processes to lot-level traceability.',
-    img: '/images/sourcing/pillar-quality.avif',
+    media: MEDIA.pillarQuality,
   },
   {
     n: '02',
-    title: 'Responsible Procurement',
+    title: 'Responsible procurement',
     line: 'Ethical at origin.',
     body: 'We engage suppliers operating within fair labour practices, lawful employment standards, and environmentally conscious production methods.',
-    img: '/images/sourcing/pillar-ethics.avif',
+    media: MEDIA.pillarEthics,
   },
   {
     n: '03',
-    title: 'Resilient Supply',
+    title: 'Resilient supply',
     line: 'Diversified by design.',
     body: 'Geographic spread and multi-supplier strategies reduce exposure to regional disruption — keeping availability stable across cycles.',
-    img: '/images/sourcing/pillar-resilience.avif',
+    media: MEDIA.pillarResilience,
   },
 ]
 
 const networkApproach = [
   {
     label: 'Direct',
-    title: 'Producer Relationships',
+    title: 'Producer relationships',
     body: 'We work directly with producers, cooperatives, and processors — removing intermediaries to preserve quality signal and accountability.',
-    img: '/images/sourcing/network-direct.avif',
+    media: MEDIA.networkDirect,
   },
   {
     label: 'Strategic',
-    title: 'Regional Partnerships',
+    title: 'Regional partnerships',
     body: 'Strategic alliances in key agricultural and production regions ensure continuity of supply and category depth.',
-    img: '/images/sourcing/network-strategic.avif',
+    media: MEDIA.networkStrategic,
   },
   {
     label: 'Phased',
-    title: 'Measured Expansion',
+    title: 'Measured expansion',
     body: 'Suppliers are added gradually, based on demonstrated performance and compliance — never on volume alone.',
-    img: '/images/sourcing/network-phased.avif',
+    media: MEDIA.networkPhased,
   },
 ]
 
 const standards = [
   {
-    kicker: 'Food Safety & Quality',
+    kicker: 'Food safety & quality',
     points: [
       'HACCP-based production processes',
       'Compliance with applicable regulatory frameworks',
@@ -67,7 +91,7 @@ const standards = [
     ],
   },
   {
-    kicker: 'Regulatory Compliance',
+    kicker: 'Regulatory compliance',
     points: [
       'Adherence to local and international food regulations',
       'Documented production, processing, and export records',
@@ -75,7 +99,7 @@ const standards = [
     ],
   },
   {
-    kicker: 'Ethical Practices',
+    kicker: 'Ethical practices',
     points: [
       'No forced or child labour',
       'Safe and compliant working conditions',
@@ -84,11 +108,42 @@ const standards = [
   },
 ]
 
+const commitments = [
+  {
+    eyebrow: 'Environmental responsibility',
+    title: 'Better practices, lower impact.',
+    media: MEDIA.environmental,
+    points: [
+      'Preference for sustainable agricultural and production practices',
+      'Reduced waste and improved resource efficiency',
+      'Environmental impact integrated into supplier selection',
+    ],
+  },
+  {
+    eyebrow: 'Social impact',
+    title: 'Inclusive by intent.',
+    media: MEDIA.social,
+    points: [
+      'Engagement with small and mid-sized producers where feasible',
+      'Encouragement of inclusive and equitable business practices',
+      'Working toward recognised sustainability certifications as we expand',
+    ],
+  },
+]
+
 const traceabilitySteps = [
-  { n: '01', title: 'Origin Recorded', body: 'Producer, region, and batch documented at source.' },
-  { n: '02', title: 'Documentation Captured', body: 'Specifications, certifications, and lot records filed.' },
-  { n: '03', title: 'Logistics Controlled', body: 'Movement tracked through approved partners only.' },
-  { n: '04', title: 'Visibility Delivered', body: 'End-to-end records available to commercial partners.' },
+  { n: '01', title: 'Origin recorded', body: 'Producer, region, and batch documented at source.' },
+  {
+    n: '02',
+    title: 'Documentation captured',
+    body: 'Specifications, certifications, and lot records filed.',
+  },
+  { n: '03', title: 'Logistics controlled', body: 'Movement tracked through approved partners only.' },
+  {
+    n: '04',
+    title: 'Visibility delivered',
+    body: 'End-to-end records available to commercial partners.',
+  },
 ]
 
 const riskPrinciples = [
@@ -106,6 +161,13 @@ const riskPrinciples = [
   },
 ]
 
+const partnershipTraits = [
+  { t: 'Clear expectations', d: 'Performance criteria defined up front.' },
+  { t: 'Open feedback loops', d: 'Continuous, two-way communication.' },
+  { t: 'Gradual scaling', d: 'Engagement grows with reliability.' },
+  { t: 'Process support', d: 'Helping suppliers meet required standards.' },
+]
+
 const governancePrinciples = [
   'A defined supplier code of conduct',
   'Internal review for supplier selection and approval',
@@ -121,7 +183,7 @@ const roadmap = [
   },
   {
     horizon: 'Next',
-    title: 'Capability Build',
+    title: 'Capability build',
     body: 'Formal supplier auditing programmes, expanded sustainability evaluation, deeper digital traceability across categories.',
   },
   {
@@ -137,208 +199,73 @@ const supplierChecklist = [
   'Operational capabilities and geographic coverage',
 ]
 
-/* ────────────────────────────────────────────────────────────
-   COMPONENT
-   ──────────────────────────────────────────────────────────── */
-
 export function SourcingPageClient() {
-  const heroRef = useRef<HTMLDivElement | null>(null)
-  const [heroTarget, setHeroTarget] = useState<HTMLDivElement | null>(null)
-
-  const refCallback = (node: HTMLDivElement | null) => {
-    heroRef.current = node
-    setHeroTarget(node)
-  }
-
-  const { scrollYProgress } = useScroll({
-    ...(heroTarget ? { target: { current: heroTarget } } : {}),
-    offset: ['start start', 'end start'],
-  })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-
   return (
-    <>
-      {/* ═══ Hero — Editorial split, parallax background ═══ */}
-      <section
-        ref={refCallback}
-        className="relative min-h-[88vh] flex items-end overflow-hidden bg-obsidian"
-      >
-        <motion.div style={{ y: imgY }} className="absolute inset-0">
-          <Image
-            src="/images/sourcing/hero-sourcing.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-obsidian/30" />
-        </motion.div>
-
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pb-20 lg:pb-28 pt-32 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-7">
-              <motion.p
-                className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Sourcing
-              </motion.p>
-              <motion.h1
-                className="font-luxury text-4xl sm:text-5xl lg:text-[64px] xl:text-[76px] font-light text-cream leading-[1.02] tracking-[-0.03em] m-0"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                Sourced with intent.
-                <br />
-                <span className="text-gold">Built on trust.</span>
-              </motion.h1>
-            </div>
-
-            <motion.div
-              className="lg:col-span-4 lg:col-start-9"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.6 }}
-            >
-              <div className="w-12 h-px bg-gold mb-5" />
-              <p className="text-cream/70 text-base lg:text-lg leading-relaxed m-0">
-                A sourcing ecosystem designed for reliability, transparency, and long-term
-                sustainability — built deliberately, partner by partner.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Approach Statement ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <div className="lg:col-span-4">
+    <div className="bg-cream">
+      {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
+      <section className="bg-obsidian">
+        <div className={cn(GUTTER, 'pt-10 pb-8 md:pt-14 md:pb-10')}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-6">
               <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Our Approach
+                <Eyebrow tone="light">Sourcing</Eyebrow>
+              </FadeIn>
+              <FadeIn delay={0.06}>
+                <h1 className="m-0! mt-3!">
+                  <span className="block font-luxury text-cream font-semibold leading-[1.12] tracking-tight text-[clamp(1.9rem,5vw,3.5rem)]">
+                    Sourced with intent. <span className="text-gold">Built on trust.</span>
+                  </span>
+                </h1>
+              </FadeIn>
+              <FadeIn delay={0.12}>
+                <p className="m-0! mt-4! font-sans text-cream/75 text-sm md:text-base leading-relaxed max-w-xl">
+                  A sourcing ecosystem designed for reliability, transparency, and long-term
+                  sustainability — built deliberately, partner by partner.
                 </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Principles before scale.
-                </h2>
+              </FadeIn>
+              <FadeIn delay={0.18}>
+                <p className="m-0! mt-3! font-sans text-cream/55 text-[13px] md:text-sm leading-relaxed max-w-xl">
+                  Our advantage isn&apos;t scale — it&apos;s judgement. Every supplier is selected
+                  deliberately, evaluated against fixed standards, and onboarded into a system
+                  built to grow without compromising what it stands for.
+                </p>
+              </FadeIn>
+              <FadeIn delay={0.24}>
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <Cta href="/vendors">Become a supplier</Cta>
+                  <Cta href="/sustainability" variant="outline">
+                    Sustainability
+                  </Cta>
+                </div>
               </FadeIn>
             </div>
-            <div className="lg:col-span-7 lg:col-start-6">
+
+            <div className="lg:col-span-6">
               <FadeIn delay={0.1}>
-                <p className="text-stone text-lg lg:text-xl leading-relaxed m-0 mb-6">
-                  As a growing organisation, our advantage isn&apos;t scale — it&apos;s judgement.
-                  Every supplier we add is selected deliberately, evaluated against fixed
-                  standards, and onboarded into a system designed to grow without compromising
-                  what it stands for.
-                </p>
-                <p className="text-stone/80 text-base lg:text-lg leading-relaxed m-0">
-                  We are deliberate in selecting partners who align with our principles and
-                  committed to scaling responsibly alongside us.
-                </p>
+                <ImagePlaceholder
+                  {...MEDIA.hero}
+                  ratio="4/3"
+                  tone="dark"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 46vw"
+                  className="rounded-sm"
+                />
               </FadeIn>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ═══ Three Pillars — large numbered editorial ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-14 lg:mb-20">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                  Three Priorities
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0 max-w-2xl">
-                  The non-negotiables that shape every sourcing decision.
-                </h2>
-              </div>
-            </div>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {pillars.map((p, i) => (
-              <FadeIn key={p.n} delay={i * 0.1}>
-                <article className="group h-full flex flex-col bg-cream rounded-sm overflow-hidden">
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <Image
-                      src={p.img}
-                      alt={p.title}
-                      fill
-                      sizes="(max-width:768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/40 via-transparent to-transparent" />
-                    <span className="absolute top-6 left-6 font-luxury text-cream/90 text-sm tracking-[0.3em]">
-                      {p.n}
-                    </span>
-                  </div>
-                  <div className="p-7 lg:p-8 flex-1 flex flex-col">
-                    <h3 className="font-luxury text-2xl font-medium text-obsidian m-0 mb-1">
-                      {p.title}
-                    </h3>
-                    <p className="font-luxury italic text-gold text-sm m-0 mb-5">{p.line}</p>
-                    <p className="text-stone text-sm leading-relaxed m-0">{p.body}</p>
-                  </div>
-                </article>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Global Supply Network — 3-column with imagery ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-14 lg:mb-16">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Building the Network
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  A geographically diverse supplier base — built phase by phase.
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  A phased approach lets us maintain control over quality while scaling
-                  efficiently. Diversity protects continuity; discipline protects integrity.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-mist/40 rounded-sm overflow-hidden">
-            {networkApproach.map((a, i) => (
-              <FadeIn key={a.label} delay={i * 0.1}>
-                <div className="bg-cream h-full flex flex-col">
-                  <div className="relative aspect-[5/3] overflow-hidden">
-                    <Image
-                      src={a.img}
-                      alt={a.title}
-                      fill
-                      sizes="(max-width:768px) 100vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-7 lg:p-9 flex-1 flex flex-col">
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                      {a.label}
-                    </span>
-                    <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                      {a.title}
-                    </h3>
-                    <p className="text-stone text-sm leading-relaxed m-0">{a.body}</p>
-                  </div>
+        <div className={cn(GUTTER, 'border-t border-cream/10')}>
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {heroStats.map((s, i) => (
+              <FadeIn key={s.label} delay={i * 0.05}>
+                <div className="py-4 md:py-5 pr-4">
+                  <span className="block font-luxury text-2xl md:text-3xl font-semibold text-cream leading-none">
+                    {s.value}
+                  </span>
+                  <span className="block font-sans text-[10px] md:text-[11px] uppercase tracking-[0.16em] text-cream/45 mt-2">
+                    {s.label}
+                  </span>
                 </div>
               </FadeIn>
             ))}
@@ -346,294 +273,116 @@ export function SourcingPageClient() {
         </div>
       </section>
 
-      {/* ═══ Supplier Standards — Standards | Image | Three blocks ═══ */}
-      <section className="py-(--spacing-section-lg) bg-obsidian relative overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <div className="lg:col-span-4">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium mb-4">
-                  Supplier Standards
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-cream leading-[1.15] tracking-tight m-0 mb-6">
-                  Our network expands. Our standards do not.
-                </h2>
-                <p className="text-cream/60 text-base leading-relaxed m-0 mb-8">
-                  Every supplier moves through a structured onboarding and evaluation process
-                  before any product enters our portfolio.
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.15}>
-                <div className="relative aspect-[4/5] rounded-sm overflow-hidden">
-                  <Image
-                    src="/images/sourcing/sourcing-lab.avif"
-                    alt="Quality verification"
-                    fill
-                    sizes="(max-width:1024px) 100vw, 33vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian/60 to-transparent" />
+      {/* ═══ 2 · PRIORITIES ═════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Three priorities"
+          title="The non-negotiables behind every sourcing decision"
+          lede="Principles before scale — the criteria a supplier meets before any product enters the portfolio."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {pillars.map((p, i) => (
+            <FadeIn key={p.n} delay={i * 0.06}>
+              <article className="h-full flex flex-col bg-white border border-stone/15 rounded-sm overflow-hidden">
+                <ImagePlaceholder
+                  {...p.media}
+                  ratio="4/3"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                >
+                  <span className="absolute top-3 left-3 font-luxury text-[13px] font-semibold text-obsidian bg-cream/90 px-2 py-0.5 rounded-sm">
+                    {p.n}
+                  </span>
+                </ImagePlaceholder>
+                <div className="p-4 md:p-5 flex-1">
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                    {p.title}
+                  </span>
+                  <span className="block font-luxury italic text-[13px] text-forest-green/85 mt-1">
+                    {p.line}
+                  </span>
+                  <p className="m-0! mt-2.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {p.body}
+                  </p>
                 </div>
-              </FadeIn>
-            </div>
-
-            <div className="lg:col-span-7 lg:col-start-6 space-y-px bg-white/10 rounded-sm overflow-hidden">
-              {standards.map((s, i) => (
-                <FadeIn key={s.kicker} delay={i * 0.1}>
-                  <div className="bg-obsidian p-7 lg:p-9">
-                    <div className="flex items-center gap-4 mb-5">
-                      <span className="font-luxury text-gold/80 text-xs tracking-[0.3em]">
-                        0{i + 1}
-                      </span>
-                      <div className="w-8 h-px bg-gold/40" />
-                      <h3 className="font-luxury text-lg lg:text-xl font-medium text-cream m-0">
-                        {s.kicker}
-                      </h3>
-                    </div>
-                    <ul className="list-none m-0 p-0 space-y-3">
-                      {s.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-3">
-                          <span className="text-gold mt-[2px] shrink-0" aria-hidden>
-                            —
-                          </span>
-                          <span className="text-cream/70 text-sm leading-relaxed">{pt}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
+              </article>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
-      {/* ═══ Responsible Sourcing Commitments — split editorial ═══ */}
-      <section className="bg-forest text-cream">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          <FadeIn>
-            <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[640px]">
-              <Image
-                src="/images/sourcing/sustainability-environmental.avif"
-                alt="Environmental responsibility"
-                fill
-                sizes="(max-width:1024px) 100vw, 50vw"
-                className="object-cover"
+      {/* ═══ 3 · NETWORK ════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Building the network"
+          title="A geographically diverse supplier base"
+          lede="Diversity protects continuity; discipline protects integrity. The base grows phase by phase."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {networkApproach.map((a, i) => (
+            <FadeIn key={a.label} delay={i * 0.06}>
+              <article className="h-full flex flex-col bg-white border border-stone/15 rounded-sm overflow-hidden">
+                <ImagePlaceholder
+                  {...a.media}
+                  ratio="16/9"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="p-4 md:p-5 flex-1">
+                  <Eyebrow>{a.label}</Eyebrow>
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-2">
+                    {a.title}
+                  </span>
+                  <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {a.body}
+                  </p>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 4 · SUPPLIER STANDARDS ═════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Supplier standards"
+          title="Our network expands. Our standards do not."
+          lede="Every supplier moves through structured onboarding and evaluation before a single product is listed."
+          tone="light"
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-stretch">
+          <div className="lg:col-span-4">
+            <FadeIn>
+              <ImagePlaceholder
+                {...MEDIA.standards}
+                tone="dark"
+                sizes="(max-width: 1024px) 100vw, 30vw"
+                className="rounded-sm h-full min-h-55"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-forest/30 via-transparent to-forest/30" />
-              <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-14">
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Environmental Responsibility
-                </p>
-                <h3 className="font-luxury text-2xl lg:text-[32px] font-light text-cream leading-[1.15] tracking-tight m-0 mb-6">
-                  Better practices, lower impact.
-                </h3>
-                <ul className="list-none m-0 p-0 space-y-3 max-w-md">
-                  {[
-                    'Preference for sustainable agricultural and production practices',
-                    'Reduced waste and improved resource efficiency',
-                    'Environmental impact integrated into supplier selection',
-                  ].map((t) => (
-                    <li key={t} className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0" />
-                      <span className="text-cream/80 text-sm leading-relaxed">{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[640px]">
-              <Image
-                src="/images/sourcing/sustainability-social.avif"
-                alt="Social impact"
-                fill
-                sizes="(max-width:1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-forest/30 via-transparent to-forest/30" />
-              <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-14">
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Social Impact
-                </p>
-                <h3 className="font-luxury text-2xl lg:text-[32px] font-light text-cream leading-[1.15] tracking-tight m-0 mb-6">
-                  Inclusive by intent.
-                </h3>
-                <ul className="list-none m-0 p-0 space-y-3 max-w-md">
-                  {[
-                    'Engagement with small and mid-sized producers where feasible',
-                    'Encouragement of inclusive and equitable business practices',
-                    'Working toward recognised sustainability certifications as we expand',
-                  ].map((t) => (
-                    <li key={t} className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0" />
-                      <span className="text-cream/80 text-sm leading-relaxed">{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ═══ Traceability — horizontal stepped journey ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
-              <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                Traceability & Transparency
-              </p>
-              <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                From origin to shipment — visibility at every step.
-              </h2>
-            </div>
-          </FadeIn>
-
-          <div className="relative">
-            {/* connecting line */}
-            <div className="hidden lg:block absolute top-8 left-0 right-0 h-px bg-gold/30" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
-              {traceabilitySteps.map((s, i) => (
-                <FadeIn key={s.n} delay={i * 0.1}>
-                  <div className="relative">
-                    <div className="hidden lg:flex w-4 h-4 rounded-full bg-gold absolute top-8 left-0 -translate-y-1/2 ring-8 ring-cream" />
-                    <div className="lg:pl-10">
-                      <span className="font-luxury text-gold text-sm tracking-[0.3em] block mb-3">
-                        {s.n}
-                      </span>
-                      <h3 className="font-luxury text-xl font-medium text-obsidian m-0 mb-3">
-                        {s.title}
-                      </h3>
-                      <p className="text-stone text-sm leading-relaxed m-0">{s.body}</p>
-                    </div>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
+            </FadeIn>
           </div>
-        </div>
-      </section>
 
-      {/* ═══ Risk Management & Continuity ═══ */}
-      <section className="py-(--spacing-section) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Risk & Continuity
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0 mb-6">
-                  Resilience is engineered, not assumed.
-                </h2>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  Global food supply chains carry inherent volatility. We embed risk management
-                  into our sourcing model from day one — not as a reaction to disruption, but as
-                  the structure that prevents it.
-                </p>
-              </FadeIn>
-            </div>
-
-            <div className="lg:col-span-6 lg:col-start-7 space-y-4">
-              {riskPrinciples.map((r, i) => (
-                <FadeIn key={r.title} delay={i * 0.1}>
-                  <div className="flex items-start gap-6 bg-cream rounded-sm p-7 lg:p-8 border border-mist/30">
-                    <span className="font-luxury text-gold text-2xl lg:text-3xl font-light shrink-0">
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+            {standards.map((s, i) => (
+              <FadeIn key={s.kicker} delay={i * 0.06}>
+                <div className="h-full border border-cream/12 rounded-sm p-4 md:p-5">
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-luxury text-lg text-gold/70 leading-none">
                       0{i + 1}
                     </span>
-                    <div>
-                      <h3 className="font-luxury text-lg font-medium text-obsidian m-0 mb-2">
-                        {r.title}
-                      </h3>
-                      <p className="text-stone text-sm leading-relaxed m-0">{r.body}</p>
-                    </div>
+                    <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight">
+                      {s.kicker}
+                    </span>
                   </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Partnerships — editorial pull-quote ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <FadeIn delay={0.05}>
-              <div className="lg:col-span-5 relative aspect-[4/5] rounded-sm overflow-hidden">
-                <Image
-                  src="/images/sourcing/partnership.avif"
-                  alt="Supplier partnership"
-                  fill
-                  sizes="(max-width:1024px) 100vw, 40vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/30 to-transparent" />
-              </div>
-            </FadeIn>
-
-            <div className="lg:col-span-6 lg:col-start-7">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                  Supplier Partnerships
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <p className="font-luxury text-2xl lg:text-[34px] font-light text-obsidian leading-[1.25] tracking-tight m-0 mb-8">
-                  &ldquo;Sourcing is collaborative — not transactional. We grow with the suppliers
-                  who grow with us.&rdquo;
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.15}>
-                <div className="w-12 h-px bg-gold mb-6" />
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-                  {[
-                    { t: 'Clear expectations', d: 'Performance criteria defined up front.' },
-                    { t: 'Open feedback loops', d: 'Continuous, two-way communication.' },
-                    { t: 'Gradual scaling', d: 'Engagement grows with reliability.' },
-                    { t: 'Process support', d: 'Helping suppliers meet required standards.' },
-                  ].map((x) => (
-                    <div key={x.t}>
-                      <p className="font-luxury text-base text-obsidian m-0 mb-1">{x.t}</p>
-                      <p className="text-stone text-sm leading-relaxed m-0">{x.d}</p>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Governance & Integrity — manifesto ═══ */}
-      <section className="py-(--spacing-section-lg) bg-obsidian">
-        <div className="max-w-[1100px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
-          <FadeIn>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium mb-5">
-              Governance & Integrity
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="font-luxury text-3xl lg:text-[52px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-12 lg:mb-16">
-              Trust is the only currency that compounds across a supply chain.
-            </h2>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-5 max-w-2xl mx-auto text-left">
-            {governancePrinciples.map((p, i) => (
-              <FadeIn key={p} delay={0.15 + i * 0.06}>
-                <div className="flex items-start gap-4 border-t border-cream/15 pt-5">
-                  <span className="font-luxury text-gold/70 text-xs tracking-[0.3em] shrink-0 mt-1">
-                    0{i + 1}
-                  </span>
-                  <p className="text-cream/80 text-base leading-relaxed m-0">{p}</p>
+                  <ul className="list-none m-0 p-0 mt-3 flex flex-col gap-2">
+                    {s.points.map((pt) => (
+                      <Point key={pt} tone="light">
+                        {pt}
+                      </Point>
+                    ))}
+                  </ul>
                 </div>
               </FadeIn>
             ))}
@@ -641,130 +390,224 @@ export function SourcingPageClient() {
         </div>
       </section>
 
-      {/* ═══ Looking Ahead — Now/Next/Later ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
-              <div className="max-w-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                  Looking Ahead
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Where the sourcing strategy goes next.
-                </h2>
-              </div>
-              <p className="text-stone text-sm max-w-sm">
-                A future-ready sourcing network — efficient, scalable, and responsible.
-              </p>
-            </div>
-          </FadeIn>
+      {/* ═══ 5 · COMMITMENTS ════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Responsible sourcing"
+          title="What we commit to at origin"
+          lede="Environmental and social criteria sit alongside price and specification in every supplier decision."
+        />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {roadmap.map((r, i) => (
-              <FadeIn key={r.horizon} delay={i * 0.1}>
-                <div
-                  className={`rounded-sm p-8 lg:p-10 h-full flex flex-col ${
-                    i === 0
-                      ? 'bg-obsidian text-cream'
-                      : i === 1
-                        ? 'bg-cream text-obsidian'
-                        : 'bg-cream/60 text-obsidian'
-                  }`}
-                >
-                  <span
-                    className={`text-[10px] uppercase tracking-[0.3em] font-medium mb-6 ${
-                      i === 0 ? 'text-gold' : 'text-gold'
-                    }`}
-                  >
-                    {r.horizon}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          {commitments.map((c, i) => (
+            <FadeIn key={c.eyebrow} delay={i * 0.06}>
+              <article className="h-full flex flex-col bg-white border border-stone/15 rounded-sm overflow-hidden">
+                <ImagePlaceholder
+                  {...c.media}
+                  ratio="16/9"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="p-4 md:p-5 flex-1">
+                  <Eyebrow>{c.eyebrow}</Eyebrow>
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-2">
+                    {c.title}
                   </span>
-                  <h3
-                    className={`font-luxury text-2xl lg:text-3xl font-light m-0 mb-4 ${
-                      i === 0 ? 'text-cream' : 'text-obsidian'
-                    }`}
-                  >
+                  <ul className="list-none m-0 p-0 mt-3 flex flex-col gap-2">
+                    {c.points.map((pt) => (
+                      <Point key={pt}>{pt}</Point>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 6 · TRACEABILITY & CONTINUITY ══════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Traceability & continuity"
+          title="Visibility at every step, resilience by design"
+          lede="Global food supply carries inherent volatility. Risk management is structural here, not reactive."
+        />
+
+        <ul className="list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 bg-white border border-stone/15 rounded-sm overflow-hidden">
+          {traceabilitySteps.map((s) => (
+            <li
+              key={s.n}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-stone/10 last:border-r-0"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-luxury text-lg text-forest-green/60 leading-none">{s.n}</span>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  {s.title}
+                </span>
+              </div>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                {s.body}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-3 md:mt-4">
+          {riskPrinciples.map((r, i) => (
+            <FadeIn key={r.title} delay={i * 0.06}>
+              <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5 flex items-start gap-4">
+                <span className="shrink-0 font-luxury text-2xl font-semibold text-forest-green/30 leading-none">
+                  0{i + 1}
+                </span>
+                <div className="min-w-0">
+                  <span className="block font-luxury text-base font-semibold text-obsidian leading-tight">
                     {r.title}
-                  </h3>
-                  <p
-                    className={`text-sm lg:text-base leading-relaxed m-0 ${
-                      i === 0 ? 'text-cream/70' : 'text-stone'
-                    }`}
-                  >
+                  </span>
+                  <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
                     {r.body}
                   </p>
                 </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 7 · PARTNERSHIPS ═══════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Supplier partnerships"
+          title="Sourcing is collaborative — not transactional"
+          lede="We grow with the suppliers who grow with us."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-stretch">
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <ImagePlaceholder
+                {...MEDIA.partnership}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="rounded-sm h-full min-h-55"
+              />
+            </FadeIn>
+          </div>
+
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            {partnershipTraits.map((x, i) => (
+              <FadeIn key={x.t} delay={i * 0.05}>
+                <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                  <span className="block font-luxury text-base font-semibold text-obsidian leading-tight">
+                    {x.t}
+                  </span>
+                  <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {x.d}
+                  </p>
+                </div>
               </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ Become a Supplier — checklist + CTA ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1100px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="bg-obsidian rounded-sm p-10 lg:p-16 relative overflow-hidden">
-            <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
+      {/* ═══ 8 · GOVERNANCE ═════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Governance & integrity"
+          title="Trust is the only currency that compounds across a supply chain"
+          tone="light"
+        />
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-7">
-                <FadeIn>
-                  <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                    Become a Supplier
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.1}>
-                  <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-6">
-                    Building a sourcing network — partner by partner.
-                  </h2>
-                </FadeIn>
-                <FadeIn delay={0.15}>
-                  <p className="text-cream/70 text-base leading-relaxed m-0 mb-8">
-                    We are actively engaging with producers and partners who meet our standards
-                    and share our long-term vision. To express interest, please share:
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.2}>
-                  <ul className="list-none m-0 p-0 space-y-3 mb-10">
-                    {supplierChecklist.map((c) => (
-                      <li key={c} className="flex items-start gap-3">
-                        <span
-                          className="w-5 h-5 rounded-full border border-gold/60 shrink-0 flex items-center justify-center mt-[2px]"
-                          aria-hidden
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                        </span>
-                        <span className="text-cream/85 text-sm leading-relaxed">{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </FadeIn>
-              </div>
+        <ul className="list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 border border-cream/12 rounded-sm overflow-hidden">
+          {governancePrinciples.map((p, i) => (
+            <li
+              key={p}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-cream/10 last:border-r-0"
+            >
+              <span className="block font-luxury text-lg text-gold/70 leading-none">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <p className="m-0! mt-2.5! font-sans text-[12.5px] text-cream/70 leading-relaxed">
+                {p}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-              <div className="lg:col-span-4 lg:col-start-9">
-                <FadeIn delay={0.25}>
-                  <MagneticButton>
-                    <Link
-                      href="/vendors"
-                      className="inline-block w-full text-center bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-10 py-5 rounded-sm no-underline hover:bg-gold-light transition-colors"
-                    >
-                      Submit Supplier Inquiry
-                    </Link>
-                  </MagneticButton>
-                </FadeIn>
-                <FadeIn delay={0.3}>
-                  <Link
-                    href="/contact"
-                    className="block text-center mt-4 text-cream/60 text-xs uppercase tracking-widest hover:text-gold transition-colors no-underline"
-                  >
-                    or speak with our sourcing team →
-                  </Link>
-                </FadeIn>
+      {/* ═══ 9 · ROADMAP ════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Looking ahead"
+          title="Where the sourcing strategy goes next"
+          lede="A future-ready network — efficient, scalable, and responsible."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {roadmap.map((r, i) => (
+            <FadeIn key={r.horizon} delay={i * 0.06}>
+              <div
+                className={cn(
+                  'h-full rounded-sm border p-4 md:p-5',
+                  i === 0 ? 'bg-forest-green border-forest-green' : 'bg-white border-stone/15',
+                )}
+              >
+                <Eyebrow tone={i === 0 ? 'light' : 'dark'}>{r.horizon}</Eyebrow>
+                <span
+                  className={cn(
+                    'block font-luxury text-base md:text-lg font-semibold leading-tight mt-2',
+                    i === 0 ? 'text-cream' : 'text-obsidian',
+                  )}
+                >
+                  {r.title}
+                </span>
+                <p
+                  className={cn(
+                    'm-0! mt-2! font-sans text-[12.5px] leading-relaxed',
+                    i === 0 ? 'text-cream/80' : 'text-stone',
+                  )}
+                >
+                  {r.body}
+                </p>
               </div>
-            </div>
-          </div>
+            </FadeIn>
+          ))}
         </div>
       </section>
-    </>
+
+      {/* ═══ 10 · BECOME A SUPPLIER ═════════════════════════════ */}
+      <section className={cn(GUTTER, 'pb-8 md:pb-11')}>
+        <FadeIn>
+          <div className="bg-obsidian rounded-sm px-6 md:px-10 lg:px-14 py-8 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-7">
+              <Eyebrow tone="light">Become a supplier</Eyebrow>
+              <h2 className="m-0! mt-2!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl">
+                  Building a sourcing network, partner by partner
+                </span>
+              </h2>
+              <p className="m-0! mt-3! font-sans text-cream/70 text-[13px] md:text-sm leading-relaxed max-w-xl">
+                We are actively engaging producers who meet our standards and share our long-term
+                vision. To express interest, please share:
+              </p>
+              <ul className="list-none m-0 p-0 mt-4 flex flex-col gap-2">
+                {supplierChecklist.map((c) => (
+                  <Point key={c} tone="light">
+                    {c}
+                  </Point>
+                ))}
+              </ul>
+            </div>
+
+            <div className="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
+              <Cta href="/vendors" variant="light">
+                Submit supplier inquiry
+              </Cta>
+              <Cta href="/contact" variant="outline">
+                Speak with our team
+              </Cta>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+    </div>
   )
 }

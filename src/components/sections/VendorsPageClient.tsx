@@ -1,15 +1,39 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState } from 'react'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { MagneticButton } from '@/components/animations/MagneticButton'
+import { ImagePlaceholder } from '@/components/ui'
+import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
 
-/* ────────────────────────────────────────────────────────────
-   DATA
-   ──────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+ * Media slots.
+ *
+ * `public/images/vendor/` does not exist, so every slot here renders the
+ * designed placeholder from <ImagePlaceholder>. Dropping a file in and
+ * setting its path is the only change needed to go live.
+ *
+ * `misc/become-a-vendor.avif` is named for this page but is an abstract
+ * purple texture — deliberately not used here.
+ * ────────────────────────────────────────────────────────────── */
+const MEDIA = {
+  hero: { src: null, label: 'Vendors hero — 4:3' },
+  producers: { src: null, label: 'Producers — 16:9' },
+  marine: { src: null, label: 'Fisheries & aquaculture — 16:9' },
+  processors: { src: null, label: 'Processors — 16:9' },
+  aggregators: { src: null, label: 'Aggregators & export — 16:9' },
+  logistics: { src: null, label: 'Cold chain & logistics — 16:9' },
+  philosophy: { src: null, label: 'Partnership philosophy' },
+  development: { src: null, label: 'Supplier development' },
+} satisfies Record<string, { src: string | null; label: string }>
+
+/* ── Content ── */
+
+const heroStats = [
+  { value: '5', label: 'Partner types' },
+  { value: '4', label: 'Entry requirements' },
+  { value: '4', label: 'Onboarding stages' },
+  { value: '3', label: 'Partnership tiers' },
+]
 
 const approachPillars = [
   {
@@ -32,52 +56,42 @@ const networkTypes = [
     label: 'Producers',
     title: 'Agricultural producers & farmer groups',
     body: 'Origin-side partners working at the source — from smallholder cooperatives to organised farms.',
-    img: '/images/vendor/vendor-agriculture.avif',
-    span: 'lg:col-span-7',
-    aspect: 'aspect-[16/10]',
+    media: MEDIA.producers,
   },
   {
     n: '02',
     label: 'Marine',
     title: 'Fisheries & aquaculture operators',
     body: 'Sustainable wild-catch and aquaculture operators with chain-of-custody documentation.',
-    img: '/images/vendor/vendor-fisheries.avif',
-    span: 'lg:col-span-5',
-    aspect: 'aspect-[4/3]',
+    media: MEDIA.marine,
   },
   {
     n: '03',
     label: 'Manufacture',
     title: 'Food processors & manufacturers',
     body: 'Specialty processors with documented batch consistency and export-ready capability.',
-    img: '/images/vendor/vendor-processors.avif',
-    span: 'lg:col-span-5',
-    aspect: 'aspect-[4/3]',
+    media: MEDIA.processors,
   },
   {
     n: '04',
     label: 'Distribution',
     title: 'Aggregators & export houses',
     body: 'Volume aggregators and export specialists capable of meeting international compliance.',
-    img: '/images/vendor/vendor-aggregators.avif',
-    span: 'lg:col-span-7',
-    aspect: 'aspect-[16/10]',
+    media: MEDIA.aggregators,
   },
   {
     n: '05',
     label: 'Logistics',
     title: 'Logistics & cold chain partners',
     body: 'Operators maintaining temperature integrity from producer to port to shelf.',
-    img: '/images/vendor/vendor-logistics.avif',
-    span: 'lg:col-span-12',
-    aspect: 'aspect-[21/8]',
+    media: MEDIA.logistics,
   },
 ]
 
 const requirements = [
   {
     n: '01',
-    kicker: 'Quality & Food Safety',
+    kicker: 'Quality & food safety',
     headline: 'Consistent. Traceable. Verifiable.',
     points: [
       'Implementation of recognised food safety practices (HACCP-aligned)',
@@ -87,7 +101,7 @@ const requirements = [
   },
   {
     n: '02',
-    kicker: 'Regulatory Compliance',
+    kicker: 'Regulatory compliance',
     headline: 'Documented at every step.',
     points: [
       'Compliance with applicable local and international regulations',
@@ -97,7 +111,7 @@ const requirements = [
   },
   {
     n: '03',
-    kicker: 'Ethical & Labour Practices',
+    kicker: 'Ethical & labour practices',
     headline: 'Non-negotiable.',
     points: [
       'No use of forced or child labour',
@@ -107,7 +121,7 @@ const requirements = [
   },
   {
     n: '04',
-    kicker: 'Operational Capability',
+    kicker: 'Operational capability',
     headline: 'Built to deliver.',
     points: [
       'Ability to meet agreed volumes and delivery timelines',
@@ -120,7 +134,7 @@ const requirements = [
 const onboardingSteps = [
   {
     n: '01',
-    title: 'Initial Assessment',
+    title: 'Initial assessment',
     body: 'Submission of company profile, product details, certifications, and operational capabilities.',
   },
   {
@@ -135,7 +149,7 @@ const onboardingSteps = [
   },
   {
     n: '04',
-    title: 'Approval & Integration',
+    title: 'Approval & integration',
     body: 'Formal onboarding, agreement on specifications, and inclusion in the supplier network.',
   },
 ]
@@ -144,7 +158,8 @@ const tiers = [
   {
     label: 'Tier 01',
     name: 'Developmental',
-    summary: 'Suppliers in active onboarding — meeting baselines and building toward category alignment.',
+    summary:
+      'Suppliers in active onboarding — meeting baselines and building toward category alignment.',
     markers: [
       'Baseline standards verified',
       'Pilot or initial supply window',
@@ -164,7 +179,8 @@ const tiers = [
   {
     label: 'Tier 03',
     name: 'Strategic',
-    summary: 'Long-term partners integrated into category planning, demand forecasting, and growth.',
+    summary:
+      'Long-term partners integrated into category planning, demand forecasting, and growth.',
     markers: [
       'Multi-year, performance-tied partnership',
       'Joint planning on volume and specification',
@@ -173,23 +189,21 @@ const tiers = [
   },
 ]
 
+const developmentCommitments = [
+  { t: 'Performance-tied growth', d: 'Volumes grow with demonstrated reliability.' },
+  { t: 'Predictable demand', d: 'Clear forecasts where commercial conditions allow.' },
+  { t: 'Continuous alignment', d: 'Ongoing communication on quality and improvements.' },
+  {
+    t: 'Sustainability adoption',
+    d: 'Gradual integration of sustainable practices across the network.',
+  },
+]
+
 const performanceMetrics = [
-  {
-    metric: 'Quality',
-    detail: 'Product specification adherence and batch-to-batch consistency.',
-  },
-  {
-    metric: 'Reliability',
-    detail: 'On-time delivery and order fulfilment against agreed schedules.',
-  },
-  {
-    metric: 'Compliance',
-    detail: 'Continued adherence to documented standards and certifications.',
-  },
-  {
-    metric: 'Responsiveness',
-    detail: 'Communication, issue resolution, and collaborative engagement.',
-  },
+  { metric: 'Quality', detail: 'Product specification adherence and batch-to-batch consistency.' },
+  { metric: 'Reliability', detail: 'On-time delivery and order fulfilment against agreed schedules.' },
+  { metric: 'Compliance', detail: 'Continued adherence to documented standards and certifications.' },
+  { metric: 'Responsiveness', detail: 'Communication, issue resolution, and collaborative engagement.' },
 ]
 
 const zeroTolerance = [
@@ -210,7 +224,7 @@ const ecosystemPartners = [
     body: 'Platforms that strengthen visibility, documentation, and supplier data management.',
   },
   {
-    label: 'Market Access',
+    label: 'Market access',
     title: 'Regional distribution networks',
     body: 'Partners enabling efficient market reach across the regions we operate in.',
   },
@@ -222,704 +236,433 @@ const inquiryChecklist = [
   'Production capacity and geographic coverage',
 ]
 
-/* ────────────────────────────────────────────────────────────
-   COMPONENT
-   ──────────────────────────────────────────────────────────── */
-
 export function VendorsPageClient() {
-  const heroRef = useRef<HTMLDivElement | null>(null)
-  const [heroTarget, setHeroTarget] = useState<HTMLDivElement | null>(null)
-
-  const refCallback = (node: HTMLDivElement | null) => {
-    heroRef.current = node
-    setHeroTarget(node)
-  }
-
-  const { scrollYProgress } = useScroll({
-    ...(heroTarget ? { target: { current: heroTarget } } : {}),
-    offset: ['start start', 'end start'],
-  })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-
   return (
-    <>
-      {/* ═══ Hero — cinematic parallax with split layout ═══ */}
-      <section
-        ref={refCallback}
-        className="relative min-h-[88vh] flex items-end overflow-hidden bg-obsidian"
-      >
-        <motion.div style={{ y: imgY }} className="absolute inset-0">
-          <Image
-            src="/images/vendor/hero-vendor.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-obsidian/30" />
-        </motion.div>
-
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pb-20 lg:pb-28 pt-32 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-7">
-              <motion.p
-                className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Vendors &amp; Partnerships
-              </motion.p>
-              <motion.h1
-                className="font-luxury text-4xl sm:text-5xl lg:text-[64px] xl:text-[76px] font-light text-cream leading-[1.02] tracking-[-0.03em] m-0"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                Built on standards.
-                <br />
-                <span className="text-gold">Grown through trust.</span>
-              </motion.h1>
-            </div>
-
-            <motion.div
-              className="lg:col-span-4 lg:col-start-9"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.6 }}
-            >
-              <div className="w-12 h-px bg-gold mb-5" />
-              <p className="text-cream/70 text-base lg:text-lg leading-relaxed m-0">
-                A supplier network engineered for credibility — selective at entry, structured in
-                governance, and long-term in intent.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Approach — editorial intro with three pillars ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-16 lg:mb-20">
-            <div className="lg:col-span-5">
+    <div className="bg-cream">
+      {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
+      <section className="bg-obsidian">
+        <div className={cn(GUTTER, 'pt-10 pb-8 md:pt-14 md:pb-10')}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-6">
               <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Our Approach
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Selective at entry.
-                  <br />
-                  Structured in growth.
-                </h2>
+                <Eyebrow tone="light">Vendors &amp; partnerships</Eyebrow>
               </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-lg lg:text-xl leading-relaxed m-0 mb-6">
-                  We are building a network of suppliers and partners aligned with our commitment
-                  to quality, reliability, and responsible sourcing. As a growing organisation, we
-                  are deliberate in establishing relationships that can scale sustainably over time.
+              <FadeIn delay={0.06}>
+                <h1 className="m-0! mt-3!">
+                  <span className="block font-luxury text-cream font-semibold leading-[1.12] tracking-tight text-[clamp(1.9rem,5vw,3.5rem)]">
+                    Built on standards. <span className="text-gold">Grown through trust.</span>
+                  </span>
+                </h1>
+              </FadeIn>
+              <FadeIn delay={0.12}>
+                <p className="m-0! mt-4! font-sans text-cream/75 text-sm md:text-base leading-relaxed max-w-xl">
+                  A supplier network engineered for credibility — selective at entry, structured in
+                  governance, and long-term in intent.
                 </p>
-                <p className="text-stone/80 text-base lg:text-lg leading-relaxed m-0">
+              </FadeIn>
+              <FadeIn delay={0.18}>
+                <p className="m-0! mt-3! font-sans text-cream/55 text-[13px] md:text-sm leading-relaxed max-w-xl">
                   Our model favours operational discipline and global supply readiness over volume
                   alone. We add suppliers slowly — and grow alongside them.
                 </p>
               </FadeIn>
+              <FadeIn delay={0.24}>
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <Cta href="/contact#enquiry">Apply as a supplier</Cta>
+                  <Cta href="/sourcing" variant="outline">
+                    How we source
+                  </Cta>
+                </div>
+              </FadeIn>
+            </div>
+
+            <div className="lg:col-span-6">
+              <FadeIn delay={0.1}>
+                <ImagePlaceholder
+                  {...MEDIA.hero}
+                  ratio="4/3"
+                  tone="dark"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 46vw"
+                  className="rounded-sm"
+                />
+              </FadeIn>
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-mist/40 rounded-sm overflow-hidden">
-            {approachPillars.map((p, i) => (
-              <FadeIn key={p.title} delay={i * 0.08}>
-                <div className="bg-cream p-8 lg:p-10 h-full">
-                  <span className="font-luxury text-gold text-xs tracking-[0.3em] block mb-5">
+        <div className={cn(GUTTER, 'border-t border-cream/10')}>
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {heroStats.map((s, i) => (
+              <FadeIn key={s.label} delay={i * 0.05}>
+                <div className="py-4 md:py-5 pr-4">
+                  <span className="block font-luxury text-2xl md:text-3xl font-semibold text-cream leading-none">
+                    {s.value}
+                  </span>
+                  <span className="block font-sans text-[10px] md:text-[11px] uppercase tracking-[0.16em] text-cream/45 mt-2">
+                    {s.label}
+                  </span>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 2 · APPROACH ═══════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Our approach"
+          title="Selective at entry, structured in growth"
+          lede="We build relationships that can scale sustainably — deliberately, and over time."
+        />
+
+        <ul className="list-none m-0 p-0 grid grid-cols-1 md:grid-cols-3 bg-white border border-stone/15 rounded-sm overflow-hidden">
+          {approachPillars.map((p, i) => (
+            <li
+              key={p.title}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-stone/10 last:border-r-0"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-luxury text-lg text-forest-green/60 leading-none">
+                  0{i + 1}
+                </span>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  {p.title}
+                </span>
+              </div>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                {p.body}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* ═══ 3 · WHO WE WORK WITH ═══════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Who we work with"
+          title="Five kinds of partner across the chain"
+          lede="From the people who grow it to the people who keep it cold in transit."
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
+          {networkTypes.map((t, i) => (
+            <FadeIn key={t.n} delay={i * 0.05}>
+              <article className="h-full flex flex-col bg-white border border-stone/15 rounded-sm overflow-hidden">
+                <ImagePlaceholder
+                  {...t.media}
+                  ratio="16/9"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                >
+                  <span className="absolute top-3 left-3 font-luxury text-[13px] font-semibold text-obsidian bg-cream/90 px-2 py-0.5 rounded-sm">
+                    {t.n}
+                  </span>
+                </ImagePlaceholder>
+                <div className="p-4 md:p-5 flex-1">
+                  <Eyebrow>{t.label}</Eyebrow>
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-2">
+                    {t.title}
+                  </span>
+                  <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {t.body}
+                  </p>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 4 · REQUIREMENTS ═══════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Supplier requirements"
+          title="What a supplier has to hold before we list them"
+          lede="Four gates. All of them evidenced, none of them optional."
+          tone="light"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4">
+          {requirements.map((r, i) => (
+            <FadeIn key={r.n} delay={i * 0.05}>
+              <div className="h-full border border-cream/12 rounded-sm p-4 md:p-5">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-luxury text-lg text-gold/70 leading-none">{r.n}</span>
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight">
+                    {r.kicker}
+                  </span>
+                </div>
+                <span className="block font-luxury italic text-[13px] text-gold/80 mt-1.5">
+                  {r.headline}
+                </span>
+                <ul className="list-none m-0 p-0 mt-3 flex flex-col gap-2">
+                  {r.points.map((pt) => (
+                    <Point key={pt} tone="light">
+                      {pt}
+                    </Point>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 5 · ONBOARDING ═════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Onboarding journey"
+          title="Assess, evaluate, verify, integrate"
+          lede="A phased path from first inquiry to an approved place in the network."
+        />
+
+        <ul className="list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 bg-white border border-stone/15 rounded-sm overflow-hidden">
+          {onboardingSteps.map((s) => (
+            <li
+              key={s.n}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-stone/10 last:border-r-0"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-luxury text-lg text-forest-green/60 leading-none">{s.n}</span>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  {s.title}
+                </span>
+              </div>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                {s.body}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* ═══ 6 · TIERS ══════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Partnership tiers"
+          title="Three stages of maturity"
+          lede="Where a supplier sits is earned by performance, not negotiated at signing."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {tiers.map((t, i) => (
+            <FadeIn key={t.label} delay={i * 0.06}>
+              <div
+                className={cn(
+                  'h-full rounded-sm border p-4 md:p-5',
+                  i === 2 ? 'bg-forest-green border-forest-green' : 'bg-white border-stone/15',
+                )}
+              >
+                <Eyebrow tone={i === 2 ? 'light' : 'dark'}>{t.label}</Eyebrow>
+                <span
+                  className={cn(
+                    'block font-luxury text-base md:text-lg font-semibold leading-tight mt-2',
+                    i === 2 ? 'text-cream' : 'text-obsidian',
+                  )}
+                >
+                  {t.name}
+                </span>
+                <p
+                  className={cn(
+                    'm-0! mt-2! font-sans text-[12.5px] leading-relaxed',
+                    i === 2 ? 'text-cream/80' : 'text-stone',
+                  )}
+                >
+                  {t.summary}
+                </p>
+                <ul
+                  className={cn(
+                    'list-none m-0 p-0 mt-3.5 pt-3.5 border-t flex flex-col gap-2',
+                    i === 2 ? 'border-cream/20' : 'border-stone/10',
+                  )}
+                >
+                  {t.markers.map((m) => (
+                    <Point key={m} tone={i === 2 ? 'light' : 'dark'}>
+                      {m}
+                    </Point>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 7 · PHILOSOPHY ═════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <FadeIn>
+          <ImagePlaceholder
+            {...MEDIA.philosophy}
+            tone="dark"
+            glyph={false}
+            sizes="100vw"
+            className="rounded-sm min-h-55 md:min-h-65 flex items-center"
+          >
+            {MEDIA.philosophy.src ? (
+              <div className="absolute inset-0 bg-linear-to-r from-obsidian/90 via-obsidian/65 to-obsidian/20" />
+            ) : null}
+            <div className="relative z-10 max-w-3xl px-6 md:px-10 lg:px-14 py-8 md:py-10">
+              <Eyebrow tone="light">Partnership philosophy</Eyebrow>
+              <blockquote className="m-0! mt-3!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl lg:text-[34px]">
+                  &ldquo;Reliable supply isn&apos;t purchased. It&apos;s built — through clear
+                  standards, honest communication, and time.&rdquo;
+                </span>
+              </blockquote>
+            </div>
+          </ImagePlaceholder>
+        </FadeIn>
+      </section>
+
+      {/* ═══ 8 · SUPPLIER DEVELOPMENT ═══════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Supplier development"
+          title="We grow capability, not just volume"
+          lede="Structured frameworks to help suppliers strengthen operations — at our current scale, and at network scale later."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-stretch">
+          <div className="lg:col-span-5">
+            <FadeIn>
+              <ImagePlaceholder
+                {...MEDIA.development}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="rounded-sm h-full min-h-55"
+              />
+            </FadeIn>
+          </div>
+
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            {developmentCommitments.map((x, i) => (
+              <FadeIn key={x.t} delay={i * 0.05}>
+                <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                  <span className="block font-luxury text-base font-semibold text-obsidian leading-tight">
+                    {x.t}
+                  </span>
+                  <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {x.d}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 9 · PERFORMANCE & GOVERNANCE ═══════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Performance & governance"
+          title="What we measure, and what ends a relationship"
+          lede="Four indicators reviewed every cycle — and three things that disqualify immediately."
+          tone="light"
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
+          <ul className="lg:col-span-8 list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 border border-cream/12 rounded-sm overflow-hidden">
+            {performanceMetrics.map((m, i) => (
+              <li
+                key={m.metric}
+                className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-cream/10 last:border-r-0"
+              >
+                <div className="flex items-baseline gap-3">
+                  <span className="font-luxury text-lg text-gold/70 leading-none">
                     0{i + 1}
                   </span>
-                  <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                    {p.title}
-                  </h3>
-                  <p className="text-stone text-sm lg:text-base leading-relaxed m-0">{p.body}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Who We Work With — bento mosaic across 5 supplier types ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-14 lg:mb-16">
-              <div className="max-w-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                  Who We Work With
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  An integrated network — origin to delivery.
-                </h2>
-              </div>
-              <p className="text-stone text-sm max-w-sm">
-                Five supplier types form the backbone of a single, coordinated supply ecosystem.
-              </p>
-            </div>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6">
-            {networkTypes.map((t, i) => (
-              <FadeIn key={t.n} delay={i * 0.08}>
-                <article className={`group relative ${t.span} overflow-hidden rounded-sm bg-cream`}>
-                  <div className={`relative ${t.aspect} overflow-hidden`}>
-                    <Image
-                      src={t.img}
-                      alt={t.title}
-                      fill
-                      sizes="(max-width:1024px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/85 via-obsidian/30 to-transparent" />
-                    <div className="absolute top-6 left-6 flex items-center gap-3">
-                      <span className="font-luxury text-gold text-xs tracking-[0.3em]">{t.n}</span>
-                      <div className="w-8 h-px bg-gold/60" />
-                      <span className="text-[10px] uppercase tracking-[0.3em] text-cream/80 font-medium">
-                        {t.label}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-7 lg:p-9">
-                      <h3 className="font-luxury text-xl lg:text-2xl font-medium text-cream m-0 mb-2">
-                        {t.title}
-                      </h3>
-                      <p className="text-cream/75 text-sm leading-relaxed m-0 max-w-md">
-                        {t.body}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Supplier Requirements — 4 quadrant on obsidian ═══ */}
-      <section className="py-(--spacing-section-lg) bg-obsidian">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-14 lg:mb-16">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium mb-4">
-                  Supplier Requirements
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-cream leading-[1.1] tracking-tight m-0">
-                  Four standards.
-                  <br />
-                  Zero exceptions.
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
-              <FadeIn delay={0.1}>
-                <p className="text-cream/65 text-base lg:text-lg leading-relaxed m-0">
-                  We recognise varying levels of maturity across suppliers — but adherence to core
-                  baselines is non-negotiable. These four pillars define the floor for entry.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-cream/10 rounded-sm overflow-hidden">
-            {requirements.map((r, i) => (
-              <FadeIn key={r.n} delay={i * 0.08}>
-                <div className="bg-obsidian p-8 lg:p-10 h-full">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="font-luxury text-gold/80 text-xs tracking-[0.3em]">
-                      {r.n}
-                    </span>
-                    <div className="w-8 h-px bg-gold/40" />
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-cream/60 font-medium">
-                      {r.kicker}
-                    </span>
-                  </div>
-                  <h3 className="font-luxury text-2xl lg:text-[28px] font-light text-cream leading-tight m-0 mb-6">
-                    {r.headline}
-                  </h3>
-                  <ul className="list-none m-0 p-0 space-y-3">
-                    {r.points.map((pt) => (
-                      <li key={pt} className="flex items-start gap-3">
-                        <span className="text-gold mt-[2px] shrink-0" aria-hidden>
-                          —
-                        </span>
-                        <span className="text-cream/75 text-sm leading-relaxed">{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Onboarding Journey — 4 stepped progression with connecting line ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <FadeIn>
-            <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
-              <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                Onboarding Journey
-              </p>
-              <h2 className="font-luxury text-3xl lg:text-[48px] font-light text-obsidian leading-[1.1] tracking-tight m-0 mb-6">
-                A phased path from inquiry to integration.
-              </h2>
-              <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                Every supplier follows the same structured progression — designed to confirm
-                alignment, reduce operational risk, and build a foundation that lasts.
-              </p>
-            </div>
-          </FadeIn>
-
-          <div className="relative">
-            <div className="hidden lg:block absolute top-8 left-0 right-0 h-px bg-gold/30" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6 relative">
-              {onboardingSteps.map((s, i) => (
-                <FadeIn key={s.n} delay={i * 0.1}>
-                  <div className="relative">
-                    <div className="hidden lg:flex w-4 h-4 rounded-full bg-gold absolute top-8 left-0 -translate-y-1/2 ring-8 ring-cream" />
-                    <div className="lg:pl-10">
-                      <span className="font-luxury text-gold text-sm tracking-[0.3em] block mb-3">
-                        {s.n}
-                      </span>
-                      <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                        {s.title}
-                      </h3>
-                      <p className="text-stone text-sm leading-relaxed m-0">{s.body}</p>
-                    </div>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Partnership Tiers — three-stage maturity model ═══ */}
-      <section className="py-(--spacing-section-lg) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-14 lg:mb-16">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Partnership Tiers
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Relationships evolve.
-                  <br />
-                  So does engagement.
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  We treat every supplier engagement as a long-term partnership rather than a
-                  transaction. Volume grows with reliability — and engagement deepens with proven
-                  alignment.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {tiers.map((t, i) => (
-              <FadeIn key={t.label} delay={i * 0.1}>
-                <div
-                  className={`rounded-sm p-8 lg:p-10 h-full flex flex-col ${
-                    i === 2 ? 'bg-obsidian text-cream' : 'bg-cream text-obsidian'
-                  }`}
-                >
-                  <span
-                    className={`text-[10px] uppercase tracking-[0.3em] font-medium mb-4 ${
-                      i === 2 ? 'text-gold' : 'text-gold'
-                    }`}
-                  >
-                    {t.label}
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight">
+                    {m.metric}
                   </span>
-                  <h3
-                    className={`font-luxury text-2xl lg:text-3xl font-light m-0 mb-4 ${
-                      i === 2 ? 'text-cream' : 'text-obsidian'
-                    }`}
-                  >
-                    {t.name}
-                  </h3>
-                  <p
-                    className={`text-sm lg:text-base leading-relaxed m-0 mb-6 ${
-                      i === 2 ? 'text-cream/70' : 'text-stone'
-                    }`}
-                  >
-                    {t.summary}
-                  </p>
-                  <ul
-                    className={`list-none m-0 p-0 space-y-3 mt-auto pt-6 border-t ${
-                      i === 2 ? 'border-cream/15' : 'border-mist/40'
-                    }`}
-                  >
-                    {t.markers.map((m) => (
-                      <li key={m} className="flex items-start gap-3">
-                        <span className={`mt-[2px] shrink-0 ${i === 2 ? 'text-gold' : 'text-gold'}`}>
-                          —
-                        </span>
-                        <span
-                          className={`text-xs lg:text-sm leading-relaxed ${
-                            i === 2 ? 'text-cream/80' : 'text-stone'
-                          }`}
-                        >
-                          {m}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
-              </FadeIn>
+                <p className="m-0! mt-2! font-sans text-[12.5px] text-cream/60 leading-relaxed">
+                  {m.detail}
+                </p>
+              </li>
             ))}
-          </div>
-        </div>
-      </section>
+          </ul>
 
-      {/* ═══ Partnership Philosophy — image + pull-quote split ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <FadeIn delay={0.05}>
-              <div className="lg:col-span-5 relative aspect-[4/5] rounded-sm overflow-hidden">
-                <Image
-                  src="/images/vendor/vendor-philosophy.avif"
-                  alt="Supplier collaboration"
-                  fill
-                  sizes="(max-width:1024px) 100vw, 40vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/30 to-transparent" />
+          <div className="lg:col-span-4">
+            <FadeIn>
+              <div className="h-full bg-forest-green rounded-sm p-4 md:p-5">
+                <Eyebrow tone="light">Zero tolerance</Eyebrow>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight mt-2">
+                  Immediate disqualification
+                </span>
+                <ul className="list-none m-0 p-0 mt-3 flex flex-col gap-2">
+                  {zeroTolerance.map((z) => (
+                    <Point key={z} tone="light">
+                      {z}
+                    </Point>
+                  ))}
+                </ul>
               </div>
             </FadeIn>
-
-            <div className="lg:col-span-6 lg:col-start-7">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                  Partnership Philosophy
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <p className="font-luxury text-2xl lg:text-[34px] font-light text-obsidian leading-[1.25] tracking-tight m-0 mb-8">
-                  &ldquo;Reliable supply isn&apos;t purchased. It&apos;s built — through clear
-                  expectations, predictable demand, and the discipline to honour both.&rdquo;
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.15}>
-                <div className="w-12 h-px bg-gold mb-6" />
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-                  {[
-                    {
-                      t: 'Performance-tied growth',
-                      d: 'Volumes grow with demonstrated reliability.',
-                    },
-                    {
-                      t: 'Predictable demand',
-                      d: 'Clear forecasts where commercial conditions allow.',
-                    },
-                    {
-                      t: 'Continuous alignment',
-                      d: 'Ongoing communication on quality and improvements.',
-                    },
-                    {
-                      t: 'Stable engagement',
-                      d: 'Long-term commitment over short-term price plays.',
-                    },
-                  ].map((x) => (
-                    <div key={x.t}>
-                      <p className="font-luxury text-base text-obsidian m-0 mb-1">{x.t}</p>
-                      <p className="text-stone text-sm leading-relaxed m-0">{x.d}</p>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ Supplier Development — forest-green split ═══ */}
-      <section className="bg-forest text-cream">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          <FadeIn>
-            <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[600px]">
-              <Image
-                src="/images/vendor/vendor-development.avif"
-                alt="Supplier development"
-                fill
-                sizes="(max-width:1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-forest/20 via-transparent to-forest/40" />
-            </div>
-          </FadeIn>
+      {/* ═══ 10 · ECOSYSTEM PARTNERS ════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Strategic partnerships"
+          title="Beyond suppliers"
+          lede="The logistics, technology, and distribution partners the network runs on."
+        />
 
-          <div className="px-6 sm:px-10 lg:px-16 xl:px-20 py-16 lg:py-24 flex flex-col justify-center">
-            <FadeIn>
-              <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                Supplier Development
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {ecosystemPartners.map((p, i) => (
+            <FadeIn key={p.label} delay={i * 0.06}>
+              <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                <Eyebrow>{p.label}</Eyebrow>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-2">
+                  {p.title}
+                </span>
+                <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                  {p.body}
+                </p>
+              </div>
             </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-cream leading-[1.15] tracking-tight m-0 mb-6">
-                We grow capability — not just volume.
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 11 · BECOME A VENDOR ═══════════════════════════════ */}
+      <section className={cn(GUTTER, 'pb-8 md:pb-11')}>
+        <FadeIn>
+          <div className="bg-forest-green rounded-sm px-6 md:px-10 lg:px-14 py-8 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-7">
+              <Eyebrow tone="light">Become a vendor</Eyebrow>
+              <h2 className="m-0! mt-2!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl">
+                  Partnerships built deliberately, supplier by supplier
+                </span>
               </h2>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <p className="text-cream/75 text-base lg:text-lg leading-relaxed m-0 mb-10">
-                As we expand, we are building structured frameworks to support suppliers in
-                strengthening their operations — within our current scale today, and at network
-                scale tomorrow.
+              <p className="m-0! mt-3! font-sans text-cream/75 text-[13px] md:text-sm leading-relaxed max-w-xl">
+                We welcome inquiries from suppliers who meet our standards and share a long-term
+                view. To open a conversation, share:
               </p>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <ul className="list-none m-0 p-0 space-y-5">
-                {[
-                  {
-                    t: 'Standards alignment',
-                    d: 'Guided progression toward food safety and quality benchmarks.',
-                  },
-                  {
-                    t: 'Process improvement',
-                    d: 'Working alongside producers on consistency and efficiency.',
-                  },
-                  {
-                    t: 'Sustainability adoption',
-                    d: 'Gradual integration of sustainable practices across the network.',
-                  },
-                ].map((x, i) => (
-                  <li key={x.t} className="flex items-start gap-5 border-t border-cream/15 pt-5">
-                    <span className="font-luxury text-gold text-sm tracking-[0.3em] shrink-0 pt-1">
-                      0{i + 1}
-                    </span>
-                    <div>
-                      <p className="font-luxury text-lg text-cream m-0 mb-1">{x.t}</p>
-                      <p className="text-cream/70 text-sm leading-relaxed m-0">{x.d}</p>
-                    </div>
-                  </li>
+              <ul className="list-none m-0 p-0 mt-4 flex flex-col gap-2">
+                {inquiryChecklist.map((c) => (
+                  <Point key={c} tone="light">
+                    {c}
+                  </Point>
                 ))}
               </ul>
-            </FadeIn>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Governance & Zero Tolerance — manifesto on obsidian ═══ */}
-      <section className="py-(--spacing-section-lg) bg-obsidian relative overflow-hidden">
-        <div className="absolute inset-0 opacity-25">
-          <Image
-            src="/images/vendor/vendor-governance-bg.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-obsidian/60 via-obsidian/85 to-obsidian" />
-        </div>
-
-        <div className="relative max-w-[1100px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
-          <FadeIn>
-            <p className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium mb-5">
-              Governance &amp; Integrity
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="font-luxury text-3xl lg:text-[52px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-10 lg:mb-14">
-              The line we hold — across every partnership.
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <p className="text-cream/65 text-base lg:text-lg leading-relaxed max-w-2xl mx-auto m-0 mb-14 lg:mb-16">
-              A formal Supplier Code of Conduct, documented record-keeping requirements, and
-              internal performance review govern every relationship in the network.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-gold/70 font-medium mb-6">
-              Zero Tolerance
-            </p>
-          </FadeIn>
-          <div className="flex flex-wrap justify-center gap-3 lg:gap-4">
-            {zeroTolerance.map((z, i) => (
-              <FadeIn key={z} delay={0.25 + i * 0.06}>
-                <span className="inline-block border border-gold/40 text-cream/85 text-xs lg:text-sm tracking-wide px-5 lg:px-6 py-3 rounded-full">
-                  {z}
-                </span>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Performance Indicators — KPI grid ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-14">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Performance &amp; Evaluation
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[44px] font-light text-obsidian leading-[1.1] tracking-tight m-0">
-                  Measured continuously.
-                  <br />
-                  Reviewed openly.
-                </h2>
-              </FadeIn>
             </div>
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  Performance against four core dimensions informs every future engagement —
-                  expansion of supply volumes, category breadth, and tier progression.
-                </p>
-              </FadeIn>
+
+            <div className="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
+              <Cta href="/contact#enquiry" variant="light">
+                Submit an inquiry
+              </Cta>
+              <Cta href="/sourcing" variant="outline">
+                Our standards
+              </Cta>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-            {performanceMetrics.map((m, i) => (
-              <FadeIn key={m.metric} delay={i * 0.08}>
-                <div className="bg-parchment rounded-sm p-8 lg:p-9 h-full flex flex-col border border-mist/30">
-                  <span className="font-luxury text-gold text-3xl lg:text-4xl font-light leading-none mb-6">
-                    0{i + 1}
-                  </span>
-                  <div className="w-8 h-px bg-gold/60 mb-5" />
-                  <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                    {m.metric}
-                  </h3>
-                  <p className="text-stone text-sm leading-relaxed m-0">{m.detail}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
+        </FadeIn>
       </section>
-
-      {/* ═══ Strategic Partnerships — ecosystem mini grid ═══ */}
-      <section className="py-(--spacing-section) bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-12">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Strategic Partnerships
-                </p>
-                <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-obsidian leading-[1.15] tracking-tight m-0">
-                  Beyond suppliers — the wider ecosystem.
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 flex items-end">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  We collaborate with organisations that strengthen the operating environment
-                  itself. Selection is based on operational alignment, scalability, and long-term
-                  value creation.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-            {ecosystemPartners.map((p, i) => (
-              <FadeIn key={p.label} delay={i * 0.1}>
-                <div className="bg-cream rounded-sm p-8 lg:p-10 h-full flex flex-col border border-mist/30">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                    {p.label}
-                  </span>
-                  <h3 className="font-luxury text-xl lg:text-2xl font-medium text-obsidian m-0 mb-3">
-                    {p.title}
-                  </h3>
-                  <p className="text-stone text-sm leading-relaxed m-0">{p.body}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ Become a Vendor — checklist + CTA ═══ */}
-      <section className="py-(--spacing-section-lg) bg-cream">
-        <div className="max-w-[1100px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="bg-obsidian rounded-sm p-10 lg:p-16 relative overflow-hidden">
-            <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-            <div className="absolute -left-32 -bottom-32 w-80 h-80 rounded-full bg-gold/5 blur-3xl pointer-events-none" />
-
-            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-7">
-                <FadeIn>
-                  <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                    Become a Vendor
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.1}>
-                  <h2 className="font-luxury text-3xl lg:text-[40px] font-light text-cream leading-[1.1] tracking-tight m-0 mb-6">
-                    Partnerships built deliberately — supplier by supplier.
-                  </h2>
-                </FadeIn>
-                <FadeIn delay={0.15}>
-                  <p className="text-cream/70 text-base leading-relaxed m-0 mb-8">
-                    We welcome inquiries from suppliers who meet our standards and share a
-                    long-term view. To express interest, please share:
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.2}>
-                  <ul className="list-none m-0 p-0 space-y-3 mb-10">
-                    {inquiryChecklist.map((c) => (
-                      <li key={c} className="flex items-start gap-3">
-                        <span
-                          className="w-5 h-5 rounded-full border border-gold/60 shrink-0 flex items-center justify-center mt-[2px]"
-                          aria-hidden
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                        </span>
-                        <span className="text-cream/85 text-sm leading-relaxed">{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </FadeIn>
-              </div>
-
-              <div className="lg:col-span-4 lg:col-start-9">
-                <FadeIn delay={0.25}>
-                  <MagneticButton>
-                    <Link
-                      href="/contact"
-                      className="inline-block w-full text-center bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-10 py-5 rounded-sm no-underline hover:bg-gold-light transition-colors"
-                    >
-                      Submit Vendor Inquiry
-                    </Link>
-                  </MagneticButton>
-                </FadeIn>
-                <FadeIn delay={0.3}>
-                  <Link
-                    href="/contact"
-                    className="block text-center mt-4 text-cream/60 text-xs uppercase tracking-widest hover:text-gold transition-colors no-underline"
-                  >
-                    or speak with our sourcing team →
-                  </Link>
-                </FadeIn>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   )
 }

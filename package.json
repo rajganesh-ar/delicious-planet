@@ -15,6 +15,8 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "seed:import": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/import-all.ts",
     "seed:collections": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/seed-collections.ts",
+    "products:disable-imageless": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/disable-imageless-products.ts",
+    "seed:banners": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/seed-banners.ts",
     "seed:collection-images": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/upload-collection-images.ts",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",

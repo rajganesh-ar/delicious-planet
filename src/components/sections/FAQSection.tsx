@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useState } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 import { FadeIn } from '@/components/animations/FadeIn'
+import { Eyebrow, GUTTER } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
 
 interface FAQItem {
   question: string
@@ -37,76 +40,174 @@ const FAQ_ITEMS: FAQItem[] = [
   },
 ]
 
+const HELP_LINKS = [
+  { label: 'Send a message', href: '/contact#enquiry' },
+  { label: 'Wholesale & B2B', href: '/b2b' },
+  { label: 'Shipping policy', href: '/shipping' },
+]
+
+/**
+ * styles.css sets unlayered h1–h6 / p typography that outranks Tailwind's
+ * layered utilities, so the visual styling lives on a child span and the
+ * margin needs an important override — same pattern as the homepage rails.
+ */
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number>(0)
-
-  const toggle = (index: number) => {
-    setOpenIndex(openIndex === index ? -1 : index)
-  }
+  const baseId = useId()
 
   return (
-    <section className="bg-obsidian lg:py-0 py-10 md:py-14 px-5 md:px-8 lg:px-0 overflow-hidden border-t border-cream/10">
-      <div className="max-w-360 mx-auto">
-        <FadeIn>
-          <h2 className="font-luxury text-cream text-center lg:text-left lg:hidden text-xl md:text-2xl font-normal m-0 mb-6 md:mb-8 tracking-tight">
-            FAQ
-          </h2>
-        </FadeIn>
-
-        <div className="flex flex-col lg:flex-row">
-          {/* Image — full height */}
-          <div className="hidden lg:block lg:w-2/5 shrink-0 relative">
-            <Image
-              src="/images/misc/faq.avif"
-              alt="Premium ingredients"
-              fill
-              className="object-cover"
-              sizes="40vw"
-            />
-            <div className="absolute inset-0 bg-linear-to-r from-transparent to-obsidian/60" />
+    <section className={cn(GUTTER, 'py-8 md:py-11 bg-cream border-t border-stone/12')}>
+      {/* Full-width heading row, matching every other section on the page. */}
+      <FadeIn>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-2.5 lg:gap-10 mb-5 md:mb-7">
+          <div className="min-w-0">
+            <Eyebrow className="mb-2">Answers</Eyebrow>
+            <h2 className="m-0!">
+              <span className="block font-luxury text-xl sm:text-2xl lg:text-[28px] font-semibold tracking-tight text-obsidian">
+                Frequently asked questions
+              </span>
+            </h2>
           </div>
-          {/* Questions — vertically centered */}
-          <div className="flex-1 flex flex-col justify-center lg:py-16 lg:px-16">
-            <FadeIn>
-              <h2 className="hidden lg:block font-luxury text-cream text-2xl lg:text-4xl font-medium m-0 mb-8 lg:mb-12 tracking-tight">
-                FAQ
-              </h2>
-            </FadeIn>
+          <p className="m-0! font-sans text-[13px] md:text-sm text-stone leading-relaxed lg:max-w-md lg:text-right">
+            Sourcing, quality, delivery and returns — the things buyers ask us most.
+          </p>
+        </div>
+      </FadeIn>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
+        {/* Aside — image and help links share one card so the column tracks the
+            accordion's height instead of trailing off below it. It comes second
+            in the source so the questions lead on mobile. */}
+        <div className="lg:col-span-4 order-2">
+          <FadeIn delay={0.08}>
+            <div className="bg-white border border-stone/15 rounded-sm overflow-hidden">
+              <div className="relative aspect-video w-full bg-mist">
+                <Image
+                  src="/images/misc/faq.avif"
+                  alt=""
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 30vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4 md:p-5">
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  Still have a question?
+                </span>
+                <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                  Our team replies within one business day.
+                </p>
+                <ul className="list-none m-0 p-0 mt-3">
+                  {HELP_LINKS.map((l) => (
+                    <li key={l.label} className="border-t border-stone/10 first:border-t-0">
+                      {/* Colour sits on the span — `a { color: currentColor }` in
+                          styles.css is unlayered and outranks text utilities. */}
+                      <Link
+                        href={l.href}
+                        className="group no-underline flex items-center justify-between gap-3 py-2.5"
+                      >
+                        <span className="font-sans text-[12.5px] text-obsidian group-hover:text-forest-green transition-colors">
+                          {l.label}
+                        </span>
+                        <span
+                          aria-hidden
+                          className="font-sans text-[12.5px] text-stone/50 group-hover:text-forest-green transition-all duration-300 group-hover:translate-x-1"
+                        >
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+
+        {/* Accordion */}
+        <div className="lg:col-span-8 order-1">
+          <ul className="list-none m-0 p-0 bg-white border border-stone/15 rounded-sm overflow-hidden">
             {FAQ_ITEMS.map((item, i) => {
               const isOpen = openIndex === i
+              const panelId = `${baseId}-panel-${i}`
+              const buttonId = `${baseId}-button-${i}`
+
               return (
-                <FadeIn key={i} delay={i * 0.06}>
-                  <div className="border-b border-cream/10">
+                <li key={item.question} className="border-b border-stone/10 last:border-b-0">
+                  <h3 className="m-0!">
                     <button
-                      onClick={() => toggle(i)}
-                      className="w-full flex items-center justify-between py-5 lg:py-6 bg-transparent border-0 cursor-pointer text-left"
+                      type="button"
+                      id={buttonId}
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      onClick={() => setOpenIndex(isOpen ? -1 : i)}
+                      className={cn(
+                        'w-full flex items-start justify-between gap-4 text-left bg-transparent border-0 cursor-pointer px-4 md:px-6 py-5 md:py-6 transition-colors',
+                        isOpen ? 'bg-parchment' : 'hover:bg-parchment/60',
+                      )}
                     >
-                      <span className="font-sans text-sm lg:text-base font-semibold text-cream/90 pr-8">
-                        {item.question}
+                      <span className="flex items-baseline gap-3 min-w-0">
+                        <span className="shrink-0 font-luxury text-[13px] text-forest-green/50 leading-none">
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <span
+                          className={cn(
+                            'font-sans text-[13px] md:text-sm font-semibold leading-snug transition-colors',
+                            isOpen ? 'text-forest-green' : 'text-obsidian',
+                          )}
+                        >
+                          {item.question}
+                        </span>
                       </span>
+
+                      {/* The glyph rotates into a cross; the box stays square. */}
                       <span
-                        className="text-cream/50 text-xl lg:text-2xl shrink-0 transition-transform duration-300"
-                        style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
+                        aria-hidden
+                        className={cn(
+                          'shrink-0 mt-0.5 w-6 h-6 flex items-center justify-center rounded-sm border transition-colors duration-300',
+                          isOpen ?
+                            'border-forest-green bg-forest-green text-cream'
+                          : 'border-stone/25 text-stone',
+                        )}
                       >
-                        +
+                        <svg
+                          width="11"
+                          height="11"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          className={cn(
+                            'transition-transform duration-300',
+                            isOpen && 'rotate-45',
+                          )}
+                        >
+                          <path d="M12 5v14M5 12h14" />
+                        </svg>
                       </span>
                     </button>
-                    <div
-                      className="overflow-hidden transition-all duration-300 ease-in-out"
-                      style={{
-                        maxHeight: isOpen ? '200px' : '0px',
-                        opacity: isOpen ? 1 : 0,
-                      }}
-                    >
-                      <p className="text-sm text-cream/50 m-0 pb-5 lg:pb-6 pr-12 leading-relaxed">
+                  </h3>
+
+                  {/* Grid-rows animation expands to the answer's real height —
+                      a fixed max-height would clip longer copy. */}
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={buttonId}
+                    className="grid transition-[grid-template-rows] duration-300 ease-out"
+                    style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="m-0! font-sans text-[12.5px] md:text-[13px] text-stone leading-relaxed px-4 md:px-6 pb-4 md:pb-5 md:pl-14 max-w-2xl">
                         {item.answer}
                       </p>
                     </div>
                   </div>
-                </FadeIn>
+                </li>
               )
-            })}{' '}
-          </div>{' '}
+            })}
+          </ul>
         </div>
       </div>
     </section>

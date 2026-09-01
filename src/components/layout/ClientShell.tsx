@@ -3,20 +3,22 @@
 import type { ReactNode } from 'react'
 import { CartProvider } from './CartContext'
 import { CartDrawer } from './CartDrawer'
-import { Header } from './Header'
+import { Header, type SearchScope, type AnnouncementItem } from './Header'
 import { SmoothScroll } from '../animations/SmoothScroll'
-import type { NavItem } from './MegaMenu'
+import type { NavEntry } from '@/lib/nav'
 
 interface ClientShellProps {
   children: ReactNode
-  navItems: NavItem[]
+  nav: NavEntry[]
+  searchScopes: SearchScope[]
+  announcements?: AnnouncementItem[]
 }
 
-export function ClientShell({ children, navItems }: ClientShellProps) {
+export function ClientShell({ children, nav, searchScopes, announcements }: ClientShellProps) {
   return (
     <CartProvider>
       <SmoothScroll>
-        <Header navItems={navItems} />
+        <Header nav={nav} searchScopes={searchScopes} announcements={announcements} />
         {children}
         <CartDrawer />
       </SmoothScroll>

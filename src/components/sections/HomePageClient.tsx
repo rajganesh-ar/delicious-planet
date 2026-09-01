@@ -1,129 +1,132 @@
 'use client'
 
-import { HeroSection } from '@/components/sections/HeroSection'
-import { CategoryStrip } from '@/components/sections/CategoryStrip'
-import { FeaturedGrid } from '@/components/sections/FeaturedGrid'
-import { TestimonialCarousel } from '@/components/sections/TestimonialCarousel'
-import { ContactUsSection } from '@/components/sections/NewsletterSection'
-import { PartnersMarquee } from '@/components/sections/PartnersMarquee'
+import { HomeHero } from '@/components/sections/home/HomeHero'
+import { HomeSidebar } from '@/components/sections/home/HomeSidebar'
+import { RegionCards } from '@/components/sections/home/RegionCards'
+import { ProductRail } from '@/components/sections/home/ProductRail'
+import { FeaturedCollections } from '@/components/sections/home/FeaturedCollections'
+import { TrustBadges } from '@/components/sections/home/TrustBadges'
+import { CategoryTiles } from '@/components/sections/home/CategoryTiles'
+import { ShopByCountry } from '@/components/sections/home/ShopByCountry'
+import { DietaryStrip } from '@/components/sections/home/DietaryStrip'
+import { BrandStrip } from '@/components/sections/home/BrandStrip'
+import { TestimonialStrip } from '@/components/sections/home/TestimonialStrip'
+import { StoryBanner } from '@/components/sections/home/StoryBanner'
+import { NewsletterBar } from '@/components/sections/home/NewsletterBar'
+import { BannerSlot } from '@/components/sections/home/BannerSlot'
+import { ExperienceCarousel } from '@/components/sections/home/ExperienceCarousel'
 import { CollectionCards } from '@/components/sections/CollectionCards'
-import { SustainabilitySection } from '@/components/sections/SustainabilitySection'
-import { WordReveal } from '@/components/animations/WordReveal'
-import { FadeIn } from '@/components/animations/FadeIn'
-import ElegantCarousel, { type CarouselSlide } from '@/components/sections/ElegantCarousel'
-import type { Product, Category, Testimonial, Supplier, ProductCollection } from '@/payload-types'
+import type { CountryCount } from '@/components/sections/home/ShopByCountry'
+import type { DietaryCount } from '@/components/sections/home/DietaryStrip'
+import type { Product, Category, ProductCollection, Testimonial, Banner } from '@/payload-types'
 
-const EXPERIENCE_SLIDES: CarouselSlide[] = [
-  {
-    image: '/images/experience/experience-experts.avif',
-    title: 'Curated by Experts',
-    subtitle:
-      'Our team of culinary specialists personally visits producers, tastes every offering, and selects only ingredients that meet our exacting standards.',
-    cta: 'Meet the Team',
-    href: '/about',
-  },
-  {
-    image: '/images/experience/experience-dish.avif',
-    title: 'From Source to Table',
-    subtitle:
-      'We work directly with artisans and growers — no middlemen, no compromise. Every product is traceable to its exact origin.',
-    cta: 'Our Sourcing',
-    href: '/sourcing',
-  },
-  {
-    image: '/images/experience/experience-chef.avif',
-    title: 'For Chefs & Home Cooks',
-    subtitle:
-      'Whether you run a Michelin-starred kitchen or cook for family and friends, our ingredients elevate every dish to something extraordinary.',
-    cta: 'Explore Products',
-    href: '/products',
-  },
-]
+/** Banners grouped by their CMS `placement` value. */
+export type BannerSlots = Record<string, Banner[]>
 
 interface HomePageClientProps {
-  featuredProducts: Product[]
-  categories: Category[]
+  bestSellers: Product[]
+  /** Rows of tiles the Best Sellers rail renders at xl. */
+  bestSellerRows: number
+  newArrivals: Product[]
+  /** Rows of tiles the New Arrivals rail renders at xl. */
+  newArrivalRows: number
+  /** Compact product list for the sticky sidebar. */
+  sidebarPicks: Product[]
+  regionCategories: Category[]
+  featuredCollections: ProductCollection[]
+  categoryCollections: ProductCollection[]
+  countries: CountryCount[]
+  dietaryFacets: DietaryCount[]
   testimonials: Testimonial[]
-  suppliers: Supplier[]
-  productCollections: ProductCollection[]
+  banners: BannerSlots
 }
 
 export function HomePageClient({
-  featuredProducts,
-  categories,
+  bestSellers,
+  bestSellerRows,
+  newArrivals,
+  newArrivalRows,
+  sidebarPicks,
+  regionCategories,
+  featuredCollections,
+  categoryCollections,
+  countries,
+  dietaryFacets,
   testimonials,
-  suppliers,
-  productCollections,
+  banners,
 }: HomePageClientProps) {
   return (
     <>
-      <HeroSection />
+      {/* Hero and newsletter stay full-bleed; everything between shares a
+          two-column grid with the sticky sidebar. The container matches the
+          footer's (px-6 lg:px-16, uncapped) so the navbar, the storefront and
+          the footer all sit on the same left and right edges. */}
+      <HomeHero />
 
-      {/* Brand philosophy with video background */}
-      <section className="relative h-[70vh] md:h-[80vh] lg:h-screen flex items-end overflow-hidden">
-        {/* Autoplay background video */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/planet-philosophy.mp4"
-        />
-        {/* Gradient overlay — heavier at bottom for text legibility */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10 md:bg-linear-to-tr md:from-black/70 md:via-black/30 md:to-transparent" />
+      <div className="bg-cream">
+        <div className="px-6 lg:px-16 flex gap-5 xl:gap-7 py-4 md:py-6">
+          <HomeSidebar
+            regionCategories={regionCategories}
+            collections={[...featuredCollections, ...categoryCollections]}
+            dietaryFacets={dietaryFacets}
+            picks={sidebarPicks}
+          />
 
-        {/* Content — bottom-left flush */}
-        <div className="relative z-10 w-full px-5 md:px-8 lg:px-16 pb-8 md:pb-10 lg:pb-16">
-          <div className="max-w-2xl text-left">
-            <FadeIn>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-gold/80 font-heading font-medium m-0 mb-3 md:mb-4 flex items-center gap-3">
-                <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
-                Our Philosophy
-              </p>
-            </FadeIn>
-            <WordReveal
-              text="Sourced from the world's finest producers, every ingredient in our collection is chosen for its craft, origin, and character — because extraordinary cooking starts with extraordinary produce."
-              className="font-luxury text-cream/90 leading-[1.4] tracking-[-0.01em] font-light m-0"
-              style={{ fontSize: 'clamp(1.1rem, 2.5vw, 2rem)' }}
+          <div className="min-w-0 flex-1">
+            <BannerSlot banners={banners['below-hero'] ?? []} />
+
+            <RegionCards categories={regionCategories} />
+
+            <ProductRail
+              title="Best Sellers"
+              products={bestSellers}
+              href="/products?featured=true"
+              rows={bestSellerRows}
             />
+
+            <BannerSlot banners={banners['after-best-sellers'] ?? []} />
+
+            <FeaturedCollections collections={featuredCollections} />
+
+            <TrustBadges />
+
+            <ProductRail
+              title="New Arrivals"
+              products={newArrivals}
+              href="/products?sort=-createdAt"
+              markNew
+              rows={newArrivalRows}
+            />
+
+            <BannerSlot banners={banners['after-new-arrivals'] ?? []} />
+
+            {/* Restored from the previous homepage */}
+            <CollectionCards
+              collections={[...featuredCollections, ...categoryCollections]}
+              padded={false}
+            />
+
+            <ShopByCountry countries={countries} />
+
+            <DietaryStrip facets={dietaryFacets} />
+
+            <CategoryTiles collections={categoryCollections} />
+
+            <BrandStrip />
+
+            {/* Restored from the previous homepage */}
+            <ExperienceCarousel />
+
+            <TestimonialStrip testimonials={testimonials} />
+
+            <StoryBanner />
+
+            <BannerSlot banners={banners['before-newsletter'] ?? []} />
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Collection cards */}
-      <CollectionCards collections={productCollections} />
-
-      {/* Sustainability */}
-      <SustainabilitySection />
-
-      {/* Delicious Experience — elegant carousel */}
-      <section className="bg-cream border-t border-mist/40 py-10 md:py-14 lg:py-20">
-        <div className="max-w-360 mx-auto px-5 md:px-8 lg:px-16 mb-6 md:mb-8">
-          <FadeIn>
-            <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-heading font-medium m-0 mb-2 flex items-center gap-3">
-              <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
-              The Delicious Experience
-            </p>
-          </FadeIn>
-        </div>
-        <ElegantCarousel items={EXPERIENCE_SLIDES} autoPlayInterval={6000} />
-      </section>
-
-      {/* Category exploration */}
-      <CategoryStrip categories={categories} />
-
-      {/* Featured products */}
-      <FeaturedGrid products={featuredProducts} />
-
-      {/* Testimonials */}
-      <TestimonialCarousel testimonials={testimonials} />
-
-      {/* Contact Us */}
-      <ContactUsSection />
-
-      {/* Partners marquee */}
-      <PartnersMarquee suppliers={suppliers} />
+      <NewsletterBar />
     </>
   )
 }

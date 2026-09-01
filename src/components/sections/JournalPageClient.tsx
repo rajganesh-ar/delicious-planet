@@ -1,83 +1,18 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { FadeIn } from '@/components/animations/FadeIn'
-import type { BlogPost, BlogCategory, Media, User } from '@/payload-types'
+import { FeaturedPost, PostCard } from '@/components/sections/JournalCard'
+import { BAND, Cta, Eyebrow, GUTTER, SectionHead } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
+import type { BlogPost, BlogCategory } from '@/payload-types'
 
 interface JournalPageClientProps {
   posts: BlogPost[]
   categories: BlogCategory[]
   totalPages: number
   currentPage: number
-}
-
-function PostCard({ post, index }: { post: BlogPost; index: number }) {
-  const imgUrl =
-    typeof post.featuredImage === 'object' && post.featuredImage !== null
-      ? ((post.featuredImage as Media).sizes?.card?.url ??
-        (post.featuredImage as Media).url ??
-        null)
-      : null
-
-  const author =
-    typeof post.author === 'object' && post.author !== null ? (post.author as User) : null
-
-  const categoryNames = (post.categories ?? [])
-    .map((c) => (typeof c === 'object' && c !== null ? (c as BlogCategory).title : null))
-    .filter(Boolean)
-
-  const date = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : null
-
-  return (
-    <FadeIn delay={index * 0.05}>
-      <Link href={`/journal/${post.slug}`} className="group block no-underline text-obsidian">
-        <div className="aspect-[16/10] rounded-sm overflow-hidden bg-parchment mb-4 relative">
-          {imgUrl ? (
-            <Image
-              src={imgUrl}
-              alt={post.title}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-parchment to-mist" />
-          )}
-        </div>
-
-        {/* Meta */}
-        <div className="flex items-center gap-3 mb-2 text-xs text-stone">
-          {categoryNames.length > 0 && (
-            <span className="text-gold uppercase tracking-widest font-medium">
-              {categoryNames[0]}
-            </span>
-          )}
-          {date && <span>{date}</span>}
-        </div>
-
-        <h3 className="font-luxury text-[18px] sm:text-[20px] md:text-[22px] lg:text-2xl font-medium m-0 mb-2 group-hover:text-forest-green transition-colors leading-snug">
-          {post.title}
-        </h3>
-
-        {post.excerpt && (
-          <p className="text-stone text-sm leading-relaxed m-0 line-clamp-2">{post.excerpt}</p>
-        )}
-
-        {author && (
-          <p className="text-xs text-stone/60 m-0 mt-3">By {author.name || author.email}</p>
-        )}
-      </Link>
-    </FadeIn>
-  )
 }
 
 export function JournalPageClient({
@@ -88,119 +23,237 @@ export function JournalPageClient({
 }: JournalPageClientProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
-  const filteredPosts = activeCategory
-    ? posts.filter((p) =>
+  const filteredPosts =
+    activeCategory ?
+      posts.filter((p) =>
         (p.categories ?? []).some(
           (c) => typeof c === 'object' && c !== null && (c as BlogCategory).slug === activeCategory,
         ),
       )
     : posts
 
+  // The lead card only earns its width when there is a grid beneath it.
+  const showFeatured = !activeCategory && currentPage === 1 && filteredPosts.length >= 3
+  const [featured, ...rest] = filteredPosts
+  const gridPosts = showFeatured ? rest : filteredPosts
+
+  // Filtering happens client-side over the current page only, so paging
+  // through a filtered view would silently skip matches on other pages.
+  const showPagination = totalPages > 1 && !activeCategory
+
   return (
-    <>
-      {/* Hero */}
-      <section className="relative bg-obsidian overflow-hidden pt-20 sm:pt-24">
-        <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-24">
-          <motion.p
-            className="text-[11px] uppercase tracking-[0.22em] text-gold/80 font-heading font-medium m-0 mb-4 flex items-center gap-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
-            The Journal
-          </motion.p>
-          <motion.h1
-            className="font-luxury text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-medium m-0 text-cream tracking-[-0.03em] leading-[1.08]"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            Stories &amp; Insights
-          </motion.h1>
-          <motion.p
-            className="text-cream/60 text-[15px] sm:text-[16px] mt-4 mb-0 max-w-lg leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            Recipes, origin stories, and behind-the-scenes from the world of premium ingredients.
-          </motion.p>
+    <div className="bg-cream">
+      {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
+      <section className="bg-obsidian">
+        <div className={cn(GUTTER, 'pt-10 pb-8 md:pt-14 md:pb-10')}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-10 lg:items-end">
+            <div className="lg:col-span-7">
+              <FadeIn>
+                <Eyebrow tone="light">The journal</Eyebrow>
+              </FadeIn>
+              <FadeIn delay={0.06}>
+                <h1 className="m-0! mt-3!">
+                  <span className="block font-luxury text-cream font-semibold leading-[1.12] tracking-tight text-[clamp(1.9rem,5vw,3.5rem)]">
+                    Stories &amp; <span className="text-gold">insights</span>
+                  </span>
+                </h1>
+              </FadeIn>
+            </div>
+            <div className="lg:col-span-5">
+              <FadeIn delay={0.12}>
+                <p className="m-0! font-sans text-cream/75 text-sm md:text-base leading-relaxed lg:text-right">
+                  Recipes, origin stories, and behind-the-scenes from the world of premium
+                  ingredients.
+                </p>
+              </FadeIn>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Category tabs */}
+      {/* ═══ 2 · CATEGORY FILTER ════════════════════════════════ */}
       {categories.length > 0 && (
-        <section className="bg-cream border-b border-mist/60 sticky z-30" style={{ top: 'var(--header-h)' }}>
-          <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-            <div className="flex gap-5 sm:gap-6 overflow-x-auto py-3 sm:py-4 -mb-px">
-              <button
-                type="button"
-                onClick={() => setActiveCategory(null)}
-                className={`text-sm whitespace-nowrap pb-2 border-b-2 transition-colors cursor-pointer bg-transparent ${
-                  !activeCategory
-                    ? 'border-forest-green text-forest-green font-medium'
-                    : 'border-transparent text-stone hover:text-obsidian'
-                }`}
-              >
-                All
-              </button>
-              {categories.map((cat) => (
+        <section
+          className={cn(GUTTER, 'bg-cream border-b border-stone/12 sticky z-30')}
+          style={{ top: 'var(--header-h)' }}
+          aria-label="Filter by category"
+        >
+          <div className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:thin]">
+            {[{ slug: null, title: 'All' }, ...categories].map((cat) => {
+              const active = activeCategory === cat.slug
+              return (
                 <button
-                  key={cat.id}
+                  key={cat.slug ?? 'all'}
                   type="button"
+                  aria-pressed={active}
                   onClick={() => setActiveCategory(cat.slug)}
-                  className={`text-sm whitespace-nowrap pb-2 border-b-2 transition-colors cursor-pointer bg-transparent ${
-                    activeCategory === cat.slug
-                      ? 'border-forest-green text-forest-green font-medium'
-                      : 'border-transparent text-stone hover:text-obsidian'
-                  }`}
+                  className={cn(
+                    'shrink-0 h-9 px-4 rounded-sm border cursor-pointer transition-colors font-sans text-[11px] uppercase tracking-[0.14em] font-medium',
+                    active ?
+                      'bg-forest-green border-forest-green text-cream'
+                    : 'bg-white border-stone/20 text-stone hover:border-stone/40 hover:text-obsidian',
+                  )}
                 >
                   {cat.title}
                 </button>
-              ))}
-            </div>
+              )
+            })}
           </div>
         </section>
       )}
 
-      {/* Posts grid */}
-      <section className="bg-cream py-12 sm:py-16 md:py-20 lg:py-24">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          {filteredPosts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-              {filteredPosts.map((post, i) => (
+      {/* ═══ 3 · POSTS ══════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        {filteredPosts.length > 0 ?
+          <>
+            {showFeatured ? (
+              <div className="mb-3 md:mb-4">
+                <FeaturedPost post={featured} />
+              </div>
+            ) : null}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
+              {gridPosts.map((post, i) => (
                 <PostCard key={post.id} post={post} index={i} />
               ))}
             </div>
-          ) : (
-            <div className="text-center py-16 sm:py-20">
-              <p className="text-stone text-lg m-0">No posts found in this category.</p>
-            </div>
-          )}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-12 sm:mt-16 flex-wrap">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <Link
-                  key={page}
-                  href={`/journal?page=${page}`}
-                  className={`w-10 h-10 flex items-center justify-center rounded-sm text-sm no-underline transition-colors ${
-                    page === currentPage
-                      ? 'bg-forest-green text-cream font-medium'
-                      : 'bg-parchment text-stone hover:bg-mist'
-                  }`}
+            {showPagination ? (
+              <nav
+                aria-label="Pagination"
+                className="flex justify-center flex-wrap gap-2 mt-6 md:mt-8"
+              >
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                  const current = page === currentPage
+                  return (
+                    <Link
+                      key={page}
+                      href={`/journal?page=${page}`}
+                      aria-current={current ? 'page' : undefined}
+                      className={cn(
+                        'w-9 h-9 flex items-center justify-center rounded-sm border no-underline transition-colors',
+                        current ?
+                          'bg-forest-green border-forest-green'
+                        : 'bg-white border-stone/20 hover:border-stone/40',
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'font-sans text-[12px]',
+                          current ? 'text-cream font-medium' : 'text-stone',
+                        )}
+                      >
+                        {page}
+                      </span>
+                    </Link>
+                  )
+                })}
+              </nav>
+            ) : null}
+          </>
+        : <FadeIn>
+            <div className="bg-white border border-stone/15 rounded-sm px-6 py-10 md:py-14 text-center">
+              <span className="inline-flex w-12 h-12 rounded-sm bg-parchment items-center justify-center">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  className="text-stone/60"
                 >
-                  {page}
-                </Link>
-              ))}
+                  <path d="M4 4h13a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2z" />
+                  <path d="M19 8h1.5a1.5 1.5 0 0 1 1.5 1.5V18a2 2 0 0 1-2 2" />
+                  <path d="M8 8h7M8 12h7M8 16h4" />
+                </svg>
+              </span>
+              <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight mt-4">
+                {activeCategory ? 'Nothing in this category yet' : 'No articles published yet'}
+              </span>
+              {/* Centring lives on the wrapper: `m-0!` on the <p> is important
+                  (it has to beat the unlayered base rule) and would kill mx-auto. */}
+              <div className="max-w-md mx-auto mt-2">
+                <p className="m-0! font-sans text-[13px] text-stone leading-relaxed">
+                  {activeCategory ?
+                    'Try another category, or browse everything we have published so far.'
+                  : 'Recipes, origin stories and sourcing notes are on the way. In the meantime, the catalogue is the best place to start.'}
+                </p>
+              </div>
+              <div className="flex flex-wrap justify-center gap-3 mt-5">
+                {activeCategory ?
+                  <button
+                    type="button"
+                    onClick={() => setActiveCategory(null)}
+                    className="group inline-flex items-center justify-center h-11 px-7 bg-forest-green border-0 rounded-sm cursor-pointer transition-colors hover:bg-bud-green"
+                  >
+                    <span className="text-cream text-[11px] uppercase tracking-[0.16em] font-heading font-semibold">
+                      Show all articles
+                    </span>
+                  </button>
+                : <Cta href="/products">Browse products</Cta>}
+                <Cta href="/recipes" variant="dark-outline">
+                  Recipes
+                </Cta>
+              </div>
             </div>
-          )}
+          </FadeIn>
+        }
+      </section>
+
+      {/* ═══ 4 · SOURCING NUDGE ═════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Beyond the journal"
+          title="Where the stories come from"
+          lede="The sourcing model and the standards behind every product we list."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {[
+            {
+              href: '/sourcing',
+              title: 'Our sourcing',
+              body: 'How suppliers are selected, evaluated, and onboarded.',
+            },
+            {
+              href: '/sustainability',
+              title: 'Sustainability',
+              body: 'The environmental, social, and governance work underneath.',
+            },
+            {
+              href: '/experiences',
+              title: 'Our ecosystem',
+              body: 'From farms and processing to restaurants and retail.',
+            },
+          ].map((l, i) => (
+            <FadeIn key={l.href} delay={i * 0.06}>
+              <Link href={l.href} className="group block no-underline h-full">
+                <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5 hover:border-stone/35 transition-colors">
+                  <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                    {l.title}
+                  </span>
+                  <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                    {l.body}
+                  </p>
+                  <span className="mt-3 inline-flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.16em] text-forest-green">
+                    Read more
+                    <span
+                      aria-hidden
+                      className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
+                  </span>
+                </div>
+              </Link>
+            </FadeIn>
+          ))}
         </div>
       </section>
-    </>
+    </div>
   )
 }

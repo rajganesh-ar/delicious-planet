@@ -1,0 +1,45 @@
+import Link from 'next/link'
+import Image from 'next/image'
+import { FadeIn } from '@/components/animations/FadeIn'
+import { SectionHeader } from './SectionHeader'
+
+/**
+ * Supplier/brand records carry no logos in the CMS, so the strip uses the
+ * static partner marks bundled in public/images/partner-logo/.
+ */
+const PARTNERS = [
+  { name: 'Admiral Caviar', src: '/images/partner-logo/admiral.webp' },
+  { name: 'Caputo', src: '/images/partner-logo/caputo.avif' },
+  { name: 'Velsoro', src: '/images/partner-logo/velsoro.avif' },
+  { name: 'Garcia', src: '/images/partner-logo/garcia.webp' },
+  { name: 'Cebon', src: '/images/partner-logo/cebon.png' },
+]
+
+export function BrandStrip() {
+  return (
+    <section className="py-8 md:py-11">
+      <SectionHeader title="Brands We Carry" href="/brands" className="mb-5 md:mb-7" />
+
+      <FadeIn>
+        <ul className="list-none m-0 p-0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border border-stone/15 rounded-sm bg-white overflow-hidden">
+          {PARTNERS.map((p) => (
+            <li key={p.name} className="border-b border-r border-stone/10 last:border-r-0 lg:border-b-0">
+              <Link
+                href="/brands"
+                className="group flex items-center justify-center h-20 md:h-24 px-4 no-underline"
+              >
+                <Image
+                  src={p.src}
+                  alt={p.name}
+                  width={120}
+                  height={48}
+                  className="max-h-10 w-auto object-contain opacity-75 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </FadeIn>
+    </section>
+  )
+}

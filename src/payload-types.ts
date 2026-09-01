@@ -83,6 +83,7 @@ export interface Config {
     testimonials: Testimonial;
     'office-locations': OfficeLocation;
     'newsletter-subscribers': NewsletterSubscriber;
+    banners: Banner;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -106,6 +107,7 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    banners: BannersSelect<false> | BannersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -523,6 +525,14 @@ export interface Order {
     country?: string | null;
   };
   /**
+   * Set by the Stripe webhook — not by the checkout redirect.
+   */
+  paymentStatus: 'unpaid' | 'paid' | 'failed' | 'refunded' | 'invoice';
+  /**
+   * Stripe Checkout session that was opened for this order.
+   */
+  stripeCheckoutSessionId?: string | null;
+  /**
    * Stripe payment intent ID for this order.
    */
   stripePaymentIntentId?: string | null;
@@ -817,6 +827,56 @@ export interface NewsletterSubscriber {
   createdAt: string;
 }
 /**
+ * Promotional banners shown between the homepage sections.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banners".
+ */
+export interface Banner {
+  id: number;
+  /**
+   * Internal name shown in the admin list.
+   */
+  title: string;
+  /**
+   * Which homepage slot this banner appears in.
+   */
+  placement: 'below-hero' | 'after-best-sellers' | 'after-new-arrivals' | 'before-newsletter';
+  variant: 'wide' | 'split' | 'strip';
+  /**
+   * Used for the text colour and the imageless background.
+   */
+  theme: 'dark' | 'light' | 'forest';
+  /**
+   * Small label above the heading, e.g. "New this season".
+   */
+  eyebrow?: string | null;
+  heading?: string | null;
+  subheading?: string | null;
+  /**
+   * Optional. Without one the banner uses a solid brand background.
+   */
+  image?: (number | null) | Media;
+  /**
+   * e.g. "Shop now".
+   */
+  ctaLabel?: string | null;
+  /**
+   * e.g. /products?dietary=halal
+   */
+  ctaHref?: string | null;
+  /**
+   * Uncheck to hide without deleting.
+   */
+  active?: boolean | null;
+  /**
+   * Order within the slot. Lower shows first.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -903,6 +963,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'newsletter-subscribers';
         value: number | NewsletterSubscriber;
+      } | null)
+    | ({
+        relationTo: 'banners';
+        value: number | Banner;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1280,6 +1344,8 @@ export interface OrdersSelect<T extends boolean = true> {
         postalCode?: T;
         country?: T;
       };
+  paymentStatus?: T;
+  stripeCheckoutSessionId?: T;
   stripePaymentIntentId?: T;
   notes?: T;
   updatedAt?: T;
@@ -1510,6 +1576,26 @@ export interface OfficeLocationsSelect<T extends boolean = true> {
 export interface NewsletterSubscribersSelect<T extends boolean = true> {
   email?: T;
   source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banners_select".
+ */
+export interface BannersSelect<T extends boolean = true> {
+  title?: T;
+  placement?: T;
+  variant?: T;
+  theme?: T;
+  eyebrow?: T;
+  heading?: T;
+  subheading?: T;
+  image?: T;
+  ctaLabel?: T;
+  ctaHref?: T;
+  active?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -15,6 +15,12 @@ export interface CartItem {
 interface CartContextValue {
   items: CartItem[]
   isOpen: boolean
+  /**
+   * False until the persisted basket has been read on the client. Anything
+   * that renders an empty state (e.g. /cart) has to wait for this, or it
+   * flashes "your basket is empty" on every load.
+   */
+  hydrated: boolean
   openCart: () => void
   closeCart: () => void
   toggleCart: () => void
@@ -100,6 +106,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         items,
         isOpen,
+        hydrated,
         openCart,
         closeCart,
         toggleCart,

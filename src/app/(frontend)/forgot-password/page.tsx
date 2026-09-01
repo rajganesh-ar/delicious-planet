@@ -3,8 +3,22 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { MagneticButton } from '@/components/animations/MagneticButton'
-import { Button, FormField, Heading, Input, ProseText } from '@/components/ui'
+import {
+  AuthAlert,
+  AuthField,
+  AuthFooterLink,
+  AuthShell,
+  AuthSubmit,
+  authInputClass,
+} from '@/components/sections/AuthShell'
+
+const PANEL_IMAGE = { src: '/images/sourcing/sourcing-farmer.avif', label: 'Reset panel' }
+
+const PANEL_POINTS = [
+  'Reset links expire shortly after they are issued',
+  'Your basket stays where it is while you reset',
+  'Still stuck? The team can verify your account by email',
+]
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -18,17 +32,14 @@ export default function ForgotPasswordPage() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/users/forgot-password', {
+      // The same confirmation shows either way: telling a visitor whether an
+      // address is registered would leak account existence.
+      await fetch('/api/users/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
-
-      if (res.ok) {
-        setSubmitted(true)
-      } else {
-        setSubmitted(true)
-      }
+      setSubmitted(true)
     } catch {
       setError('An error occurred. Please try again.')
     } finally {
@@ -37,94 +48,89 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cream px-5 sm:px-6 py-16 sm:py-20">
-      <motion.div
-        className="w-full max-w-[420px]"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="text-center mb-8 sm:mb-10">
-          <Link
-            href="/"
-            className="font-luxury text-2xl font-semibold text-obsidian no-underline tracking-tight"
-          >
-            Delicious Planet
-          </Link>
-          <Heading as="h1" variant="section" align="center" className="m-0 mt-6 mb-2">
-            Reset Password
-          </Heading>
-          <ProseText size="sm" tone="muted" className="m-0">
-            Enter your email and we&apos;ll send you a reset link
-          </ProseText>
-        </div>
-
-        {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <div className="w-16 h-16 rounded-full bg-forest-green/10 flex items-center justify-center mx-auto mb-6">
+    <AuthShell
+      eyebrow="Account recovery"
+      panelTitle="Locked out? It happens."
+      panelLede="Give us the address on the account and we'll send a link that lets you set a new password. Nothing else about the account changes."
+      points={PANEL_POINTS}
+      image={PANEL_IMAGE}
+      title={submitted ? 'Check your email' : 'Reset password'}
+      subtitle={
+        submitted
+          ? 'If that address has an account, a reset link is on its way.'
+          : 'Enter the email you registered with.'
+      }
+      footer={<AuthFooterLink prefix="Remembered it?" href="/login" label="Back to sign in" />}
+    >
+      {submitted ? (
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="border border-stone/15 bg-white rounded-sm p-5">
+            <span className="w-10 h-10 rounded-sm bg-forest-green/10 flex items-center justify-center text-forest-green">
               <svg
-                width="32"
-                height="32"
+                width="18"
+                height="18"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
-                className="text-forest-green"
               >
                 <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </div>
-            <Heading as="h3" variant="card" align="center" className="m-0 mb-2">
-              Check Your Email
-            </Heading>
-            <ProseText size="sm" tone="muted" className="m-0 mb-6">
-              If an account exists with that email, you&apos;ll receive a password reset link
-              shortly.
-            </ProseText>
-            <Link
-              href="/login"
-              className="text-sm text-forest-green no-underline hover:underline font-medium"
-            >
-              Back to sign in
-            </Link>
-          </motion.div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {error && (
-              <div className="bg-red-50 text-red-700 text-sm px-4 py-3 rounded-sm border border-red-200">
-                {error}
-              </div>
-            )}
-
-            <FormField label="Email" htmlFor="forgot-email">
-              <Input
-                id="forgot-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-              />
-            </FormField>
-
-            <MagneticButton className="w-full">
-              <Button type="submit" variant="primary" size="lg" fullWidth loading={loading}>
-                {loading ? 'Sending…' : 'Send Reset Link'}
-              </Button>
-            </MagneticButton>
-
-            <p className="text-center text-sm text-stone m-0">
-              <Link href="/login" className="text-forest-green no-underline hover:underline font-medium">
-                Back to sign in
-              </Link>
+            </span>
+            <p className="m-0! mt-3! font-sans text-[13px] text-stone leading-relaxed">
+              Sent to <span className="text-obsidian font-medium">{email}</span>. The link expires
+              shortly, so use it soon — and check the spam folder if it hasn&apos;t arrived within a
+              few minutes.
             </p>
-          </form>
-        )}
-      </motion.div>
-    </div>
+            <button
+              type="button"
+              onClick={() => setSubmitted(false)}
+              className="mt-3 bg-transparent border-0 p-0 cursor-pointer"
+            >
+              <span className="font-sans text-[12px] text-stone hover:text-obsidian transition-colors underline underline-offset-2">
+                Use a different email
+              </span>
+            </button>
+          </div>
+
+          <div className="mt-4">
+            <Link
+              href="/contact#enquiry"
+              className="no-underline inline-flex items-center gap-2 group"
+            >
+              <span className="font-sans text-[12.5px] text-stone group-hover:text-obsidian transition-colors">
+                Still can&apos;t get in? Contact the team
+              </span>
+              <span
+                aria-hidden
+                className="font-sans text-[12px] text-forest-green transition-transform group-hover:translate-x-0.5"
+              >
+                →
+              </span>
+            </Link>
+          </div>
+        </motion.div>
+      ) : (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {error ? <AuthAlert>{error}</AuthAlert> : null}
+
+          <AuthField label="Email" htmlFor="forgot-email">
+            <input
+              id="forgot-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              className={authInputClass}
+            />
+          </AuthField>
+
+          <AuthSubmit loading={loading} className="mt-1">
+            {loading ? 'Sending…' : 'Send reset link'}
+          </AuthSubmit>
+        </form>
+      )}
+    </AuthShell>
   )
 }

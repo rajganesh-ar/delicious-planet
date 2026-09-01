@@ -1,6 +1,8 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { ProductsListing } from '@/components/sections/ProductsListing'
+import { getRegionBySlug } from '@/lib/regions'
+import { getDietaryFacet, dietaryWhere, getPriceBand } from '@/lib/facets'
 import type { Where } from 'payload'
 
 interface Props {
@@ -17,6 +19,9 @@ export default async function ProductsPage({ searchParams }: Props) {
   const supplierSlug = typeof params.supplier === 'string' ? params.supplier : ''
   const collectionSlug = typeof params.collection === 'string' ? params.collection : ''
   const originCountry = typeof params.originCountry === 'string' ? params.originCountry : ''
+  const regionSlug = typeof params.region === 'string' ? params.region : ''
+  const dietarySlug = typeof params.dietary === 'string' ? params.dietary : ''
+  const priceSlug = typeof params.price === 'string' ? params.price : ''
   const searchTerm = typeof params.search === 'string' ? params.search.trim() : ''
   const featured = params.featured === 'true'
   const inStock = params.inStock === 'true'
@@ -44,6 +49,25 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   if (originCountry) {
     conditions.push({ countryOfOrigin: { equals: originCountry } })
+  }
+
+  // Regions aren't modelled in the CMS — resolve the slug to its country list
+  // and filter on the free-text `countryOfOrigin`. See src/lib/regions.ts.
+  const region = regionSlug ? getRegionBySlug(regionSlug) : undefined
+  if (region) {
+    conditions.push({ countryOfOrigin: { in: region.countries } })
+  }
+
+  // Dietary flags live in the `dietary` group; price filters the first price row.
+  const dietary = dietarySlug ? getDietaryFacet(dietarySlug) : undefined
+  if (dietary) {
+    conditions.push(dietaryWhere(dietary))
+  }
+
+  const band = priceSlug ? getPriceBand(priceSlug) : undefined
+  if (band) {
+    if (band.min !== undefined) conditions.push({ 'prices.amount': { greater_than_equal: band.min } })
+    if (band.max !== undefined) conditions.push({ 'prices.amount': { less_than: band.max } })
   }
 
   if (categorySlug) {

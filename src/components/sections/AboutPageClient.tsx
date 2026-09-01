@@ -1,44 +1,53 @@
 'use client'
 
-import Image from 'next/image'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { MagneticButton } from '@/components/animations/MagneticButton'
+import { ImagePlaceholder } from '@/components/ui'
+import { BAND, Cta, Eyebrow, GUTTER, SectionHead } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
 import type { OfficeLocation, Media } from '@/payload-types'
-import Link from 'next/link'
 
 interface AboutPageClientProps {
   offices: OfficeLocation[]
 }
 
-/* ── Data (content unchanged) ── */
+/* ──────────────────────────────────────────────────────────────
+ * Media slots.
+ *
+ * Every image on this page is declared here. `src: null` renders the
+ * designed placeholder from <ImagePlaceholder>; dropping a file in and
+ * setting its path is the only change needed to go live with real art.
+ * ────────────────────────────────────────────────────────────── */
+const MEDIA = {
+  hero: { src: '/images/about/about-timeline.avif', label: 'Hero — 4:3' },
+  originA: { src: '/images/about/about-customer.avif', label: 'Producer — 4:3' },
+  originB: { src: null, label: 'Apiary — 4:3' },
+  originC: { src: null, label: 'Harvest — 4:3' },
+  manifesto: { src: '/images/about/about-cover.avif', label: 'Manifesto backdrop' },
+  reach: { src: '/images/about/about-retail.avif', label: 'Regional operations — 4:3' },
+  capability: { src: '/images/about/about-resturant.avif', label: 'Coordination layer' },
+  founder: { src: null, label: 'Founder portrait — 4:5' },
+} satisfies Record<string, { src: string | null; label: string }>
 
-const principles = [
-  {
-    title: 'Consistency',
-    description: 'Stable product characteristics across production cycles.',
-  },
-  {
-    title: 'Continuity',
-    description: 'Supply structures designed to maintain predictable availability.',
-  },
-  {
-    title: 'Clarity',
-    description: 'Transparent origin pathways and documentation readiness.',
-  },
-  {
-    title: 'Alignment',
-    description: 'Coordination between production environments and commercial requirements.',
-  },
-  {
-    title: 'Scalability',
-    description:
-      'Supply frameworks capable of supporting volume growth without compromising product stability.',
-  },
-  {
-    title: 'Integrity',
-    description:
-      'Preservation of natural product characteristics across sourcing and distribution processes.',
-  },
+/* ── Content ── */
+
+const heroStats = [
+  { value: '25+', label: 'Sourcing partners' },
+  { value: '20+', label: 'Product categories' },
+  { value: '5', label: 'Operational bases' },
+  { value: '4', label: 'Continents covered' },
+]
+
+const originParagraphs = [
+  'Delicious Planet began with honey production developed within environments where product integrity depends on ecological balance, seasonal rhythm, and disciplined harvesting practices.',
+  'Over time, sourcing capabilities expanded to include olive oil, dried figs, botanical extracts, and additional natural products selected for their stability of characteristics across cultivation cycles.',
+  'The platform has evolved into a structured sourcing environment designed to support professional buyers requiring reliable ingredient performance across repeated procurement cycles.',
+]
+
+const reachRows = [
+  { region: 'North Africa', detail: 'Agricultural origin and producer relationships', tag: 'Origin' },
+  { region: 'Middle East', detail: 'Headquarters and commercial coordination', tag: 'HQ' },
+  { region: 'Southern Europe', detail: 'Category expansion and export pathways', tag: 'Supply' },
+  { region: 'Global markets', detail: 'Distribution and documentation readiness', tag: '4 continents' },
 ]
 
 const capabilities = [
@@ -56,7 +65,7 @@ const capabilities = [
     accent: true,
   },
   {
-    badge: 'Private Label',
+    badge: 'Private label',
     text: 'Private label product development through controlled production partnerships.',
   },
   {
@@ -69,855 +78,558 @@ const capabilities = [
   },
 ]
 
+const principles = [
+  { title: 'Consistency', description: 'Stable product characteristics across production cycles.' },
+  {
+    title: 'Continuity',
+    description: 'Supply structures designed to maintain predictable availability.',
+  },
+  { title: 'Clarity', description: 'Transparent origin pathways and documentation readiness.' },
+  {
+    title: 'Alignment',
+    description: 'Coordination between production environments and commercial requirements.',
+  },
+  {
+    title: 'Scalability',
+    description:
+      'Supply frameworks capable of supporting volume growth without compromising product stability.',
+  },
+  {
+    title: 'Integrity',
+    description:
+      'Preservation of natural product characteristics across sourcing and distribution processes.',
+  },
+]
+
 const timeline = [
   {
     year: '2020',
     title: 'Foundation',
     description: 'Foundation in honey production within Algerian agricultural environments.',
-    image: '/images/about/about-milestone-2020.avif',
   },
   {
     year: '2021',
-    title: 'Initial Partnerships',
-    description:
-      'Initial sourcing partnerships established for olive oil and dried fruit categories.',
-    image: '/images/about/about-milestone-2021.avif',
+    title: 'Initial partnerships',
+    description: 'Sourcing partnerships established for olive oil and dried fruit categories.',
   },
   {
     year: '2022',
-    title: 'Network Expansion',
+    title: 'Network expansion',
     description: 'Expansion of supplier network across North Africa and Southern Europe.',
-    image: '/images/about/about-milestone-2022.avif',
   },
   {
     year: '2023',
-    title: 'Procurement Framework',
-    description:
-      'Development of structured procurement framework supporting multi-category sourcing.',
-    image: '/images/about/about-milestone-2023.avif',
+    title: 'Procurement framework',
+    description: 'Structured procurement framework supporting multi-category sourcing.',
   },
   {
     year: '2024',
-    title: 'Private Label',
+    title: 'Private label',
     description: 'Introduction of private label supply coordination.',
-    image: '/images/about/about-milestone-2024.avif',
   },
   {
     year: '2025',
-    title: 'Distribution Growth',
+    title: 'Distribution growth',
     description: 'Expansion of distribution capability across Middle East markets.',
-    image: '/images/about/about-milestone-2025.avif',
   },
   {
     year: '2026',
-    title: 'International Structure',
-    description:
-      'International operational structure established with headquarters in UAE and regional offices across multiple markets.',
-    image: '/images/about/about-milestone-2026.avif',
+    title: 'International structure',
+    description: 'Headquarters in the UAE with regional offices across multiple markets.',
   },
 ]
 
-const traction = [
-  { value: '25+', label: 'Sourcing partners', accent: true },
-  { value: '5', label: 'Regional operational bases' },
-  { value: '20+', label: 'Product categories in development' },
-  { value: '4', label: 'Continents covered' },
-  { value: '7+', label: 'Years of sourcing expertise' },
-  { value: '100%', label: 'Traceable production' },
+const team = [
+  { role: 'Founder & CEO', name: 'Nabila Mellaz' },
+  { role: 'Head of Sourcing', name: null },
+  { role: 'Creative Director', name: null },
+  { role: 'Head of B2B', name: null },
 ]
-
-const presenceStats = [
-  { stat: '5', label: 'Regional Offices', image: '/images/about/about-region-mena.avif' },
-  { stat: '4', label: 'Continents', image: '/images/about/about-region-europe.avif' },
-  { stat: 'Multi', label: 'Region Capability', image: '/images/about/about-region-africa.avif' },
-]
-
-const teamRoles = ['Founder & CEO', 'Head of Sourcing', 'Creative Director', 'Head of B2B']
 
 export function AboutPageClient({ offices }: AboutPageClientProps) {
   return (
-    <>
-      {/* ═══ 1. HERO — Editorial cinematic with floating credential card ═══ */}
-      <section className="relative bg-obsidian overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-95" />
-        {/* Decorative grid lines */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.06]">
-          <div className="absolute top-0 left-1/4 w-px h-full bg-gold" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-gold" />
-        </div>
-
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pt-28 lg:pt-36 pb-20 lg:pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-end">
-            {/* Left — copy block */}
-            <div className="lg:col-span-5 lg:pb-8">
+    <div className="bg-cream">
+      {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
+      <section className="bg-obsidian">
+        <div className={cn(GUTTER, 'pt-10 pb-8 md:pt-14 md:pb-10')}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-6">
               <FadeIn>
-                <div className="flex items-center gap-3 mb-7">
-                  <div className="w-10 h-px bg-gold" />
-                  <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium m-0">
-                    Our Story
-                  </p>
-                </div>
+                <Eyebrow tone="light">Our story</Eyebrow>
               </FadeIn>
-              <FadeIn delay={0.1}>
-                <h1 className="font-luxury text-[32px] sm:text-[38px] md:text-[46px] lg:text-[52px] xl:text-[64px] font-medium text-cream leading-[1.04] tracking-[-0.035em] m-0 mb-8">
-                  Structured Natural Supply,{' '}
-                  <span className="italic text-gold/90">Designed for Global Continuity</span>
+              <FadeIn delay={0.06}>
+                <h1 className="m-0! mt-3!">
+                  <span className="block font-luxury text-cream font-semibold leading-[1.12] tracking-tight text-[clamp(1.9rem,5vw,3.5rem)]">
+                    Structured natural supply,{' '}
+                    <span className="text-gold">designed for global continuity</span>
+                  </span>
                 </h1>
               </FadeIn>
-              <FadeIn delay={0.2}>
-                <p className="text-cream/70 text-base lg:text-lg leading-relaxed m-0 mb-5">
-                  Delicious Planet is a sourcing and distribution platform connecting disciplined
-                  agricultural production environments with professional markets requiring
-                  reliability, specification consistency, and scalable procurement capability.
+              <FadeIn delay={0.12}>
+                <p className="m-0! mt-4! font-sans text-cream/75 text-sm md:text-base leading-relaxed max-w-xl">
+                  Delicious Planet connects disciplined agricultural production environments with
+                  professional markets requiring reliability, specification consistency, and
+                  scalable procurement capability.
                 </p>
               </FadeIn>
-              <FadeIn delay={0.3}>
-                <p className="text-cream/70 text-base lg:text-lg leading-relaxed m-0">
-                  Rooted in Algeria and headquartered in the United Arab Emirates, the company
-                  coordinates sourcing relationships across multiple regions to support stable
-                  access to natural products across Middle East and Africa markets.
+              <FadeIn delay={0.18}>
+                <p className="m-0! mt-3! font-sans text-cream/55 text-[13px] md:text-sm leading-relaxed max-w-xl">
+                  Rooted in Algeria and headquartered in the United Arab Emirates, coordinating
+                  sourcing relationships across multiple regions.
                 </p>
+              </FadeIn>
+              <FadeIn delay={0.24}>
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <Cta href="/contact">Talk to sourcing</Cta>
+                  <Cta href="/products" variant="outline">
+                    Browse catalogue
+                  </Cta>
+                </div>
               </FadeIn>
             </div>
 
-            {/* Right — feature image with overlapping accent panels */}
-            <div className="lg:col-span-7 relative">
-              <FadeIn delay={0.15}>
-                <div className="relative aspect-[5/6] sm:aspect-[4/4.5] lg:aspect-[5/5.5] rounded-2xl overflow-hidden bg-charcoal">
-                  <Image
-                    src="/images/about/about-hero-feature.avif"
-                    alt=""
-                    fill
-                    sizes="(max-width:1024px) 100vw, 60vw"
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian/40 via-transparent to-transparent" />
-                </div>
-              </FadeIn>
-
-              {/* Floating credential card — bottom-left overlap */}
-              <FadeIn delay={0.4}>
-                <div className="hidden sm:block absolute -bottom-6 lg:-bottom-10 -left-3 lg:-left-8 bg-cream rounded-xl p-5 lg:p-6 max-w-[280px] shadow-2xl">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-medium m-0 mb-2">
-                    Established
-                  </p>
-                  <p className="font-luxury text-3xl lg:text-4xl text-obsidian m-0 mb-2">2020</p>
-                  <p className="text-stone text-xs leading-relaxed m-0">
-                    Foundation in honey production, Algeria.
-                  </p>
-                </div>
-              </FadeIn>
-
-              {/* Floating square image — top-right overlap */}
-              <FadeIn delay={0.5}>
-                <div className="hidden lg:block absolute -top-6 -right-4 w-[180px] aspect-square rounded-xl overflow-hidden border-4 border-obsidian shadow-2xl">
-                  <Image
-                    src="/images/about/about-hero-detail.avif"
-                    alt=""
-                    fill
-                    sizes="180px"
-                    className="object-cover"
-                  />
-                </div>
+            <div className="lg:col-span-6">
+              <FadeIn delay={0.1}>
+                <ImagePlaceholder
+                  {...MEDIA.hero}
+                  ratio="4/3"
+                  tone="dark"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 46vw"
+                  className="rounded-sm"
+                />
               </FadeIn>
             </div>
           </div>
         </div>
-        <div className="h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
+
+        {/* Stat bar */}
+        <div className={cn(GUTTER, 'border-t border-cream/10')}>
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {heroStats.map((s, i) => (
+              <FadeIn key={s.label} delay={i * 0.05}>
+                <div className="py-4 md:py-5 pr-4">
+                  <span className="block font-luxury text-2xl md:text-3xl font-semibold text-cream leading-none">
+                    {s.value}
+                  </span>
+                  <span className="block font-sans text-[10px] md:text-[11px] uppercase tracking-[0.16em] text-cream/45 mt-2">
+                    {s.label}
+                  </span>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* ═══ 2. ORIGIN — Editorial split with vertical chapter marker ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-32 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            {/* Left — Chapter marker + image stack */}
-            <div className="lg:col-span-5 relative">
-              <FadeIn>
-                <div className="flex items-start gap-5 mb-10">
-                  <span className="font-luxury text-6xl lg:text-7xl text-gold/40 leading-none">
-                    01
-                  </span>
-                  <div className="pt-3">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium m-0 mb-1">
-                      Chapter One
-                    </p>
-                    <p className="text-stone text-sm m-0">Origin</p>
-                  </div>
-                </div>
+      {/* ═══ 2 · ORIGIN ═════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Chapter one — Origin"
+          title="Built on agricultural continuity"
+          lede="From a single agricultural product to an internationally coordinated sourcing platform."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-10 items-start">
+          <div className="lg:col-span-7 flex flex-col gap-3.5">
+            {originParagraphs.map((text, i) => (
+              <FadeIn key={i} delay={i * 0.05}>
+                <p className="m-0! font-sans text-[13px] md:text-sm text-stone leading-relaxed">
+                  {text}
+                </p>
               </FadeIn>
-              <FadeIn delay={0.1}>
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-mist mb-5">
-                  <Image
-                    src="/images/about/about-origin-honey.avif"
-                    alt=""
-                    fill
-                    sizes="(max-width:1024px) 100vw, 40vw"
-                    className="object-cover"
-                  />
-                </div>
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <div className="grid grid-cols-2 gap-3 lg:gap-4">
-                  <div className="aspect-square rounded-xl overflow-hidden bg-mist">
-                    <Image
-                      src="/images/about/about-origin-grove.avif"
-                      alt=""
-                      width={400}
-                      height={400}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="aspect-square rounded-xl overflow-hidden bg-mist">
-                    <Image
-                      src="/images/about/about-origin-harvest.avif"
-                      alt=""
-                      width={400}
-                      height={400}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                </div>
-              </FadeIn>
+            ))}
+          </div>
+
+          <div className="lg:col-span-5">
+            <FadeIn delay={0.08}>
+              <ImagePlaceholder
+                {...MEDIA.originA}
+                ratio="16/10"
+                sizes="(max-width: 1024px) 100vw, 38vw"
+                className="rounded-sm"
+              />
+            </FadeIn>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mt-3 md:mt-4">
+          {[MEDIA.originB, MEDIA.originC].map((slot, i) => (
+            <FadeIn key={slot.label} delay={0.1 + i * 0.06}>
+              <ImagePlaceholder
+                {...slot}
+                ratio="4/3"
+                sizes="(max-width: 1024px) 50vw, 24vw"
+                className="rounded-sm"
+              />
+            </FadeIn>
+          ))}
+          <FadeIn delay={0.22} className="col-span-2">
+            <div className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5 flex flex-col justify-center">
+              <Eyebrow>Established</Eyebrow>
+              <span className="block font-luxury text-3xl md:text-4xl font-semibold text-obsidian leading-none mt-2">
+                2020
+              </span>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-stone leading-relaxed">
+                Foundation in honey production, Algeria — the discipline every later category was
+                built on.
+              </p>
             </div>
+          </FadeIn>
+        </div>
+      </section>
 
-            {/* Right — Editorial copy */}
-            <div className="lg:col-span-7 lg:pl-8 lg:pt-12">
-              <FadeIn>
-                <div className="w-12 h-px bg-gold mb-8" />
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-medium text-obsidian leading-[1.08] tracking-[-0.03em] m-0 mb-10">
-                  Built on Agricultural Continuity
-                </h2>
-              </FadeIn>
+      {/* ═══ 3 · MANIFESTO ══════════════════════════════════════ */}
+      <section className={cn(GUTTER, 'pb-8 md:pb-11')}>
+        <FadeIn>
+          <ImagePlaceholder
+            {...MEDIA.manifesto}
+            tone="dark"
+            glyph={false}
+            sizes="100vw"
+            className="rounded-sm min-h-65 md:min-h-80 flex items-center"
+          >
+            {MEDIA.manifesto.src ? (
+              <div className="absolute inset-0 bg-linear-to-r from-obsidian/90 via-obsidian/65 to-obsidian/20" />
+            ) : null}
+            <div className="relative z-10 max-w-2xl px-6 md:px-10 lg:px-14 py-10">
+              <Eyebrow tone="light">Manifesto</Eyebrow>
+              <blockquote className="m-0! mt-3!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl lg:text-[34px]">
+                  &ldquo;Continuity isn&apos;t an outcome — it&apos;s a discipline.&rdquo;
+                </span>
+              </blockquote>
+              <p className="m-0! mt-3! md:mt-4! font-sans text-cream/75 text-[13px] md:text-sm leading-relaxed max-w-lg">
+                We design sourcing structures so that natural products arrive predictable,
+                traceable, and unchanged in character.
+              </p>
+            </div>
+          </ImagePlaceholder>
+        </FadeIn>
+      </section>
 
-              <div className="space-y-6 lg:max-w-xl">
-                <FadeIn delay={0.2}>
-                  <div className="flex gap-5">
-                    <span className="text-gold font-luxury text-sm leading-relaxed pt-1">—</span>
-                    <p className="text-stone text-base lg:text-lg leading-[1.75] m-0">
-                      Delicious Planet began with honey production developed within environments
-                      where product integrity depends on ecological balance, seasonal rhythm, and
-                      disciplined harvesting practices.
+      {/* ═══ 4 · REACH ══════════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+        <SectionHead
+          eyebrow="Chapter two — Reach"
+          title="International structure"
+          lede="Geographic positioning that keeps agricultural environments and commercial supply requirements in step."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-stretch">
+          <div className="lg:col-span-7">
+            <FadeIn>
+              <ImagePlaceholder
+                {...MEDIA.reach}
+                ratio="16/9"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="rounded-sm"
+              />
+            </FadeIn>
+          </div>
+          <div className="lg:col-span-5">
+            {/* flex-1 rows so the card fills the image's height instead of
+                leaving a dead strip under the last region. */}
+            <ul className="list-none m-0 p-0 h-full flex flex-col bg-white border border-stone/15 rounded-sm">
+              {reachRows.map((row) => (
+                <li
+                  key={row.region}
+                  className="flex-1 flex items-center justify-between gap-4 px-4 md:px-5 py-3.5 border-b border-stone/10 last:border-b-0"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                      {row.region}
+                    </span>
+                    <span className="block font-sans text-[11.5px] md:text-xs text-stone leading-snug mt-0.5">
+                      {row.detail}
+                    </span>
+                  </span>
+                  <span className="shrink-0 font-sans text-[10px] uppercase tracking-[0.16em] text-forest-green">
+                    {row.tag}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 5 · CAPABILITIES ═══════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Chapter three — Capabilities"
+          title="Structured supply for professional environments"
+          lede="A coordination layer between producers with stable output and buyers who need predictable procurement."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4">
+          {/* row-span-3 keeps the block square: six half-width cards over three
+              rows match the feature card's height exactly. */}
+          <FadeIn className="md:col-span-2 md:row-span-3">
+            <ImagePlaceholder
+              {...MEDIA.capability}
+              tone="dark"
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="rounded-sm h-full min-h-55"
+            >
+              <div className="absolute inset-0 bg-linear-to-t from-obsidian via-obsidian/45 to-obsidian/5" />
+              <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
+                <Eyebrow tone="light">Coordination layer</Eyebrow>
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-lg md:text-xl mt-1.5">
+                  From cultivation cycle to commercial shelf.
+                </span>
+              </div>
+            </ImagePlaceholder>
+          </FadeIn>
+
+          {capabilities.map((cap, i) => (
+            <FadeIn key={cap.badge} delay={i * 0.04} className="md:col-span-2">
+              <div
+                className={cn(
+                  'h-full rounded-sm border p-4 md:p-5 flex flex-col',
+                  cap.accent ?
+                    'bg-forest-green border-forest-green'
+                  : 'bg-white border-stone/15',
+                )}
+              >
+                <span
+                  className={cn(
+                    'block font-sans text-[10px] uppercase tracking-[0.16em] font-medium',
+                    cap.accent ? 'text-gold' : 'text-forest-green',
+                  )}
+                >
+                  {cap.badge}
+                </span>
+                <p
+                  className={cn(
+                    'm-0! mt-2.5! font-sans text-[12.5px] leading-relaxed',
+                    cap.accent ? 'text-cream/85' : 'text-stone',
+                  )}
+                >
+                  {cap.text}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 6 · PRINCIPLES ═════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND, 'bg-obsidian')}>
+        <SectionHead
+          eyebrow="Chapter four — Principles"
+          title="Six disciplines behind every sourcing decision"
+          tone="light"
+        />
+
+        <ul className="list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 border border-cream/12 rounded-sm overflow-hidden">
+          {principles.map((p, i) => (
+            <li
+              key={p.title}
+              className="px-4 md:px-5 py-4 md:py-5 border-b border-r border-cream/10 last:border-r-0"
+            >
+              <div className="flex items-baseline gap-3">
+                <span className="font-luxury text-lg text-gold/70 leading-none">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="block font-luxury text-base md:text-lg font-semibold text-cream leading-tight">
+                  {p.title}
+                </span>
+              </div>
+              <p className="m-0! mt-2! font-sans text-[12.5px] text-cream/55 leading-relaxed">
+                {p.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* ═══ 7 · TIMELINE ═══════════════════════════════════════ */}
+      <section className={cn(BAND, 'bg-parchment overflow-hidden')}>
+        <div className={GUTTER}>
+          <SectionHead
+            eyebrow="Chapter five — Journey"
+            title="Development timeline"
+            lede="Built deliberately, year by year."
+          />
+
+          {/* Scroller starts at the gutter so card one lines up with the heading,
+              and bleeds off the right edge. */}
+          <div className="overflow-x-auto [scrollbar-width:thin] -mr-6 lg:-mr-16">
+            <div className="flex gap-3 md:gap-4 min-w-max pr-6 lg:pr-16">
+              {timeline.map((item, i) => (
+                <FadeIn key={item.year} delay={Math.min(i, 4) * 0.04}>
+                  <article className="w-56 md:w-64">
+                    <ImagePlaceholder
+                      src={null}
+                      label={item.year}
+                      ratio="4/3"
+                      sizes="256px"
+                      className="rounded-sm"
+                    >
+                      <span className="absolute top-3 left-3 font-luxury text-sm font-semibold text-obsidian bg-cream/90 px-2 py-0.5 rounded-sm">
+                        {item.year}
+                      </span>
+                    </ImagePlaceholder>
+                    <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight mt-3">
+                      {item.title}
+                    </span>
+                    <p className="m-0! mt-1.5! font-sans text-[12.5px] text-stone leading-relaxed">
+                      {item.description}
                     </p>
-                  </div>
+                  </article>
                 </FadeIn>
-                <FadeIn delay={0.25}>
-                  <div className="flex gap-5">
-                    <span className="text-gold font-luxury text-sm leading-relaxed pt-1">—</span>
-                    <p className="text-stone text-base lg:text-lg leading-[1.75] m-0">
-                      Over time, sourcing capabilities expanded to include olive oil, dried figs,
-                      botanical extracts, and additional natural products selected for their
-                      stability of characteristics across cultivation cycles.
-                    </p>
-                  </div>
-                </FadeIn>
-                <FadeIn delay={0.3}>
-                  <div className="flex gap-5">
-                    <span className="text-gold font-luxury text-sm leading-relaxed pt-1">—</span>
-                    <p className="text-stone text-base lg:text-lg leading-[1.75] m-0">
-                      The platform has evolved into a structured sourcing environment designed to
-                      support professional buyers requiring reliable ingredient performance across
-                      repeated procurement cycles.
-                    </p>
-                  </div>
-                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 8 · FOUNDER + TEAM ═════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead eyebrow="Our people" title="The team behind the taste" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
+          {/* Founder */}
+          <FadeIn className="lg:col-span-5">
+            <div className="bg-white border border-stone/15 rounded-sm overflow-hidden h-full">
+              <div className="grid grid-cols-5">
+                <ImagePlaceholder
+                  {...MEDIA.founder}
+                  ratio="4/5"
+                  sizes="(max-width: 1024px) 40vw, 16vw"
+                  className="col-span-2"
+                />
+                <div className="col-span-3 p-4 md:p-5 flex flex-col justify-center">
+                  <Eyebrow>Founder perspective</Eyebrow>
+                  <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight mt-2">
+                    Nabila Mellaz
+                  </span>
+                  <span className="block font-sans text-[11px] uppercase tracking-[0.16em] text-stone mt-1">
+                    Founder &amp; CEO
+                  </span>
+                  <p className="m-0! mt-3! font-sans text-[12.5px] text-stone leading-relaxed">
+                    &ldquo;Working closely with honey production highlighted the importance of
+                    continuity across cultivation cycles. As sourcing expanded, the objective
+                    stayed the same: structured coordination between production environments and
+                    professional markets.&rdquo;
+                  </p>
+                </div>
               </div>
             </div>
+          </FadeIn>
+
+          {/* Team grid */}
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+            {team.map((member, i) => (
+              <FadeIn key={member.role} delay={i * 0.05}>
+                <ImagePlaceholder
+                  src={null}
+                  label="Portrait"
+                  ratio="1/1"
+                  sizes="(max-width: 640px) 50vw, 18vw"
+                  className="rounded-sm"
+                />
+                <span className="block font-sans text-[12px] font-medium text-obsidian leading-tight mt-2">
+                  {member.name ?? 'Open role'}
+                </span>
+                <span className="block font-sans text-[11px] text-stone/70 leading-tight mt-0.5">
+                  {member.role}
+                </span>
+              </FadeIn>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ 3. MANIFESTO BANNER — Full-width cinematic statement ═══ */}
-      <section className="relative h-[70vh] min-h-[500px] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/about/about-manifesto.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
+      {/* ═══ 9 · OFFICES (CMS) ══════════════════════════════════ */}
+      {offices.length > 0 && (
+        <section className={cn(GUTTER, BAND, 'bg-parchment')}>
+          <SectionHead
+            eyebrow="Global presence"
+            title="Our offices"
+            lede={`${offices.length} coordinated ${offices.length === 1 ? 'location' : 'locations'}.`}
           />
-          <div className="absolute inset-0 bg-obsidian/70" />
-          <div className="absolute inset-0 bg-gradient-to-r from-obsidian/80 via-obsidian/50 to-transparent" />
-        </div>
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 w-full">
-          <div className="max-w-3xl">
-            <FadeIn>
-              <p className="text-xs uppercase tracking-[0.4em] text-gold font-medium mb-6">
-                — Manifesto
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <p className="font-luxury italic text-[26px] sm:text-[34px] md:text-[42px] lg:text-[52px] text-cream leading-[1.15] tracking-[-0.02em] m-0">
-                "Continuity isn't an outcome — it's a discipline. We design sourcing structures so
-                that natural products arrive predictable, traceable, and unchanged in character."
-              </p>
-            </FadeIn>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══ 4. INTERNATIONAL STRUCTURE — Mosaic with stat overlays ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-            <div className="lg:col-span-5">
-              <FadeIn>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Chapter Two — Reach
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-obsidian leading-[1.08] tracking-[-0.03em] m-0">
-                  International Structure
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 lg:pt-4">
-              <FadeIn delay={0.15}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0 mb-4">
-                  While our agricultural roots remain connected to Algeria, Delicious Planet
-                  operates through an internationally coordinated structure designed to support
-                  reliable sourcing pathways and commercial distribution continuity.
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.2}>
-                <p className="text-stone text-base leading-relaxed m-0">
-                  Geographic positioning supports coordination between agricultural environments
-                  and commercial supply requirements.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          {/* Asymmetric mosaic */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
-            {presenceStats.map((item, i) => {
-              const layout = [
-                'md:col-span-5 aspect-[4/5]',
-                'md:col-span-7 aspect-[16/10] md:mt-12',
-                'md:col-span-12 lg:col-span-12 aspect-[21/8]',
-              ][i]
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {offices.map((office, i) => {
+              const media = typeof office.image === 'object' ? (office.image as Media) : null
+              const imgUrl = media?.sizes?.card?.url ?? media?.url ?? null
               return (
-                <FadeIn key={item.label} delay={0.1 + i * 0.1}>
-                  <div className={`relative rounded-2xl overflow-hidden bg-mist ${layout}`}>
-                    <Image
-                      src={item.image}
-                      alt=""
-                      fill
-                      sizes="(max-width:768px) 100vw, 50vw"
-                      className="object-cover"
+                <FadeIn key={office.id} delay={i * 0.05}>
+                  <article className="h-full bg-white border border-stone/15 rounded-sm overflow-hidden">
+                    <ImagePlaceholder
+                      src={imgUrl}
+                      alt={`${office.city}, ${office.country}`}
+                      label={office.city}
+                      ratio="4/3"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 24vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/85 via-obsidian/30 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 flex items-end justify-between gap-4">
-                      <p className="text-cream/80 text-sm lg:text-base m-0">{item.label}</p>
-                      <p className="font-luxury text-5xl lg:text-7xl text-cream m-0 leading-none">
-                        {item.stat}
-                      </p>
+                    <div className="p-4 md:p-5">
+                      <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                        {office.city}
+                      </span>
+                      <span className="block font-sans text-[10px] uppercase tracking-[0.16em] text-forest-green mt-1">
+                        {office.country}
+                      </span>
+                      {office.address ? (
+                        <p className="m-0! mt-2.5! font-sans text-[11.5px] text-stone leading-relaxed">
+                          {office.address}
+                        </p>
+                      ) : null}
+                      {office.phone ? (
+                        <a href={`tel:${office.phone}`} className="group no-underline block mt-2">
+                          <span className="font-sans text-[11.5px] text-stone group-hover:text-forest-green transition-colors">
+                            {office.phone}
+                          </span>
+                        </a>
+                      ) : null}
+                      {office.email ? (
+                        <a
+                          href={`mailto:${office.email}`}
+                          className="group no-underline block mt-0.5"
+                        >
+                          <span className="font-sans text-[11.5px] text-stone group-hover:text-forest-green transition-colors">
+                            {office.email}
+                          </span>
+                        </a>
+                      ) : null}
                     </div>
-                  </div>
+                  </article>
                 </FadeIn>
               )
             })}
           </div>
-        </div>
-      </section>
-
-      {/* ═══ 5. CAPABILITIES — Bento grid with feature image card ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-            <div className="lg:col-span-7">
-              <FadeIn>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Chapter Three — Capabilities
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.05}>
-                <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-obsidian leading-[1.08] tracking-[-0.03em] m-0">
-                  Structured Supply for{' '}
-                  <span className="italic text-gold/80">Professional Environments</span>
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-5 lg:pt-4">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-base lg:text-lg leading-relaxed m-0">
-                  Delicious Planet operates as a coordination layer between producers maintaining
-                  stable agricultural output and professional buyers requiring predictable
-                  procurement structures.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-
-          {/* Bento — feature image card mixed with capability cards */}
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-            {/* Feature image card spanning 2 cols */}
-            <FadeIn>
-              <div className="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden bg-charcoal aspect-square md:aspect-auto h-full min-h-[300px]">
-                <Image
-                  src="/images/about/about-capability-feature.avif"
-                  alt=""
-                  fill
-                  sizes="(max-width:768px) 100vw, 35vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/85 via-obsidian/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-7 lg:p-8">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-gold font-medium m-0 mb-3">
-                    Coordination Layer
-                  </p>
-                  <p className="font-luxury text-2xl lg:text-3xl text-cream leading-tight m-0">
-                    From cultivation cycle to commercial shelf.
-                  </p>
-                </div>
-              </div>
-            </FadeIn>
-
-            {capabilities.map((cap) => (
-              <FadeIn key={cap.badge}>
-                <div
-                  className={`md:col-span-2 rounded-2xl p-7 lg:p-8 h-full flex flex-col min-h-[200px] ${
-                    cap.accent ? 'bg-forest text-cream' : 'bg-parchment text-obsidian'
-                  }`}
-                >
-                  <span
-                    className={`inline-block text-[10px] uppercase tracking-[0.15em] font-medium px-3 py-1.5 rounded-full border w-fit mb-5 ${
-                      cap.accent ? 'border-cream/30 text-cream/80' : 'border-stone/20 text-stone'
-                    }`}
-                  >
-                    {cap.badge}
-                  </span>
-                  <p
-                    className={`text-[15px] leading-relaxed m-0 ${
-                      cap.accent ? 'text-cream/90 font-medium' : 'text-stone'
-                    }`}
-                  >
-                    {cap.text}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 6. PRINCIPLES — Numbered editorial cards ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-obsidian relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]">
-          <Image
-            src="/images/about/about-principles-bg.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <FadeIn>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                Chapter Four — Principles
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.05}>
-              <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-cream leading-[1.08] tracking-[-0.03em] m-0">
-                Six disciplines that shape every sourcing decision.
-              </h2>
-            </FadeIn>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream/10 rounded-2xl overflow-hidden">
-            {principles.map((v, i) => (
-              <FadeIn key={v.title} delay={i * 0.06}>
-                <div className="bg-obsidian p-8 lg:p-10 h-full group hover:bg-charcoal transition-colors duration-300">
-                  <div className="flex items-baseline justify-between mb-6">
-                    <span className="font-luxury text-3xl text-gold/60">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <div className="w-8 h-px bg-gold/40 group-hover:w-16 transition-all duration-300" />
-                  </div>
-                  <h3 className="font-serif text-2xl font-medium text-cream m-0 mb-4">
-                    {v.title}
-                  </h3>
-                  <p className="text-cream/60 text-sm leading-relaxed m-0">{v.description}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 7. TIMELINE — Horizontal milestone showcase ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-parchment">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-14">
-            <div className="lg:col-span-7">
-              <FadeIn>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Chapter Five — Journey
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.05}>
-                <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-obsidian leading-[1.08] tracking-[-0.03em] m-0">
-                  Development Timeline
-                </h2>
-              </FadeIn>
-            </div>
-            <div className="lg:col-span-4 lg:col-start-9 lg:pt-4">
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-sm leading-relaxed m-0">
-                  From a single agricultural product to an internationally coordinated sourcing
-                  platform — built deliberately, year by year.
-                </p>
-              </FadeIn>
-            </div>
-          </div>
-        </div>
-
-        {/* Horizontal scroll lane */}
-        <div className="overflow-x-auto pb-6 [scrollbar-width:thin]">
-          <div className="flex gap-5 lg:gap-6 px-5 sm:px-6 md:px-8 lg:px-12 min-w-max">
-            {timeline.map((item, i) => (
-              <FadeIn key={item.year} delay={i * 0.05}>
-                <div className="w-[280px] lg:w-[340px] flex-shrink-0">
-                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-mist mb-5">
-                    <Image
-                      src={item.image}
-                      alt=""
-                      fill
-                      sizes="340px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent" />
-                    <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
-                      <span className="font-luxury text-xl text-cream bg-obsidian/60 backdrop-blur px-3 py-1 rounded-full">
-                        {item.year}
-                      </span>
-                      <span className="text-cream/60 text-[10px] uppercase tracking-widest">
-                        {String(i + 1).padStart(2, '0')} / {timeline.length}
-                      </span>
-                    </div>
-                  </div>
-                  <h3 className="font-serif text-xl font-medium text-obsidian m-0 mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-stone text-sm leading-relaxed m-0">{item.description}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 8. TRACTION — Big editorial numbers ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row items-end justify-between gap-6 mb-14 pb-8 border-b border-stone/15">
-            <div>
-              <FadeIn>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Chapter Six — Scale
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.05}>
-                <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-obsidian leading-[1.08] tracking-[-0.03em] m-0">
-                  Operational Scope
-                </h2>
-              </FadeIn>
-            </div>
-            <FadeIn delay={0.1}>
-              <p className="text-stone text-sm uppercase tracking-[0.2em] m-0">
-                As of 2026
-              </p>
-            </FadeIn>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-stone/15">
-            {traction.map((item) => (
-              <FadeIn key={item.label}>
-                <div
-                  className={`p-8 lg:p-12 h-full ${item.accent ? 'bg-forest/10' : 'bg-cream'}`}
-                >
-                  <p className="font-luxury text-5xl lg:text-7xl xl:text-8xl font-medium text-obsidian leading-none m-0 mb-4 tracking-tight">
-                    {item.value}
-                  </p>
-                  <div className="w-8 h-px bg-gold mb-3" />
-                  <p className="text-stone text-sm uppercase tracking-[0.15em] m-0">
-                    {item.label}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 9. FOUNDER — Magazine-style spread ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-32 bg-parchment relative overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            {/* Portrait */}
-            <div className="lg:col-span-5 relative">
-              <FadeIn>
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-mist">
-                  <Image
-                    src="/images/about/about-founder-portrait.avif"
-                    alt="Nabila Mellaz, Founder & CEO"
-                    fill
-                    sizes="(max-width:1024px) 100vw, 40vw"
-                    className="object-cover"
-                  />
-                </div>
-              </FadeIn>
-              {/* Name plate overlap */}
-              <FadeIn delay={0.2}>
-                <div className="hidden md:block absolute -bottom-6 -right-4 lg:-right-8 bg-cream px-7 py-5 rounded-xl shadow-2xl">
-                  <p className="font-luxury text-2xl lg:text-3xl text-obsidian m-0 leading-tight">
-                    Nabila Mellaz
-                  </p>
-                  <p className="text-gold text-[10px] uppercase tracking-[0.25em] m-0 mt-1">
-                    Founder &amp; CEO
-                  </p>
-                </div>
-              </FadeIn>
-            </div>
-
-            {/* Editorial copy */}
-            <div className="lg:col-span-7 lg:pt-8 relative">
-              <FadeIn>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Founder Perspective
-                </p>
-              </FadeIn>
-              {/* Decorative oversize quote */}
-              <div className="absolute -top-4 lg:-top-8 -left-2 font-luxury text-[120px] lg:text-[180px] text-gold/15 leading-none pointer-events-none select-none">
-                &ldquo;
-              </div>
-              <FadeIn delay={0.1}>
-                <p className="relative font-luxury italic text-[22px] sm:text-[26px] md:text-[30px] lg:text-[34px] text-obsidian leading-[1.3] tracking-[-0.02em] m-0 mb-10">
-                  Delicious Planet was developed from direct exposure to the complexity of
-                  maintaining product consistency within natural agricultural environments. Working
-                  closely with honey production highlighted the importance of continuity across
-                  cultivation cycles.
-                </p>
-              </FadeIn>
-              <div className="space-y-5 lg:max-w-xl">
-                <FadeIn delay={0.2}>
-                  <p className="text-stone text-base leading-relaxed m-0">
-                    As sourcing expanded into additional categories, the objective remained
-                    consistent: establish structured coordination between production environments
-                    and professional markets requiring reliability.
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.25}>
-                  <p className="text-stone text-base leading-relaxed m-0">
-                    The platform continues to focus on strengthening supply continuity, supporting
-                    producers capable of maintaining product integrity, and improving accessibility
-                    of natural products across regional markets.
-                  </p>
-                </FadeIn>
-              </div>
-              <FadeIn delay={0.3}>
-                <div className="md:hidden mt-8 pt-6 border-t border-stone/15">
-                  <p className="font-luxury text-2xl text-obsidian m-0 leading-tight">
-                    Nabila Mellaz
-                  </p>
-                  <p className="text-gold text-[10px] uppercase tracking-[0.25em] m-0 mt-1">
-                    Founder &amp; CEO
-                  </p>
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 10. TEAM ═══ */}
-      <section className="py-14 sm:py-16 md:py-20 lg:py-28 bg-obsidian">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row items-end justify-between gap-6 mb-14 pb-8 border-b border-cream/10">
-            <div>
-              <FadeIn>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                  Our People
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.05}>
-                <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-cream leading-[1.08] tracking-[-0.03em] m-0">
-                  The Team Behind the Taste
-                </h2>
-              </FadeIn>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-6">
-            {teamRoles.map((role, i) => (
-              <FadeIn key={role} delay={i * 0.08}>
-                <div className="group">
-                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-charcoal mb-4">
-                    <Image
-                      src={`/images/about/about-team-${i + 1}.avif`}
-                      alt=""
-                      fill
-                      sizes="(max-width:768px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent" />
-                    <div className="absolute top-4 left-4 font-luxury text-cream/40 text-sm">
-                      {String(i + 1).padStart(2, '0')}
-                    </div>
-                  </div>
-                  <p className="text-cream font-serif text-base m-0">Team Member</p>
-                  <p className="text-gold text-[10px] uppercase tracking-[0.25em] m-0 mt-1">
-                    {role}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 11. OFFICES (CMS-driven) ═══ */}
-      {offices.length > 0 && (
-        <section className="py-(--spacing-section) bg-cream">
-          <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-            <div className="flex flex-col lg:flex-row items-end justify-between gap-6 mb-14 pb-8 border-b border-stone/15">
-              <div>
-                <FadeIn>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                    Global Presence
-                  </p>
-                </FadeIn>
-                <FadeIn delay={0.05}>
-                  <h2 className="font-luxury text-[28px] sm:text-[34px] md:text-[40px] lg:text-[48px] font-medium text-obsidian leading-[1.08] tracking-[-0.03em] m-0">
-                    Our Offices
-                  </h2>
-                </FadeIn>
-              </div>
-              <FadeIn delay={0.1}>
-                <p className="text-stone text-sm uppercase tracking-[0.2em] m-0">
-                  {offices.length} Locations
-                </p>
-              </FadeIn>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-              {offices.map((office, i) => {
-                const imgUrl =
-                  typeof office.image === 'object' && office.image !== null
-                    ? ((office.image as Media).sizes?.card?.url ??
-                      (office.image as Media).url ??
-                      null)
-                    : null
-                return (
-                  <FadeIn key={office.id} delay={i * 0.08}>
-                    <div className="bg-parchment rounded-2xl overflow-hidden group">
-                      <div className="aspect-[4/3] relative bg-mist overflow-hidden">
-                        {imgUrl ? (
-                          <Image
-                            src={imgUrl}
-                            alt={`${office.city}, ${office.country}`}
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-mist to-parchment" />
-                        )}
-                        <div className="absolute top-4 left-4 bg-cream/90 backdrop-blur px-3 py-1 rounded-full">
-                          <span className="font-luxury text-xs text-obsidian">
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-7">
-                        <h3 className="font-serif text-xl font-medium text-obsidian m-0 mb-1">
-                          {office.city}
-                        </h3>
-                        <p className="text-gold text-[10px] uppercase tracking-[0.25em] m-0 mb-4">
-                          {office.country}
-                        </p>
-                        {office.address && (
-                          <p className="text-stone/80 text-xs leading-relaxed m-0 mb-3">
-                            {office.address}
-                          </p>
-                        )}
-                        {office.phone && (
-                          <p className="text-stone/70 text-xs m-0 mb-1">
-                            <a
-                              href={`tel:${office.phone}`}
-                              className="text-stone/70 no-underline hover:text-gold transition-colors"
-                            >
-                              {office.phone}
-                            </a>
-                          </p>
-                        )}
-                        {office.email && (
-                          <p className="text-stone/70 text-xs m-0">
-                            <a
-                              href={`mailto:${office.email}`}
-                              className="text-stone/70 no-underline hover:text-gold transition-colors"
-                            >
-                              {office.email}
-                            </a>
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </FadeIn>
-                )
-              })}
-            </div>
-          </div>
         </section>
       )}
 
-      {/* ═══ 12. CTA — Full-bleed image with overlay ═══ */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/about/about-cta-bg.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-forest/85" />
-          <div className="absolute inset-0 bg-gradient-to-b from-forest/60 via-forest/80 to-forest/95" />
-        </div>
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 text-center">
-          <FadeIn>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-gold font-medium mb-6">
-              — Get in Touch
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="font-luxury text-[30px] sm:text-[38px] md:text-[46px] lg:text-[56px] xl:text-[64px] font-medium text-cream leading-[1.05] tracking-[-0.03em] m-0 mb-6 max-w-3xl mx-auto">
-              Continuity of Origin,{' '}
-              <span className="italic text-gold/90">Structured for Scale</span>
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-cream/70 text-lg m-0 mb-10 max-w-xl mx-auto">
-              Whether you&apos;re a professional buyer, chef, or specialty retailer — we&apos;d love
-              to discuss how we can support your sourcing requirements.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.3}>
-            <MagneticButton>
-              <Link
-                href="/contact"
-                className="inline-block bg-gold text-obsidian text-sm font-medium uppercase tracking-widest px-12 py-5 rounded-sm no-underline hover:bg-gold-light transition-colors"
-              >
-                Get in Touch
-              </Link>
-            </MagneticButton>
-          </FadeIn>
-        </div>
+      {/* ═══ 10 · CTA ═══════════════════════════════════════════ */}
+      <section className={cn(GUTTER, 'pb-8 md:pb-11')}>
+        <FadeIn>
+          <div className="bg-forest-green rounded-sm px-6 md:px-10 lg:px-14 py-8 md:py-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div className="max-w-xl">
+              <Eyebrow tone="light">Get in touch</Eyebrow>
+              <h2 className="m-0! mt-2!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl">
+                  Continuity of origin, structured for scale
+                </span>
+              </h2>
+              <p className="m-0! mt-3! font-sans text-cream/75 text-[13px] md:text-sm leading-relaxed">
+                Professional buyer, chef, or specialty retailer — tell us what your sourcing
+                requires.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <Cta href="/contact" variant="light">
+                Contact us
+              </Cta>
+              <Cta href="/b2b" variant="outline">
+                Wholesale &amp; B2B
+              </Cta>
+            </div>
+          </div>
+        </FadeIn>
       </section>
-    </>
+    </div>
   )
 }

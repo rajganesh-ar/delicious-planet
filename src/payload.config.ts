@@ -22,6 +22,7 @@ import { Warehouses } from './collections/Warehouses'
 import { Brands } from './collections/Brands'
 import { ProductCollections } from './collections/ProductCollections'
 import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
+import { Banners } from './collections/Banners'
 import { SiteSettings } from './globals/SiteSettings'
 import { Navigation } from './globals/Navigation'
 
@@ -52,6 +53,7 @@ export default buildConfig({
     Testimonials,
     OfficeLocations,
     NewsletterSubscribers,
+    Banners,
   ],
   globals: [SiteSettings, Navigation],
   editor: lexicalEditor(),

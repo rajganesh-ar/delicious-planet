@@ -17,9 +17,16 @@ export interface CarouselSlide {
 interface ElegantCarouselProps {
   items: CarouselSlide[]
   autoPlayInterval?: number
+  /** Set false inside a container that already provides horizontal gutters. */
+  padded?: boolean
 }
 
-export default function ElegantCarousel({ items, autoPlayInterval = 5000 }: ElegantCarouselProps) {
+export default function ElegantCarousel({
+  items,
+  autoPlayInterval = 5000,
+  padded = true,
+}: ElegantCarouselProps) {
+  const pad = padded ? 'px-5 md:px-8 lg:px-16' : ''
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -86,7 +93,7 @@ export default function ElegantCarousel({ items, autoPlayInterval = 5000 }: Eleg
   return (
     <div className="relative" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Main content */}
-      <div className="w-full px-5 md:px-8 lg:px-16">
+      <div className={`w-full ${pad}`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-100 sm:min-h-110 lg:min-h-125">
           {/* Left: Text */}
           <FadeIn
@@ -179,7 +186,7 @@ export default function ElegantCarousel({ items, autoPlayInterval = 5000 }: Eleg
 
       {/* Progress indicators */}
       <div
-        className="w-full grid gap-3 px-5 md:px-8 lg:px-16 pt-5 pb-4"
+        className={`w-full grid gap-3 pt-5 pb-4 ${pad}`}
         style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}
       >
         {items.map((item, index) => (

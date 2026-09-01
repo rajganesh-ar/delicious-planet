@@ -1,11 +1,10 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { MagneticButton } from '@/components/animations/MagneticButton'
+import { ImagePlaceholder } from '@/components/ui'
+import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
+import { cn } from '@/lib/cn'
 
 type Policy = {
   id: string
@@ -13,6 +12,13 @@ type Policy = {
   summary: string
   points: string[]
 }
+
+/** Shown beside the heading; update when the policy text changes. */
+const LAST_UPDATED = 'May 2026'
+
+const MEDIA = {
+  hero: { src: '/images/policy/policy-cover.avif', label: 'Policies hero — 4:3' },
+} satisfies Record<string, { src: string | null; label: string }>
 
 const policies: Policy[] = [
   {
@@ -76,7 +82,7 @@ const policies: Policy[] = [
   },
   {
     id: 'b2b-terms',
-    title: 'B2B Terms',
+    title: 'Commercial Terms (B2B)',
     summary:
       'Business-to-business supply agreements are governed by individually negotiated terms. The following general principles apply unless otherwise specified in a written agreement.',
     points: [
@@ -89,20 +95,7 @@ const policies: Policy[] = [
 ]
 
 export function PoliciesPageClient() {
-  const heroRef = useRef<HTMLDivElement | null>(null)
-  const [heroTarget, setHeroTarget] = useState<HTMLDivElement | null>(null)
   const [activeId, setActiveId] = useState<string>(policies[0].id)
-
-  const refCallback = (node: HTMLDivElement | null) => {
-    heroRef.current = node
-    setHeroTarget(node)
-  }
-
-  const { scrollYProgress } = useScroll({
-    ...(heroTarget ? { target: { current: heroTarget } } : {}),
-    offset: ['start start', 'end start'],
-  })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -112,7 +105,7 @@ export function PoliciesPageClient() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
         if (visible[0]) setActiveId(visible[0].target.id)
       },
-      { rootMargin: '-30% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
+      { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
     )
     policies.forEach((p) => {
       const el = document.getElementById(p.id)
@@ -122,239 +115,190 @@ export function PoliciesPageClient() {
   }, [])
 
   return (
-    <>
-      {/* ─── Hero ─── */}
-      <section
-        ref={refCallback}
-        className="relative h-[60vh] min-h-[420px] flex items-end overflow-hidden"
-      >
-        <motion.div style={{ y: imgY }} className="absolute inset-0">
-          <Image
-            src="/images/policy/policy-cover.avif"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-obsidian/40" />
-        </motion.div>
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 pb-12 sm:pb-16 lg:pb-20">
-          <motion.p
-            className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Legal &amp; Compliance
-          </motion.p>
-          <motion.h1
-            className="font-luxury text-[36px] sm:text-[48px] lg:text-[64px] xl:text-[72px] font-light text-cream leading-[1.05] tracking-[-0.03em] m-0 mb-6 max-w-3xl"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          >
-            Policies &amp; Terms
-          </motion.h1>
-          <motion.p
-            className="text-cream/65 text-base lg:text-lg leading-relaxed max-w-xl m-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
-            Structured policies ensure clarity and consistency across transactions —
-            for individual customers and B2B partners alike.
-          </motion.p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-50" />
-      </section>
-
-      {/* ─── Intro / Last updated ─── */}
-      <section className="bg-cream py-12 lg:py-16 border-b border-mist/40">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="flex flex-col md:flex-row gap-8 md:gap-16 md:items-end justify-between">
-            <FadeIn>
-              <p className="font-luxury text-2xl lg:text-3xl text-obsidian leading-[1.3] tracking-[-0.02em] m-0 max-w-2xl font-light">
-                We aim for transparency in every commercial relationship — these policies
-                outline the framework that governs our service.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <div className="text-right shrink-0">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-stone/60 m-0 mb-2">
-                  Last updated
+    <div className="bg-cream">
+      {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
+      <section className="bg-obsidian">
+        <div className={cn(GUTTER, 'pt-10 pb-8 md:pt-14 md:pb-10')}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div className="lg:col-span-7">
+              <FadeIn>
+                <Eyebrow tone="light">Legal &amp; compliance</Eyebrow>
+              </FadeIn>
+              <FadeIn delay={0.06}>
+                <h1 className="m-0! mt-3!">
+                  <span className="block font-luxury text-cream font-semibold leading-[1.12] tracking-tight text-[clamp(1.9rem,5vw,3.5rem)]">
+                    Policies &amp; <span className="text-gold">terms</span>
+                  </span>
+                </h1>
+              </FadeIn>
+              <FadeIn delay={0.12}>
+                <p className="m-0! mt-4! font-sans text-cream/75 text-sm md:text-base leading-relaxed max-w-xl">
+                  Structured policies keep every transaction clear and consistent — for individual
+                  customers and B2B partners alike.
                 </p>
-                <p className="font-luxury text-xl text-obsidian m-0">May 2026</p>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Policies — sticky sidebar + content ─── */}
-      <section className="bg-cream py-14 sm:py-16 md:py-20 lg:py-28">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-12 lg:gap-20">
-            {/* Sticky sidebar nav */}
-            <aside className="lg:sticky lg:top-28 lg:self-start">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-5">
-                Contents
-              </p>
-              <nav className="flex flex-row lg:flex-col flex-wrap gap-x-4 gap-y-2 lg:gap-y-1">
-                {policies.map((p, i) => {
-                  const num = String(i + 1).padStart(2, '0')
-                  const isActive = activeId === p.id
-                  return (
-                    <a
-                      key={p.id}
-                      href={`#${p.id}`}
-                      className={`group flex items-baseline gap-3 py-1.5 lg:py-2 text-sm transition-colors no-underline border-l-2 lg:pl-4 ${
-                        isActive
-                          ? 'border-forest-green text-obsidian font-medium'
-                          : 'border-transparent text-stone hover:text-obsidian'
-                      }`}
-                    >
-                      <span
-                        className={`font-luxury text-[10px] tracking-widest ${
-                          isActive ? 'text-forest-green' : 'text-stone/40'
-                        }`}
-                      >
-                        {num}
-                      </span>
-                      <span>{p.title}</span>
-                    </a>
-                  )
-                })}
-              </nav>
-
-              {/* Decorative image — shows on lg+ */}
-              <div className="hidden lg:block mt-10 relative aspect-[3/4] rounded-sm overflow-hidden">
-                <Image
-                  src="/images/policy/policy.avif"
-                  alt=""
-                  fill
-                  sizes="260px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/60 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-gold m-0 mb-1">
-                    Need help?
-                  </p>
-                  <Link
-                    href="/contact"
-                    className="text-cream text-sm no-underline hover:text-gold transition-colors"
-                  >
-                    Get in touch →
-                  </Link>
+              </FadeIn>
+              <FadeIn delay={0.18}>
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <Cta href="#b2b-terms">Commercial terms</Cta>
+                  <Cta href="/contact#enquiry" variant="outline">
+                    Ask a question
+                  </Cta>
                 </div>
-              </div>
-            </aside>
+              </FadeIn>
+            </div>
 
-            {/* Content */}
-            <div className="min-w-0">
-              <div className="space-y-16 sm:space-y-20">
-                {policies.map((policy, i) => (
-                  <PolicyBlock key={policy.id} policy={policy} index={i} />
-                ))}
-
-                {/* Shipping detail card with image */}
-                <FadeIn>
-                  <div className="relative rounded-sm overflow-hidden bg-obsidian">
-                    <div className="grid grid-cols-1 md:grid-cols-2">
-                      <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[320px]">
-                        <Image
-                          src="/images/policy/shipping-policy.avif"
-                          alt=""
-                          fill
-                          sizes="(max-width:768px) 100vw, 50vw"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-                        <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-4">
-                          Logistics
-                        </p>
-                        <h3 className="font-luxury text-2xl lg:text-3xl text-cream leading-[1.2] tracking-tight m-0 mb-4 font-light">
-                          Tracked shipping, every order.
-                        </h3>
-                        <p className="text-cream/65 text-sm leading-relaxed m-0 mb-6">
-                          Every dispatch generates a tracking record sent directly to your
-                          inbox. For temperature-sensitive products, cold-chain carriers
-                          maintain integrity from warehouse to destination.
-                        </p>
-                        <a
-                          href="#shipping"
-                          className="text-gold text-xs uppercase tracking-[0.2em] no-underline hover:text-gold-light transition-colors w-fit"
-                        >
-                          Read shipping policy →
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </FadeIn>
-
-                {/* Contact closeout */}
-                <FadeIn>
-                  <div className="border-t border-mist/60 pt-12">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                      Questions
-                    </p>
-                    <h3 className="font-luxury text-2xl lg:text-3xl text-obsidian leading-[1.2] tracking-tight m-0 mb-4 font-light">
-                      Need clarification on any of these terms?
-                    </h3>
-                    <p className="text-stone text-base leading-relaxed m-0 mb-6 max-w-xl">
-                      Our team responds to policy and terms inquiries within two business
-                      days. For B2B contract questions, please indicate company details in
-                      your message.
-                    </p>
-                    <MagneticButton>
-                      <Link
-                        href="/contact"
-                        className="inline-block bg-obsidian text-cream text-sm font-medium uppercase tracking-widest px-9 py-4 rounded-sm no-underline hover:bg-forest-green transition-colors"
-                      >
-                        Contact Us
-                      </Link>
-                    </MagneticButton>
-                  </div>
-                </FadeIn>
-              </div>
+            <div className="lg:col-span-5">
+              <FadeIn delay={0.1}>
+                <ImagePlaceholder
+                  {...MEDIA.hero}
+                  ratio="4/3"
+                  tone="dark"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 38vw"
+                  className="rounded-sm"
+                />
+              </FadeIn>
             </div>
           </div>
         </div>
-      </section>
-    </>
-  )
-}
 
-function PolicyBlock({ policy, index }: { policy: Policy; index: number }) {
-  const num = String(index + 1).padStart(2, '0')
-  return (
-    <FadeIn>
-      <div id={policy.id} className="scroll-mt-28">
-        <div className="flex items-baseline gap-4 mb-6">
-          <span className="font-luxury text-sm text-gold tracking-[0.25em]">{num}</span>
-          <div className="flex-1 h-px bg-mist/60" />
-        </div>
-        <h2 className="font-luxury text-[28px] sm:text-[32px] lg:text-[40px] font-light text-obsidian leading-[1.15] tracking-[-0.02em] m-0 mb-5">
-          {policy.title}
-        </h2>
-        <p className="text-stone text-base lg:text-lg leading-relaxed m-0 mb-8 max-w-2xl">
-          {policy.summary}
-        </p>
-        {policy.points.length > 0 && (
-          <ul className="list-none m-0 p-0 space-y-3 max-w-2xl">
-            {policy.points.map((point) => (
-              <li
-                key={point}
-                className="flex items-start gap-4 pl-6 py-3 border-l border-mist/60 hover:border-forest-green/60 transition-colors"
-              >
-                <span className="text-stone text-[15px] leading-relaxed">{point}</span>
-              </li>
+        <div className={cn(GUTTER, 'border-t border-cream/10')}>
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: String(policies.length), label: 'Policy sections' },
+              { value: '48h', label: 'Quality dispute window' },
+              { value: '2–4 days', label: 'Dispatch window' },
+              { value: LAST_UPDATED, label: 'Last updated' },
+            ].map((s, i) => (
+              <FadeIn key={s.label} delay={i * 0.05}>
+                <div className="py-4 md:py-5 pr-4">
+                  <span className="block font-luxury text-2xl md:text-3xl font-semibold text-cream leading-none">
+                    {s.value}
+                  </span>
+                  <span className="block font-sans text-[10px] md:text-[11px] uppercase tracking-[0.16em] text-cream/45 mt-2">
+                    {s.label}
+                  </span>
+                </div>
+              </FadeIn>
             ))}
-          </ul>
-        )}
-      </div>
-    </FadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 2 · POLICIES ═══════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="The framework"
+          title="What governs our service"
+          lede="We aim for transparency in every commercial relationship — these are the terms behind it."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
+          {/* Contents — sticky on lg, a plain list below it. */}
+          <nav aria-label="Policy sections" className="lg:col-span-4 lg:sticky lg:top-32">
+            <div className="bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+              <Eyebrow>Contents</Eyebrow>
+              <ul className="list-none m-0 p-0 mt-3">
+                {policies.map((p, i) => {
+                  const active = activeId === p.id
+                  return (
+                    <li key={p.id} className="border-t border-stone/10 first:border-t-0">
+                      {/* Colour sits on the span — `a { color: currentColor }` in
+                          styles.css is unlayered and outranks text utilities. */}
+                      <a
+                        href={`#${p.id}`}
+                        aria-current={active ? 'true' : undefined}
+                        className="group no-underline flex items-baseline gap-3 py-2.5"
+                      >
+                        <span
+                          className={cn(
+                            'font-luxury text-[13px] leading-none transition-colors',
+                            active ? 'text-forest-green' : 'text-stone/40',
+                          )}
+                        >
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <span
+                          className={cn(
+                            'font-sans text-[12.5px] leading-snug transition-colors',
+                            active ?
+                              'text-forest-green font-medium'
+                            : 'text-stone group-hover:text-obsidian',
+                          )}
+                        >
+                          {p.title}
+                        </span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </nav>
+
+          {/* Sections */}
+          <div className="lg:col-span-8 flex flex-col gap-3 md:gap-4">
+            {policies.map((policy, i) => (
+              <FadeIn key={policy.id}>
+                {/* scroll-mt is keyed to the navbar height the header publishes at runtime. */}
+                <article
+                  id={policy.id}
+                  className="bg-white border border-stone/15 rounded-sm p-4 md:p-6 scroll-mt-[calc(var(--header-h)+1.5rem)]"
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-luxury text-lg text-forest-green/60 leading-none">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="m-0!">
+                      <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight">
+                        {policy.title}
+                      </span>
+                    </h3>
+                  </div>
+
+                  <p className="m-0! mt-3! font-sans text-[13px] md:text-sm text-stone leading-relaxed">
+                    {policy.summary}
+                  </p>
+
+                  <ul className="list-none m-0 p-0 mt-4 pt-4 border-t border-stone/10 flex flex-col gap-2">
+                    {policy.points.map((pt) => (
+                      <Point key={pt}>{pt}</Point>
+                    ))}
+                  </ul>
+                </article>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 3 · QUESTIONS ══════════════════════════════════════ */}
+      <section className={cn(GUTTER, 'pb-8 md:pb-11')}>
+        <FadeIn>
+          <div className="bg-obsidian rounded-sm px-6 md:px-10 lg:px-14 py-8 md:py-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div className="max-w-xl">
+              <Eyebrow tone="light">Questions</Eyebrow>
+              <h2 className="m-0! mt-2!">
+                <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-2xl md:text-3xl">
+                  Need clarification on any of these terms?
+                </span>
+              </h2>
+              <p className="m-0! mt-3! font-sans text-cream/70 text-[13px] md:text-sm leading-relaxed">
+                We respond to policy and terms inquiries within two business days. For B2B contract
+                questions, include your company details in the message.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <Cta href="/contact#enquiry" variant="light">
+                Contact us
+              </Cta>
+              <Cta href="/b2b" variant="outline">
+                B2B solutions
+              </Cta>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+    </div>
   )
 }

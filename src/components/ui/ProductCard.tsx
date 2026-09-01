@@ -4,59 +4,27 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useCart } from '@/components/layout/CartContext'
-import type { Product, Media, Category, Brand, ProductCollection } from '@/payload-types'
+import {
+  getImageUrl,
+  getThumbUrl,
+  getPrice,
+  getCategoryTitle,
+  getCollectionTitle,
+  getBrandName,
+  isOnSale,
+  getDietaryTags,
+  formatPrice as formatCurrency,
+} from '@/lib/product'
+import type { Product } from '@/payload-types'
 
 interface ProductCardProps {
   product: Product
   index?: number
+  /** Shows a "New" flag in the header row — used by the New Arrivals rail. */
+  isNew?: boolean
 }
 
-function getImageUrl(product: Product): string | null {
-  const first = product.images?.[0]
-  if (!first) return null
-  const img = first.image
-  if (typeof img === 'object' && img !== null) {
-    return (img as Media).sizes?.card?.url ?? (img as Media).url ?? null
-  }
-  return null
-}
-
-function getThumbUrl(product: Product): string | undefined {
-  const first = product.images?.[0]?.image
-  if (typeof first === 'object' && first !== null) {
-    return (first as Media).sizes?.thumbnail?.url ?? (first as Media).url ?? undefined
-  }
-  return undefined
-}
-
-function getPrice(product: Product): { amount: number; currency: string; compareAt?: number } | null {
-  const p = product.prices?.[0]
-  if (!p) return null
-  return { amount: p.amount, currency: p.currency, compareAt: p.compareAtAmount ?? undefined }
-}
-
-function getCategoryTitle(product: Product): string | null {
-  if (typeof product.category === 'object' && product.category !== null) {
-    return (product.category as Category).title ?? null
-  }
-  return null
-}
-
-function getCollectionTitle(product: Product): string | null {
-  if (typeof product.collection === 'object' && product.collection !== null) {
-    return (product.collection as ProductCollection).title ?? null
-  }
-  return null
-}
-
-function getBrandName(product: Product): string | null {
-  if (typeof product.brand === 'object' && product.brand !== null) {
-    return (product.brand as Brand).title ?? null
-  }
-  return null
-}
-
-export function ProductCard({ product, index }: ProductCardProps) {
+export function ProductCard({ product, index, isNew = false }: ProductCardProps) {
   const imageUrl = getImageUrl(product)
   const price = getPrice(product)
   const { addItem, openCart } = useCart()
@@ -65,7 +33,10 @@ export function ProductCard({ product, index }: ProductCardProps) {
   const brandName = getBrandName(product)
   const label = categoryTitle ?? collectionTitle ?? null
   const num = index !== undefined ? String(index + 1).padStart(2, '0') : null
-  const onSale = !!(price?.compareAt && price.compareAt > price.amount)
+  const onSale = isOnSale(price)
+  const percentOff =
+    onSale && price?.compareAt ? Math.round((1 - price.amount / price.compareAt) * 100) : 0
+  const dietaryTags = getDietaryTags(product)
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -82,12 +53,13 @@ export function ProductCard({ product, index }: ProductCardProps) {
     openCart()
   }
 
-  const formatPrice = (amount: number) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: price?.currency ?? 'USD' }).format(amount)
+  const formatPrice = (amount: number) => formatCurrency(amount, price?.currency ?? 'USD')
 
   return (
+    /* h-full so short cards still fill their cell — the container sets
+       items-stretch and the borders are meant to read as a continuous table */
     <motion.div
-      className="group relative flex flex-col border-r border-b border-stone/15 bg-white"
+      className="group relative flex flex-col h-full border-r border-b border-stone/15 bg-white"
       initial={false}
     >
       {/* Header */}
@@ -101,7 +73,11 @@ export function ProductCard({ product, index }: ProductCardProps) {
           </span>
         ) : onSale ? (
           <span className="text-[8px] uppercase tracking-[0.18em] text-obsidian bg-gold px-1.5 py-0.5 font-semibold leading-none">
-            Sale
+            {percentOff > 0 ? `-${percentOff}%` : 'Sale'}
+          </span>
+        ) : isNew ? (
+          <span className="text-[8px] uppercase tracking-[0.18em] text-cream bg-forest-green px-1.5 py-0.5 font-semibold leading-none">
+            New
           </span>
         ) : null}
       </div>
@@ -134,7 +110,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
       </Link>
 
       {/* Body — gap-1 keeps all elements 4px apart */}
-      <div className="flex flex-col px-3 pt-1.5 pb-2">
+      <div className="flex flex-col grow px-3 pt-1.5 pb-2">
         {brandName && (
           <p className="text-[9px] uppercase tracking-[0.2em] text-stone/50 m-0 leading-none font-medium">
             {brandName}
@@ -153,6 +129,19 @@ export function ProductCard({ product, index }: ProductCardProps) {
           </p>
         )}
 
+        {dietaryTags.length > 0 && (
+          <ul className="list-none flex flex-wrap gap-1 m-0 p-0" style={{ marginTop: '4px' }}>
+            {dietaryTags.map((tag) => (
+              <li
+                key={tag}
+                className="text-[8px] uppercase tracking-[0.08em] text-forest-green bg-forest-green/10 border border-forest-green/20 px-1 py-0.5 leading-none rounded-sm"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
+
         {price && (
           <div className="flex items-baseline gap-1.5" style={{ marginTop: '3px' }}>
             <span className="text-[13px] sm:text-xs font-semibold text-obsidian tracking-tight">
@@ -166,7 +155,8 @@ export function ProductCard({ product, index }: ProductCardProps) {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-1.5" style={{ marginTop: '8px' }}>
+        {/* mt-auto pins the CTAs to the bottom so they align across a row */}
+        <div className="grid grid-cols-2 gap-1.5 mt-auto pt-2">
           <button
             type="button"
             onClick={handleQuickAdd}

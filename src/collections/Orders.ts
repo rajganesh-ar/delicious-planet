@@ -61,12 +61,34 @@ export const Orders: CollectionConfig = {
       type: 'array',
       required: true,
       minRows: 1,
+      admin: {
+        description:
+          'Line items snapshot what was bought. They must stay readable after the catalogue is re-imported, so the product relationship is a convenience — the snapshot fields are the record.',
+      },
       fields: [
         {
           name: 'product',
           type: 'relationship',
           relationTo: 'products',
-          required: true,
+          // Deliberately not required: a catalogue wipe or a delisted product
+          // must not make historic orders unreadable.
+          admin: { description: 'Null once the product is removed from the catalogue.' },
+        },
+        {
+          name: 'variantSku',
+          type: 'text',
+          index: true,
+          admin: { description: 'The exact variant bought. This is the durable identifier.' },
+        },
+        {
+          name: 'titleSnapshot',
+          type: 'text',
+          admin: { description: 'Product title as it was at purchase.' },
+        },
+        {
+          name: 'sizeSnapshot',
+          type: 'text',
+          admin: { description: 'Variant size as it was at purchase, e.g. "125g".' },
         },
         { name: 'quantity', type: 'number', required: true, min: 1 },
         { name: 'unitAmount', type: 'number', required: true, min: 0 },

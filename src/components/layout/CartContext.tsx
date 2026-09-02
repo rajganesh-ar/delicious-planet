@@ -1,15 +1,36 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react'
 
 export interface CartItem {
   productId: string
+  /** The exact variant bought. Two sizes of one product are two lines. */
+  variantSku: string
+  /** Variant size label, e.g. "125g". Shown under the title in the basket. */
+  size?: string
   title: string
   slug: string
   image?: string
   price: number
   currency: string
   quantity: number
+}
+
+/**
+ * Basket lines are keyed on product *and* variant. Keying on productId alone
+ * silently merged a 30g and a 125g tin into one line at one price.
+ */
+export type CartLineKey = string
+
+export function lineKey(item: Pick<CartItem, 'productId' | 'variantSku'>): CartLineKey {
+  return `${item.productId}::${item.variantSku}`
 }
 
 interface CartContextValue {
@@ -25,8 +46,8 @@ interface CartContextValue {
   closeCart: () => void
   toggleCart: () => void
   addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void
-  removeItem: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
+  removeItem: (key: CartLineKey) => void
+  updateQuantity: (key: CartLineKey, quantity: number) => void
   clearCart: () => void
   totalItems: number
   subtotal: number
@@ -34,13 +55,28 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | null>(null)
 
-const STORAGE_KEY = 'dp-cart'
+const STORAGE_KEY = 'dp-cart-v2'
 
+/**
+ * A persisted v1 basket has no `variantSku`, so its lines cannot be priced
+ * against the new schema. Dropping those lines is better than guessing a
+ * variant and charging for the wrong size.
+ */
 function loadCart(): CartItem[] {
   if (typeof window === 'undefined') return []
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : []
+    if (!raw) return []
+    const parsed: unknown = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter(
+      (i): i is CartItem =>
+        typeof i === 'object' &&
+        i !== null &&
+        typeof (i as CartItem).productId === 'string' &&
+        typeof (i as CartItem).variantSku === 'string' &&
+        typeof (i as CartItem).price === 'number',
+    )
   } catch {
     return []
   }
@@ -54,49 +90,98 @@ function saveCart(items: CartItem[]) {
   }
 }
 
+/**
+ * The basket lives in localStorage, which is an external store — so it is read
+ * through `useSyncExternalStore` rather than copied into state by a mount
+ * effect. React swaps `getServerSnapshot` for `getSnapshot` after hydration,
+ * which is what keeps the server's empty basket from tripping a hydration
+ * mismatch against a returning visitor's saved one.
+ *
+ * The `storage` listener is the reason this is a module store rather than a
+ * lazy `useState`: it keeps two open tabs from overwriting each other's basket.
+ */
+const EMPTY: CartItem[] = []
+
+/** `null` means "not read from localStorage yet", not "empty basket". */
+let snapshot: CartItem[] | null = null
+const listeners = new Set<() => void>()
+
+function emit() {
+  for (const listener of listeners) listener()
+}
+
+function onStorage(event: StorageEvent) {
+  if (event.key !== STORAGE_KEY) return
+  // Drop the cache so the next read picks the other tab's write up.
+  snapshot = null
+  emit()
+}
+
+function subscribe(listener: () => void): () => void {
+  if (listeners.size === 0) window.addEventListener('storage', onStorage)
+  listeners.add(listener)
+  return () => {
+    listeners.delete(listener)
+    if (listeners.size === 0) window.removeEventListener('storage', onStorage)
+  }
+}
+
+/** Must stay referentially stable between writes or React re-renders forever. */
+function getSnapshot(): CartItem[] {
+  snapshot ??= loadCart()
+  return snapshot
+}
+
+function getServerSnapshot(): CartItem[] {
+  return EMPTY
+}
+
+function setCart(update: (prev: CartItem[]) => CartItem[]) {
+  snapshot = update(getSnapshot())
+  saveCart(snapshot)
+  emit()
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([])
+  const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   const [isOpen, setIsOpen] = useState(false)
-  const [hydrated, setHydrated] = useState(false)
-
-  useEffect(() => {
-    setItems(loadCart())
-    setHydrated(true)
-  }, [])
-
-  useEffect(() => {
-    if (hydrated) saveCart(items)
-  }, [items, hydrated])
+  // False through the server render and the hydration pass, true from the first
+  // client render on — so consumers can hold back a basket count that would
+  // otherwise flicker from 0.
+  const hydrated = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  )
 
   const openCart = useCallback(() => setIsOpen(true), [])
   const closeCart = useCallback(() => setIsOpen(false), [])
   const toggleCart = useCallback(() => setIsOpen((o) => !o), [])
 
   const addItem = useCallback((item: Omit<CartItem, 'quantity'>, quantity = 1) => {
-    setItems((prev) => {
-      const existing = prev.find((i) => i.productId === item.productId)
+    const key = lineKey(item)
+    setCart((prev) => {
+      const existing = prev.find((i) => lineKey(i) === key)
       if (existing) {
-        return prev.map((i) =>
-          i.productId === item.productId ? { ...i, quantity: i.quantity + quantity } : i,
-        )
+        return prev.map((i) => (lineKey(i) === key ? { ...i, quantity: i.quantity + quantity } : i))
       }
       return [...prev, { ...item, quantity }]
     })
   }, [])
 
-  const removeItem = useCallback((productId: string) => {
-    setItems((prev) => prev.filter((i) => i.productId !== productId))
+  const removeItem = useCallback((key: CartLineKey) => {
+    setCart((prev) => prev.filter((i) => lineKey(i) !== key))
   }, [])
 
-  const updateQuantity = useCallback((productId: string, quantity: number) => {
+  const updateQuantity = useCallback((key: CartLineKey, quantity: number) => {
     if (quantity <= 0) {
-      setItems((prev) => prev.filter((i) => i.productId !== productId))
+      setCart((prev) => prev.filter((i) => lineKey(i) !== key))
       return
     }
-    setItems((prev) => prev.map((i) => (i.productId === productId ? { ...i, quantity } : i)))
+    setCart((prev) => prev.map((i) => (lineKey(i) === key ? { ...i, quantity } : i)))
   }, [])
 
-  const clearCart = useCallback(() => setItems([]), [])
+  const clearCart = useCallback(() => setCart(() => []), [])
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0)
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)

@@ -6,6 +6,8 @@ import { Footer } from '@/components/layout/Footer'
 import { FloatingElements } from '@/components/layout/FloatingElements'
 import type { AnnouncementItem, SearchScope } from '@/components/layout/Header'
 import { buildNav } from '@/lib/nav'
+import { countryName } from '@/lib/countries'
+import { resolveRegions } from '@/lib/regions'
 import './styles.css'
 
 export const metadata = {
@@ -14,18 +16,38 @@ export const metadata = {
     "The world's finest food ingredients, curated from artisan producers across the globe.",
 }
 
+/**
+ * Set on the layout rather than per page, because the layout is what goes stale
+ * on every route: the mega-menu, footer and origin-country strip below are all
+ * built from the live catalogue, so without this a product added in the admin
+ * stays invisible site-wide until the next deploy.
+ *
+ * Routes that await `searchParams`/`params` (`/products`, `/categories/[slug]`,
+ * `/journal`) are dynamic already and unaffected.
+ */
+export const revalidate = 300
+
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
   const payload = await getPayload({ config: await config })
 
-  const [siteSettings, navigation, categoriesRes, collectionsRes, suppliersRes, originsRes] =
+  const [siteSettings, navigation, categoriesRes, suppliersRes, regionsRes, originsRes] =
     await Promise.all([
       payload.findGlobal({ slug: 'site-settings' }),
       payload.findGlobal({ slug: 'navigation' }),
-      // Regions are modelled as top-level categories ("Bite Into Europe").
-      payload.find({ collection: 'categories', limit: 12, depth: 1, sort: 'sortOrder' }),
-      payload.find({ collection: 'product-collections', limit: 20, depth: 1, sort: 'sortOrder' }),
+      // Departments only. The menu lists top-level product types; a
+      // sub-category reaches the shopper through its department's listing, and
+      // without this filter it would sit in the menu as a peer of its own parent.
+      payload.find({
+        collection: 'categories',
+        where: { parent: { exists: false } },
+        limit: 20,
+        depth: 1,
+        sort: 'sortOrder',
+      }),
       payload.find({ collection: 'suppliers', limit: 8, depth: 0, sort: 'name' }),
+      // Region wording and card art only — membership comes from origin.country.
+      payload.find({ collection: 'regions', limit: 20, depth: 1 }),
       // Origins have no collection of their own — tally the free-text field so the
       // menu only offers countries that actually return products.
       payload.find({
@@ -33,13 +55,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         where: { _status: { equals: 'published' } },
         limit: 1000,
         depth: 0,
-        select: { countryOfOrigin: true },
+        select: { origin: true },
       }),
     ])
 
   const originCounts = new Map<string, number>()
   for (const doc of originsRes.docs) {
-    const country = doc.countryOfOrigin?.trim()
+    const country = countryName(doc.origin?.country)
     if (country) originCounts.set(country, (originCounts.get(country) ?? 0) + 1)
   }
   const originCountries = [...originCounts.entries()]
@@ -50,15 +72,15 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // from it; anything an editor added in the CMS is appended.
   const nav = buildNav({
     categories: categoriesRes.docs,
-    collections: collectionsRes.docs,
     suppliers: suppliersRes.docs,
+    regions: resolveRegions(regionsRes.docs),
     originCountries,
     cmsItems: (navigation.mainNav ?? []).map((item) => ({ label: item.label, href: item.href })),
   })
 
-  const searchScopes: SearchScope[] = collectionsRes.docs.map((col) => ({
-    label: col.title,
-    slug: col.slug,
+  const searchScopes: SearchScope[] = categoriesRes.docs.map((cat) => ({
+    label: cat.title,
+    slug: cat.slug,
   }))
 
   const bar = siteSettings.announcementBar

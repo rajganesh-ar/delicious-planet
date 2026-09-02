@@ -1,0 +1,360 @@
+{
+  "ranAt": "2026-09-01T18:29:59.570Z",
+  "rate": 3.6725,
+  "report": [
+    {
+      "handle": "manchego-cheese-stuffed-olives",
+      "title": "Manchego Cheese Stuffed Olives",
+      "action": "preview",
+      "category": "mediterranean-olive-reserve",
+      "sku": "A04159",
+      "variants": [
+        {
+          "sku": "A04159",
+          "size": "400g",
+          "aed": 33.02,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": [
+        "Source copy says \"Vegan-friendly\", which is a copy-paste from the sibling olive listings — this one is stuffed with Manchego, a sheep's-milk cheese. Imported as vegetarian, not vegan, and not lactose-free, and the claim is struck from the description and specifications."
+      ]
+    },
+    {
+      "handle": "garlic-stuffed-olives",
+      "title": "Garlic Stuffed Olives",
+      "action": "preview",
+      "category": "mediterranean-olive-reserve",
+      "sku": "A04157",
+      "variants": [
+        {
+          "sku": "A04157",
+          "size": "400g",
+          "aed": 33.02,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": []
+    },
+    {
+      "handle": "pimiento-stuffed-olives",
+      "title": "Pimiento Stuffed Olives",
+      "action": "preview",
+      "category": "mediterranean-olive-reserve",
+      "sku": "A04158",
+      "variants": [
+        {
+          "sku": "A04158",
+          "size": "400g",
+          "aed": 33.02,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": []
+    },
+    {
+      "handle": "early-harvest-organic-extra-virgin-olive-oil-500ml",
+      "title": "Early Harvest – Our Most Exquisite Masterpiece",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03609",
+      "variants": [
+        {
+          "sku": "A03609",
+          "size": "250mL",
+          "aed": 58.72,
+          "inStock": true
+        },
+        {
+          "sku": "A03610",
+          "size": "500mL",
+          "aed": 88.1,
+          "inStock": true
+        }
+      ],
+      "images": 11,
+      "flags": []
+    },
+    {
+      "handle": "master-miller-coupage-organic-evoo-500ml",
+      "title": "Master Miller – The Best-Selling Signature Blend",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A02798",
+      "variants": [
+        {
+          "sku": "A02798",
+          "size": "250mL",
+          "aed": 54.9,
+          "inStock": true
+        },
+        {
+          "sku": "A02746",
+          "size": "500mL",
+          "aed": 84.47,
+          "inStock": true
+        },
+        {
+          "sku": "A03870",
+          "size": "3L",
+          "aed": 257.04,
+          "inStock": true
+        },
+        {
+          "sku": "A04518",
+          "size": "Spray",
+          "aed": 36.36,
+          "inStock": true
+        }
+      ],
+      "images": 18,
+      "flags": []
+    },
+    {
+      "handle": "spray",
+      "title": "Master Miller – Spray",
+      "action": "skipped",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "",
+      "variants": [],
+      "images": 0,
+      "flags": [
+        "duplicate of a Master Miller variant (SKU A04518)"
+      ]
+    },
+    {
+      "handle": "smooth-organic-extra-virgin-olive-oil",
+      "title": "Organic Essential – Mild & Smooth Everyday Kitchen Master",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03301",
+      "variants": [
+        {
+          "sku": "A03301",
+          "size": "500mL",
+          "aed": 73.41,
+          "inStock": true
+        },
+        {
+          "sku": "A03486",
+          "size": "3L",
+          "aed": 202.39,
+          "inStock": true
+        },
+        {
+          "sku": "A03875",
+          "size": "5L",
+          "aed": 323.33,
+          "inStock": true
+        }
+      ],
+      "images": 10,
+      "flags": []
+    },
+    {
+      "handle": "extra-virgin-olive-blend-oil",
+      "title": "Extra Virgin Blend – Avocado & Sunflower",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A04429",
+      "variants": [
+        {
+          "sku": "A04429",
+          "size": "500mL",
+          "aed": 51.38,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": [
+        "Not marked organic: the blend carries no organic claim, only the EVOO line does."
+      ]
+    },
+    {
+      "handle": "picual-organic-extra-virgin-olive-oil",
+      "title": "Picual Single Varietal",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A02744",
+      "variants": [
+        {
+          "sku": "A02744",
+          "size": "500mL",
+          "aed": 47.71,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": [
+        "size 500mL inferred from shipping weight"
+      ]
+    },
+    {
+      "handle": "arbequina-single-variety-organic-extra-virgin-olive-oil",
+      "title": "Arbequina Single Varietal",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03167",
+      "variants": [
+        {
+          "sku": "A03167",
+          "size": "500mL",
+          "aed": 47.71,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": [
+        "size 500mL inferred from shipping weight"
+      ]
+    },
+    {
+      "handle": "cornicabra-single-variety-organic-extra-virgin-olive-oil",
+      "title": "Cornicabra Single Varietal",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03168",
+      "variants": [
+        {
+          "sku": "A03168",
+          "size": "500mL",
+          "aed": 47.71,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": [
+        "size 500mL inferred from shipping weight"
+      ]
+    },
+    {
+      "handle": "hojiblanca-single-variety-organic-extra-virgin-olive-oil",
+      "title": "Hojiblanca Single Varietal",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A02738",
+      "variants": [
+        {
+          "sku": "A02738",
+          "size": "500mL",
+          "aed": 47.71,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": [
+        "size 500mL inferred from shipping weight"
+      ]
+    },
+    {
+      "handle": "hot-chili-infused-organic-spanish-aromatic-extra-virgin-olive-oil-250ml",
+      "title": "Organic Hot Chili Infused EVOO",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03871",
+      "variants": [
+        {
+          "sku": "A03871",
+          "size": "250mL",
+          "aed": 51.38,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "garlic-infused-organic-spanish-aromatic-extra-virgin-olive-oil-250ml",
+      "title": "Organic Garlic Infused EVOO",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03872",
+      "variants": [
+        {
+          "sku": "A03872",
+          "size": "250mL",
+          "aed": 51.38,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "lemon-infused-organic-spanish-aromatic-extra-virgin-olive-oil-250ml",
+      "title": "Organic Lemon Infused EVOO",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03874",
+      "variants": [
+        {
+          "sku": "A03874",
+          "size": "250mL",
+          "aed": 51.38,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "basil-infused-organic-spanish-aromatic-extra-virgin-olive-oil-250ml",
+      "title": "Organic Basil Infused EVOO",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "A03873",
+      "variants": [
+        {
+          "sku": "A03873",
+          "size": "250mL",
+          "aed": 51.38,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "extra-virgin-olive-oil-garcias-mill",
+      "title": "Extra Virgin Olive Oil - Garcia's Mill",
+      "action": "preview",
+      "category": "heritage-extra-virgin-oils",
+      "sku": "GDLC-EVOO-MILL-3L",
+      "variants": [
+        {
+          "sku": "GDLC-EVOO-MILL-3L",
+          "size": "3L",
+          "aed": 75.47,
+          "inStock": false
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "No SKU in the feed — assigned GDLC-EVOO-MILL-3L. Out of stock upstream, so it imports unavailable. Not marked organic: the copy says only \"Spanish Extra Virgin\"."
+      ]
+    },
+    {
+      "handle": "pedro-ximenez-vinegar",
+      "title": "Pedro Ximénez Vinegar",
+      "action": "preview",
+      "category": "aged-balsamic-vinegars",
+      "sku": "A04583",
+      "variants": [
+        {
+          "sku": "A04583",
+          "size": "250mL",
+          "aed": 37.46,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": [
+        "size 250mL inferred from shipping weight"
+      ]
+    }
+  ],
+  "problems": []
+}

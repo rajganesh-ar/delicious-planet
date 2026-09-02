@@ -1,16 +1,13 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { FlatCompat } from '@eslint/eslintrc'
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-})
-
+// eslint-config-next 16 ships native flat configs, so they are spread in
+// directly. Going through FlatCompat instead makes the eslintrc shim try to
+// validate an already-flat config, which fails inside the error formatter with
+// an unrelated "Converting circular structure to JSON".
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...nextCoreWebVitals,
+  ...nextTypescript,
   {
     rules: {
       '@typescript-eslint/ban-ts-comment': 'warn',
@@ -31,7 +28,17 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ['.next/'],
+    // Maintenance scripts under scripts/ are CommonJS by extension, so require()
+    // is the correct import form there, not a lint failure.
+    files: ['**/*.cjs'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    // md/unused holds retired components kept for reference; they are not built
+    // and are excluded from tsconfig too.
+    ignores: ['.next/', 'md/unused/', 'md/unused-assets/'],
   },
 ]
 

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { useCart } from '@/components/layout/CartContext'
+import { useCart, lineKey } from '@/components/layout/CartContext'
 import type { User } from '@/payload-types'
 import {
   Button,
@@ -147,10 +147,11 @@ export function CheckoutClient() {
     // cart from the product records, so nothing here can set a price.
     const lineItems = items.map((i) => ({
       productId: Number(i.productId),
+      variantSku: i.variantSku,
       quantity: i.quantity,
     }))
 
-    if (lineItems.some((i) => !Number.isInteger(i.productId))) {
+    if (lineItems.some((i) => !Number.isInteger(i.productId) || !i.variantSku)) {
       setError('Something is wrong with your cart. Please empty it and add your items again.')
       return
     }
@@ -437,7 +438,7 @@ export function CheckoutClient() {
 
                 <ul className="list-none m-0 p-0 space-y-5 mb-6">
                   {items.map((item) => (
-                    <li key={item.productId} className="flex gap-4">
+                    <li key={lineKey(item)} className="flex gap-4">
                       {item.image && (
                         <div className="shrink-0 relative w-16 h-16 rounded-sm overflow-hidden bg-mist/30">
                           <Image

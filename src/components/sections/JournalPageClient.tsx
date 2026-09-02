@@ -13,6 +13,8 @@ interface JournalPageClientProps {
   categories: BlogCategory[]
   totalPages: number
   currentPage: number
+  /** Category to open on, from `?category=` — already validated server-side. */
+  initialCategory?: string | null
 }
 
 export function JournalPageClient({
@@ -20,12 +22,12 @@ export function JournalPageClient({
   categories,
   totalPages,
   currentPage,
+  initialCategory = null,
 }: JournalPageClientProps) {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory)
 
-  const filteredPosts =
-    activeCategory ?
-      posts.filter((p) =>
+  const filteredPosts = activeCategory
+    ? posts.filter((p) =>
         (p.categories ?? []).some(
           (c) => typeof c === 'object' && c !== null && (c as BlogCategory).slug === activeCategory,
         ),
@@ -89,9 +91,9 @@ export function JournalPageClient({
                   onClick={() => setActiveCategory(cat.slug)}
                   className={cn(
                     'shrink-0 h-9 px-4 rounded-sm border cursor-pointer transition-colors font-sans text-[11px] uppercase tracking-[0.14em] font-medium',
-                    active ?
-                      'bg-forest-green border-forest-green text-cream'
-                    : 'bg-white border-stone/20 text-stone hover:border-stone/40 hover:text-obsidian',
+                    active
+                      ? 'bg-forest-green border-forest-green text-cream'
+                      : 'bg-white border-stone/20 text-stone hover:border-stone/40 hover:text-obsidian',
                   )}
                 >
                   {cat.title}
@@ -104,7 +106,7 @@ export function JournalPageClient({
 
       {/* ═══ 3 · POSTS ══════════════════════════════════════════ */}
       <section className={cn(GUTTER, BAND)}>
-        {filteredPosts.length > 0 ?
+        {filteredPosts.length > 0 ? (
           <>
             {showFeatured ? (
               <div className="mb-3 md:mb-4">
@@ -132,9 +134,9 @@ export function JournalPageClient({
                       aria-current={current ? 'page' : undefined}
                       className={cn(
                         'w-9 h-9 flex items-center justify-center rounded-sm border no-underline transition-colors',
-                        current ?
-                          'bg-forest-green border-forest-green'
-                        : 'bg-white border-stone/20 hover:border-stone/40',
+                        current
+                          ? 'bg-forest-green border-forest-green'
+                          : 'bg-white border-stone/20 hover:border-stone/40',
                       )}
                     >
                       <span
@@ -151,7 +153,8 @@ export function JournalPageClient({
               </nav>
             ) : null}
           </>
-        : <FadeIn>
+        ) : (
+          <FadeIn>
             <div className="bg-white border border-stone/15 rounded-sm px-6 py-10 md:py-14 text-center">
               <span className="inline-flex w-12 h-12 rounded-sm bg-parchment items-center justify-center">
                 <svg
@@ -178,13 +181,13 @@ export function JournalPageClient({
                   (it has to beat the unlayered base rule) and would kill mx-auto. */}
               <div className="max-w-md mx-auto mt-2">
                 <p className="m-0! font-sans text-[13px] text-stone leading-relaxed">
-                  {activeCategory ?
-                    'Try another category, or browse everything we have published so far.'
-                  : 'Recipes, origin stories and sourcing notes are on the way. In the meantime, the catalogue is the best place to start.'}
+                  {activeCategory
+                    ? 'Try another category, or browse everything we have published so far.'
+                    : 'Recipes, origin stories and sourcing notes are on the way. In the meantime, the catalogue is the best place to start.'}
                 </p>
               </div>
               <div className="flex flex-wrap justify-center gap-3 mt-5">
-                {activeCategory ?
+                {activeCategory ? (
                   <button
                     type="button"
                     onClick={() => setActiveCategory(null)}
@@ -194,14 +197,16 @@ export function JournalPageClient({
                       Show all articles
                     </span>
                   </button>
-                : <Cta href="/products">Browse products</Cta>}
+                ) : (
+                  <Cta href="/products">Browse products</Cta>
+                )}
                 <Cta href="/recipes" variant="dark-outline">
                   Recipes
                 </Cta>
               </div>
             </div>
           </FadeIn>
-        }
+        )}
       </section>
 
       {/* ═══ 4 · SOURCING NUDGE ═════════════════════════════════ */}

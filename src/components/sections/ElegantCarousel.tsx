@@ -21,6 +21,9 @@ interface ElegantCarouselProps {
   padded?: boolean
 }
 
+/** Cross-fade length in ms; the slide swaps at the halfway point. */
+const TRANSITION_DURATION = 600
+
 export default function ElegantCarousel({
   items,
   autoPlayInterval = 5000,
@@ -32,17 +35,12 @@ export default function ElegantCarousel({
   const [progress, setProgress] = useState(0)
   const touchStartX = useRef(0)
 
-  // Use refs to avoid stale closures in intervals
-  const currentIndexRef = useRef(currentIndex)
-  const isTransitioningRef = useRef(isTransitioning)
-  currentIndexRef.current = currentIndex
-  isTransitioningRef.current = isTransitioning
-
-  const TRANSITION_DURATION = 600
-
+  // These read `currentIndex`/`isTransitioning` straight from state rather than
+  // through mirror refs. The autoplay effect below already re-subscribes on every
+  // index change, so the closures are rebuilt each slide and never go stale.
   const goToSlide = useCallback(
     (index: number) => {
-      if (isTransitioningRef.current || index === currentIndexRef.current) return
+      if (isTransitioning || index === currentIndex) return
       setIsTransitioning(true)
       setProgress(0)
       setTimeout(() => {
@@ -50,18 +48,16 @@ export default function ElegantCarousel({
         setTimeout(() => setIsTransitioning(false), 50)
       }, TRANSITION_DURATION / 2)
     },
-    [items.length],
+    [currentIndex, isTransitioning],
   )
 
   const goNext = useCallback(() => {
-    const next = (currentIndexRef.current + 1) % items.length
-    goToSlide(next)
-  }, [items.length, goToSlide])
+    goToSlide((currentIndex + 1) % items.length)
+  }, [currentIndex, items.length, goToSlide])
 
   const goPrev = useCallback(() => {
-    const prev = (currentIndexRef.current - 1 + items.length) % items.length
-    goToSlide(prev)
-  }, [items.length, goToSlide])
+    goToSlide((currentIndex - 1 + items.length) % items.length)
+  }, [currentIndex, items.length, goToSlide])
 
   // Autoplay & progress
   useEffect(() => {
@@ -84,7 +80,8 @@ export default function ElegantCarousel({
   const handleTouchEnd = (e: React.TouchEvent) => {
     const diff = touchStartX.current - e.changedTouches[0].clientX
     if (Math.abs(diff) > 60) {
-      diff > 0 ? goNext() : goPrev()
+      if (diff > 0) goNext()
+      else goPrev()
     }
   }
 

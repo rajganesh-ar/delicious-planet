@@ -20,9 +20,10 @@ import { Testimonials } from './collections/Testimonials'
 import { OfficeLocations } from './collections/OfficeLocations'
 import { Warehouses } from './collections/Warehouses'
 import { Brands } from './collections/Brands'
-import { ProductCollections } from './collections/ProductCollections'
 import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
 import { Banners } from './collections/Banners'
+import { Regions } from './collections/Regions'
+import { Team } from './collections/Team'
 import { SiteSettings } from './globals/SiteSettings'
 import { Navigation } from './globals/Navigation'
 
@@ -41,10 +42,10 @@ export default buildConfig({
     Media,
     Products,
     Categories,
+    Regions,
     Suppliers,
     Warehouses,
     Brands,
-    ProductCollections,
     Orders,
     B2BInquiries,
     Pages,
@@ -52,6 +53,7 @@ export default buildConfig({
     BlogCategories,
     Testimonials,
     OfficeLocations,
+    Team,
     NewsletterSubscribers,
     Banners,
   ],
@@ -65,6 +67,22 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    // Auto-push is OFF by default. With it on, `next dev` diffs the schema
+    // against the live database on every boot and blocks on interactive
+    // "is this a rename?" questions — which silently hold the dev server at
+    // "Compiling…" and can apply destructive changes with no reviewable record.
+    //
+    // It stays available as a deliberate, one-off escape hatch:
+    //   PAYLOAD_DB_PUSH=true pnpm db:push
+    //
+    // That is the only way to reconcile a database that was previously managed
+    // by push: `migrate:create` diffs against the last snapshot in
+    // src/migrations/, and push leaves none — with no snapshot it emits a
+    // from-scratch "create everything" baseline that cannot run against an
+    // existing database. Push introspects the live schema, so it produces the
+    // real delta.
+    push: process.env.PAYLOAD_DB_PUSH === 'true',
+    migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
   plugins: [

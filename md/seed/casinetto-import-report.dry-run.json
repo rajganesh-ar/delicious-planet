@@ -1,0 +1,210 @@
+{
+  "ranAt": "2026-09-02T08:30:57.079Z",
+  "report": [
+    {
+      "handle": "mascarpone-cheese",
+      "title": "Mascarpone Cheese",
+      "brand": "Sterilgarda",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "STEC001_1",
+      "aed": 24.08,
+      "size": "500g",
+      "images": 2,
+      "facts": [
+        "nutrition",
+        "ingredients",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "mascarpone-tetra-pack-500g",
+      "title": "Mascarpone Cheese Tetra Pack 500g",
+      "brand": "Sterilgarda",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "STEC005_1",
+      "aed": 22.08,
+      "size": "500g",
+      "images": 2,
+      "facts": [
+        "nutrition",
+        "ingredients",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "mascarpone-in-a-tetrapack",
+      "title": "Mascarpone in a Tetrapack",
+      "brand": "Sterilgarda",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "STEC021_1",
+      "aed": 11.78,
+      "size": "200g",
+      "images": 2,
+      "facts": [
+        "nutrition",
+        "ingredients",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "danablu-creamy-blue-cheese",
+      "title": "Danablu Creamy Blue Cheese",
+      "brand": "Castello",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "ARLC004_1",
+      "aed": 8.55,
+      "size": "100g",
+      "images": 1,
+      "facts": [
+        "nutrition",
+        "ingredients",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "feta-cheese-lactose-free-pdo",
+      "title": "Feta Cheese Lactose-Free PDO",
+      "brand": "Kolios",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "YOGC013_1",
+      "aed": 21.35,
+      "size": "150g",
+      "images": 1,
+      "facts": [
+        "nutrition",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "feta-goat-cheese",
+      "title": "Feta Goat Cheese",
+      "brand": "Kolios",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "YOGC014_1",
+      "aed": 21.67,
+      "size": "200g",
+      "images": 1,
+      "facts": [
+        "nutrition",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "mascarpone-tetra-pack-1kg",
+      "title": "Mascarpone Cheese Tetra Pack 1kg",
+      "brand": "Sterilgarda",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "STEC053_1",
+      "aed": 44.58,
+      "size": "1kg",
+      "images": 2,
+      "facts": [
+        "nutrition",
+        "ingredients",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "feta-cheese-pdo",
+      "title": "Feta Cheese PDO",
+      "brand": "Kolios",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "YOGC015_1",
+      "aed": 23.11,
+      "size": "200g",
+      "images": 1,
+      "facts": [
+        "nutrition",
+        "allergens",
+        "storage",
+        "packaging"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "fetta-goat-cheese-traditional",
+      "title": "Fetta Goat Cheese Traditional",
+      "brand": "Olympus",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "RETC062_1",
+      "aed": 14.06,
+      "size": "150g",
+      "images": 3,
+      "facts": [
+        "nutrition",
+        "ingredients",
+        "allergens",
+        "storage"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    },
+    {
+      "handle": "feta-cheese-lactose-free",
+      "title": "Feta Cheese Lactose-free",
+      "brand": "Olympus",
+      "action": "preview",
+      "category": "fromagerie-selection",
+      "sku": "RETC061_1",
+      "aed": 16.3,
+      "size": "150g",
+      "images": 3,
+      "facts": [
+        "ingredients",
+        "allergens",
+        "storage"
+      ],
+      "flags": [
+        "price is Casinetto's own AED retail price, imported verbatim — reprice before selling"
+      ]
+    }
+  ],
+  "problems": []
+}

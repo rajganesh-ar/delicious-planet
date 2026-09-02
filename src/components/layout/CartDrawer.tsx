@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useCart, type CartItem } from './CartContext'
+import { useCart, lineKey, type CartItem } from './CartContext'
 import { MENU_LOCK_EVENT } from './menu-events'
 import { formatPrice } from '@/lib/product'
 import { cn } from '@/lib/cn'
@@ -167,11 +167,11 @@ export function CartDrawer() {
                   <AnimatePresence initial={false}>
                     {items.map((item) => (
                       <LineItem
-                        key={item.productId}
+                        key={lineKey(item)}
                         item={item}
                         onNavigate={closeCart}
-                        onRemove={() => removeItem(item.productId)}
-                        onQuantity={(q) => updateQuantity(item.productId, q)}
+                        onRemove={() => removeItem(lineKey(item))}
+                        onQuantity={(q) => updateQuantity(lineKey(item), q)}
                       />
                     ))}
                   </AnimatePresence>

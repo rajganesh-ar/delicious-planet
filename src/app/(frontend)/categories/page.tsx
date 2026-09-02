@@ -15,8 +15,12 @@ function getCatImage(cat: Category): string | null {
 export default async function CategoriesIndexPage() {
   const payload = await getPayload({ config: await config })
 
+  // Departments only. This page is the index of the top-level tree; a
+  // sub-category is reached from its department's own listing, and showing both
+  // here would put a child on the same footing as its parent.
   const categoriesRes = await payload.find({
     collection: 'categories',
+    where: { parent: { exists: false } },
     limit: 100,
     depth: 1,
     sort: 'title',
@@ -60,6 +64,16 @@ export default async function CategoriesIndexPage() {
             <p className="text-stone/50 text-xs mt-6 mb-0 uppercase tracking-[0.2em]">
               {totalDocs} categor{totalDocs !== 1 ? 'ies' : 'y'}
             </p>
+          </FadeIn>
+          <FadeIn delay={0.35}>
+            {/* Colour on the span — styles.css sets an unlayered
+                `a { color: currentColor }` that outranks text utilities. */}
+            <Link href="/categories/directory" className="group no-underline inline-block mt-5">
+              <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-heading font-semibold text-gold/80 group-hover:text-gold transition-colors">
+                View the full A–Z directory
+                <span className="inline-block w-4 h-px bg-gold/50 group-hover:w-6 transition-all duration-300" />
+              </span>
+            </Link>
           </FadeIn>
         </div>
       </div>

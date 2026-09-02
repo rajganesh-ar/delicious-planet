@@ -8,8 +8,8 @@ import {
   getImageUrl,
   getThumbUrl,
   getPrice,
+  getCheapestVariant,
   getCategoryTitle,
-  getCollectionTitle,
   getBrandName,
   isOnSale,
   getDietaryTags,
@@ -28,32 +28,36 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
   const imageUrl = getImageUrl(product)
   const price = getPrice(product)
   const { addItem, openCart } = useCart()
-  const categoryTitle = getCategoryTitle(product)
-  const collectionTitle = getCollectionTitle(product)
   const brandName = getBrandName(product)
-  const label = categoryTitle ?? collectionTitle ?? null
+  const label = getCategoryTitle(product)
   const num = index !== undefined ? String(index + 1).padStart(2, '0') : null
   const onSale = isOnSale(price)
   const percentOff =
     onSale && price?.compareAt ? Math.round((1 - price.amount / price.compareAt) * 100) : 0
   const dietaryTags = getDietaryTags(product)
 
+  // The card shows a "from" price, so quick-add must add the variant that
+  // price belongs to — never a different size at a different amount.
+  const quickAddVariant = getCheapestVariant(product)
+
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (!price || !product.inStock) return
+    if (!price || !product.inStock || !quickAddVariant?.sku) return
     addItem({
       productId: String(product.id),
+      variantSku: quickAddVariant.sku,
+      size: quickAddVariant.size ?? undefined,
       title: product.title,
       slug: product.slug,
       image: getThumbUrl(product),
-      price: price.amount,
+      price: quickAddVariant.price ?? price.amount,
       currency: price.currency,
     })
     openCart()
   }
 
-  const formatPrice = (amount: number) => formatCurrency(amount, price?.currency ?? 'USD')
+  const formatPrice = (amount: number) => formatCurrency(amount, price?.currency ?? 'AED')
 
   return (
     /* h-full so short cards still fill their cell — the container sets

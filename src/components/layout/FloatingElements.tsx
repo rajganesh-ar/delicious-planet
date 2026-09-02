@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
+import { CONTACT } from '@/lib/contact'
 
 export function FloatingElements() {
   const [contactOpen, setContactOpen] = useState(false)
@@ -69,7 +70,7 @@ export function FloatingElements() {
               <p className="text-sm font-semibold text-[#111] m-0 mb-3">Get in touch</p>
               <div className="flex flex-col gap-2.5">
                 <a
-                  href="tel:+1234567890"
+                  href={`tel:${CONTACT.phone}`}
                   className="flex items-center gap-2.5 text-sm text-[#6b6b6b] hover:text-[#1B512D] transition-colors no-underline"
                 >
                   <svg
@@ -82,10 +83,10 @@ export function FloatingElements() {
                   >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
-                  Call us
+                  {CONTACT.phoneLabel}
                 </a>
                 <a
-                  href="mailto:info@deliciousplanet.com"
+                  href={`mailto:${CONTACT.email}`}
                   className="flex items-center gap-2.5 text-sm text-[#6b6b6b] hover:text-[#1B512D] transition-colors no-underline"
                 >
                   <svg
@@ -102,7 +103,7 @@ export function FloatingElements() {
                   Email us
                 </a>
                 <a
-                  href="https://wa.me/1234567890"
+                  href={CONTACT.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-sm text-[#6b6b6b] hover:text-[#1B512D] transition-colors no-underline"

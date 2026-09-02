@@ -1,0 +1,409 @@
+{
+  "ranAt": "2026-09-02T07:11:54.143Z",
+  "report": [
+    {
+      "handle": "osetra-trio-90g",
+      "title": "Osetra Trio – 90g",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "ADMC-OST90-JN26",
+      "variants": [
+        {
+          "sku": "ADMC-OST90-JN26",
+          "size": "90g",
+          "aed": 396,
+          "inStock": false
+        }
+      ],
+      "images": 3,
+      "specs": 1,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "a-trio-of-perfection-90g",
+      "title": "A Trio of Perfection - 90g",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "ADMC-102-SEP360",
+      "variants": [
+        {
+          "sku": "ADMC-102-SEP360",
+          "size": "90g",
+          "aed": 360,
+          "inStock": false
+        }
+      ],
+      "images": 4,
+      "specs": 0,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "the-grand-caviar-journey-150g",
+      "title": "The Grand Caviar Journey - 150g",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "ADMC-101-SEP500",
+      "variants": [
+        {
+          "sku": "ADMC-101-SEP500",
+          "size": "150g",
+          "aed": 555,
+          "inStock": false
+        }
+      ],
+      "images": 4,
+      "specs": 0,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "mother-of-pearl-caviar-spoon-695529902",
+      "title": "Mother-of-pearl Caviar Spoon",
+      "action": "preview",
+      "category": "bespoke-tableware-cutlery",
+      "sku": "0009",
+      "variants": [
+        {
+          "sku": "0009",
+          "size": "One size",
+          "aed": 20,
+          "inStock": true
+        }
+      ],
+      "images": 3,
+      "specs": 0,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "mother-of-nature-spoon-with-metal-695529900",
+      "title": "Mother of Nature Spoon with Metal",
+      "action": "preview",
+      "category": "bespoke-tableware-cutlery",
+      "sku": "0008",
+      "variants": [
+        {
+          "sku": "0008",
+          "size": "One size",
+          "aed": 60,
+          "inStock": true
+        }
+      ],
+      "images": 2,
+      "specs": 0,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "siberian-osetra-baerii",
+      "title": "Siberian Osetra Baerii",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "0006",
+      "variants": [
+        {
+          "sku": "0006-30G",
+          "size": "30g",
+          "aed": 240,
+          "inStock": true
+        },
+        {
+          "sku": "0006-50G",
+          "size": "50g",
+          "aed": 400,
+          "inStock": true
+        },
+        {
+          "sku": "0006-100G",
+          "size": "100g",
+          "aed": 440,
+          "compareAt": 800,
+          "inStock": true
+        },
+        {
+          "sku": "0006-125G",
+          "size": "125g",
+          "aed": 550,
+          "compareAt": 1000,
+          "inStock": true
+        },
+        {
+          "sku": "0006-250G",
+          "size": "250g",
+          "aed": 1100,
+          "compareAt": 2000,
+          "inStock": true
+        },
+        {
+          "sku": "0006-500G",
+          "size": "500g",
+          "aed": 2200,
+          "compareAt": 4000,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "specs": 7,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "premium-unique-sterlet-caviar",
+      "title": "Premium Unique (Sterlet Caviar)",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "0005",
+      "variants": [
+        {
+          "sku": "0005-30G",
+          "size": "30g",
+          "aed": 240,
+          "inStock": false
+        },
+        {
+          "sku": "0005-50G",
+          "size": "50g",
+          "aed": 400,
+          "inStock": false
+        },
+        {
+          "sku": "0005-100G",
+          "size": "100g",
+          "aed": 440,
+          "compareAt": 800,
+          "inStock": false
+        }
+      ],
+      "images": 3,
+      "specs": 2,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "the-classic-unique-hybrid-caviar",
+      "title": "The Classic Unique (Hybrid Caviar)",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "0004",
+      "variants": [
+        {
+          "sku": "0004-30G",
+          "size": "30g",
+          "aed": 240,
+          "inStock": true
+        },
+        {
+          "sku": "0004-50G",
+          "size": "50g",
+          "aed": 400,
+          "inStock": true
+        },
+        {
+          "sku": "0004-100G",
+          "size": "100g",
+          "aed": 440,
+          "compareAt": 800,
+          "inStock": true
+        },
+        {
+          "sku": "0004-125G",
+          "size": "125g",
+          "aed": 550,
+          "compareAt": 1000,
+          "inStock": true
+        },
+        {
+          "sku": "0004-250G",
+          "size": "250g",
+          "aed": 1100,
+          "compareAt": 2000,
+          "inStock": true
+        },
+        {
+          "sku": "0004-500G",
+          "size": "500g",
+          "aed": 2200,
+          "compareAt": 4000,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "specs": 7,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "royal-beluga",
+      "title": "Royal Beluga",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "0003",
+      "variants": [
+        {
+          "sku": "0003-30G",
+          "size": "30g",
+          "aed": 450,
+          "inStock": true
+        },
+        {
+          "sku": "0003-50G",
+          "size": "50g",
+          "aed": 750,
+          "inStock": true
+        },
+        {
+          "sku": "0003-100G",
+          "size": "100g",
+          "aed": 1200,
+          "compareAt": 1500,
+          "inStock": true
+        },
+        {
+          "sku": "0003-125G",
+          "size": "125g",
+          "aed": 1500,
+          "compareAt": 1875,
+          "inStock": true
+        },
+        {
+          "sku": "0003-250G",
+          "size": "250g",
+          "aed": 3000,
+          "compareAt": 3750,
+          "inStock": true
+        },
+        {
+          "sku": "0003-500G",
+          "size": "500g",
+          "aed": 6000,
+          "compareAt": 7500,
+          "inStock": true
+        }
+      ],
+      "images": 4,
+      "specs": 6,
+      "flags": [
+        "compare-at dropped on 30g, 50g — the supplier's \"was\" price there implies a different discount from the rest of the range"
+      ]
+    },
+    {
+      "handle": "russian-osetra",
+      "title": "Russian Osetra",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "0002",
+      "variants": [
+        {
+          "sku": "0002-30G",
+          "size": "30g",
+          "aed": 240,
+          "inStock": false
+        },
+        {
+          "sku": "0002-50G",
+          "size": "50g",
+          "aed": 400,
+          "inStock": false
+        },
+        {
+          "sku": "0002-100G",
+          "size": "100g",
+          "aed": 440,
+          "compareAt": 800,
+          "inStock": false
+        },
+        {
+          "sku": "0002-125G",
+          "size": "125g",
+          "aed": 550,
+          "compareAt": 1000,
+          "inStock": false
+        },
+        {
+          "sku": "0002-250G",
+          "size": "250g",
+          "aed": 1100,
+          "compareAt": 2000,
+          "inStock": false
+        },
+        {
+          "sku": "0002-500G",
+          "size": "500g",
+          "aed": 2200,
+          "compareAt": 4000,
+          "inStock": false
+        }
+      ],
+      "images": 4,
+      "specs": 7,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    },
+    {
+      "handle": "imperial-osetra",
+      "title": "Imperial Osetra",
+      "action": "preview",
+      "category": "caviar-selection",
+      "sku": "0001",
+      "variants": [
+        {
+          "sku": "0001-30G",
+          "size": "30g",
+          "aed": 300,
+          "inStock": false
+        },
+        {
+          "sku": "0001-50G",
+          "size": "50g",
+          "aed": 500,
+          "inStock": false
+        },
+        {
+          "sku": "0001-100G",
+          "size": "100g",
+          "aed": 550,
+          "compareAt": 1000,
+          "inStock": false
+        },
+        {
+          "sku": "0001-125G",
+          "size": "125g",
+          "aed": 687.5,
+          "compareAt": 1250,
+          "inStock": false
+        },
+        {
+          "sku": "0001-250G",
+          "size": "250g",
+          "aed": 1375,
+          "compareAt": 2500,
+          "inStock": false
+        },
+        {
+          "sku": "0001-500G",
+          "size": "500g",
+          "aed": 2750,
+          "compareAt": 5000,
+          "inStock": false
+        }
+      ],
+      "images": 4,
+      "specs": 7,
+      "flags": [
+        "origin recorded as AE (the seller's country) — the source states no farm origin, only the species' natural range. Confirm with the supplier."
+      ]
+    }
+  ],
+  "problems": []
+}

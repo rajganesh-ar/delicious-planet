@@ -25,7 +25,7 @@ export interface AnnouncementItem {
 
 interface HeaderProps {
   nav: NavEntry[]
-  /** Collection scopes for the search bar's category selector. */
+  /** Category scopes for the search bar's scope selector. */
   searchScopes: SearchScope[]
   /** CMS announcement bar; falls back to the rotating defaults below. */
   announcements?: AnnouncementItem[]
@@ -121,11 +121,16 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
     return () => clearInterval(id)
   }, [messages.length])
 
-  // Any navigation dismisses whatever is open.
-  useEffect(() => {
+  // Any navigation dismisses whatever is open. Done during render rather than in
+  // an effect (React's "adjusting state when a prop changes" pattern) so the
+  // menus are already closed in the same commit the new route paints in — an
+  // effect would show the old menu over the new page for a frame.
+  const [lastPathname, setLastPathname] = useState(pathname)
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname)
     setOpenLabel(null)
     setDrawerOpen(false)
-  }, [pathname])
+  }
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -186,7 +191,7 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
     event.preventDefault()
     const params = new URLSearchParams()
     if (term.trim()) params.set('search', term.trim())
-    if (scope) params.set('collection', scope)
+    if (scope) params.set('category', scope)
     router.push(params.toString() ? `/products?${params}` : '/products')
     setOpenLabel(null)
   }

@@ -1,17 +1,17 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { getRegionForCategoryTitle } from '@/lib/regions'
+import type { Region } from '@/lib/regions'
 import { PRICE_BANDS } from '@/lib/facets'
 import { getImageUrl, getPrice, formatPrice } from '@/lib/product'
 import type { DietaryCount } from './DietaryStrip'
-import type { Category, Product, ProductCollection } from '@/payload-types'
+import type { Category, Product } from '@/payload-types'
 
 interface HomeSidebarProps {
-  /** Top-level CMS categories — this store models regions as categories. */
-  regionCategories: Category[]
-  /** Product-type taxonomy lives in collections, not categories. */
-  collections: ProductCollection[]
+  /** The product-type tree. */
+  categories: Category[]
+  /** Same resolved list the region row renders, so the two can't disagree. */
+  regions: Region[]
   dietaryFacets: DietaryCount[]
   /** Compact product tiles shown under the nav — picks the rails don't carry. */
   picks: Product[]
@@ -23,13 +23,6 @@ const QUICK_LINKS = [
   { label: 'All Products', href: '/products' },
   { label: 'Our Brands', href: '/brands' },
 ]
-
-/** "Bite Into the Middle East" → "Middle East" */
-function shortTitle(title: string): string {
-  const clean = title.trim()
-  const match = clean.match(/^bite\s+into\s+(?:the\s+)?(.+)$/i)
-  return match ? match[1].trim() : clean
-}
 
 /**
  * styles.css declares unlayered h1–h6 typography that outranks Tailwind's
@@ -123,14 +116,7 @@ function PickRow({ product }: { product: Product }) {
   )
 }
 
-export function HomeSidebar({
-  regionCategories,
-  collections,
-  dietaryFacets,
-  picks,
-}: HomeSidebarProps) {
-  const regions = regionCategories.filter((c) => getRegionForCategoryTitle(c.title))
-
+export function HomeSidebar({ categories, regions, dietaryFacets, picks }: HomeSidebarProps) {
   return (
     <aside className="hidden lg:block w-56 xl:w-60 shrink-0">
       <div className="sticky top-[calc(var(--header-h)+1.5rem)] flex flex-col gap-4">
@@ -153,29 +139,26 @@ export function HomeSidebar({
                 <Group>
                   <GroupHeading>Shop by Region</GroupHeading>
                   <ul className="list-none m-0 p-0">
-                    {regions.map((cat) => {
-                      const region = getRegionForCategoryTitle(cat.title)!
-                      return (
-                        <NavLink
-                          key={cat.id}
-                          href={`/products?region=${region.slug}`}
-                          label={shortTitle(cat.title)}
-                        />
-                      )
-                    })}
+                    {regions.map((region) => (
+                      <NavLink
+                        key={region.slug}
+                        href={`/products?region=${region.slug}`}
+                        label={region.label}
+                      />
+                    ))}
                   </ul>
                 </Group>
               )}
 
-              {collections.length > 0 && (
+              {categories.length > 0 && (
                 <Group>
                   <GroupHeading>Shop by Category</GroupHeading>
                   <ul className="list-none m-0 p-0">
-                    {collections.slice(0, 8).map((col) => (
+                    {categories.slice(0, 8).map((cat) => (
                       <NavLink
-                        key={col.id}
-                        href={`/products?collection=${col.slug}`}
-                        label={col.title}
+                        key={cat.id}
+                        href={`/products?category=${cat.slug}`}
+                        label={cat.title}
                       />
                     ))}
                   </ul>

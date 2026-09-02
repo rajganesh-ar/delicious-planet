@@ -15,6 +15,16 @@ export const Media: CollectionConfig = {
       name: 'caption',
       type: 'text',
     },
+    {
+      name: 'sourceUrl',
+      type: 'text',
+      index: true,
+      admin: {
+        readOnly: true,
+        description:
+          'Where this file was fetched from, when it came from an external catalogue. An importer matches on it so a second run reuses this upload instead of creating a near-duplicate — filenames alone are not enough, two products can both ship a "Garlic-1.jpg".',
+      },
+    },
   ],
   upload: {
     imageSizes: [

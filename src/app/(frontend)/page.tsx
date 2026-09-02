@@ -4,6 +4,9 @@ import { HomePageClient } from '@/components/sections/HomePageClient'
 import type { BannerSlots } from '@/components/sections/HomePageClient'
 import { RAIL_COLUMNS } from '@/components/sections/home/ProductRail'
 import { DIETARY_FACETS, dietaryWhere } from '@/lib/facets'
+import { countryName } from '@/lib/countries'
+import { resolveRegions } from '@/lib/regions'
+import { resolveBrandMarks } from '@/lib/brand-marks'
 
 const PUBLISHED = { _status: { equals: 'published' } } as const
 
@@ -25,10 +28,11 @@ export default async function HomePage() {
     featuredRes,
     newArrivalsRes,
     categoriesRes,
-    collectionsRes,
     originsRes,
+    regionsRes,
     testimonialsRes,
     bannersRes,
+    brandsRes,
   ] = await Promise.all([
       // No sales data exists — `isFeatured` is the editorial stand-in for best sellers.
       payload.find({
@@ -44,16 +48,25 @@ export default async function HomePage() {
         limit: NEW_ARRIVALS,
         depth: 2,
       }),
-      // Regions are modelled as top-level categories ("Bite Into Europe").
-      payload.find({ collection: 'categories', limit: 8, depth: 1, sort: 'sortOrder' }),
-      payload.find({ collection: 'product-collections', limit: 16, depth: 1, sort: 'sortOrder' }),
+      // Departments only — the homepage row is the top of the tree.
+      payload.find({
+        collection: 'categories',
+        where: { parent: { exists: false } },
+        limit: 16,
+        depth: 1,
+        sort: 'sortOrder',
+      }),
       payload.find({
         collection: 'products',
         where: PUBLISHED,
         depth: 0,
         limit: 1000,
-        select: { countryOfOrigin: true },
+        select: { origin: true },
       }),
+      // Presentation only — a region's products come from origin.country. Left
+      // unsorted here so resolveRegions can apply sortOrder with the bundled
+      // table as the tiebreak.
+      payload.find({ collection: 'regions', limit: 20, depth: 1 }),
       payload.find({ collection: 'testimonials', limit: 6, depth: 1 }),
       payload.find({
         collection: 'banners',
@@ -62,6 +75,9 @@ export default async function HomePage() {
         depth: 1,
         sort: 'sortOrder',
       }),
+      // depth 1 so `logo` comes back populated — resolveBrandMarks needs the
+      // upload resolved to prefer it over the bundled file.
+      payload.find({ collection: 'brands', limit: 50, depth: 1, sort: 'title' }),
     ])
 
   // Too few products carry `isFeatured` to fill three rows, so top the rail up
@@ -95,7 +111,7 @@ export default async function HomePage() {
 
   const byCountry = new Map<string, number>()
   for (const doc of originsRes.docs) {
-    const country = doc.countryOfOrigin?.trim()
+    const country = countryName(doc.origin?.country)
     if (country) byCountry.set(country, (byCountry.get(country) ?? 0) + 1)
   }
   const countries = [...byCountry.entries()]
@@ -119,7 +135,9 @@ export default async function HomePage() {
     .filter((f) => f.count > 0)
     .sort((a, b) => b.count - a.count)
 
-  const collections = collectionsRes.docs
+  const categories = categoriesRes.docs
+  const regions = resolveRegions(regionsRes.docs)
+  const brandMarks = resolveBrandMarks(brandsRes.docs)
 
   // Group banners by their placement slot so the layout can drop each set in.
   const banners: BannerSlots = {}
@@ -135,13 +153,13 @@ export default async function HomePage() {
       newArrivalRows={NEW_ARRIVAL_ROWS}
       sidebarPicks={sidebarPicks}
       newArrivals={newArrivalsRes.docs}
-      regionCategories={categoriesRes.docs}
-      featuredCollections={collections.slice(0, 4)}
-      categoryCollections={collections.slice(4)}
+      categories={categories}
+      regions={regions}
       countries={countries}
       dietaryFacets={dietaryFacets}
       testimonials={testimonialsRes.docs}
       banners={banners}
+      brandMarks={brandMarks}
     />
   )
 }

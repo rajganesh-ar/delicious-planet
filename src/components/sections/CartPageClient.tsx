@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeIn } from '@/components/animations/FadeIn'
-import { useCart, type CartItem } from '@/components/layout/CartContext'
+import { useCart, lineKey, type CartItem } from '@/components/layout/CartContext'
 import { QuantityStepper } from '@/components/layout/CartDrawer'
 import { Cta, Eyebrow, GUTTER } from '@/components/sections/editorial'
 import { formatPrice } from '@/lib/product'
@@ -129,10 +129,10 @@ export function CartPageClient() {
                 <AnimatePresence initial={false}>
                   {items.map((item) => (
                     <LedgerRow
-                      key={item.productId}
+                      key={lineKey(item)}
                       item={item}
-                      onRemove={() => removeItem(item.productId)}
-                      onQuantity={(q) => updateQuantity(item.productId, q)}
+                      onRemove={() => removeItem(lineKey(item))}
+                      onQuantity={(q) => updateQuantity(lineKey(item), q)}
                     />
                   ))}
                 </AnimatePresence>

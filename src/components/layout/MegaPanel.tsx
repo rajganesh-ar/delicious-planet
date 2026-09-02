@@ -199,8 +199,8 @@ export function MegaPanel({
               style={{ '--nav-cols': panel.columns?.length ?? 1 } as React.CSSProperties}
               className="flex-1 grid grid-cols-3 gap-x-7 gap-y-6 xl:[grid-template-columns:repeat(var(--nav-cols),minmax(0,1fr))]"
             >
-              {panel.columns?.map((column) => (
-                <LinkColumn key={column.heading} column={column} onNavigate={onNavigate} />
+              {panel.columns?.map((column, i) => (
+                <LinkColumn key={column.heading + i} column={column} onNavigate={onNavigate} />
               ))}
             </div>
 
@@ -239,8 +239,8 @@ export function ListPanel({
       {...panelMotion}
       className="absolute left-0 top-full z-10 min-w-56 bg-cream border border-mist rounded-sm shadow-[0_20px_36px_-20px_rgba(0,0,0,0.32)] p-4"
     >
-      {panel.columns?.map((column) => (
-        <LinkColumn key={column.heading} column={column} onNavigate={onNavigate} />
+      {panel.columns?.map((column, i) => (
+        <LinkColumn key={column.heading + i} column={column} onNavigate={onNavigate} />
       ))}
     </motion.div>
   )

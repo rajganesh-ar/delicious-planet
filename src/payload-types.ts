@@ -71,10 +71,10 @@ export interface Config {
     media: Media;
     products: Product;
     categories: Category;
+    regions: Region;
     suppliers: Supplier;
     warehouses: Warehouse;
     brands: Brand;
-    'product-collections': ProductCollection;
     orders: Order;
     'b2b-inquiries': B2BInquiry;
     pages: Page;
@@ -82,6 +82,7 @@ export interface Config {
     'blog-categories': BlogCategory;
     testimonials: Testimonial;
     'office-locations': OfficeLocation;
+    team: Team;
     'newsletter-subscribers': NewsletterSubscriber;
     banners: Banner;
     'payload-kv': PayloadKv;
@@ -95,10 +96,10 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    regions: RegionsSelect<false> | RegionsSelect<true>;
     suppliers: SuppliersSelect<false> | SuppliersSelect<true>;
     warehouses: WarehousesSelect<false> | WarehousesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
-    'product-collections': ProductCollectionsSelect<false> | ProductCollectionsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     'b2b-inquiries': B2BInquiriesSelect<false> | B2BInquiriesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
@@ -106,6 +107,7 @@ export interface Config {
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
+    team: TeamSelect<false> | TeamSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     banners: BannersSelect<false> | BannersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -207,6 +209,10 @@ export interface Media {
   id: number;
   alt: string;
   caption?: string | null;
+  /**
+   * Where this file was fetched from, when it came from an external catalogue. An importer matches on it so a second run reuses this upload instead of creating a near-duplicate — filenames alone are not enough, two products can both ship a "Garlic-1.jpg".
+   */
+  sourceUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -260,11 +266,137 @@ export interface Media {
 export interface Product {
   id: number;
   title: string;
+  /**
+   * Derived from the title on save.
+   */
   slug: string;
   /**
-   * Stock-keeping unit identifier.
+   * Product-level identifier. Each variant carries its own SKU too.
    */
-  sku?: string | null;
+  sku: string;
+  /**
+   * Must be a leaf category, not a department.
+   */
+  category: number | Category;
+  brand?: (number | null) | Brand;
+  supplier?: (number | null) | Supplier;
+  origin: {
+    /**
+     * Country of origin. Drives the region filter.
+     */
+    country:
+      | 'DZ'
+      | 'AR'
+      | 'AU'
+      | 'AT'
+      | 'BH'
+      | 'BD'
+      | 'BE'
+      | 'BO'
+      | 'BR'
+      | 'KH'
+      | 'CA'
+      | 'CL'
+      | 'CN'
+      | 'CO'
+      | 'CR'
+      | 'CI'
+      | 'HR'
+      | 'CU'
+      | 'CY'
+      | 'CZ'
+      | 'DK'
+      | 'DO'
+      | 'EC'
+      | 'EG'
+      | 'SV'
+      | 'ET'
+      | 'FI'
+      | 'FR'
+      | 'DE'
+      | 'GH'
+      | 'GR'
+      | 'GT'
+      | 'HN'
+      | 'HU'
+      | 'IN'
+      | 'ID'
+      | 'IR'
+      | 'IQ'
+      | 'IE'
+      | 'IL'
+      | 'IT'
+      | 'JP'
+      | 'JO'
+      | 'KE'
+      | 'KW'
+      | 'LB'
+      | 'LY'
+      | 'MG'
+      | 'MY'
+      | 'MX'
+      | 'MA'
+      | 'NP'
+      | 'NL'
+      | 'NZ'
+      | 'NI'
+      | 'NG'
+      | 'NO'
+      | 'OM'
+      | 'PK'
+      | 'PS'
+      | 'PA'
+      | 'PY'
+      | 'PE'
+      | 'PH'
+      | 'PL'
+      | 'PT'
+      | 'QA'
+      | 'RO'
+      | 'RW'
+      | 'SA'
+      | 'SN'
+      | 'RS'
+      | 'SG'
+      | 'SK'
+      | 'SI'
+      | 'ZA'
+      | 'KR'
+      | 'ES'
+      | 'LK'
+      | 'SE'
+      | 'CH'
+      | 'SY'
+      | 'TW'
+      | 'TZ'
+      | 'TH'
+      | 'TN'
+      | 'TR'
+      | 'UG'
+      | 'AE'
+      | 'GB'
+      | 'US'
+      | 'UY'
+      | 'VE'
+      | 'VN'
+      | 'YE';
+    /**
+     * Derived from the country on save.
+     */
+    region?: ('europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania') | null;
+    /**
+     * Sub-national origin, e.g. "Piedmont", "Kalamata".
+     */
+    producerRegion?: string | null;
+    /**
+     * Protected designation, e.g. DOP / PDO / IGP.
+     */
+    appellation?: string | null;
+  };
+  /**
+   * Brief summary shown on listing cards.
+   */
+  shortDescription?: string | null;
   description?: {
     root: {
       type: string;
@@ -281,76 +413,82 @@ export interface Product {
     [k: string]: unknown;
   } | null;
   /**
-   * Brief summary shown on listing cards.
+   * First image is the primary. Alt text lives on the media item.
    */
-  shortDescription?: string | null;
-  images?:
-    | {
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  prices?:
-    | {
-        currency: 'USD' | 'AED' | 'GBP' | 'EUR' | 'INR';
-        amount: number;
-        /**
-         * Original price before sale.
-         */
-        compareAtAmount?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  category: number | Category;
+  images: {
+    image: number | Media;
+    id?: string | null;
+  }[];
   /**
-   * Curated collection this product belongs to.
+   * AED. Cheapest variant — the "from" price. Derived on save.
    */
-  collection?: (number | null) | ProductCollection;
-  supplier?: (number | null) | Supplier;
-  brand?: (number | null) | Brand;
+  basePrice?: number | null;
   /**
-   * UPC/EAN barcode.
+   * Compare-at of the cheapest variant.
    */
-  barcode?: string | null;
+  baseCompareAt?: number | null;
   /**
-   * Country or region of origin.
+   * The orderable unit. Single-size products get exactly one variant. SKUs must be unique across the whole catalogue.
    */
-  countryOfOrigin?: string | null;
-  /**
-   * e.g. "100g", "500g", "1kg".
-   */
-  weight?: string | null;
-  inStock: boolean;
-  isFeatured?: boolean | null;
-  sizeVariants?:
-    | {
-        size: string;
-        priceAED?: number | null;
-        compareAtPriceAED?: number | null;
-        variantSku?: string | null;
-        inStock?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  inventoryLevels?:
-    | {
-        warehouse: number | Warehouse;
-        quantity: number;
-        reservedQuantity?: number | null;
-        lowStockThreshold?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  shipping?: {
+  variants: {
+    sku: string;
+    /**
+     * e.g. "30g", "1kg", "6 × 750ml".
+     */
+    size: string;
+    /**
+     * AED.
+     */
+    price: number;
+    /**
+     * AED, before sale.
+     */
+    compareAt?: number | null;
+    /**
+     * UPC/EAN.
+     */
+    barcode?: string | null;
     weightGrams?: number | null;
-    dimensionsCm?: {
-      length?: number | null;
-      width?: number | null;
-      height?: number | null;
-    };
-    shippingClass?: ('standard' | 'express' | 'frozen' | 'fragile' | 'oversized') | null;
-    freeShippingEligible?: boolean | null;
-    handlingDays?: number | null;
+    inStock?: boolean | null;
+    /**
+     * Preselected on the product page. Exactly one per product.
+     */
+    isDefault?: boolean | null;
+    image?: (number | null) | Media;
+    /**
+     * Stock per warehouse, for this size.
+     */
+    inventory?:
+      | {
+          warehouse: number | Warehouse;
+          quantity: number;
+          reservedQuantity?: number | null;
+          lowStockThreshold?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  /**
+   * True when any variant is in stock. Derived on save.
+   */
+  inStock?: boolean | null;
+  isFeatured?: boolean | null;
+  /**
+   * Lower sorts first among featured products.
+   */
+  featuredRank?: number | null;
+  /**
+   * Sort key for New Arrivals. Stamped on first publish and preserved across re-imports, so a catalogue reload does not make everything new.
+   */
+  publishedAt?: string | null;
+  dietary?: {
+    isHalal?: boolean | null;
+    isLactoseFree?: boolean | null;
+    isOrganic?: boolean | null;
+    isVegetarian?: boolean | null;
+    isVegan?: boolean | null;
+    isGlutenFree?: boolean | null;
   };
   ingredients?: string | null;
   allergens?: string | null;
@@ -365,14 +503,6 @@ export interface Product {
     salt?: number | null;
     fibre?: number | null;
   };
-  dietary?: {
-    isHalal?: boolean | null;
-    isLactoseFree?: boolean | null;
-    isOrganic?: boolean | null;
-    isVegetarian?: boolean | null;
-    isVegan?: boolean | null;
-    isGlutenFree?: boolean | null;
-  };
   storageInstructions?: string | null;
   packaging?: string | null;
   specifications?:
@@ -382,10 +512,36 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  shipping?: {
+    dimensionsCm?: {
+      length?: number | null;
+      width?: number | null;
+      height?: number | null;
+    };
+    shippingClass?: ('standard' | 'express' | 'frozen' | 'fragile' | 'oversized') | null;
+    freeShippingEligible?: boolean | null;
+    handlingDays?: number | null;
+  };
   meta?: {
     title?: string | null;
     description?: string | null;
     image?: (number | null) | Media;
+  };
+  source?: {
+    /**
+     * Importer that owns this row, e.g. "garcia-de-la-cruz".
+     */
+    provider?: string | null;
+    /**
+     * Identifier in the source system. The upsert key.
+     */
+    externalId?: string | null;
+    /**
+     * Source slug, kept for tracing back by hand.
+     */
+    handle?: string | null;
+    url?: string | null;
+    importedAt?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -399,15 +555,27 @@ export interface Category {
   id: number;
   title: string;
   /**
-   * URL-friendly identifier. Auto-populate from title.
+   * Derived from the title on save.
    */
   slug: string;
-  description?: string | null;
-  image?: (number | null) | Media;
   /**
-   * Leave empty for top-level categories.
+   * Leave empty for a department (top-level category).
    */
   parent?: (number | null) | Category;
+  /**
+   * Every category above this one. Lets a department listing select all its descendants in one query.
+   */
+  ancestors?: (number | Category)[] | null;
+  /**
+   * Slug path, e.g. "caviar-roe/sturgeon-caviar". Used for breadcrumbs.
+   */
+  path?: string | null;
+  /**
+   * True when this category has no parent.
+   */
+  isDepartment?: boolean | null;
+  description?: string | null;
+  image?: (number | null) | Media;
   /**
    * Manual sort order for display.
    */
@@ -417,21 +585,15 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-collections".
+ * via the `definition` "brands".
  */
-export interface ProductCollection {
+export interface Brand {
   id: number;
   title: string;
-  /**
-   * URL-friendly identifier.
-   */
   slug: string;
   description?: string | null;
-  image?: (number | null) | Media;
-  /**
-   * Manual sort order for display on the homepage.
-   */
-  sortOrder?: number | null;
+  logo?: (number | null) | Media;
+  website?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -456,20 +618,6 @@ export interface Supplier {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands".
- */
-export interface Brand {
-  id: number;
-  title: string;
-  slug: string;
-  description?: string | null;
-  logo?: (number | null) | Media;
-  website?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "warehouses".
  */
 export interface Warehouse {
@@ -488,6 +636,45 @@ export interface Warehouse {
   createdAt: string;
 }
 /**
+ * The "Shop by Region" row on the homepage. Products are matched by their country of origin — these rows only control wording, artwork and priority.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions".
+ */
+export interface Region {
+  id: number;
+  /**
+   * Which region this row presents. The list is fixed: a region exists because countries are mapped to it, not because a row was added here.
+   */
+  slug: 'europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania';
+  /**
+   * Big name on the card, e.g. "Europe".
+   */
+  label: string;
+  /**
+   * Small line above the label.
+   */
+  eyebrow?: string | null;
+  /**
+   * Short blurb used on listing pages and in the mega menu.
+   */
+  description?: string | null;
+  /**
+   * Card artwork. Without one the bundled default for this region is used.
+   */
+  image?: (number | null) | Media;
+  /**
+   * Uncheck to hide the region without deleting it.
+   */
+  active?: boolean | null;
+  /**
+   * Lower shows first. Decimals and negatives are allowed, so a region can be slotted between two others (2.5) or pushed to the front (0) without renumbering the rest. Left blank, it falls behind every region that has a number.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
@@ -499,8 +686,26 @@ export interface Order {
    * Populated for guest checkouts.
    */
   guestEmail?: string | null;
+  /**
+   * Line items snapshot what was bought. They must stay readable after the catalogue is re-imported, so the product relationship is a convenience — the snapshot fields are the record.
+   */
   items: {
-    product: number | Product;
+    /**
+     * Null once the product is removed from the catalogue.
+     */
+    product?: (number | null) | Product;
+    /**
+     * The exact variant bought. This is the durable identifier.
+     */
+    variantSku?: string | null;
+    /**
+     * Product title as it was at purchase.
+     */
+    titleSnapshot?: string | null;
+    /**
+     * Variant size as it was at purchase, e.g. "125g".
+     */
+    sizeSnapshot?: string | null;
     quantity: number;
     unitAmount: number;
     currency: string;
@@ -813,6 +1018,45 @@ export interface BlogCategory {
   createdAt: string;
 }
 /**
+ * The "Our people" section on the About page. Leave a row's name blank to advertise it as an open role.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team".
+ */
+export interface Team {
+  id: number;
+  /**
+   * Job title, e.g. "Head of Sourcing". Shown under the name.
+   */
+  role: string;
+  /**
+   * Leave blank for a vacancy — the card then reads "Open role" and keeps the job title.
+   */
+  name?: string | null;
+  /**
+   * Square portrait, 800 × 800 or larger. Without one the card shows a placeholder.
+   */
+  photo?: (number | null) | Media;
+  /**
+   * Renders this person as the wide card beside the grid, with their quote. Check it on one row only — if several are checked the first by priority wins.
+   */
+  isFounder?: boolean | null;
+  /**
+   * Only used by the founder card. Quotation marks are added by the page — do not type them.
+   */
+  quote?: string | null;
+  /**
+   * Uncheck to hide someone without deleting the row.
+   */
+  active?: boolean | null;
+  /**
+   * Lower shows first. Decimals and negatives are allowed, so someone can be slotted between two others (2.5) without renumbering the rest. Left blank, they fall behind everyone who has a number.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "newsletter-subscribers".
  */
@@ -917,6 +1161,10 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
+        relationTo: 'regions';
+        value: number | Region;
+      } | null)
+    | ({
         relationTo: 'suppliers';
         value: number | Supplier;
       } | null)
@@ -927,10 +1175,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'brands';
         value: number | Brand;
-      } | null)
-    | ({
-        relationTo: 'product-collections';
-        value: number | ProductCollection;
       } | null)
     | ({
         relationTo: 'orders';
@@ -959,6 +1203,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'office-locations';
         value: number | OfficeLocation;
+      } | null)
+    | ({
+        relationTo: 'team';
+        value: number | Team;
       } | null)
     | ({
         relationTo: 'newsletter-subscribers';
@@ -1057,6 +1305,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  sourceUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1121,64 +1370,63 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   sku?: T;
-  description?: T;
+  category?: T;
+  brand?: T;
+  supplier?: T;
+  origin?:
+    | T
+    | {
+        country?: T;
+        region?: T;
+        producerRegion?: T;
+        appellation?: T;
+      };
   shortDescription?: T;
+  description?: T;
   images?:
     | T
     | {
         image?: T;
         id?: T;
       };
-  prices?:
+  basePrice?: T;
+  baseCompareAt?: T;
+  variants?:
     | T
     | {
-        currency?: T;
-        amount?: T;
-        compareAtAmount?: T;
-        id?: T;
-      };
-  category?: T;
-  collection?: T;
-  supplier?: T;
-  brand?: T;
-  barcode?: T;
-  countryOfOrigin?: T;
-  weight?: T;
-  inStock?: T;
-  isFeatured?: T;
-  sizeVariants?:
-    | T
-    | {
+        sku?: T;
         size?: T;
-        priceAED?: T;
-        compareAtPriceAED?: T;
-        variantSku?: T;
-        inStock?: T;
-        id?: T;
-      };
-  inventoryLevels?:
-    | T
-    | {
-        warehouse?: T;
-        quantity?: T;
-        reservedQuantity?: T;
-        lowStockThreshold?: T;
-        id?: T;
-      };
-  shipping?:
-    | T
-    | {
+        price?: T;
+        compareAt?: T;
+        barcode?: T;
         weightGrams?: T;
-        dimensionsCm?:
+        inStock?: T;
+        isDefault?: T;
+        image?: T;
+        inventory?:
           | T
           | {
-              length?: T;
-              width?: T;
-              height?: T;
+              warehouse?: T;
+              quantity?: T;
+              reservedQuantity?: T;
+              lowStockThreshold?: T;
+              id?: T;
             };
-        shippingClass?: T;
-        freeShippingEligible?: T;
-        handlingDays?: T;
+        id?: T;
+      };
+  inStock?: T;
+  isFeatured?: T;
+  featuredRank?: T;
+  publishedAt?: T;
+  dietary?:
+    | T
+    | {
+        isHalal?: T;
+        isLactoseFree?: T;
+        isOrganic?: T;
+        isVegetarian?: T;
+        isVegan?: T;
+        isGlutenFree?: T;
       };
   ingredients?: T;
   allergens?: T;
@@ -1195,16 +1443,6 @@ export interface ProductsSelect<T extends boolean = true> {
         salt?: T;
         fibre?: T;
       };
-  dietary?:
-    | T
-    | {
-        isHalal?: T;
-        isLactoseFree?: T;
-        isOrganic?: T;
-        isVegetarian?: T;
-        isVegan?: T;
-        isGlutenFree?: T;
-      };
   storageInstructions?: T;
   packaging?: T;
   specifications?:
@@ -1214,12 +1452,35 @@ export interface ProductsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  shipping?:
+    | T
+    | {
+        dimensionsCm?:
+          | T
+          | {
+              length?: T;
+              width?: T;
+              height?: T;
+            };
+        shippingClass?: T;
+        freeShippingEligible?: T;
+        handlingDays?: T;
+      };
   meta?:
     | T
     | {
         title?: T;
         description?: T;
         image?: T;
+      };
+  source?:
+    | T
+    | {
+        provider?: T;
+        externalId?: T;
+        handle?: T;
+        url?: T;
+        importedAt?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1232,9 +1493,27 @@ export interface ProductsSelect<T extends boolean = true> {
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  parent?: T;
+  ancestors?: T;
+  path?: T;
+  isDepartment?: T;
   description?: T;
   image?: T;
-  parent?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions_select".
+ */
+export interface RegionsSelect<T extends boolean = true> {
+  slug?: T;
+  label?: T;
+  eyebrow?: T;
+  description?: T;
+  image?: T;
+  active?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1294,19 +1573,6 @@ export interface BrandsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-collections_select".
- */
-export interface ProductCollectionsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  image?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders_select".
  */
 export interface OrdersSelect<T extends boolean = true> {
@@ -1317,6 +1583,9 @@ export interface OrdersSelect<T extends boolean = true> {
     | T
     | {
         product?: T;
+        variantSku?: T;
+        titleSnapshot?: T;
+        sizeSnapshot?: T;
         quantity?: T;
         unitAmount?: T;
         currency?: T;
@@ -1566,6 +1835,21 @@ export interface OfficeLocationsSelect<T extends boolean = true> {
         lng?: T;
       };
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team_select".
+ */
+export interface TeamSelect<T extends boolean = true> {
+  role?: T;
+  name?: T;
+  photo?: T;
+  isFounder?: T;
+  quote?: T;
+  active?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -1,0 +1,182 @@
+{
+  "ranAt": "2026-09-02T03:02:24.897Z",
+  "rate": 3.6725,
+  "report": [
+    {
+      "handle": "caputo-00-baking-flour",
+      "title": "Caputo \"00\" Baking Flour",
+      "action": "preview",
+      "sku": "CAPUTO-00-BAKING-1KG",
+      "aed": 22,
+      "size": "1kg",
+      "images": 9,
+      "specs": 6,
+      "flags": []
+    },
+    {
+      "handle": "caputo-00-bread-flour",
+      "title": "Caputo \"00\" Bread Flour",
+      "action": "preview",
+      "sku": "CAPUTO-00-BREAD-1KG",
+      "aed": 22,
+      "size": "1kg",
+      "images": 9,
+      "specs": 6,
+      "flags": []
+    },
+    {
+      "handle": "caputo-00-chefs-flour",
+      "title": "Caputo \"00\" Chef's Flour",
+      "action": "preview",
+      "sku": "CAPUTO-00-CHEFS-1KG",
+      "aed": 22,
+      "size": "1kg",
+      "images": 9,
+      "specs": 6,
+      "flags": []
+    },
+    {
+      "handle": "caputo-00-pasta-fresca-flour",
+      "title": "Caputo \"00\" Pasta Fresca Flour",
+      "action": "preview",
+      "sku": "CAPUTO-00-PASTA-FRESCA-1KG",
+      "aed": 22,
+      "size": "1kg",
+      "images": 9,
+      "specs": 6,
+      "flags": []
+    },
+    {
+      "handle": "caputo-00-pizzeria-flour",
+      "title": "Caputo \"00\" Pizzeria Flour",
+      "action": "preview",
+      "sku": "CAPUTO-00-PIZZERIA-1KG",
+      "aed": 22,
+      "size": "1kg",
+      "images": 9,
+      "specs": 6,
+      "flags": []
+    },
+    {
+      "handle": "caputo-gluten-free-flour",
+      "title": "Caputo Gluten Free Flour",
+      "action": "preview",
+      "sku": "CAPUTO-FIOREGLUT-GF-1KG",
+      "aed": 44.03,
+      "size": "1kg",
+      "images": 9,
+      "specs": 4,
+      "flags": [
+        "Fioreglut. Marked gluten-free — the label states gluten-free wheat starch meeting the FDA threshold. NOT marked lactose-free despite being dairy-free by recipe: the label warns it is produced in a facility handling milk."
+      ]
+    },
+    {
+      "handle": "caputo-semolina-flour",
+      "title": "Caputo Semolina Flour",
+      "action": "preview",
+      "sku": "CAPUTO-SEMOLINA-1KG",
+      "aed": 22,
+      "size": "1kg",
+      "images": 9,
+      "specs": 6,
+      "flags": []
+    },
+    {
+      "handle": "unisex-new-logo-t-shirt",
+      "title": "Caputo T-Shirt",
+      "action": "preview",
+      "sku": "8695421_9526",
+      "aed": 91.78,
+      "size": "XS",
+      "images": 4,
+      "specs": 6,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin"
+      ]
+    },
+    {
+      "handle": "gift-card",
+      "title": "E-Gift Card",
+      "action": "preview",
+      "sku": "CAPUTO-GIFTCARD-1",
+      "aed": 36.73,
+      "size": "$10.00",
+      "images": 4,
+      "specs": 0,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin",
+        "Imported as a DRAFT, so it is in the admin but not on the storefront. It is a Shopify-app gift card: nothing in this store issues or redeems one, so publishing it would take a customer's money through Stripe and deliver nothing. Publish it once gift-card fulfilment exists."
+      ]
+    },
+    {
+      "handle": "caputo-embroidered-apron-white",
+      "title": "Embroidered Apron — White",
+      "action": "preview",
+      "sku": "1019094_9286",
+      "aed": 128.5,
+      "size": "One size",
+      "images": 3,
+      "specs": 5,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin",
+        "retitled from \"Embroidered Apron\" — two listings shared that title"
+      ]
+    },
+    {
+      "handle": "caputo-embroidered-apron-black",
+      "title": "Embroidered Apron — Black",
+      "action": "preview",
+      "sku": "3273436_9287",
+      "aed": 128.5,
+      "size": "One size",
+      "images": 3,
+      "specs": 5,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin",
+        "retitled from \"Embroidered Apron\" — two listings shared that title"
+      ]
+    },
+    {
+      "handle": "trucker-cap-logo-white",
+      "title": "Trucker Cap — White Logo",
+      "action": "preview",
+      "sku": "3356938_8747",
+      "aed": 110.14,
+      "size": "Black",
+      "images": 2,
+      "specs": 10,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin",
+        "retitled from \"Trucker Cap\" — two listings shared that title"
+      ]
+    },
+    {
+      "handle": "trucker-cap-logo-black",
+      "title": "Trucker Cap — Black Logo",
+      "action": "preview",
+      "sku": "3176089_8746",
+      "aed": 110.14,
+      "size": "One size",
+      "images": 2,
+      "specs": 10,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin",
+        "retitled from \"Trucker Cap\" — two listings shared that title"
+      ]
+    },
+    {
+      "handle": "vintage-logo-t-shirt",
+      "title": "Vintage Logo T-Shirt",
+      "action": "preview",
+      "sku": "4713276_10360",
+      "aed": 110.14,
+      "size": "Heather Dust / S",
+      "images": 18,
+      "specs": 5,
+      "flags": [
+        "origin recorded as US — the source states a multi-country sourcing pool, not an origin"
+      ]
+    }
+  ],
+  "problems": []
+}

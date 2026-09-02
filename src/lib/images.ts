@@ -1,10 +1,18 @@
-import type { Category, ProductCollection, Media } from '@/payload-types'
+import type { Category, Media } from '@/payload-types'
 
 /**
- * Static art bundled in `public/` for known collection slugs. Preferred over
- * CMS media because these survive container restarts.
+ * Static tile art bundled in `public/` for known category slugs.
+ *
+ * Preferred over CMS media: these ship with the build, so a category tile can
+ * never render as a grey box because an upload is missing or the blob store is
+ * slow. CMS media is the fallback, which is what a category added through the
+ * admin UI will use.
+ *
+ * The first block is the 15 departments that came over from product-collections
+ * (see migration 20260901_180000); the rest are leaf slugs waiting on the
+ * sub-category tree.
  */
-const COLLECTION_IMAGES: Record<string, string> = {
+const CATEGORY_IMAGES: Record<string, string> = {
   'caviar-selection': '/images/collections/caviar.avif',
   'truffle-treasury': '/images/collections/pantry.avif',
   'grand-cru-cocoa-chocolat': '/images/collections/coco.avif',
@@ -20,11 +28,8 @@ const COLLECTION_IMAGES: Record<string, string> = {
   'botanical-seed-selection': '/images/collections/seeds.avif',
   'curated-fine-beverages': '/images/collections/beverages.avif',
   'bespoke-tableware-cutlery': '/images/collections/cutlery.avif',
-}
 
-const CATEGORY_IMAGES: Record<string, string> = {
   caviar: '/images/collections/caviar.avif',
-  'caviar-selection': '/images/collections/caviar.avif',
   'caviar-gift-sets': '/images/collections/caviar.avif',
   'caviar-accessories': '/images/collections/cutlery.avif',
   chocolate: '/images/collections/coco.avif',
@@ -37,7 +42,11 @@ const CATEGORY_IMAGES: Record<string, string> = {
   'velterra-collection': '/images/collections/pantry.avif',
 }
 
-function fromMedia(image: unknown): string | null {
+/**
+ * URL for a populated upload field, largest useful size first. Returns null for
+ * an unset field or a relation that was fetched un-populated (depth: 0).
+ */
+export function mediaUrl(image: unknown): string | null {
   if (typeof image === 'object' && image !== null) {
     const media = image as Media
     return media.sizes?.hero?.url ?? media.sizes?.card?.url ?? media.url ?? null
@@ -45,11 +54,6 @@ function fromMedia(image: unknown): string | null {
   return null
 }
 
-export function getCollectionImage(col: ProductCollection): string | null {
-  return COLLECTION_IMAGES[col.slug] ?? fromMedia(col.image)
-}
-
-/** CMS media wins for categories — editors upload their own tile art. */
 export function getCategoryImage(cat: Category): string | null {
-  return fromMedia(cat.image) ?? CATEGORY_IMAGES[cat.slug] ?? null
+  return CATEGORY_IMAGES[cat.slug] ?? mediaUrl(cat.image)
 }

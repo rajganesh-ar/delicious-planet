@@ -27,7 +27,13 @@ export function dietaryWhere(facet: DietaryFacet): Where {
   return { [facet.field]: { equals: true } }
 }
 
-/** Price bands sized to the catalogue (AED 22–2200, median ~65). */
+/**
+ * Price bands in AED, the catalogue base currency.
+ *
+ * These filter on the rolled-up `basePrice` column rather than scanning the
+ * variants array, so a band can no longer be satisfied by some other size of
+ * the same product.
+ */
 export interface PriceBand {
   slug: string
   label: string

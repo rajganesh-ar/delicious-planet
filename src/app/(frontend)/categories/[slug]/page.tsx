@@ -26,10 +26,22 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const page = Number(sp.page) || 1
   const sort = (typeof sp.sort === 'string' ? sp.sort : '-createdAt') as string
 
+  // Products attach to leaves, so a department has none of its own once it has
+  // children — select the whole subtree. `ancestors` turns that into one extra
+  // indexed lookup rather than a recursive walk; see
+  // src/collections/hooks/categoryHooks.ts.
+  const descendants = await payload.find({
+    collection: 'categories',
+    where: { ancestors: { in: [category.id] } },
+    limit: 200,
+    depth: 0,
+  })
+  const categoryIds = [category.id, ...descendants.docs.map((c) => c.id)]
+
   const productsRes = await payload.find({
     collection: 'products',
     where: {
-      category: { equals: category.id },
+      category: { in: categoryIds },
       _status: { equals: 'published' },
     },
     sort,

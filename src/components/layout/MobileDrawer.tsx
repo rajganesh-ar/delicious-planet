@@ -148,8 +148,8 @@ export function MobileDrawer({ nav, onClose }: MobileDrawerProps) {
                         <span className="font-sans text-[12.5px] text-forest-green font-medium">View all</span>
                       </Link>
 
-                      {columns.map((column) => (
-                        <div key={column.heading} className="mt-3 first:mt-2">
+                      {columns.map((column, i) => (
+                        <div key={column.heading + i} className="mt-3 first:mt-2">
                           <span className="block font-heading text-[9px] uppercase tracking-[0.18em] font-semibold text-stone/70 mb-1">
                             {column.heading}
                           </span>

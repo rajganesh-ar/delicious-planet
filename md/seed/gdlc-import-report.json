@@ -1,0 +1,60 @@
+{
+  "ranAt": "2026-09-01T18:16:04.448Z",
+  "rate": 3.6725,
+  "report": [
+    {
+      "handle": "manchego-cheese-stuffed-olives",
+      "title": "Manchego Cheese Stuffed Olives",
+      "action": "updated",
+      "category": "mediterranean-olive-reserve",
+      "sku": "A04159",
+      "variants": [
+        {
+          "sku": "A04159",
+          "size": "400g",
+          "aed": 33.02,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": [
+        "Source copy says \"Vegan-friendly\", which is a copy-paste from the sibling olive listings — this one is stuffed with Manchego, a sheep's-milk cheese. Imported as vegetarian, not vegan, and not lactose-free, and the claim is struck from the description and specifications."
+      ]
+    },
+    {
+      "handle": "garlic-stuffed-olives",
+      "title": "Garlic Stuffed Olives",
+      "action": "updated",
+      "category": "mediterranean-olive-reserve",
+      "sku": "A04157",
+      "variants": [
+        {
+          "sku": "A04157",
+          "size": "400g",
+          "aed": 33.02,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": []
+    },
+    {
+      "handle": "pimiento-stuffed-olives",
+      "title": "Pimiento Stuffed Olives",
+      "action": "updated",
+      "category": "mediterranean-olive-reserve",
+      "sku": "A04158",
+      "variants": [
+        {
+          "sku": "A04158",
+          "size": "400g",
+          "aed": 33.02,
+          "inStock": true
+        }
+      ],
+      "images": 5,
+      "flags": []
+    }
+  ],
+  "problems": []
+}

@@ -11,7 +11,7 @@ export const metadata = {
 export default async function JournalPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{ page?: string; category?: string }>
 }) {
   const params = await searchParams
   const page = parseInt(params.page || '1', 10)
@@ -35,12 +35,19 @@ export default async function JournalPage({
     }),
   ])
 
+  // /recipes deep-links here with ?category=<slug>. An unknown slug would strand
+  // the reader on "nothing in this category yet", so only honour a real one.
+  const initialCategory = categoriesRes.docs.some((c) => c.slug === params.category)
+    ? (params.category ?? null)
+    : null
+
   return (
     <JournalPageClient
       posts={postsRes.docs}
       categories={categoriesRes.docs}
       totalPages={postsRes.totalPages}
       currentPage={page}
+      initialCategory={initialCategory}
     />
   )
 }

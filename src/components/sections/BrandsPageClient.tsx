@@ -7,6 +7,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { Cta, Eyebrow, GUTTER } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import type { BrandMark } from '@/lib/brand-marks'
 import type { Supplier, Media } from '@/payload-types'
 
 /**
@@ -24,20 +25,20 @@ import type { Supplier, Media } from '@/payload-types'
 
 interface BrandsPageClientProps {
   suppliers: Supplier[]
+  /** Marque board logos — the `brands` collection, bundled art as fallback. */
+  brandMarks: BrandMark[]
 }
 
 const MEDIA = {
   masthead: { src: '/images/sourcing/sourcing-agriculture.avif', label: 'Producer network — 3:2' },
 }
 
-/** Logos we hold on disk, shown as the masthead marque board. */
-const MARQUE = [
-  { src: '/images/partner-logo/caputo.avif', name: 'Caputo' },
-  { src: '/images/partner-logo/velsoro.avif', name: 'Velsoro' },
-  { src: '/images/partner-logo/admiral.webp', name: 'Admiral' },
-  { src: '/images/partner-logo/garcia.webp', name: 'Garcia' },
-  { src: '/images/partner-logo/cebon.png', name: 'Cebon' },
-]
+/**
+ * The marque board is a 3-column grid whose last cell is the masthead image, so
+ * five marks fill it exactly. More would push the masthead onto a third row and
+ * leave a hole beside it.
+ */
+const MARQUE_CELLS = 5
 
 const CRITERIA = [
   {
@@ -64,7 +65,7 @@ function websiteUrl(website: string): string {
   return website.startsWith('http') ? website : `https://${website}`
 }
 
-export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
+export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProps) {
   const [query, setQuery] = useState('')
   const [country, setCountry] = useState('')
 
@@ -125,17 +126,17 @@ export function BrandsPageClient({ suppliers }: BrandsPageClientProps) {
             <div className="lg:col-span-6">
               <FadeIn delay={0.1}>
                 <div className="grid grid-cols-3 border-t border-l border-cream/12">
-                  {MARQUE.map((logo) => (
+                  {brandMarks.slice(0, MARQUE_CELLS).map((mark) => (
                     <div
-                      key={logo.name}
-                      className="relative aspect-[3/2] border-r border-b border-cream/12 flex items-center justify-center p-4 md:p-5"
+                      key={mark.slug}
+                      className="relative aspect-3/2 border-r border-b border-cream/12 flex items-center justify-center p-4 md:p-5"
                     >
                       {/* `fill` + a sized parent: unlayered `img { height: auto }`
                           in styles.css beats height utilities on a sized <Image>. */}
                       <span className="relative block w-full h-full">
                         <Image
-                          src={logo.src}
-                          alt={logo.name}
+                          src={mark.src}
+                          alt={mark.name}
                           fill
                           sizes="(max-width: 1024px) 30vw, 15vw"
                           className="object-contain opacity-70 hover:opacity-100 transition-opacity"

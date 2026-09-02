@@ -1,4 +1,10 @@
-import type { Product, Media, Category, Brand, ProductCollection } from '@/payload-types'
+import type { Product, Media, Category, Brand } from '@/payload-types'
+import { countryName } from './countries'
+
+/** The catalogue stores AED only; other currencies are a display-time concern. */
+export const BASE_CURRENCY = 'AED'
+
+export type ProductVariant = NonNullable<Product['variants']>[number]
 
 export interface ProductPrice {
   amount: number
@@ -26,11 +32,73 @@ export function getThumbUrl(product: Product): string | undefined {
   return undefined
 }
 
-/** Products store multiple currencies; the storefront always renders the first. */
+export function getVariants(product: Product): ProductVariant[] {
+  return Array.isArray(product.variants) ? product.variants : []
+}
+
+/**
+ * The variant a product page opens on: the one flagged default, else the first
+ * in stock, else the first that exists.
+ */
+export function getDefaultVariant(product: Product): ProductVariant | null {
+  const variants = getVariants(product)
+  if (variants.length === 0) return null
+  return (
+    variants.find((v) => v.isDefault) ?? variants.find((v) => v.inStock !== false) ?? variants[0]!
+  )
+}
+
+/**
+ * The variant a listing card's price refers to — the cheapest one.
+ *
+ * Quick-add uses this rather than the default variant so the amount charged is
+ * always the amount the card displayed.
+ */
+export function getCheapestVariant(product: Product): ProductVariant | null {
+  const priced = getVariants(product).filter((v) => typeof v.price === 'number')
+  if (priced.length === 0) return null
+  return priced.reduce((min, v) => (v.price! < min.price! ? v : min), priced[0]!)
+}
+
+export function getVariantBySku(product: Product, sku: string | null | undefined): ProductVariant | null {
+  if (!sku) return null
+  return getVariants(product).find((v) => v.sku === sku) ?? null
+}
+
+export function variantPrice(variant: ProductVariant | null): ProductPrice | null {
+  if (!variant || typeof variant.price !== 'number') return null
+  return {
+    amount: variant.price,
+    currency: BASE_CURRENCY,
+    compareAt:
+      typeof variant.compareAt === 'number' && variant.compareAt > variant.price
+        ? variant.compareAt
+        : undefined,
+  }
+}
+
+/**
+ * The "from" price shown on listing cards — the cheapest variant, rolled up
+ * onto `basePrice` at save time so filters and sorts read one indexed column.
+ */
 export function getPrice(product: Product): ProductPrice | null {
-  const p = product.prices?.[0]
-  if (!p) return null
-  return { amount: p.amount, currency: p.currency, compareAt: p.compareAtAmount ?? undefined }
+  if (typeof product.basePrice === 'number') {
+    return {
+      amount: product.basePrice,
+      currency: BASE_CURRENCY,
+      compareAt:
+        typeof product.baseCompareAt === 'number' && product.baseCompareAt > product.basePrice
+          ? product.baseCompareAt
+          : undefined,
+    }
+  }
+  // Falls back to the variants themselves if the roll-up has not run yet.
+  return variantPrice(getDefaultVariant(product))
+}
+
+/** True when the product is sold in more than one size. */
+export function hasMultipleSizes(product: Product): boolean {
+  return getVariants(product).length > 1
 }
 
 export function getCategoryTitle(product: Product): string | null {
@@ -40,18 +108,16 @@ export function getCategoryTitle(product: Product): string | null {
   return null
 }
 
-export function getCollectionTitle(product: Product): string | null {
-  if (typeof product.collection === 'object' && product.collection !== null) {
-    return (product.collection as ProductCollection).title ?? null
-  }
-  return null
-}
-
 export function getBrandName(product: Product): string | null {
   if (typeof product.brand === 'object' && product.brand !== null) {
     return (product.brand as Brand).title ?? null
   }
   return null
+}
+
+/** Display name for the product's country of origin, from its ISO code. */
+export function getOriginCountryName(product: Product): string | null {
+  return countryName(product.origin?.country)
 }
 
 export function isOnSale(price: ProductPrice | null): boolean {
@@ -71,6 +137,6 @@ export function getDietaryTags(product: Product, limit = 2): string[] {
   return tags.slice(0, limit)
 }
 
-export function formatPrice(amount: number, currency = 'USD'): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)
+export function formatPrice(amount: number, currency = BASE_CURRENCY): string {
+  return new Intl.NumberFormat('en-AE', { style: 'currency', currency }).format(amount)
 }

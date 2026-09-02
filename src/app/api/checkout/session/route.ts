@@ -80,8 +80,13 @@ export async function POST(req: Request) {
       orderNumber: generateOrderNumber(),
       user: user ? user.id : null,
       guestEmail: user ? null : email,
+      // Snapshot what was bought. The product relationship is a convenience;
+      // these fields are what keeps the order readable after a catalogue reload.
       items: lines.map((l) => ({
         product: l.productId,
+        variantSku: l.variantSku,
+        titleSnapshot: l.title,
+        sizeSnapshot: l.size,
         quantity: l.quantity,
         unitAmount: l.unitAmount,
         currency: l.currency,
@@ -119,7 +124,7 @@ export async function POST(req: Request) {
           currency: currency.toLowerCase(),
           unit_amount: toMinorUnits(l.unitAmount, currency),
           product_data: {
-            name: l.title,
+            name: l.size ? `${l.title} — ${l.size}` : l.title,
             ...(l.imageUrl?.startsWith('http') ? { images: [l.imageUrl] } : {}),
           },
         },

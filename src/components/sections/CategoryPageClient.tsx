@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { FadeIn } from '@/components/animations/FadeIn'

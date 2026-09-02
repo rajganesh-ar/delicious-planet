@@ -36,7 +36,7 @@ export default async function SingleProductPage({ params }: Props) {
         { _status: { equals: 'published' } },
       ],
     },
-    limit: 4,
+    limit: 5,
     depth: 2,
   })
 

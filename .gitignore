@@ -52,3 +52,7 @@ node_modules/
 
 # Claude Code memory
 .claude/
+
+# Retired art kept locally for reference only — 29 MB of video and stills that
+# nothing in src/ references. The docs and seed scripts in md/ ARE tracked.
+/md/unused-assets/

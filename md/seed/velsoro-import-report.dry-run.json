@@ -1,0 +1,378 @@
+{
+  "ranAt": "2026-09-02T10:51:17.273Z",
+  "report": [
+    {
+      "handle": "caramel-pistachio-delights",
+      "title": "Caramel Pistachio Delight",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-CARAMEL-PISTACHIO-DELIGHTS",
+      "aed": 24.99,
+      "size": "56g",
+      "sizeFrom": "body-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "velvet-hazelnut-indulgence",
+      "title": "Milk Chocolate Almond 40g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-VELVET-HAZELNUT-INDULGENCE",
+      "aed": 24.99,
+      "size": "40g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "ruby-chocolate-bar-with-roasted-crushed-pistachios-56g",
+      "title": "Ruby Chocolate Bar with Roasted Crushed Pistachios – 56g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-RUBY-CHOCOLATE-BAR-WITH-ROASTED-CRUS-6590",
+      "aed": 29.99,
+      "size": "56g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "box-of-5-artisanal-chocolate-bars-40g-each",
+      "title": "Box of 5 Artisanal Chocolate Bars – 40g Each",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-BOX-OF-5-ARTISANAL-CHOCOLATE-BARS-40-9790",
+      "aed": 99,
+      "size": "5 × 40g",
+      "sizeFrom": "title-multipack",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "soft-pistachio-whisper",
+      "title": "Milk Chocolate Almond 56g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-SOFT-PISTACHIO-WHISPER",
+      "aed": 35.99,
+      "size": "56g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "midnight-almond-bliss",
+      "title": "Dark Chocolate 70% with Hazelnut Roasted 40g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-MIDNIGHT-ALMOND-BLISS",
+      "aed": 24.99,
+      "size": "40g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "sugar-free-plain-chocolate-with-maltitol",
+      "title": "Sugar Free Plain Chocolate (with Maltitol)",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-SUGAR-FREE-PLAIN-CHOCOLATE-WITH-MALTITOL",
+      "aed": 55,
+      "size": "One size",
+      "sizeFrom": "none",
+      "images": 2,
+      "flags": [
+        "no pack size stated in the title or the copy — imported as \"One size\""
+      ]
+    },
+    {
+      "handle": "ruby-chocolate-with-roasted-crushed-pistachios",
+      "title": "Ruby Chocolate with Roasted Crushed Pistachios",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-RUBY-CHOCOLATE-WITH-ROASTED-CRUSHED-1534",
+      "aed": 45,
+      "size": "One size",
+      "sizeFrom": "none",
+      "images": 2,
+      "flags": [
+        "no pack size stated in the title or the copy — imported as \"One size\""
+      ]
+    },
+    {
+      "handle": "milk-chocolate-with-roasted-crunched-almonds",
+      "title": "Milk Chocolate with Roasted Crunched Almonds",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-MILK-CHOCOLATE-WITH-ROASTED-CRUNCHED-8398",
+      "aed": 45,
+      "size": "One size",
+      "sizeFrom": "none",
+      "images": 2,
+      "flags": [
+        "no pack size stated in the title or the copy — imported as \"One size\""
+      ]
+    },
+    {
+      "handle": "sugar-free-dark-chocolate-bar-56g",
+      "title": "Sugar-Free Dark Chocolate Bar – 56g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-SUGAR-FREE-DARK-CHOCOLATE-BAR-56G",
+      "aed": 34.99,
+      "size": "56g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "sugar-free-dark-chocolate-bar-with-maltitol-40g",
+      "title": "Sugar-Free Dark Chocolate Bar with Maltitol – 40g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-SUGAR-FREE-DARK-CHOCOLATE-BAR-WITH-M-2750",
+      "aed": 29.99,
+      "size": "40g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "caramel-chocolate-with-roasted-crushed-pistachios",
+      "title": "Caramel Chocolate with Roasted Crushed Pistachios",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-CARAMEL-CHOCOLATE-WITH-ROASTED-CRUSH-9758",
+      "aed": 45,
+      "size": "One size",
+      "sizeFrom": "none",
+      "images": 2,
+      "flags": [
+        "no pack size stated in the title or the copy — imported as \"One size\""
+      ]
+    },
+    {
+      "handle": "dark-chocolate-70-with-roasted-crushed-hazelnuts",
+      "title": "Dark Chocolate 70% with Roasted Crushed Hazelnuts",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-DARK-CHOCOLATE-70-WITH-ROASTED-CRUSH-3806",
+      "aed": 45,
+      "size": "One size",
+      "sizeFrom": "none",
+      "images": 2,
+      "flags": [
+        "no pack size stated in the title or the copy — imported as \"One size\""
+      ]
+    },
+    {
+      "handle": "ruby-chocolate-bar-with-roasted-crushed-pistachios-40g",
+      "title": "Ruby Chocolate Bar with Roasted Crushed Pistachios – 40g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-RUBY-CHOCOLATE-BAR-WITH-ROASTED-CRUS-0334",
+      "aed": 24.99,
+      "size": "40g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "box-of-5-artisanal-chocolate-bars-100g-each",
+      "title": "Box of 5 Artisanal Chocolate Bars – 100g Each",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-BOX-OF-5-ARTISANAL-CHOCOLATE-BARS-10-3966",
+      "aed": 179.99,
+      "size": "5 × 100g",
+      "sizeFrom": "title-multipack",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "box-of-5-artisanal-chocolate-bars-56g-each",
+      "title": "Box of 5 Artisanal Chocolate Bars – 56g Each",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-BOX-OF-5-ARTISANAL-CHOCOLATE-BARS-56-3630",
+      "aed": 125.99,
+      "size": "5 × 56g",
+      "sizeFrom": "title-multipack",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "dark-chocolate-70-with-hazelnut-roasted",
+      "title": "Dark Chocolate 70% with Hazelnut Roasted 56g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-DARK-CHOCOLATE-70-WITH-HAZELNUT-ROASTED",
+      "aed": 35.99,
+      "size": "56g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "caramel-gold-espresso-bite",
+      "title": "Caramel Pistachio Delight 56g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "sku": "VLS-CARAMEL-GOLD-ESPRESSO-BITE",
+      "aed": 35.99,
+      "size": "56g",
+      "sizeFrom": "title-weight",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "box-of-24-mixed-artisanal-bonbons",
+      "title": "Box of 24 – Mixed Artisanal Bonbons",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-BOX-OF-24-MIXED-ARTISANAL-BONBONS",
+      "aed": 189,
+      "size": "24 pieces",
+      "sizeFrom": "title-count",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "box-of-4-dark-chocolate-with-raspberry-gelee-ganache",
+      "title": "Box of 4 mix",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-BOX-OF-4-DARK-CHOCOLATE-WITH-RASPBER-5630",
+      "aed": 35,
+      "size": "4 pieces",
+      "sizeFrom": "title-count",
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "box-of-12-mixed-artisanal-bonbons",
+      "title": "Box of 12 – Mixed Artisanal Bonbons",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-BOX-OF-12-MIXED-ARTISANAL-BONBONS",
+      "aed": 99,
+      "size": "12 pieces",
+      "sizeFrom": "title-count",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "salted-caramel-collection-box-of-24",
+      "title": "Salted Caramel Collection Box of 24",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-SALTED-CARAMEL-COLLECTION-BOX-OF-24",
+      "aed": 189,
+      "size": "24 pieces",
+      "sizeFrom": "title-count",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "salted-caramel-crunchy-box-of-12",
+      "title": "Salted Caramel Crunchy Box Of 12",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-SALTED-CARAMEL-CRUNCHY-BOX-OF-12",
+      "aed": 99,
+      "size": "12 pieces",
+      "sizeFrom": "title-count",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "box-of-48-mixed-artisanal-bonbons",
+      "title": "Box of 48 Mixed Artisanal Bonbons",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-BOX-OF-48-MIXED-ARTISANAL-BONBONS",
+      "aed": 349,
+      "size": "48 pieces",
+      "sizeFrom": "title-count",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "crimson-luxe",
+      "title": "Red Teddy",
+      "action": "preview",
+      "category": "teddy-bear",
+      "sku": "VLS-CRIMSON-LUXE",
+      "aed": 89,
+      "size": "4 pieces",
+      "sizeFrom": "body-count",
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "azure-dream",
+      "title": "Milky Bear",
+      "action": "preview",
+      "category": "teddy-bear",
+      "sku": "VLS-AZURE-DREAM",
+      "aed": 89,
+      "size": "4 pieces",
+      "sizeFrom": "body-count",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "untitled-jun22_03-15",
+      "title": "Darkish Teddy",
+      "action": "preview",
+      "category": "teddy-bear",
+      "sku": "VLS-UNTITLED-JUN22-03-15",
+      "aed": 89,
+      "size": "4 pieces",
+      "sizeFrom": "body-count",
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "golden-chocolate-teddy-bear-4-pieces-assorted-mix",
+      "title": "Golden Teddy",
+      "action": "preview",
+      "category": "teddy-bear",
+      "sku": "VLS-GOLDEN-CHOCOLATE-TEDDY-BEAR-4-PIECES-2654",
+      "aed": 89,
+      "size": "4 pieces",
+      "sizeFrom": "body-count",
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "blush-radiance",
+      "title": "Pinky Teddy",
+      "action": "preview",
+      "category": "teddy-bear",
+      "sku": "VLS-BLUSH-RADIANCE",
+      "aed": 89,
+      "size": "4 pieces",
+      "sizeFrom": "body-count",
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "custom-chocolate-box",
+      "title": "Custom Chocolate Box",
+      "action": "preview",
+      "category": "chocolate-boxes",
+      "sku": "VLS-CUSTOM-CHOCOLATE-BOX",
+      "aed": 99,
+      "size": "One size",
+      "sizeFrom": "none",
+      "images": 3,
+      "flags": [
+        "belongs to no collection upstream — filed by name"
+      ]
+    }
+  ],
+  "problems": []
+}

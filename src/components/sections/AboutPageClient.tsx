@@ -4,10 +4,21 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
-import type { OfficeLocation, Media } from '@/payload-types'
+import { mediaUrl } from '@/lib/images'
+import type { OfficeLocation, Media, Team } from '@/payload-types'
 
 interface AboutPageClientProps {
   offices: OfficeLocation[]
+  team: Team[]
+}
+
+/**
+ * Alt text for a portrait. A vacancy has no person in the frame, so it gets the
+ * role on its own rather than the words "Open role", which mean nothing read
+ * aloud in place of a face.
+ */
+function memberAlt(member: Team): string {
+  return member.name ? `${member.name}, ${member.role}` : member.role
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -25,7 +36,6 @@ const MEDIA = {
   manifesto: { src: '/images/about/about-cover.avif', label: 'Manifesto backdrop' },
   reach: { src: '/images/about/about-retail.avif', label: 'Regional operations — 4:3' },
   capability: { src: '/images/about/about-resturant.avif', label: 'Coordination layer' },
-  founder: { src: null, label: 'Founder portrait — 4:5' },
 } satisfies Record<string, { src: string | null; label: string }>
 
 /* ── Content ── */
@@ -139,14 +149,15 @@ const timeline = [
   },
 ]
 
-const team = [
-  { role: 'Founder & CEO', name: 'Nabila Mellaz' },
-  { role: 'Head of Sourcing', name: null },
-  { role: 'Creative Director', name: null },
-  { role: 'Head of B2B', name: null },
-]
+/* Founder is featured separately above, so the grid picks up from the next desk.
+   Reachable addresses for these people live in `@/lib/contact`. */
 
-export function AboutPageClient({ offices }: AboutPageClientProps) {
+export function AboutPageClient({ offices, team }: AboutPageClientProps) {
+  // Nothing stops two rows carrying `isFounder`; the page takes the first the
+  // sort gives it rather than rendering the card twice.
+  const founder = team.find((member) => member.isFounder) ?? null
+  const members = team.filter((member) => member !== founder)
+
   return (
     <div className="bg-cream">
       {/* ═══ 1 · HERO ═══════════════════════════════════════════ */}
@@ -485,62 +496,74 @@ export function AboutPageClient({ offices }: AboutPageClientProps) {
         </div>
       </section>
 
-      {/* ═══ 8 · FOUNDER + TEAM ═════════════════════════════════ */}
-      <section className={cn(GUTTER, BAND)}>
-        <SectionHead eyebrow="Our people" title="The team behind the taste" />
+      {/* ═══ 8 · FOUNDER + TEAM (CMS) ═══════════════════════════ */}
+      {team.length > 0 && (
+        <section className={cn(GUTTER, BAND)}>
+          <SectionHead eyebrow="Our people" title="The team behind the taste" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
-          {/* Founder */}
-          <FadeIn className="lg:col-span-5">
-            <div className="bg-white border border-stone/15 rounded-sm overflow-hidden h-full">
-              <div className="grid grid-cols-5">
-                <ImagePlaceholder
-                  {...MEDIA.founder}
-                  ratio="4/5"
-                  sizes="(max-width: 1024px) 40vw, 16vw"
-                  className="col-span-2"
-                />
-                <div className="col-span-3 p-4 md:p-5 flex flex-col justify-center">
-                  <Eyebrow>Founder perspective</Eyebrow>
-                  <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight mt-2">
-                    Nabila Mellaz
-                  </span>
-                  <span className="block font-sans text-[11px] uppercase tracking-[0.16em] text-stone mt-1">
-                    Founder &amp; CEO
-                  </span>
-                  <p className="m-0! mt-3! font-sans text-[12.5px] text-stone leading-relaxed">
-                    &ldquo;Working closely with honey production highlighted the importance of
-                    continuity across cultivation cycles. As sourcing expanded, the objective
-                    stayed the same: structured coordination between production environments and
-                    professional markets.&rdquo;
-                  </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
+            {/* Founder — the row with `isFounder`, rendered wide with its quote.
+                Without one the grid takes the full twelve columns. */}
+            {founder ? (
+              <FadeIn className="lg:col-span-5">
+                <div className="bg-white border border-stone/15 rounded-sm overflow-hidden h-full">
+                  <div className="grid grid-cols-5">
+                    <ImagePlaceholder
+                      src={mediaUrl(founder.photo)}
+                      alt={memberAlt(founder)}
+                      label="Founder portrait"
+                      ratio="4/5"
+                      sizes="(max-width: 1024px) 40vw, 16vw"
+                      className="col-span-2"
+                    />
+                    <div className="col-span-3 p-4 md:p-5 flex flex-col justify-center">
+                      <Eyebrow>Founder perspective</Eyebrow>
+                      <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight mt-2">
+                        {founder.name ?? 'Open role'}
+                      </span>
+                      <span className="block font-sans text-[11px] uppercase tracking-[0.16em] text-stone mt-1">
+                        {founder.role}
+                      </span>
+                      {founder.quote ? (
+                        <p className="m-0! mt-3! font-sans text-[12.5px] text-stone leading-relaxed">
+                          &ldquo;{founder.quote}&rdquo;
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </FadeIn>
-
-          {/* Team grid */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-            {team.map((member, i) => (
-              <FadeIn key={member.role} delay={i * 0.05}>
-                <ImagePlaceholder
-                  src={null}
-                  label="Portrait"
-                  ratio="1/1"
-                  sizes="(max-width: 640px) 50vw, 18vw"
-                  className="rounded-sm"
-                />
-                <span className="block font-sans text-[12px] font-medium text-obsidian leading-tight mt-2">
-                  {member.name ?? 'Open role'}
-                </span>
-                <span className="block font-sans text-[11px] text-stone/70 leading-tight mt-0.5">
-                  {member.role}
-                </span>
               </FadeIn>
-            ))}
+            ) : null}
+
+            {/* Team grid */}
+            <div
+              className={cn(
+                'grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4',
+                founder ? 'lg:col-span-7' : 'lg:col-span-12',
+              )}
+            >
+              {members.map((member, i) => (
+                <FadeIn key={member.id} delay={i * 0.05}>
+                  <ImagePlaceholder
+                    src={mediaUrl(member.photo)}
+                    alt={memberAlt(member)}
+                    label={member.name ?? 'Portrait'}
+                    ratio="1/1"
+                    sizes="(max-width: 640px) 50vw, 18vw"
+                    className="rounded-sm"
+                  />
+                  <span className="block font-sans text-[12px] font-medium text-obsidian leading-tight mt-2">
+                    {member.name ?? 'Open role'}
+                  </span>
+                  <span className="block font-sans text-[11px] text-stone/70 leading-tight mt-0.5">
+                    {member.role}
+                  </span>
+                </FadeIn>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ═══ 9 · OFFICES (CMS) ══════════════════════════════════ */}
       {offices.length > 0 && (

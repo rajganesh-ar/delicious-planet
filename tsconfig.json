@@ -40,6 +40,8 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "md/unused",
+    "md/unused-assets"
   ]
 }

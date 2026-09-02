@@ -3,7 +3,6 @@ import config from '@/payload.config'
 import { notFound } from 'next/navigation'
 import { JournalPostClient } from '@/components/sections/JournalPostClient'
 import type { Metadata } from 'next'
-import type { Media } from '@/payload-types'
 
 export async function generateMetadata({
   params,

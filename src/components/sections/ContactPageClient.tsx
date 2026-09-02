@@ -8,6 +8,7 @@ import { FAQSection } from '@/components/sections/FAQSection'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { CONTACT, PEOPLE } from '@/lib/contact'
 import type { OfficeLocation, Media } from '@/payload-types'
 
 interface ContactPageClientProps {
@@ -24,15 +25,6 @@ const MEDIA = {
   formAside: { src: '/images/contact/contact-misc.avif', label: 'Team at work — 4:3' },
   locations: { src: null, label: 'Operating regions' },
 } satisfies Record<string, { src: string | null; label: string }>
-
-/* Kept in step with the footer and the floating contact widget. */
-const CONTACT = {
-  email: 'info@deliciousplanet.com',
-  phone: '+1234567890',
-  phoneLabel: '+1 234 567 890',
-  whatsapp: 'https://wa.me/1234567890',
-  hours: 'Mon–Fri, 9am–6pm GMT',
-}
 
 const CHANNELS = [
   {
@@ -303,7 +295,43 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
         </ul>
       </section>
 
-      {/* ═══ 3 · ENQUIRY ════════════════════════════════════════ */}
+      {/* ═══ 3 · NAMED DESKS ════════════════════════════════════ */}
+      <section className={cn(GUTTER, BAND)}>
+        <SectionHead
+          eyebrow="Direct lines"
+          title="Who you'll be speaking to"
+          lede="Write to the desk that handles your request and skip the general queue."
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+          {PEOPLE.map((person, i) => (
+            <FadeIn key={person.email} delay={i * 0.05}>
+              <article className="h-full bg-white border border-stone/15 rounded-sm p-4 md:p-5">
+                <span className="block font-luxury text-base md:text-lg font-semibold text-obsidian leading-tight">
+                  {person.name}
+                </span>
+                <span className="block font-sans text-[10px] uppercase tracking-[0.16em] text-forest-green mt-1">
+                  {person.role}
+                </span>
+                <a href={`mailto:${person.email}`} className="group no-underline block mt-3">
+                  <span className="font-sans text-[12.5px] text-stone group-hover:text-forest-green transition-colors break-all">
+                    {person.email}
+                  </span>
+                </a>
+                {person.phone ? (
+                  <a href={`tel:${person.phone}`} className="group no-underline block mt-1">
+                    <span className="font-sans text-[12.5px] text-stone group-hover:text-forest-green transition-colors">
+                      {person.phoneLabel ?? person.phone}
+                    </span>
+                  </a>
+                ) : null}
+              </article>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ 4 · ENQUIRY ════════════════════════════════════════ */}
       <section id="enquiry" className={cn(GUTTER, BAND, 'scroll-mt-[calc(var(--header-h)+1.5rem)]')}>
         <SectionHead
           eyebrow="Send a message"
@@ -586,13 +614,47 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
         </div>
       </section>
 
-      {/* ═══ 4 · LOCATIONS ══════════════════════════════════════ */}
+      {/* ═══ 5 · LOCATIONS ══════════════════════════════════════ */}
       <section className={cn(GUTTER, BAND, 'bg-parchment')}>
         <SectionHead
           eyebrow="Where we are"
           title="Offices & operating regions"
           lede="Headquartered in the UAE with agricultural roots in Algeria, coordinating across North Africa, Southern Europe and the Middle East."
         />
+
+        <FadeIn>
+          <div className="bg-white border border-stone/15 rounded-sm p-4 md:p-5 mb-3 md:mb-4 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+              <Eyebrow>Head office</Eyebrow>
+              <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight mt-2">
+                {CONTACT.address.city}, {CONTACT.address.country}
+              </span>
+              <address className="not-italic mt-2">
+                {CONTACT.address.lines.map((line) => (
+                  <span
+                    key={line}
+                    className="block font-sans text-[12.5px] text-stone leading-relaxed"
+                  >
+                    {line}
+                  </span>
+                ))}
+              </address>
+            </div>
+            <div className="sm:text-right shrink-0">
+              <a href={`tel:${CONTACT.phone}`} className="group no-underline block">
+                <span className="font-sans text-[12.5px] text-stone group-hover:text-forest-green transition-colors">
+                  {CONTACT.phoneLabel}
+                </span>
+              </a>
+              <a href={`mailto:${CONTACT.email}`} className="group no-underline block mt-1">
+                <span className="font-sans text-[12.5px] text-stone group-hover:text-forest-green transition-colors break-all">
+                  {CONTACT.email}
+                </span>
+              </a>
+              <span className="block font-sans text-[11px] text-stone/60 mt-2">{CONTACT.hours}</span>
+            </div>
+          </div>
+        </FadeIn>
 
         {offices.length > 0 ?
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">

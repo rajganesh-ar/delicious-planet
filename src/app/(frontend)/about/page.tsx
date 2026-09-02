@@ -11,11 +11,22 @@ export const metadata = {
 export default async function AboutPage() {
   const payload = await getPayload({ config: await config })
 
-  const officesRes = await payload.find({
-    collection: 'office-locations',
-    limit: 10,
-    depth: 1,
-  })
+  const [officesRes, teamRes] = await Promise.all([
+    payload.find({
+      collection: 'office-locations',
+      limit: 10,
+      depth: 1,
+    }),
+    // `not_equals: false` rather than `equals: true` so a row written before the
+    // field existed — or one saved with it null — still shows.
+    payload.find({
+      collection: 'team',
+      where: { active: { not_equals: false } },
+      limit: 50,
+      depth: 1,
+      sort: 'sortOrder',
+    }),
+  ])
 
-  return <AboutPageClient offices={officesRes.docs} />
+  return <AboutPageClient offices={officesRes.docs} team={teamRes.docs} />
 }

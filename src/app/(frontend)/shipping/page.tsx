@@ -149,7 +149,7 @@ export default function ShippingPolicyPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 items-start">
           {/* Contents */}
-          <nav aria-label="Shipping policy sections" className="lg:col-span-4 lg:sticky lg:top-32">
+          <nav aria-label="Shipping policy sections" className="lg:col-span-4 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
             <div className="bg-white border border-stone/15 rounded-sm p-4 md:p-5">
               <Eyebrow>Contents</Eyebrow>
               <ul className="list-none m-0 p-0 mt-3">

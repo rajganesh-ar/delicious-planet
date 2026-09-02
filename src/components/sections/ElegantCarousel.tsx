@@ -123,7 +123,7 @@ export default function ElegantCarousel({
                   {slide.href ? (
                     <Link
                       href={slide.href}
-                      className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-obsidian font-heading border-b border-obsidian pb-0.5 hover:text-stone hover:border-stone transition-colors duration-200 no-underline"
+                      className="inline-flex items-center gap-2 min-h-11 sm:min-h-0 text-[10px] uppercase tracking-[0.2em] text-obsidian font-heading border-b border-obsidian pb-0.5 hover:text-stone hover:border-stone transition-colors duration-200 no-underline"
                     >
                       {slide.cta}
                       <ArrowRight className="h-3 w-3" />
@@ -142,14 +142,14 @@ export default function ElegantCarousel({
             <div className="flex items-center gap-3 mt-8 lg:mt-10">
               <button
                 onClick={goPrev}
-                className="h-9 w-9 border border-obsidian/15 flex items-center justify-center text-obsidian/50 hover:border-obsidian/40 hover:text-obsidian transition-colors duration-200 cursor-pointer"
+                className="h-11 w-11 sm:h-9 sm:w-9 border border-obsidian/15 flex items-center justify-center text-obsidian/50 hover:border-obsidian/40 hover:text-obsidian transition-colors duration-200 cursor-pointer bg-transparent"
                 aria-label="Previous"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={goNext}
-                className="h-9 w-9 border border-obsidian/15 flex items-center justify-center text-obsidian/50 hover:border-obsidian/40 hover:text-obsidian transition-colors duration-200 cursor-pointer"
+                className="h-11 w-11 sm:h-9 sm:w-9 border border-obsidian/15 flex items-center justify-center text-obsidian/50 hover:border-obsidian/40 hover:text-obsidian transition-colors duration-200 cursor-pointer bg-transparent"
                 aria-label="Next"
               >
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -190,8 +190,9 @@ export default function ElegantCarousel({
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className="text-left group cursor-pointer"
+            className="text-left group cursor-pointer flex flex-col justify-center min-h-11 sm:min-h-0 bg-transparent border-0 p-0"
             aria-label={`Go to ${item.title}`}
+            aria-current={index === currentIndex}
           >
             <div className="h-0.5 bg-mist overflow-hidden mb-2">
               <div
@@ -202,7 +203,12 @@ export default function ElegantCarousel({
                 }}
               />
             </div>
-            <span className="text-[10px] text-stone truncate font-heading">{item.title}</span>
+            {/* Hidden below sm: three equal columns leave ~118px each on a
+                phone, so every title truncated. The bars still read as
+                progress without them. */}
+            <span className="hidden sm:block text-[10px] text-stone truncate font-heading">
+              {item.title}
+            </span>
           </button>
         ))}
       </div>

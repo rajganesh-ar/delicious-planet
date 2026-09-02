@@ -19,7 +19,7 @@ function SuccessInner() {
 
   return (
     <>
-      <section className="relative bg-obsidian overflow-hidden pt-20 sm:pt-24">
+      <section className="relative bg-obsidian overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
         <Container size="lg" className="relative py-16 sm:py-20 md:py-24 lg:py-28">
@@ -37,7 +37,7 @@ function SuccessInner() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Heading as="h1" variant="display" className="text-cream m-0">
+            <Heading as="h1" variant="display" className="text-cream">
               Thank you
             </Heading>
           </motion.div>
@@ -71,15 +71,15 @@ function SuccessInner() {
             </svg>
           </div>
 
-          <Heading as="h2" variant="section" className="m-0 mb-4">
+          <Heading as="h2" variant="section" className="mb-4!">
             Your order has been received
           </Heading>
 
-          <ProseText size="md" tone="muted" className="m-0 mb-3">
+          <ProseText size="md" tone="muted" className="mb-3!">
             Your payment has gone through and our team is preparing your order. We&apos;ll be in
             touch with shipping details shortly.
           </ProseText>
-          <ProseText size="md" tone="muted" className="m-0 mb-10 sm:mb-12">
+          <ProseText size="md" tone="muted" className="mb-10! sm:mb-12!">
             A copy of this confirmation will be sent to your email.
           </ProseText>
 

@@ -267,7 +267,9 @@ function OptionRow({
       href={href}
       onClick={onNavigate}
       aria-pressed={active}
-      className="group flex items-center gap-2 py-1 no-underline"
+      /* Roomier rows below lg, where this panel is the mobile filter sheet and
+         these anchors are the only tap targets in it. */
+      className="group flex items-center gap-2 py-2.5 lg:py-1 no-underline"
     >
       <span
         className={cn(

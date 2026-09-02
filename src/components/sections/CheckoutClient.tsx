@@ -205,7 +205,7 @@ export function CheckoutClient() {
 
   return (
     <>
-      <section className="relative bg-obsidian overflow-hidden pt-20 sm:pt-24">
+      <section className="relative bg-obsidian overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
         <Container size="lg" className="relative py-12 sm:py-16 md:py-20 lg:py-24">
@@ -223,7 +223,7 @@ export function CheckoutClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Heading as="h1" variant="display" className="text-cream m-0">
+            <Heading as="h1" variant="display" className="text-cream">
               Place your order
             </Heading>
           </motion.div>
@@ -232,7 +232,7 @@ export function CheckoutClient() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <ProseText size="md" tone="cream" className="mt-4 mb-0 max-w-lg">
+            <ProseText size="md" tone="cream" className="mt-4! max-w-lg">
               Confirm your details, then pay securely by card. Our team arranges shipping once
               payment clears.
             </ProseText>
@@ -258,7 +258,7 @@ export function CheckoutClient() {
               )}
 
               <div>
-                <Heading as="h2" variant="card" className="m-0 mb-6">
+                <Heading as="h2" variant="card" className="mb-6!">
                   Contact
                 </Heading>
                 <FormField label="Email" required htmlFor="checkout-email">
@@ -285,7 +285,7 @@ export function CheckoutClient() {
 
               {user && savedAddresses.length > 0 && (
                 <div>
-                  <Heading as="h2" variant="card" className="m-0 mb-6">
+                  <Heading as="h2" variant="card" className="mb-6!">
                     Shipping address
                   </Heading>
                   <div className="space-y-3 mb-4">
@@ -339,7 +339,7 @@ export function CheckoutClient() {
               {(useNewAddress || savedAddresses.length === 0) && (
                 <div>
                   {savedAddresses.length === 0 && (
-                    <Heading as="h2" variant="card" className="m-0 mb-6">
+                    <Heading as="h2" variant="card" className="mb-6!">
                       Shipping address
                     </Heading>
                   )}
@@ -432,7 +432,7 @@ export function CheckoutClient() {
 
             <aside className="lg:sticky lg:self-start" style={{ top: 'calc(var(--header-h) + 16px)' }}>
               <div className="border border-mist/60 rounded-sm p-5 sm:p-6 bg-white">
-                <Heading as="h2" variant="card" className="m-0 mb-6">
+                <Heading as="h2" variant="card" className="mb-6!">
                   Order summary
                 </Heading>
 

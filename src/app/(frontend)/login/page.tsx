@@ -94,7 +94,7 @@ function LoginForm() {
           label="Password"
           htmlFor="login-password"
           action={
-            <Link href="/forgot-password" className="no-underline">
+            <Link href="/forgot-password" className="no-underline inline-flex items-center min-h-11">
               <span className="font-sans text-[11.5px] text-stone hover:text-obsidian transition-colors">
                 Forgot password?
               </span>

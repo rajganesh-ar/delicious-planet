@@ -65,12 +65,16 @@ export function ShopToolbar({
       className="sticky z-40 bg-cream/95 backdrop-blur-sm border-b border-stone/15"
       style={{ top: 'var(--header-h)' }}
     >
-      <div className="px-6 lg:px-16 py-2.5 flex items-center gap-3 md:gap-5">
+      {/* Wraps below md: the Filters button and the sort select both hold their
+          intrinsic width, so on one row the search field is the only thing that
+          can absorb the shortfall and it collapsed to ~40px. It takes its own
+          full-width row instead. */}
+      <div className="px-6 lg:px-16 py-2.5 flex flex-wrap items-center gap-2 md:gap-5">
         {/* Mobile: opens the filter sheet. Desktop has the panel in view. */}
         <button
           type="button"
           onClick={onOpenFilters}
-          className="lg:hidden inline-flex items-center gap-2 h-9 px-3 rounded-sm border border-stone/25 bg-white cursor-pointer text-obsidian transition-colors hover:border-forest-green"
+          className="lg:hidden inline-flex items-center gap-2 h-11 px-3 rounded-sm border border-stone/25 bg-white cursor-pointer text-obsidian transition-colors hover:border-forest-green"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
             <path d="M3 6h18M6 12h12M10 18h4" />
@@ -91,7 +95,7 @@ export function ShopToolbar({
 
         {/* In-results search — narrows what is already on screen, unlike the
             navbar search which starts a fresh query. */}
-        <label className="flex-1 min-w-0 flex items-center gap-2 h-9 px-2.5 rounded-sm border border-stone/20 bg-white focus-within:border-forest-green transition-colors">
+        <label className="order-last md:order-0 basis-full md:basis-auto md:flex-1 min-w-0 flex items-center gap-2 h-11 md:h-9 px-2.5 rounded-sm border border-stone/20 bg-white focus-within:border-forest-green transition-colors">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className="text-stone/45 shrink-0" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-3.5-3.5" />
@@ -106,14 +110,14 @@ export function ShopToolbar({
           />
         </label>
 
-        <label className="flex items-center gap-2 shrink-0">
+        <label className="flex items-center gap-2 shrink-0 ml-auto md:ml-0">
           <span className="hidden md:inline font-heading text-[10px] uppercase tracking-[0.14em] font-semibold text-stone/60">
             Sort
           </span>
           <select
             value={activeSort}
             onChange={(e) => apply({ sort: e.target.value })}
-            className="h-9 pl-2.5 pr-7 rounded-sm border border-stone/20 bg-white font-sans text-[12px] text-obsidian outline-none cursor-pointer transition-colors hover:border-forest-green focus:border-forest-green appearance-none bg-no-repeat"
+            className="h-11 md:h-9 pl-2.5 pr-7 rounded-sm border border-stone/20 bg-white font-sans text-[12px] text-obsidian outline-none cursor-pointer transition-colors hover:border-forest-green focus:border-forest-green appearance-none bg-no-repeat"
             style={{
               backgroundImage:
                 "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2.4'><path d='M5 8l7 7 7-7'/></svg>\")",

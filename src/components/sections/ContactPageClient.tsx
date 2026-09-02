@@ -347,7 +347,11 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
               <div
                 role="tablist"
                 aria-label="Enquiry type"
-                className="inline-flex border border-stone/20 rounded-sm overflow-hidden mb-5 md:mb-6"
+                /* Full width below sm and the two tabs share it evenly. As an
+                   `inline-flex` its buttons could not shrink below their label
+                   width, so at 360px they wrapped to two lines and anything
+                   narrower was clipped by the `overflow-hidden`. */
+                className="flex w-full sm:inline-flex sm:w-auto border border-stone/20 rounded-sm overflow-hidden mb-5 md:mb-6"
               >
                 {(
                   [
@@ -366,7 +370,7 @@ export function ContactPageClient({ offices }: ContactPageClientProps) {
                       setError(null)
                     }}
                     className={cn(
-                      'px-4 py-2.5 border-0 cursor-pointer transition-colors font-sans text-[11px] uppercase tracking-[0.14em] font-medium',
+                      'flex-1 sm:flex-none min-h-11 px-3 sm:px-4 py-2.5 border-0 cursor-pointer transition-colors font-sans text-[10px] sm:text-[11px] uppercase tracking-widest sm:tracking-[0.14em] font-medium whitespace-nowrap',
                       activeTab === key ?
                         'bg-forest-green text-cream'
                       : 'bg-transparent text-stone hover:text-obsidian',

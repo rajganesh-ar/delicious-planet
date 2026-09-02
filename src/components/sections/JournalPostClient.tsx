@@ -134,7 +134,7 @@ export function JournalPostClient({ post, relatedPosts }: JournalPostClientProps
           </div>
 
           {/* Aside */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-32 flex flex-col gap-3 md:gap-4">
+          <aside className="lg:col-span-4 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] flex flex-col gap-3 md:gap-4">
             {categories.length > 0 ? (
               <FadeIn delay={0.1}>
                 <div className="bg-white border border-stone/15 rounded-sm p-4 md:p-5">

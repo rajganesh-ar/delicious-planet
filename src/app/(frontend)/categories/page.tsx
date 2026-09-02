@@ -32,7 +32,7 @@ export default async function CategoriesIndexPage() {
   return (
     <div className="bg-white min-h-screen">
       {/* ── Hero Banner ───────────────────────────────────────── */}
-      <div className="relative bg-obsidian overflow-hidden pt-20">
+      <div className="relative bg-obsidian overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -43,7 +43,7 @@ export default async function CategoriesIndexPage() {
           }}
         />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
-        <div className="relative max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-24">
+        <div className="relative max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-24">
           <FadeIn>
             <p className="text-[10px] uppercase tracking-[0.22em] text-gold/80 font-heading font-medium m-0 mb-4 flex items-center gap-3">
               <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />

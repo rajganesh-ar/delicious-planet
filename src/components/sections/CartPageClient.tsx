@@ -72,11 +72,17 @@ export function CartPageClient() {
               </p>
             </div>
 
-            {/* Step rail */}
-            <ol className="list-none m-0 p-0 flex items-center gap-0 shrink-0">
+            {/* Step rail. It used to be `shrink-0` in a column that is only
+                ~342px wide on a phone, so its 348px of content had nowhere to
+                go and the connector rules ran straight through the labels. It
+                wraps now, and the connectors only appear once there is room
+                for them. */}
+            <ol className="list-none m-0 p-0 flex flex-wrap items-center gap-x-3 gap-y-2 lg:shrink-0">
               {STEPS.map((step, i) => (
                 <li key={step} className="flex items-center gap-3">
-                  {i > 0 ? <span aria-hidden className="w-6 md:w-10 h-px bg-cream/20" /> : null}
+                  {i > 0 ? (
+                    <span aria-hidden className="hidden sm:block w-6 md:w-10 h-px bg-cream/20" />
+                  ) : null}
                   <span className="flex items-center gap-2">
                     <span
                       className={cn(

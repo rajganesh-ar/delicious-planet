@@ -64,7 +64,9 @@ export function HomeHero() {
 
   return (
     <section
-      className="relative w-full h-[68vh] min-h-105 max-h-170 overflow-hidden bg-obsidian"
+      /* svh, not vh: with vh the hero resizes every time mobile browser chrome
+         collapses on scroll, which shifts the headline mid-read. */
+      className="relative w-full h-[68svh] min-h-105 max-h-170 overflow-hidden bg-obsidian"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -146,7 +148,10 @@ export function HomeHero() {
       </div>
 
       {/* Dots */}
-      <div className="absolute z-10 bottom-5 md:bottom-7 left-0 right-0 flex justify-center gap-2">
+      {/* The dot is the mark; the button around it is the target. Bare 6px dots
+          are unhittable on a phone, so each one carries a 44px-tall hit area
+          and the visual bar lives on an inner span. */}
+      <div className="absolute z-10 bottom-2 md:bottom-4 left-0 right-0 flex justify-center">
         {SLIDES.map((s, i) => (
           <button
             key={s.image}
@@ -154,10 +159,14 @@ export function HomeHero() {
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}
             aria-current={i === index}
-            className={`h-1.5 rounded-pill cursor-pointer border-0 transition-all duration-300 ${
-              i === index ? 'w-6 bg-gold' : 'w-1.5 bg-cream/45 hover:bg-cream/70'
-            }`}
-          />
+            className="h-11 px-2.5 flex items-center justify-center bg-transparent border-0 cursor-pointer"
+          >
+            <span
+              className={`block h-1.5 rounded-pill transition-all duration-300 ${
+                i === index ? 'w-6 bg-gold' : 'w-1.5 bg-cream/45'
+              }`}
+            />
+          </button>
         ))}
       </div>
     </section>

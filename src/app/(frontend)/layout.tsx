@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Viewport } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { ClientShell } from '@/components/layout/ClientShell'
@@ -14,6 +15,19 @@ export const metadata = {
   title: 'Delicious Planet — Premium Food Ingredients',
   description:
     "The world's finest food ingredients, curated from artisan producers across the globe.",
+}
+
+/**
+ * Declared explicitly rather than left to Next's default. This layout used to
+ * render its own <head> element, which suppresses the framework's automatic
+ * metadata injection — the tag went missing entirely and every phone laid the
+ * site out at 980px and shrank it to fit, so no `lg:` rule ever applied. The
+ * font links below are now plain children that React hoists into <head>; keep
+ * it that way, and keep this export.
+ */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 /**
@@ -91,15 +105,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <head>
+      <body>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
           rel="stylesheet"
         />
-      </head>
-      <body>
         <ClientShell nav={nav} searchScopes={searchScopes} announcements={announcements}>
           <main>{children}</main>
         </ClientShell>

@@ -28,7 +28,10 @@ export function Container({
     Tag,
     {
       className: cn(
-        'mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-12',
+        // 24px at phone widths, matching GUTTER (`px-6 lg:px-16`) in
+        // sections/editorial.tsx — the two container systems used to disagree by
+        // 4px, so the content edge shifted between the storefront and checkout.
+        'mx-auto w-full px-6 md:px-8 lg:px-12',
         sizeClass[size],
         className,
       ),

@@ -159,27 +159,31 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
           </div>
         )}
 
-        {/* mt-auto pins the CTAs to the bottom so they align across a row */}
-        <div className="grid grid-cols-2 gap-1.5 mt-auto pt-2">
+        {/* mt-auto pins the CTAs to the bottom so they align across a row.
+            Single column at the 2-up mobile grid: side by side the cells are
+            ~70px and both labels wrap onto two lines inside a 36px button. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-auto pt-2">
           <button
             type="button"
             onClick={handleQuickAdd}
             disabled={!product.inStock || !price}
-            className="flex items-center justify-center gap-1 h-9 sm:h-8 bg-obsidian text-cream text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-obsidian cursor-pointer transition-colors hover:bg-forest-green hover:border-forest-green disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-obsidian rounded-sm"
+            className="flex items-center justify-center gap-1 h-11 sm:h-8 bg-obsidian text-cream text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-obsidian cursor-pointer transition-colors hover:bg-forest-green hover:border-forest-green disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-obsidian rounded-sm"
           >
             <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
-            <span>{product.inStock ? 'Add to Cart' : 'Sold Out'}</span>
+            <span className="whitespace-nowrap">
+              {product.inStock ? 'Add to Cart' : 'Sold Out'}
+            </span>
           </button>
 
           <Link
             href={`/products/${product.slug}`}
-            className="flex items-center justify-center gap-1 h-9 sm:h-8 bg-transparent text-obsidian text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-forest-green/40 no-underline transition-colors hover:bg-forest-green hover:text-cream hover:border-forest-green rounded-sm"
+            className="flex items-center justify-center gap-1 h-11 sm:h-8 bg-transparent text-obsidian text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-forest-green/40 no-underline transition-colors hover:bg-forest-green hover:text-cream hover:border-forest-green rounded-sm"
           >
-            <span>View More</span>
+            <span className="whitespace-nowrap">View More</span>
             <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>

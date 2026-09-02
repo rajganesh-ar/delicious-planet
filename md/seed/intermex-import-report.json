@@ -1,0 +1,1775 @@
+{
+  "ranAt": "2026-09-02T12:21:55.416Z",
+  "report": [
+    {
+      "handle": "botanera-sauce-370-ml",
+      "title": "Botanera Sauce 370 ml",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-BOTANERA-SAUCE-370-ML",
+      "aed": 15,
+      "images": 1,
+      "flags": [
+        "category \"mexican-sauces\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "chocorroles-8-pieces",
+      "title": "Chocorroles 8 pieces",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-CHOCORROLES-8-PIECES",
+      "aed": 33.5,
+      "images": 1,
+      "flags": [
+        "category \"mexican-candy\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "maseca-tamal-corn-flour",
+      "title": "Corn Flour Tamal ,Maseca",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MASECA-TAMAL-CORN-FLOUR",
+      "aed": 25.5,
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-chipotles-adobados-chipotle-peppers-in-adobo-sauce",
+      "title": "Chipotles Adobados (Chipotle Peppers in Adobo Sauce), La Costena",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-CHIPOTLES-ADOBADOS-CHIPOTLE-PEPP-8944",
+      "aed": 12.4,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "mexican-candy-bag-mix",
+      "title": "Mexican Candy bag (Mix)",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-MEXICAN-CANDY-BAG-MIX",
+      "aed": 25,
+      "images": 1,
+      "flags": [
+        "category \"mexican-candy\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "fit-panda-vegan-chicken-instant-noodles",
+      "title": "Fit Panda Vegan Chicken Instant Noodles",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-FIT-PANDA-VEGAN-CHICKEN-INSTANT-NOODLES",
+      "aed": 18,
+      "images": 2,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples",
+        "origin recorded as MX but the title names a non-Mexican brand — verify"
+      ]
+    },
+    {
+      "handle": "fit-panda-flamin-hot-instant-noodles",
+      "title": "FIT PANDA Flamin Hot Instant Noodles",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-FIT-PANDA-FLAMIN-HOT-INSTANT-NOODLES",
+      "aed": 18,
+      "images": 2,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples",
+        "origin recorded as MX but the title names a non-Mexican brand — verify"
+      ]
+    },
+    {
+      "handle": "pinata2go-party-kit-captain-1",
+      "title": "Pinata2Go Party Kit Captain",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-PINATA2GO-PARTY-KIT-CAPTAIN-1",
+      "aed": 110,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "pinata2go-party-kit-captain",
+      "title": "Pinata2Go Party Kit Clown",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-PINATA2GO-PARTY-KIT-CAPTAIN",
+      "aed": 120,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "pinata2go-party-kit-bosque-copy",
+      "title": "Pinata2Go Party Kit Princess",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-PINATA2GO-PARTY-KIT-BOSQUE-COPY",
+      "aed": 120,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "assorted-mexican-candy-bag",
+      "title": "Assorted Mexican Candy Bag",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-ASSORTED-MEXICAN-CANDY-BAG",
+      "aed": 25,
+      "images": 1,
+      "flags": [
+        "category \"mexican-candy\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "mayonesa-macromick-lime-390gm",
+      "title": "Mayonesa Macromick (Lime) 390gm",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MAYONESA-MACROMICK-LIME-390GM",
+      "aed": 32,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "viva-mexico-t-shirt",
+      "title": "Viva México T-shirt!",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-VIVA-MEXICO-T-SHIRT-RED",
+      "aed": 120,
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "japanese-style-peanuts-with-valentina-sauce-600g",
+      "title": "Japanese Style Peanuts With Valentina Sauce 30g",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-JAPANESE-STYLE-PEANUTS-WITH-VALENTINA-SAUCE-600G",
+      "aed": 2.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "japanese-style-peanuts-600g",
+      "title": "Japanese Style Peanuts 30g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-JAPANESE-STYLE-PEANUTS-600G",
+      "aed": 2.5,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "banderilla-tamaroca-tamarind-mexican-stick-30pcs",
+      "title": "Banderilla, Tamaroca Tamarind Mexican Stick 1pcs",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-BANDERILLA-TAMAROCA-TAMARIND-MEXICAN-STICK-30PCS",
+      "aed": 3.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "pepe-crunch-peanuts-habanero-flavour-500g",
+      "title": "Pepe Crunch Peanuts Habanero Flavour 500g",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-PEPE-CRUNCH-PEANUTS-HABANERO-FLAVOUR-500G",
+      "aed": 33.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "pepe-crucnh-peanuts-mango-flavour-500g",
+      "title": "Pepe Crunch Peanuts Mango Flavour 500g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-PEPE-CRUCNH-PEANUTS-MANGO-FLAVOUR-500G",
+      "aed": 28,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "pepe-crucnh-peanuts-chipotle-flavour-500g",
+      "title": "Pepe Crunch Peanuts Chipotle Flavour 500g",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-PEPE-CRUCNH-PEANUTS-CHIPOTLE-FLAVOUR-500G",
+      "aed": 28,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "pepe-crucnh-peanuts-cheese-flavour-500g",
+      "title": "Pepe Crunch Peanuts Cheese Flavour 500g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-PEPE-CRUCNH-PEANUTS-CHEESE-FLAVOUR-500G",
+      "aed": 35,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "pepe-crucnh-peanuts-chilli-flavour-500g",
+      "title": "Pepe Crunch Peanuts Chilli Flavour 500g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-PEPE-CRUCNH-PEANUTS-CHILLI-FLAVOUR-500G",
+      "aed": 35,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "cholula-original-hot-sauce-60ml",
+      "title": "Cholula Original Hot Sauce 60ml",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-CHOLULA-ORIGINAL-HOT-SAUCE-60ML",
+      "aed": 11.9,
+      "images": 1,
+      "flags": [
+        "category \"mexican-sauces\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "cholula-original-chipotle-hot-sauce",
+      "title": "Cholula Original Chipotle Hot Sauce 150ml",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-CHOLULA-ORIGINAL-CHIPOTLE-HOT-SAUCE",
+      "aed": 20.9,
+      "images": 1,
+      "flags": [
+        "category \"mexican-sauces\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "esquite-natural-con-epazote-1kg",
+      "title": "(White Corn with Epazote) Esquite Natural Con Epazote 1kg",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-ESQUITE-NATURAL-CON-EPAZOTE-1KG",
+      "aed": 45.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "cholula-original-chilli-lime-hot-sauce",
+      "title": "Cholula Original Chilli Lime Hot Sauce",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-CHOLULA-ORIGINAL-CHILLI-LIME-HOT-SAUCE",
+      "aed": 20.9,
+      "images": 1,
+      "flags": [
+        "category \"mexican-sauces\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "salsa-picante-roja-120ml-yucateco",
+      "title": "Red Sauce (Salsa Picante Roja) 120ml, Yucateco",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-SALSA-PICANTE-ROJA-120ML-YUCATECO",
+      "aed": 18.1,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "salsa-picante-chile-habanero-120ml-yucateco",
+      "title": "Hot Green Sauce (Salsa Picante Green chile Habanero) 120ml, Yucateco",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-SALSA-PICANTE-CHILE-HABANERO-120ML-YUCATECO",
+      "aed": 18.1,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "salsa-picante-negra-120ml-yucateco",
+      "title": "Black Sauce (Salsa Picante Negra) 120ml, Yucateco",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-SALSA-PICANTE-NEGRA-120ML-YUCATECO",
+      "aed": 18.1,
+      "images": 1,
+      "flags": [
+        "category \"mexican-sauces\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "maruchan",
+      "title": "Maruchan (Instant Noodles)",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-MARUCHAN",
+      "aed": 14.3,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples",
+        "origin recorded as MX but the title names a non-Mexican brand — verify"
+      ]
+    },
+    {
+      "handle": "hungry-guru-pack-of-12",
+      "title": "Hungry Guru pack of 12",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-HUNGRY-GURU-PACK-OF-12",
+      "aed": 64.8,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "homestyle-la-costen-475gm",
+      "title": "Homestyle La Costen 475gm",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-HOMESTYLE-LA-COSTEN-475GM",
+      "aed": 22,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "la-costena-green-salsa",
+      "title": "La Costeña Green Salsa 475gm",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-GREEN-SALSA",
+      "aed": 22,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "whole-green-tomatillo-2-8kg-san-marco",
+      "title": "Whole Green Tomatillo 2.8kg clemente jacques",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-WHOLE-GREEN-TOMATILLO-2-8KG-SAN-MARCO",
+      "aed": 39,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "jarritos-strawberry-drink-370ml",
+      "title": "Jarritos Strawberry Drink 370ML",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-JARRITOS-STRAWBERRY-DRINK-370ML",
+      "aed": 12,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "jarritos-grape-friut-drink-370ml",
+      "title": "Jarritos Grapefruit Drink 370ML",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-JARRITOS-GRAPE-FRIUT-DRINK-370ML",
+      "aed": 12,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "jarritos-guava-drink-370ml",
+      "title": "Jarritos Guava Drink 370ML",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-JARRITOS-GUAVA-DRINK-370ML",
+      "aed": 12,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "jarritos-mexican-cola-370ml",
+      "title": "Jarritos Mexican Cola Drink 370ML",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-JARRITOS-MEXICAN-COLA-370ML",
+      "aed": 12,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "jarritos-pineapple-drink-370ml",
+      "title": "Jarritos Pineapple Drink 370ML",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-JARRITOS-PINEAPPLE-DRINK-370ML",
+      "aed": 12,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "hungary-guru-pack-of-6-35g",
+      "title": "Hungry Guru Pack of 6 (35G)",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-HUNGARY-GURU-PACK-OF-6-35G",
+      "aed": 33.6,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "hungary-guru-pack-of-3-35gm",
+      "title": "Hungry Guru Pack of 3 (35g)",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-HUNGARY-GURU-PACK-OF-3-35GM",
+      "aed": 17.4,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "hungary-guru-35g",
+      "title": "Hungry Guru 35g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-HUNGARY-GURU-35G",
+      "aed": 5.8,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "chamoy-sauce-330ml-intermex",
+      "title": "Chamoy Sauce, El Chilerito 355ml",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-CHAMOY-SAUCE-330ML-INTERMEX",
+      "aed": 14.3,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "apricot-in-syrup-820g",
+      "title": "Apricot in syrup 820g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "La Costeña",
+      "sku": "IMX-APRICOT-IN-SYRUP-820G",
+      "aed": 25,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "whole-black-beans-560g-costena",
+      "title": "Whole Black Beans 560g Costena",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "La Costeña",
+      "sku": "IMX-WHOLE-BLACK-BEANS-560G-COSTENA",
+      "aed": 14.5,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "nachos-jalapeno-2-8kg-costena",
+      "title": "Nachos jalapeno 2.8kg Costena",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "title-rule",
+      "brand": "La Costeña",
+      "sku": "IMX-NACHOS-JALAPENO-2-8KG-COSTENA",
+      "aed": 40,
+      "images": 1,
+      "flags": [
+        "category \"chilis\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "rice-morelo-1kg-valle-verde",
+      "title": "Rice Morelo 1kg valle verde",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-RICE-MORELO-1KG-VALLE-VERDE",
+      "aed": 19,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "tajin-classico-seasoning-400gm",
+      "title": "Tajin Classico Seasoning 400gm",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-TAJIN-CLASSICO-SEASONING-400GM",
+      "aed": 33.5,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "black-beans-dry-900g-la-sierra",
+      "title": "Black Beans Dry 900g, La sierra",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-BLACK-BEANS-DRY-900G-LA-SIERRA",
+      "aed": 19.5,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "maiz-blanco-la-costena-3kg",
+      "title": "Maiz Blanco La Costena 3kg",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "La Costeña",
+      "sku": "IMX-MAIZ-BLANCO-LA-COSTENA-3KG",
+      "aed": 40,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "blue-corn-masa-flour-maseca",
+      "title": "Blue Corn Masa Flour, Maseca",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-BLUE-CORN-MASA-FLOUR-MASECA",
+      "aed": 33.5,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "el-fresno-whole-ancho-chili",
+      "title": "Whole Ancho Chili, El Fresno",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-FRESNO-WHOLE-ANCHO-CHILI",
+      "aed": 96,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "el-fresno-whole-pasilla-chili",
+      "title": "Whole Pasilla Chili,El Fresno",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-FRESNO-WHOLE-PASILLA-CHILI",
+      "aed": 96,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "la-meridana-artisanal-hot-sauce-basket",
+      "title": "Artisanal Hot Sauce Basket, La Meridana",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": "La Meridana",
+      "sku": "IMX-LA-MERIDANA-ARTISANAL-HOT-SAUCE-BASKET",
+      "aed": 75,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "snack-wheel-chicharon-50gm",
+      "title": "Snack wheel chicharon 50gm",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": null,
+      "sku": "IMX-SNACK-WHEEL-CHICHARON-50GM",
+      "aed": 10,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "la-costena-ranchera-salsa",
+      "title": "La Costeña Ranchera Salsa 250gm",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-RANCHERA-SALSA",
+      "aed": 12,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "maggi-liquid-seasoning-sauce-800ml",
+      "title": "Maggi Liquid Seasoning Sauce (800ml)",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MAGGI-LIQUID-SEASONING-SAUCE-800ML",
+      "aed": 85,
+      "images": 1,
+      "flags": [
+        "origin recorded as MX but the title names a non-Mexican brand — verify"
+      ]
+    },
+    {
+      "handle": "de-la-rosa-coronado-butter-rum-hard-candies",
+      "title": "De la Rosa Coronado Butter Rum Hard Candies",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-DE-LA-ROSA-CORONADO-BUTTER-RUM-HARD-CANDIES",
+      "aed": 33.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "montes-tomy-original-candy-100-pieces",
+      "title": "Montes Tomy Original Candy (100 pieces)",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MONTES-TOMY-ORIGINAL-CANDY-100-PIECES",
+      "aed": 35.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "vero-rellerindos-mix-filled-candies-80-pieces",
+      "title": "Vero Rellerindos Mix Filled Candies (80 pieces)",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-VERO-RELLERINDOS-MIX-FILLED-CANDIES-80-PIECES",
+      "aed": 35,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-peach-halves-in-syrup",
+      "title": "La Costeña Peach Halves in Syrup",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-PEACH-HALVES-IN-SYRUP",
+      "aed": 24,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "paleta-payaso",
+      "title": "Paleta Payaso",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-PALETA-PAYASO",
+      "aed": 87,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "choco-roles-mini-marinela",
+      "title": "Choco Roles Mini Marinela",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-CHOCO-ROLES-MINI-MARINELA",
+      "aed": 30,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "fritos-lemon-salt",
+      "title": "Fritos Lemon & Salt",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-FRITOS-LEMON-SALT",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "rancheritos-original",
+      "title": "Rancheritos Original",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-RANCHERITOS-ORIGINAL",
+      "aed": 11.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "ruffles-cheese",
+      "title": "Ruffles Cheese",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-RUFFLES-CHEESE",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "maggi-seasoning-sauce-100ml",
+      "title": "Maggi Seasoning Sauce (100ml)",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MAGGI-SEASONING-SAUCE-100ML",
+      "aed": 19.8,
+      "images": 1,
+      "flags": [
+        "origin recorded as MX but the title names a non-Mexican brand — verify"
+      ]
+    },
+    {
+      "handle": "herdez-white-mexican-corn",
+      "title": "Herdez White Mexican Corn",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-HERDEZ-WHITE-MEXICAN-CORN",
+      "aed": 9,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-jalapeno-nacho-slices",
+      "title": "La Costeña Jalapeño Nachos 220g",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-JALAPENO-NACHO-SLICES",
+      "aed": 9,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-refried-pinto-beans",
+      "title": "La Costeña Refried Bayo Beans 820g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-REFRIED-PINTO-BEANS",
+      "aed": 25,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "clemente-jacques-chipotle-peppers-in-adobo",
+      "title": "Clemente Jacques Chipotle Peppers in Adobo",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-CLEMENTE-JACQUES-CHIPOTLE-PEPPERS-IN-ADOBO",
+      "aed": 59,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "diced-jalapenos-picados",
+      "title": "Diced Jalapeños (Picados)",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-DICED-JALAPENOS-PICADOS",
+      "aed": 5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-whole-guavas-in-syrup",
+      "title": "La Costeña Whole Guavas in Syrup",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-WHOLE-GUAVAS-IN-SYRUP",
+      "aed": 25,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "ruffles-mega-crunch-red-salsa",
+      "title": "Ruffles Mega Crunch Red Salsa",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-RUFFLES-MEGA-CRUNCH-RED-SALSA",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "chicharron-cheese",
+      "title": "Chicharron Cheese",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-CHICHARRON-CHEESE",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "chicharron-fuego",
+      "title": "Chicharron Fuego",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-CHICHARRON-FUEGO",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "chicharron-green-sauce",
+      "title": "Chicharron Green Sauce",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-CHICHARRON-GREEN-SAUCE",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "churritos-chili-flavor",
+      "title": "Churritos Chili Flavor",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-CHURRITOS-CHILI-FLAVOR",
+      "aed": 11.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "tortilla-chips",
+      "title": "Tortilla Chips 115GM",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-TORTILLA-CHIPS",
+      "aed": 11.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "no-guilt-nachos-cheddar-cheese-inzi",
+      "title": "No, Guilt NAchos, cheddar cheese, Inzi",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-NO-GUILT-NACHOS-CHEDDAR-CHEESE-INZI",
+      "aed": 18,
+      "images": 2,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "no-guilt-nachos-chilli-lime-inzi",
+      "title": "No, Guilt nachos, Chilli Lime Inzi",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-NO-GUILT-NACHOS-CHILLI-LIME-INZI",
+      "aed": 18,
+      "images": 2,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "marinela-barritas-pineapple",
+      "title": "Barritas de Pina",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MARINELA-BARRITAS-PINEAPPLE",
+      "aed": 35,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-meridana-mini-hot-sauce-set-handwoven-gift-basket",
+      "title": "Mini Hot Sauce Set – Handwoven Gift Basket, La Meridana",
+      "action": "created",
+      "category": "mexican-sauces",
+      "categoryFrom": "collection",
+      "brand": "La Meridana",
+      "sku": "IMX-LA-MERIDANA-MINI-HOT-SAUCE-SET-HANDWOVEN-GI-5472",
+      "aed": 65,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "mini-gansito-marinela",
+      "title": "Mini Gansito (Marinela)",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "title-rule",
+      "brand": null,
+      "sku": "IMX-MINI-GANSITO-MARINELA",
+      "aed": 35,
+      "images": 1,
+      "flags": [
+        "category \"mexican-candy\" inferred from the title — the store files it under none"
+      ]
+    },
+    {
+      "handle": "el-fresno-whole-cascabel-chili",
+      "title": "Whole Cascabel Chili",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-FRESNO-WHOLE-CASCABEL-CHILI",
+      "aed": 17,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "el-fresno-whole-chipotle-chili",
+      "title": "Whole Chipotle Chili, El Fresno",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-FRESNO-WHOLE-CHIPOTLE-CHILI",
+      "aed": 22,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "el-fresno-whole-chile-de-arbol",
+      "title": "Whole Chile de Arbol",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-FRESNO-WHOLE-CHILE-DE-ARBOL",
+      "aed": 15,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "el-fresno-whole-guajillo-chili",
+      "title": "Whole Guajillo Chili",
+      "action": "created",
+      "category": "chilis",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-FRESNO-WHOLE-GUAJILLO-CHILI",
+      "aed": 15,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "iced-popsicles-6-pack-copy",
+      "title": "Iced Popsicles 10 Pack",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-ICED-POPSICLES-6-PACK-COPY",
+      "aed": 150,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "iced-popsicles-6-pack",
+      "title": "Iced Popsicles 6 Pack",
+      "action": "created",
+      "category": "mexican-candy",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-ICED-POPSICLES-6-PACK",
+      "aed": 90,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "corn-tortilla-intermex-copy",
+      "title": "Corn Tortilla, Intermex 6inch 500g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-CORN-TORTILLA-INTERMEX-COPY",
+      "aed": 20,
+      "images": 3,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "corn-tortilla-4-5",
+      "title": "Corn Tortilla 4.5'' 1kg",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-CORN-TORTILLA-4-5",
+      "aed": 40,
+      "images": 1,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "flour-tortillas-intermex-copy",
+      "title": "Flour Tortillas,Pre-cook Intermex 500gm",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-FLOUR-TORTILLAS-INTERMEX-COPY",
+      "aed": 22,
+      "images": 2,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "clamato®-original",
+      "title": "Clamato® Original 1.89L",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "24",
+      "aed": 42,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "bandanas-1",
+      "title": "Bandanas",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-BANDANAS-1-GOLDEN-YELLOW",
+      "aed": 6,
+      "images": 6,
+      "flags": []
+    },
+    {
+      "handle": "cancun-bandana-cap",
+      "title": "Cancun Bandana Cap",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-CANCUN-BANDANA-CAP-RED",
+      "aed": 27,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "viva-mexico-bandana",
+      "title": "Viva Mexico Bandana",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-VIVA-MEXICO-BANDANA",
+      "aed": 6,
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "mini-mexican-textile-mat",
+      "title": "Mini Mexican Zarape Coaster",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MINI-MEXICAN-TEXTILE-MAT",
+      "aed": 5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "mexicano-floral-shawl",
+      "title": "Mexicano Floral Table Runner",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MEXICANO-FLORAL-SHAWL-BLUE",
+      "aed": 95,
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "handwoven-palm-coasters",
+      "title": "Heat-resistant mat",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-HANDWOVEN-PALM-COASTERS",
+      "aed": 10,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "classic-mexican-straw-sombrero",
+      "title": "Classic Mexican Straw Sombrero",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "2",
+      "aed": 157,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "pinata2go-party-kit",
+      "title": "Pinata2Go Party Kit Bosque",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-PINATA2GO-PARTY-KIT",
+      "aed": 120,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "aluminum-tortilla-press",
+      "title": "Aluminum Tortilla Press",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-ALUMINUM-TORTILLA-PRESS",
+      "aed": 99,
+      "images": 4,
+      "flags": []
+    },
+    {
+      "handle": "molcajete-traditional-mexican-mortar-pestle",
+      "title": "Molcajete, Traditional Mexican Mortar & Pestle",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MOLCAJETE-TRADITIONAL-MEXICAN-MORTAR-PESTLE",
+      "aed": 120,
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "traditional-mexican-charro-sombrero",
+      "title": "Traditional Mexican Charro Sombrero",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-TRADITIONAL-MEXICAN-CHARRO-SOMBRERO-GREEN-SILVER",
+      "aed": 150,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "handwoven-mexican-palm-basket-with-lid",
+      "title": "Handwoven Mexican Palm Basket with Lid",
+      "action": "created",
+      "category": "bespoke-tableware-cutlery",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-HANDWOVEN-MEXICAN-PALM-BASKET-WITH-LID",
+      "aed": 80,
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "el-yucateco-tamarindo-1",
+      "title": "Tamarind Concentrate, El Yucateco",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-YUCATECO-TAMARINDO-1",
+      "aed": 38,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "el-yucateco-horchata-de-arroz",
+      "title": "Horchata Concentrate, El Yucateco",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-YUCATECO-HORCHATA-DE-ARROZ",
+      "aed": 17,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "el-yucateco-jamaica-drink-concentrate",
+      "title": "Jamaica Drink Concentrate, El Yucateco",
+      "action": "created",
+      "category": "curated-fine-beverages",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-YUCATECO-JAMAICA-DRINK-CONCENTRATE",
+      "aed": 19,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "queso-cotija-excelsior-mexican-aged-cheese",
+      "title": "Queso Cotija Excelsior, Mexican Aged Cheese",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "Intermex",
+      "sku": "IMX-QUESO-COTIJA-EXCELSIOR-MEXICAN-AGED-CHEESE",
+      "aed": 45,
+      "images": 3,
+      "flags": []
+    },
+    {
+      "handle": "nopal-foods-nopalitos-en-salsa-de-chile-guajillo",
+      "title": "Cactus Guajillo 454g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-NOPAL-FOODS-NOPALITOS-EN-SALSA-DE-CHILE-GUAJILLO",
+      "aed": 9,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-rajas-de-jalapeno",
+      "title": "La Costeña, Jalapeño Slices",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-RAJAS-DE-JALAPENO",
+      "aed": 9,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "dried-corn-husks",
+      "title": "Dried Corn Husks",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-DRIED-CORN-HUSKS",
+      "aed": 33.5,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "mayamel-organic-blue-agave-syrup",
+      "title": "Organic Blue Agave Syrup, Mayamel 510g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MAYAMEL-ORGANIC-BLUE-AGAVE-SYRUP",
+      "aed": 39,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "naturelo-eco-friendly-corn-flour",
+      "title": "Blue Corn Flour, Naturelo",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-NATURELO-ECO-FRIENDLY-CORN-FLOUR",
+      "aed": 580,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "omalli-nixtamalized-corn-flour",
+      "title": "Nixtamalized Corn Flour, Omalli 20kg",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-OMALLI-NIXTAMALIZED-CORN-FLOUR",
+      "aed": 500,
+      "images": 1,
+      "flags": []
+    },
+    {
+      "handle": "maseca-nixtamalized-corn-flour",
+      "title": "Maseca, Nixtamalized Corn Flour",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MASECA-NIXTAMALIZED-CORN-FLOUR",
+      "aed": 33.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "nopal-tenochtitlan-fibra-de-nopal-deshidratado",
+      "title": "Dehydrated Cactus",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-NOPAL-TENOCHTITLAN-FIBRA-DE-NOPAL-DESHIDRATADO",
+      "aed": 25,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-sierra-whole-black-beans",
+      "title": "Whole Black Beans. La Sierra",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-LA-SIERRA-WHOLE-BLACK-BEANS",
+      "aed": 38,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "el-mexicano-white-hominy-in-brine",
+      "title": "White Hominy in Brine, El Mexicano (Maiz Pozolero)",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-MEXICANO-WHITE-HOMINY-IN-BRINE",
+      "aed": 40,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-meridana-achiote-paste",
+      "title": "Achiote Paste. La Meridana",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-LA-MERIDANA-ACHIOTE-PASTE",
+      "aed": 10.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "el-mexicano-maiz-blanco-white-hominy-in-brine",
+      "title": "White Hominy in Brine, El Mexicano 822g (Maiz Pozolero)",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-EL-MEXICANO-MAIZ-BLANCO-WHITE-HOMINY-IN-BRINE",
+      "aed": 18.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "maizena-corn-starch",
+      "title": "Maizena Corn Starch",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-MAIZENA-CORN-STARCH",
+      "aed": 17,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "nestle-abuelita-chocolate-drink-tablets",
+      "title": "Chocolate Abuelita",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-NESTLE-ABUELITA-CHOCOLATE-DRINK-TABLETS",
+      "aed": 52.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "coronado-cajeta-quemada",
+      "title": "Goat Milk Caramel (Cajeta Quemada), Coronado",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-CORONADO-CAJETA-QUEMADA",
+      "aed": 30.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "nopal-foods-nopales-en-salmuera-aromatizada",
+      "title": "Cactus in Brine 450g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-NOPAL-FOODS-NOPALES-EN-SALMUERA-AROMATIZADA",
+      "aed": 9,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "nopal-foods-nopales-en-escabeche",
+      "title": "Pickle Cactus (Nopales en Escabeche), Nopal Foods",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": null,
+      "sku": "IMX-NOPAL-FOODS-NOPALES-EN-ESCABECHE",
+      "aed": 10,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-refried-bayo-beans-1",
+      "title": "Whole Bayo Beans, La Costena",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-REFRIED-BAYO-BEANS-1",
+      "aed": 14.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-refried-bayo-beans",
+      "title": "Refried Bayo Beans, La  Costeña",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-REFRIED-BAYO-BEANS",
+      "aed": 14.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-refried-black-beans",
+      "title": "Refried Black Beans, La Costena",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-REFRIED-BLACK-BEANS",
+      "aed": 15.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-huitlacoche-1",
+      "title": "Huitlacoche, La Costeña",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-HUITLACOCHE-1",
+      "aed": 35,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-salsa-de-chipotle-1",
+      "title": "Chipotle Sauce 220ml, La Costeña",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-SALSA-DE-CHIPOTLE-1",
+      "aed": 10.5,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-diced-chipotle-peppers",
+      "title": "Diced Chipotle Peppers, La  Costeña",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-DICED-CHIPOTLE-PEPPERS",
+      "aed": 19,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "la-costena-pickled-jalapeno-nachos",
+      "title": "Jalapeño Nachos Pickled, La Costeña",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "collection",
+      "brand": "La Costeña",
+      "sku": "IMX-LA-COSTENA-PICKLED-JALAPENO-NACHOS",
+      "aed": 15,
+      "images": 2,
+      "flags": []
+    },
+    {
+      "handle": "intermex-flour-tortillas",
+      "title": "Flour Tortilla 500g",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-INTERMEX-FLOUR-TORTILLAS",
+      "aed": 21,
+      "images": 2,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    },
+    {
+      "handle": "intermex-corn-tortilla",
+      "title": "Corn Tortilla 6inch, Intermex 500gm",
+      "action": "created",
+      "category": "pantry-staples",
+      "categoryFrom": "default",
+      "brand": "Intermex",
+      "sku": "IMX-INTERMEX-CORN-TORTILLA",
+      "aed": 20,
+      "images": 3,
+      "flags": [
+        "no category at source and no title match — filed under Pantry Staples"
+      ]
+    }
+  ],
+  "problems": [
+    "jarritos-fruit-punch-drink-370ml: The following field is invalid: Description",
+    "jarritos-lime-drink-370ml: The following field is invalid: Description",
+    "jarritos-mandarin-drink-370ml: The following field is invalid: Description",
+    "nixtamalized-omalli-corn-flour-1kg: no images in the feed",
+    "naturelo-blue-corn-masa-flour: Vercel Blob: This store has been suspended.",
+    "b-sweet-organic-agave-syrup: Vercel Blob: This store has been suspended.",
+    "mole-azteca-paste: Vercel Blob: This store has been suspended.",
+    "dona-maria-mole-paste: Vercel Blob: This store has been suspended.",
+    "dona-maria-mole-ready-to-serve: Vercel Blob: This store has been suspended.",
+    "intermex-mexican-chicken-chorizo: Vercel Blob: This store has been suspended.",
+    "intermex-mexican-beef-chorizo: Vercel Blob: This store has been suspended.",
+    "intermex-classic-tortilla-chips: Vercel Blob: This store has been suspended.",
+    "golden-tostadas: Vercel Blob: This store has been suspended.",
+    "intermex-tostadas: Vercel Blob: This store has been suspended.",
+    "inzi-no-guilt-churritos: Vercel Blob: This store has been suspended.",
+    "inzi-no-guilt-nachos: Vercel Blob: This store has been suspended.",
+    "el-chilerito-salsa-chamoy: Vercel Blob: This store has been suspended.",
+    "la-costena-guacamole-salsa: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-casera-mexicana: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-de-guacamole: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-verde: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-picante: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-dip-medium: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-dip-hot: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-de-habanero-verde: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-de-habanero-rojo: Vercel Blob: This store has been suspended.",
+    "la-costena-salsa-de-chipotle: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-chicharron-de-mezcla-de-chiles-secos: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-alebrije-mango-habanero-jam: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-salsa-pinera: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-salsa-bichola: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-salsa-bichi: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-salsa-mojito-verde: Vercel Blob: This store has been suspended.",
+    "la-conspiracion-salsa-tres-chiles: Vercel Blob: This store has been suspended.",
+    "cholula-original-hot-sauce: Vercel Blob: This store has been suspended.",
+    "tajin-chamoy-hot-sauce: Vercel Blob: This store has been suspended.",
+    "valentina-salsa-picante-original-yellow-label-1: Vercel Blob: This store has been suspended.",
+    "valentina-salsa-picante-original-yellow-label: Vercel Blob: This store has been suspended.",
+    "valentina-salsa-picante-muy-picante-black-label: Vercel Blob: This store has been suspended.",
+    "el-yucateco-marisquera-negra-hot-sauce: Vercel Blob: This store has been suspended.",
+    "el-yucateco-habanero-y-chiltepin-hot-sauce: Vercel Blob: This store has been suspended.",
+    "el-yucateco-habanero-y-pina-asada-hot-sauce: Vercel Blob: This store has been suspended.",
+    "el-yucateco-marisquera-roja-hot-sauce: Vercel Blob: This store has been suspended.",
+    "el-yucateco-habanero-y-cafe-hot-sauce: Vercel Blob: This store has been suspended.",
+    "el-yucateco-habanero-ghost-chili-hot-sauce: Vercel Blob: This store has been suspended.",
+    "la-meridana-hot-sauce-sampler: Vercel Blob: This store has been suspended.",
+    "la-meridana-hot-sauce-sampler-pack: Vercel Blob: This store has been suspended.",
+    "la-meridana-mango-habanero-hot-sauce: Vercel Blob: This store has been suspended.",
+    "la-meridana-papaya-habanero-hot-sauce: Vercel Blob: This store has been suspended.",
+    "la-meridana-chipotle-agave-hot-sauce: Vercel Blob: This store has been suspended.",
+    "la-meridana-green-habanero-hot-sauce: Vercel Blob: This store has been suspended.",
+    "la-meridana-red-habanero-hot-sauce: Vercel Blob: This store has been suspended.",
+    "la-meridana-smoked-habanero-hot-sauce: Vercel Blob: This store has been suspended.",
+    "lucas-muecas-mango-spicy-mango-lollipop-with-chili-powder: Vercel Blob: This store has been suspended.",
+    "pelon-pelo-rico-tamarindo: Vercel Blob: This store has been suspended.",
+    "pulparindo-mango-tamarind-candy-with-mango-flavor: Vercel Blob: This store has been suspended.",
+    "de-la-rosa-mazapan-original: Vercel Blob: This store has been suspended.",
+    "lucas-muecas-chamoy-1: Vercel Blob: This store has been suspended.",
+    "palebola-tama-roca-tamarind-candy: Vercel Blob: This store has been suspended.",
+    "marinela-barritas-fresa: Vercel Blob: This store has been suspended.",
+    "el-fresno-whole-pasilla-chili-1: Vercel Blob: This store has been suspended.",
+    "xatze-guajillo-chili-powder: Vercel Blob: This store has been suspended.",
+    "xatze-chile-de-arbol-powder: Vercel Blob: This store has been suspended.",
+    "xatze-ancho-chili-powder: Vercel Blob: This store has been suspended.",
+    "xatze-chile-ancho-whole-dried-chilies: Vercel Blob: This store has been suspended."
+  ]
+}

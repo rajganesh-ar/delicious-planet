@@ -200,9 +200,9 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
     <form
       onSubmit={onSearch}
       role="search"
-      className={`flex items-stretch w-full bg-parchment border border-mist rounded-sm overflow-hidden transition-colors focus-within:border-forest-green ${
-        compact ? 'h-10' : 'h-11'
-      }`}
+      /* 44px in both forms — the compact variant is the mobile search row, so
+         it is exactly the one that must not go under the tap-target floor. */
+      className="flex items-stretch w-full h-11 bg-parchment border border-mist rounded-sm overflow-hidden transition-colors focus-within:border-forest-green"
     >
       {!compact && searchScopes.length > 0 && (
         <label className="hidden xl:flex items-center border-r border-mist pl-3 pr-1 shrink-0">
@@ -248,7 +248,10 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
     <>
       {/* ── Tier 1 · utility strip ─────────────────────────────── */}
       <div className="bg-forest-green">
-        <div className="px-6 lg:px-16">
+        {/* Tighter gutter than the rest of the site on purpose: the rotating
+            message is `truncate`, and 24px each side cost it ~9px of copy at
+            320px. */}
+        <div className="px-4 sm:px-6 lg:px-16">
           <div className="h-9 flex items-center justify-between gap-4">
             <div className="min-w-0 flex-1 lg:flex-none flex items-center justify-center lg:justify-start">
               <AnimatePresence mode="wait" initial={false}>
@@ -308,7 +311,11 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
                 <span className="block w-3.5 h-px bg-current self-start ml-2.25" />
               </button>
 
-              <Link href="/" className="shrink-0 no-underline" aria-label="Delicious Planet — home">
+              <Link
+                href="/"
+                className="shrink-0 flex items-center min-h-11 no-underline"
+                aria-label="Delicious Planet — home"
+              >
                 {/* The logo SVG carries only a viewBox, and styles.css declares an
                     unlayered `img { height: auto }` that outranks Tailwind's layered
                     `h-*` — without `!` the image resolves to 0×0. */}
@@ -325,9 +332,13 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
               <div className="hidden lg:block flex-1 max-w-2xl">{searchForm()}</div>
 
               <div className="ml-auto flex items-center gap-1 md:gap-2 shrink-0">
+                {/* Shown at every width. Search and basket are both surfaced on
+                    a phone; hiding this left sign-in, orders and addresses
+                    reachable only from inside the nav drawer. */}
                 <Link
                   href="/account"
-                  className="hidden md:flex items-center gap-2.5 h-10 px-2.5 rounded-sm no-underline transition-colors hover:bg-mist/70"
+                  aria-label="Account"
+                  className="flex items-center justify-center gap-2.5 h-11 min-w-11 px-2.5 rounded-sm no-underline transition-colors hover:bg-mist/70"
                 >
                   <svg
                     width="19"
@@ -351,7 +362,7 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
                   type="button"
                   onClick={toggleCart}
                   aria-label={`Cart, ${totalItems} item${totalItems === 1 ? '' : 's'}`}
-                  className="flex items-center gap-2.5 h-10 px-2.5 rounded-sm bg-transparent border-0 cursor-pointer transition-colors hover:bg-mist/70"
+                  className="flex items-center justify-center gap-2.5 h-11 min-w-11 px-2.5 rounded-sm bg-transparent border-0 cursor-pointer transition-colors hover:bg-mist/70"
                 >
                   <span className="relative flex items-center text-obsidian">
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

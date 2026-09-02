@@ -337,7 +337,11 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
         <div className="px-6 lg:px-16 py-5 border-t border-white/10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4">
             {SERVICES.map((s) => (
-              <Link key={s.title} href={s.href} className="group flex items-start gap-3 no-underline">
+              <Link
+                key={s.title}
+                href={s.href}
+                className="group flex items-start gap-3 min-h-11 no-underline"
+              >
                 <svg
                   width="20"
                   height="20"
@@ -426,7 +430,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
                 <li>
                   <a
                     href={`mailto:${CONTACT.email}`}
-                    className="no-underline group inline-flex items-center gap-2.5"
+                    className="no-underline group inline-flex items-center gap-2.5 min-h-11 lg:min-h-0 lg:py-1"
                   >
                     <svg
                       width="14"
@@ -449,7 +453,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
                 <li>
                   <a
                     href={`tel:${CONTACT.phone}`}
-                    className="no-underline group inline-flex items-center gap-2.5"
+                    className="no-underline group inline-flex items-center gap-2.5 min-h-11 lg:min-h-0 lg:py-1"
                   >
                     <svg
                       width="14"
@@ -473,7 +477,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
                     href={CONTACT.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="no-underline group inline-flex items-center gap-2.5"
+                    className="no-underline group inline-flex items-center gap-2.5 min-h-11 lg:min-h-0 lg:py-1"
                   >
                     <svg
                       width="14"
@@ -515,7 +519,9 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
                 </li>
               </ul>
 
-              <div className="flex items-center gap-3.5 mt-5">
+              {/* -ml-2.5 pulls the first 44px hit area back so the row still
+                  lines up with the text column above it. */}
+              <div className="flex items-center mt-4 -ml-2.5">
                 {socialLinks.map((s) => (
                   <a
                     key={s.label}
@@ -523,7 +529,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="text-cream/35 hover:text-cream transition-colors no-underline"
+                    className="w-11 h-11 flex items-center justify-center text-cream/35 hover:text-cream transition-colors no-underline"
                   >
                     {s.icon}
                   </a>
@@ -536,10 +542,14 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
         {/* ── Bottom bar ──────────────────────────────────────── */}
         <div className="px-6 lg:px-16 py-3.5 border-t border-white/[0.07]">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-cream/25">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-0 lg:gap-y-2 text-[11px] text-cream/25">
               <span>&copy; {new Date().getFullYear()} Delicious Planet Ltd.</span>
               {LEGAL_LINKS.map((l) => (
-                <Link key={l.label} href={l.href} className="no-underline group">
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  className="no-underline group inline-flex items-center min-h-11 lg:min-h-0"
+                >
                   <span className="text-cream/25 group-hover:text-cream/60 transition-colors">
                     {l.label}
                   </span>
@@ -565,7 +575,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
               <button
                 type="button"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center gap-1.5 bg-transparent border border-white/10 hover:border-white/30 rounded-sm px-2.5 py-1 text-[10px] uppercase tracking-wider text-cream/30 hover:text-cream/70 transition-colors cursor-pointer whitespace-nowrap"
+                className="flex items-center gap-1.5 shrink-0 bg-transparent border border-white/10 hover:border-white/30 rounded-sm px-3.5 h-11 lg:h-7 text-[10px] uppercase tracking-wider text-cream/30 hover:text-cream/70 transition-colors cursor-pointer whitespace-nowrap"
               >
                 Top
                 <svg

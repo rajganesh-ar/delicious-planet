@@ -324,20 +324,26 @@ export function QuantityStepper({
   className?: string
 }) {
   return (
+    /* 44px controls below lg, matching the tap-target floor styles.css already
+       sets for the .btn-* classes; back to the compact 32px rail on pointer
+       devices, where the basket sits beside a full summary column. */
     <div
-      className={cn('inline-flex items-center border border-stone/25 rounded-sm h-8', className)}
+      className={cn(
+        'inline-flex items-center border border-stone/25 rounded-sm h-11 lg:h-8',
+        className,
+      )}
     >
       <button
         type="button"
         onClick={() => onChange(quantity - 1)}
         aria-label={`Decrease quantity of ${title}`}
-        className="w-8 h-full flex items-center justify-center bg-transparent border-0 cursor-pointer text-obsidian hover:bg-mist transition-colors"
+        className="w-11 lg:w-8 h-full flex items-center justify-center bg-transparent border-0 cursor-pointer text-obsidian hover:bg-mist transition-colors"
       >
         <span className="font-sans text-sm leading-none">−</span>
       </button>
       <span
         aria-live="polite"
-        className="w-9 h-full flex items-center justify-center font-sans text-[12px] font-medium text-obsidian border-x border-stone/20"
+        className="w-10 lg:w-9 h-full flex items-center justify-center font-sans text-[13px] lg:text-[12px] font-medium text-obsidian border-x border-stone/20 tabular-nums"
       >
         {quantity}
       </span>
@@ -345,7 +351,7 @@ export function QuantityStepper({
         type="button"
         onClick={() => onChange(quantity + 1)}
         aria-label={`Increase quantity of ${title}`}
-        className="w-8 h-full flex items-center justify-center bg-transparent border-0 cursor-pointer text-obsidian hover:bg-mist transition-colors"
+        className="w-11 lg:w-8 h-full flex items-center justify-center bg-transparent border-0 cursor-pointer text-obsidian hover:bg-mist transition-colors"
       >
         <span className="font-sans text-sm leading-none">+</span>
       </button>

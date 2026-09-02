@@ -70,7 +70,10 @@ export function NewsletterBar() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Your email address"
                     disabled={submitting}
-                    className="flex-1 bg-transparent border-0 font-sans text-obsidian text-[13px] px-4 h-11 outline-none placeholder:text-stone/45 disabled:opacity-50"
+                    /* min-w-0: without it the field keeps its placeholder's
+                       intrinsic width and the shrink-0 Subscribe button pushes
+                       the form past a 320px viewport. */
+                    className="flex-1 min-w-0 bg-transparent border-0 font-sans text-obsidian text-[13px] px-4 h-11 outline-none placeholder:text-stone/45 disabled:opacity-50"
                   />
                   <button
                     type="submit"

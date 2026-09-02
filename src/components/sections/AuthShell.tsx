@@ -71,7 +71,7 @@ export function AuthShell({
         />
 
         <div className="relative px-6 lg:px-12 py-8 lg:py-14 h-full flex flex-col justify-between gap-8">
-          <Link href="/" className="no-underline inline-flex items-center gap-2 w-fit">
+          <Link href="/" className="no-underline inline-flex items-center gap-2 w-fit min-h-11">
             <span aria-hidden className="font-sans text-[13px] text-cream/50">
               ←
             </span>

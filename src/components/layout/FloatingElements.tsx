@@ -56,8 +56,18 @@ export function FloatingElements() {
 
   return (
     <>
-      {/* Floating contact button */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+      {/* Floating contact button.
+          Below md this is a single 48px button clear of the safe area — the
+          vendor pill is hidden (it lives in the footer and the nav drawer) and
+          the whole stack steps aside while the newsletter sheet is up, because
+          at phone widths the two cannot share the bottom of the screen. */}
+      <div
+        className={`fixed right-4 md:right-6 bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-3 transition-opacity ${
+          newsletterOpen && !newsletterDismissed
+            ? 'opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto'
+            : ''
+        }`}
+      >
         <AnimatePresence>
           {contactOpen && (
             <motion.div
@@ -65,7 +75,7 @@ export function FloatingElements() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="bg-white rounded-xl shadow-2xl border border-black/5 p-5 mb-2 w-64"
+              className="bg-white rounded-xl shadow-2xl border border-black/5 p-5 mb-2 w-[min(16rem,calc(100vw-2rem))]"
             >
               <p className="text-sm font-semibold text-[#111] m-0 mb-3">Get in touch</p>
               <div className="flex flex-col gap-2.5">
@@ -119,10 +129,12 @@ export function FloatingElements() {
           )}
         </AnimatePresence>
 
-        {/* Vendor inquiry button */}
+        {/* Vendor inquiry button — desktop only. On a phone it sat on top of
+            cart totals, product CTAs and form fields, and the same link is one
+            tap away in the footer and the nav drawer. */}
         <Link
           href="/vendors"
-          className="flex items-center gap-2 bg-[#1B512D] text-white text-xs font-medium px-4 py-2.5 rounded-full shadow-lg hover:bg-[#5FAD56] transition-colors no-underline"
+          className="hidden md:flex items-center gap-2 bg-[#1B512D] text-white text-xs font-medium px-4 py-2.5 rounded-full shadow-lg hover:bg-[#5FAD56] transition-colors no-underline"
         >
           <svg
             width="14"
@@ -145,6 +157,7 @@ export function FloatingElements() {
           onClick={() => setContactOpen(!contactOpen)}
           className="flex items-center justify-center w-12 h-12 rounded-full bg-[#1B512D] text-white shadow-lg hover:bg-[#5FAD56] transition-colors border-none cursor-pointer"
           aria-label="Contact us"
+          aria-expanded={contactOpen}
         >
           <svg
             width="20"
@@ -173,14 +186,16 @@ export function FloatingElements() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-6 left-6 z-40 bg-white rounded-xl shadow-2xl border border-black/5 p-6 w-80 max-w-[calc(100vw-7rem)]"
+            /* A bottom sheet below sm. As a 320px card anchored left it
+               overlapped the floating stack by ~95px on a 390px phone. */
+            className="fixed z-40 inset-x-3 sm:inset-x-auto sm:left-6 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] bg-white rounded-xl shadow-2xl border border-black/5 p-5 sm:p-6 w-auto sm:w-80"
           >
             <button
               onClick={() => {
                 setNewsletterDismissed(true)
                 setNewsletterOpen(false)
               }}
-              className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center text-[#6b6b6b] hover:text-[#111] bg-transparent border-none cursor-pointer"
+              className="absolute top-1 right-1 w-11 h-11 flex items-center justify-center text-[#6b6b6b] hover:text-[#111] bg-transparent border-none cursor-pointer"
               aria-label="Close"
             >
               <svg

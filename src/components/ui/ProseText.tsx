@@ -37,8 +37,12 @@ export function ProseText({
   return React.createElement(
     Tag,
     {
+      /* `m-0!` because styles.css sets an unlayered `p { margin: 16px 0 }` that
+         outranks Tailwind's layered margin utilities. Callers that want a
+         margin pass their own important one (`mb-3!`), which wins on Tailwind's
+         property ordering. */
       className: cn(
-        'font-sans',
+        'font-sans m-0!',
         sizeClass[size],
         toneClass[tone],
         prose && 'max-w-prose',

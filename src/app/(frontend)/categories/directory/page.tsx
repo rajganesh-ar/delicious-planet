@@ -113,7 +113,7 @@ export default async function CategoryDirectoryPage() {
   return (
     <div className="bg-white min-h-screen">
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <div className="relative bg-obsidian overflow-hidden pt-20">
+      <div className="relative bg-obsidian overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-obsidian via-charcoal to-obsidian opacity-90" />
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -124,7 +124,7 @@ export default async function CategoryDirectoryPage() {
           }}
         />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold to-transparent opacity-40" />
-        <div className="relative max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20">
+        <div className="relative max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20">
           <FadeIn>
             <p className="text-[10px] uppercase tracking-[0.22em] text-gold/80 font-heading font-medium m-0 mb-4 flex items-center gap-3">
               <span className="inline-block w-6 md:w-8 h-px bg-gold/40" />
@@ -167,18 +167,18 @@ export default async function CategoryDirectoryPage() {
         <>
           {/* ── A–Z jump bar ────────────────────────────────────── */}
           <div className="sticky top-(--header-h) z-30 bg-white/95 backdrop-blur-sm border-b border-stone/15">
-            <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-3 flex flex-wrap gap-1">
+            <div className="max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12 py-3 flex flex-wrap gap-1">
               {[...LETTERS, OTHER].map((letter) =>
                 byLetter.has(letter) ? (
                   <a key={letter} href={`#letter-${letter}`} className="no-underline">
-                    <span className="inline-flex items-center justify-center w-7 h-7 text-[11px] font-heading font-semibold uppercase text-obsidian hover:bg-obsidian hover:text-cream transition-colors">
+                    <span className="inline-flex items-center justify-center w-10 h-10 lg:w-7 lg:h-7 text-[12px] lg:text-[11px] font-heading font-semibold uppercase text-obsidian hover:bg-obsidian hover:text-cream transition-colors">
                       {letter}
                     </span>
                   </a>
                 ) : (
                   <span
                     key={letter}
-                    className="inline-flex items-center justify-center w-7 h-7 text-[11px] font-heading uppercase text-stone/30 select-none"
+                    className="inline-flex items-center justify-center w-10 h-10 lg:w-7 lg:h-7 text-[12px] lg:text-[11px] font-heading uppercase text-stone/30 select-none"
                   >
                     {letter}
                   </span>
@@ -188,7 +188,7 @@ export default async function CategoryDirectoryPage() {
           </div>
 
           {/* ── Letter sections ─────────────────────────────────── */}
-          <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-10 md:py-14">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12 py-10 md:py-14">
             {usedLetters.map((letter) => (
               <section
                 key={letter}
@@ -214,7 +214,7 @@ export default async function CategoryDirectoryPage() {
                       <div className="border-t border-stone/20 pt-4">
                         <Link
                           href={`/categories/${dept.category.slug}`}
-                          className="group no-underline inline-flex items-baseline gap-2"
+                          className="group no-underline inline-flex items-baseline gap-2 min-h-11 lg:min-h-0"
                         >
                           <h3 className="m-0!">
                             <span className="block font-luxury text-lg md:text-xl font-medium text-obsidian group-hover:text-forest-green transition-colors tracking-tight">
@@ -227,12 +227,12 @@ export default async function CategoryDirectoryPage() {
                         </Link>
 
                         {dept.children.length > 0 ? (
-                          <ul className="list-none p-0 m-0 mt-2.5 flex flex-wrap gap-x-3 gap-y-1.5">
+                          <ul className="list-none p-0 m-0 mt-1 lg:mt-2.5 flex flex-wrap gap-x-3 gap-y-0 lg:gap-y-1.5">
                             {dept.children.map((child) => (
                               <li key={child.id} className="m-0">
                                 <Link
                                   href={`/categories/${child.slug}`}
-                                  className="group no-underline"
+                                  className="group no-underline inline-flex items-center min-h-11 lg:min-h-0"
                                 >
                                   <span className="text-[13px] font-sans text-charcoal group-hover:text-forest-green transition-colors">
                                     {child.title}
@@ -259,7 +259,7 @@ export default async function CategoryDirectoryPage() {
 
           {/* ── Back to the visual index ────────────────────────── */}
           <div className="border-t border-stone/15">
-            <div className="max-w-[1600px] mx-auto px-5 sm:px-6 md:px-8 lg:px-12 py-10 flex flex-wrap items-center justify-between gap-4">
+            <div className="max-w-[1600px] mx-auto px-6 md:px-8 lg:px-12 py-10 flex flex-wrap items-center justify-between gap-4">
               <p className="m-0 text-sm font-sans text-stone">Prefer to browse by picture?</p>
               <Link href="/categories" className="group no-underline">
                 <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-heading font-semibold text-obsidian group-hover:text-forest-green transition-colors">

@@ -44,8 +44,13 @@ export function ShopPagination({ currentPage, totalPages, totalDocs }: ShopPagin
           : `${totalDocs} product${totalDocs === 1 ? '' : 's'}`}
       </p>
 
+      {/* The nav wraps: at 40px per control a nine-page window is wider than a
+          phone, and a second row beats a clipped one. */}
       {totalPages > 1 && (
-        <nav aria-label="Pagination" className="flex items-center gap-1">
+        <nav
+          aria-label="Pagination"
+          className="w-full sm:w-auto flex flex-wrap justify-center sm:justify-start items-center gap-1"
+        >
           <PageArrow
             href={pageHref(currentPage - 1)}
             disabled={currentPage <= 1}
@@ -68,7 +73,7 @@ export function ShopPagination({ currentPage, totalPages, totalDocs }: ShopPagin
                 href={pageHref(page)}
                 aria-current={page === currentPage ? 'page' : undefined}
                 className={cn(
-                  'w-8 h-8 flex items-center justify-center rounded-sm border no-underline transition-colors',
+                  'w-10 h-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-sm border no-underline transition-colors',
                   page === currentPage
                     ? 'bg-forest-green border-forest-green'
                     : 'border-stone/20 hover:border-forest-green',
@@ -121,7 +126,7 @@ function PageArrow({
     return (
       <span
         aria-hidden="true"
-        className="w-8 h-8 flex items-center justify-center rounded-sm border border-stone/15 text-stone/25"
+        className="w-10 h-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-sm border border-stone/15 text-stone/25"
       >
         {icon}
       </span>
@@ -132,7 +137,7 @@ function PageArrow({
     <Link
       href={href}
       aria-label={label}
-      className="w-8 h-8 flex items-center justify-center rounded-sm border border-stone/20 text-stone no-underline transition-colors hover:border-forest-green hover:text-forest-green"
+      className="w-10 h-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-sm border border-stone/20 text-stone no-underline transition-colors hover:border-forest-green hover:text-forest-green"
     >
       {icon}
     </Link>

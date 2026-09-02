@@ -210,7 +210,11 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                         <dt className="font-heading text-[9px] uppercase tracking-[0.16em] font-semibold text-stone/50 m-0">
                           {fact.label}
                         </dt>
-                        <dd className="font-sans text-[12.5px] text-obsidian m-0 mt-1 truncate">
+                        {/* Wraps rather than truncates: at two columns on a
+                            phone these cells are ~150px and `truncate` cut SKUs
+                            and packaging strings mid-word with nothing to
+                            reveal them. */}
+                        <dd className="font-sans text-[12.5px] text-obsidian m-0 mt-1 leading-snug wrap-break-word">
                           {fact.value}
                         </dd>
                       </div>

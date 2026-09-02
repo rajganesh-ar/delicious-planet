@@ -72,12 +72,17 @@ const BADGES: Badge[] = [
 export function TrustBadges() {
   return (
     <section className="pb-2 md:pb-3">
+      {/* Border-grid: the container draws top and left, each cell draws right
+          and bottom — the same construction as the product grids. `last:` rules
+          can't close this one, because five badges leave an orphan cell at two
+          and three columns and the last item then sits mid-row; the two filler
+          cells below close the final row at each step instead. */}
       <FadeIn>
-        <ul className="list-none m-0 p-0 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 border border-stone/15 rounded-sm bg-white overflow-hidden">
+        <ul className="list-none m-0 p-0 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 border-l border-t border-stone/15 bg-white">
           {BADGES.map((badge) => (
             <li
               key={badge.label}
-              className="flex items-center gap-2.5 px-4 py-4 md:py-5 border-b border-r border-stone/10 last:border-r-0 xl:border-b-0"
+              className="flex items-center gap-2.5 px-4 py-4 md:py-5 border-b border-r border-stone/15"
             >
               <span className="shrink-0 text-forest-green">{badge.icon}</span>
               <span className="font-sans text-[11px] md:text-[11.5px] text-stone leading-snug">
@@ -85,6 +90,9 @@ export function TrustBadges() {
               </span>
             </li>
           ))}
+          {/* 5 % 2 = 1 filler at base, 5 % 3 = 2 at md, none at xl */}
+          <li aria-hidden="true" className="border-b border-r border-stone/15 xl:hidden" />
+          <li aria-hidden="true" className="hidden md:block xl:hidden border-b border-r border-stone/15" />
         </ul>
       </FadeIn>
     </section>

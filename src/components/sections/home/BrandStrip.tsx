@@ -20,12 +20,15 @@ export function BrandStrip({ marks }: BrandStripProps) {
     <section className="py-8 md:py-11">
       <SectionHeader title="Brands We Carry" href="/brands" className="mb-5 md:mb-7" />
 
+      {/* Border-grid with filler cells — see the note in TrustBadges. Five marks
+          leave an orphan at two and three columns, which `last:border-r-0`
+          cannot close. */}
       <FadeIn>
-        <ul className="list-none m-0 p-0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border border-stone/15 rounded-sm bg-white overflow-hidden">
+        <ul className="list-none m-0 p-0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-l border-t border-stone/15 bg-white">
           {shown.map((mark) => (
             <li
               key={mark.slug}
-              className="border-b border-r border-stone/10 last:border-r-0 lg:border-b-0"
+              className="border-b border-r border-stone/15"
             >
               <Link
                 href="/brands"
@@ -41,6 +44,9 @@ export function BrandStrip({ marks }: BrandStripProps) {
               </Link>
             </li>
           ))}
+          {/* 5 % 2 = 1 filler at base, 5 % 3 = 2 at sm, none at lg */}
+          <li aria-hidden="true" className="border-b border-r border-stone/15 lg:hidden" />
+          <li aria-hidden="true" className="hidden sm:block lg:hidden border-b border-r border-stone/15" />
         </ul>
       </FadeIn>
     </section>

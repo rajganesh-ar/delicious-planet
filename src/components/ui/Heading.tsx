@@ -23,6 +23,15 @@ export type HeadingProps = {
   children?: React.ReactNode
 } & Omit<React.HTMLAttributes<HTMLHeadingElement>, 'className' | 'children'>
 
+/**
+ * styles.css declares `h1`–`h6` typography outside any cascade layer, so those
+ * rules outrank Tailwind's layered utilities: a `text-[18px]` set straight on
+ * an `<h2>` lost to the global 26px and every heading in the checkout flow
+ * rendered ~40% oversized on a phone. The type therefore lives on a child
+ * <span>, the same way the rest of the storefront handles it, and the margin
+ * reset on the tag carries `!` — callers override it with their own important
+ * margin (`mb-6!`), which wins because Tailwind orders `mb` after `m`.
+ */
 export function Heading({
   as = 'h2',
   variant = 'section',
@@ -37,14 +46,17 @@ export function Heading({
     Tag,
     {
       className: cn(
-        variantClass[variant],
+        'm-0!',
         align === 'center' && 'text-center',
         align === 'right' && 'text-right',
-        italic && 'italic',
         className,
       ),
       ...rest,
     },
-    children,
+    React.createElement(
+      'span',
+      { className: cn('block', variantClass[variant], italic && 'italic') },
+      children,
+    ),
   )
 }

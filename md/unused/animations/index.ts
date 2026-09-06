@@ -1,8 +1,0 @@
-export { FadeIn } from '@/components/animations/FadeIn'
-export { TextReveal } from './TextReveal'
-export { ParallaxImage } from './ParallaxImage'
-export { MagneticButton } from '@/components/animations/MagneticButton'
-export { SmoothScroll } from '@/components/animations/SmoothScroll'
-export { PageTransition } from './PageTransition'
-export { WordReveal } from './WordReveal'
-export { ScrollVideo } from './ScrollVideo'

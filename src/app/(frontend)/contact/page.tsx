@@ -3,7 +3,7 @@ import config from '@/payload.config'
 import { ContactPageClient } from '@/components/sections/ContactPageClient'
 
 export const metadata = {
-  title: 'Contact — Delicious Planet',
+  title: 'Contact',
   description:
     'Get in touch with Delicious Planet. General inquiries, B2B partnerships, and wholesale orders.',
 }

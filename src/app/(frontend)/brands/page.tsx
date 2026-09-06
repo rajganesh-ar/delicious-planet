@@ -5,7 +5,7 @@ import { resolveBrandMarks } from '@/lib/brand-marks'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Brands — Delicious Planet',
+  title: 'Brands',
   description:
     'Our portfolio includes internationally recognized producers known for consistency and technical expertise. Each brand is selected for product specialisation and professional kitchen relevance.',
 }

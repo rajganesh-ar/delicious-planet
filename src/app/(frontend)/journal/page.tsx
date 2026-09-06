@@ -3,7 +3,7 @@ import config from '@/payload.config'
 import { JournalPageClient } from '@/components/sections/JournalPageClient'
 
 export const metadata = {
-  title: 'Journal — Delicious Planet',
+  title: 'Journal',
   description:
     'Recipes, origin stories, and behind-the-scenes from the world of premium food ingredients.',
 }

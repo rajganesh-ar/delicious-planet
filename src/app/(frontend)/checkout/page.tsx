@@ -2,8 +2,10 @@ import { Suspense } from 'react'
 import { CheckoutClient } from '@/components/sections/CheckoutClient'
 
 export const metadata = {
-  title: 'Checkout — Delicious Planet',
+  title: 'Checkout',
   description: 'Place your order with Delicious Planet.',
+  // Transactional and per-visitor — nothing here belongs in an index.
+  robots: { index: false, follow: false },
 }
 
 export default function CheckoutPage() {

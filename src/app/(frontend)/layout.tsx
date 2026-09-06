@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { ClientShell } from '@/components/layout/ClientShell'
@@ -9,12 +9,56 @@ import type { AnnouncementItem, SearchScope } from '@/components/layout/Header'
 import { buildNav } from '@/lib/nav'
 import { countryName } from '@/lib/countries'
 import { resolveRegions } from '@/lib/regions'
+import { SITE_URL } from '@/lib/site-url'
 import './styles.css'
 
-export const metadata = {
-  title: 'Delicious Planet — Premium Food Ingredients',
-  description:
-    "The world's finest food ingredients, curated from artisan producers across the globe.",
+const SITE_NAME = 'Delicious Planet'
+const DEFAULT_TITLE = 'Delicious Planet — Premium Food Ingredients'
+const DEFAULT_DESCRIPTION =
+  "The world's finest food ingredients, curated from artisan producers across the globe."
+
+/**
+ * Site-wide metadata defaults. Three things here are load-bearing:
+ *
+ * `metadataBase` is what lets every other route hand Next a *relative* OG image
+ * path and get an absolute URL in the tag. Without it those tags are emitted
+ * relative, and a crawler resolving them against its own host fetches nothing.
+ *
+ * `title.template` gives each page a "Page — Delicious Planet" title from a
+ * bare `title: 'Page'`, so no route has to repeat the suffix.
+ *
+ * The openGraph and twitter blocks are inherited and merged by every child
+ * route, so a page that sets only a title and description still emits a
+ * complete card.
+ */
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: DEFAULT_TITLE,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: '/images/logo/logo.svg',
+  },
 }
 
 /**

@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import type { Category } from '@/payload-types'
 
 export const metadata: Metadata = {
-  title: 'Category Directory · Delicious Planet',
+  title: 'Category directory',
   description:
     'Every department and sub-category in the Delicious Planet catalogue, listed A to Z.',
 }

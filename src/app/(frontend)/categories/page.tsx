@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -10,6 +11,13 @@ function getCatImage(cat: Category): string | null {
     return (cat.image as Media).sizes?.card?.url ?? (cat.image as Media).url ?? null
   }
   return null
+}
+
+export const metadata: Metadata = {
+  title: 'Shop by category',
+  description:
+    'Every department in the Delicious Planet catalogue — caviar, oils, cheese, coffee and more, sourced direct from artisan producers.',
+  alternates: { canonical: '/categories' },
 }
 
 export default async function CategoriesIndexPage() {

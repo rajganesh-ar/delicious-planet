@@ -5,7 +5,7 @@ import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sec
 import { cn } from '@/lib/cn'
 
 export const metadata: Metadata = {
-  title: 'Shipping Policy — Delicious Planet',
+  title: 'Shipping Policy',
   description:
     'Shipping scope, processing timelines, logistics handling, and delivery variables for Delicious Planet orders.',
 }

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { ExperiencePageClient } from '@/components/sections/ExperiencePageClient'
 
 export const metadata: Metadata = {
-  title: 'Experiences — Delicious Planet',
+  title: 'Experiences',
   description:
     'Explore our integrated ecosystem, from farms and vineyards to restaurants and retail. We connect source to table with deep operational context.',
 }

@@ -3,7 +3,7 @@ import config from '@/payload.config'
 import { AboutPageClient } from '@/components/sections/AboutPageClient'
 
 export const metadata = {
-  title: 'About — Delicious Planet',
+  title: 'About',
   description:
     'The story behind Delicious Planet. Our mission, values, and the team bringing the finest ingredients to your table.',
 }

@@ -3,7 +3,7 @@ import { Cta, Eyebrow, GUTTER } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
 
 export const metadata: Metadata = {
-  title: 'Page not found — Delicious Planet',
+  title: 'Page not found',
 }
 
 /**

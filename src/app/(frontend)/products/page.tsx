@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { ProductsListing } from '@/components/sections/ProductsListing'
@@ -23,6 +24,20 @@ const FACET_SCAN_LIMIT = 3000
 
 /** Slugs are unique, so an impossible one is the safe "match nothing" clause. */
 const NO_MATCH: Where = { slug: { equals: '__no_such_product__' } }
+
+
+/**
+ * Static rather than derived from the active filters. Every filter combination
+ * is a query-string variant of this one page, so titling each separately would
+ * invite the crawler to index thousands of near-duplicates — the canonical
+ * points them all back at the clean URL instead.
+ */
+export const metadata: Metadata = {
+  title: 'All products',
+  description:
+    'The full Delicious Planet catalogue — premium ingredients from artisan producers worldwide, filterable by category, origin, brand and dietary need.',
+  alternates: { canonical: '/products' },
+}
 
 const str = (value: string | string[] | undefined): string =>
   typeof value === 'string' ? value.trim() : ''

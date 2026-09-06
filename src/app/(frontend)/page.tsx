@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { HomePageClient } from '@/components/sections/HomePageClient'
@@ -7,6 +8,15 @@ import { DIETARY_FACETS, dietaryWhere } from '@/lib/facets'
 import { countryName } from '@/lib/countries'
 import { resolveRegions } from '@/lib/regions'
 import { resolveBrandMarks } from '@/lib/brand-marks'
+
+/**
+ * `absolute` opts the title out of the layout's "%s — Delicious Planet"
+ * template, which would otherwise render the brand name twice here.
+ */
+export const metadata: Metadata = {
+  title: { absolute: 'Delicious Planet — Premium Food Ingredients' },
+  alternates: { canonical: '/' },
+}
 
 const PUBLISHED = { _status: { equals: 'published' } } as const
 

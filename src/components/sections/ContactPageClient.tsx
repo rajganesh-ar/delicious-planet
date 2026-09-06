@@ -120,8 +120,19 @@ function Field({
   )
 }
 
+/**
+ * 16px on mobile so iOS doesn't zoom the viewport on focus, dropping to the
+ * intended 13px from `sm:` up — the same rule `authInputClass` and the shared
+ * `Input` already follow. This form predated both and was the last one still
+ * rendering 13px on a phone: Safari zooms into any focused input below 16px and
+ * does not zoom back out, so filling in the enquiry form left the whole page
+ * scaled up and scrolling sideways.
+ *
+ * `min-h-[44px]` on mobile is the matching tap-target floor; `px-3 py-2.5`
+ * alone left these at ~38px.
+ */
 const FIELD_CLASS =
-  'w-full bg-white border border-stone/20 rounded-sm px-3 py-2.5 font-sans text-[13px] text-obsidian placeholder:text-stone/50 outline-none focus:border-forest-green transition-colors'
+  'w-full bg-white border border-stone/20 rounded-sm px-3 py-2.5 font-sans text-[16px] sm:text-[13px] min-h-[44px] sm:min-h-0 text-obsidian placeholder:text-stone/50 outline-none focus:border-forest-green transition-colors'
 
 export function ContactPageClient({ offices }: ContactPageClientProps) {
   const [activeTab, setActiveTab] = useState<FormTab>('general')

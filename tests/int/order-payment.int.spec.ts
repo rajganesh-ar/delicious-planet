@@ -26,9 +26,23 @@ function fakePayload(orders: Record<number, { paymentStatus: string; status: str
     findByID: vi.fn(async ({ id }: { id: number }) => {
       const doc = orders[id]
       if (!doc) throw new Error('not found')
-      return { id, ...doc }
+      // Enough of a real order for the confirmation emails to render. These
+      // tests are about the payment transition, not the message — see
+      // order-email.int.spec.ts for that — but markOrderPaid now notifies on
+      // its way through, and a half-built double would fail there instead.
+      return {
+        id,
+        orderNumber: `DP-TEST-${id}`,
+        currency: 'AED',
+        items: [],
+        totals: { subtotal: 0, total: 0 },
+        ...doc,
+      }
     }),
     update,
+    findGlobal: vi.fn(async () => ({})),
+    sendEmail: vi.fn(async () => undefined),
+    logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
   } as unknown as Payload
   return { payload, update }
 }

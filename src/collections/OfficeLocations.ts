@@ -1,9 +1,10 @@
 import type { CollectionConfig } from 'payload'
-import { catalogueAccess } from './access'
+import { adminOnlyInNav, catalogueAccess } from './access'
 
 export const OfficeLocations: CollectionConfig = {
   slug: 'office-locations',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'city',
     defaultColumns: ['city', 'country'],
   },

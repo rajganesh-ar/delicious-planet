@@ -1,7 +1,9 @@
 import type { GlobalConfig } from 'payload'
+import { adminOnlyInNav } from '../collections/access'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
+  admin: { hidden: adminOnlyInNav },
   access: {
     read: () => true,
     update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
@@ -47,6 +49,35 @@ export const SiteSettings: GlobalConfig = {
         { name: 'facebook', type: 'text' },
         { name: 'twitter', type: 'text' },
         { name: 'linkedin', type: 'text' },
+      ],
+    },
+    {
+      name: 'notifications',
+      type: 'group',
+      label: 'Notifications',
+      admin: {
+        description:
+          'Where staff notifications are sent when an order is paid or an enquiry arrives.',
+      },
+      fields: [
+        {
+          name: 'orderEmail',
+          type: 'email',
+          admin: {
+            description:
+              'Leave blank to fall back to the ADMIN_NOTIFICATION_EMAIL environment variable, then to the published company mailbox.',
+          },
+        },
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          defaultValue: true,
+          label: 'Send staff notifications',
+          admin: {
+            description:
+              'Unticking this stops staff alerts only. Customers still receive their own order confirmations.',
+          },
+        },
       ],
     },
     {

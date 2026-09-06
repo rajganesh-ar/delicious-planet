@@ -1,9 +1,10 @@
 import type { CollectionConfig } from 'payload'
-import { adminOnlyAccess } from './access'
+import { adminOnlyAccess, adminOnlyInNav } from './access'
 
 export const Warehouses: CollectionConfig = {
   slug: 'warehouses',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'isActive'],
   },

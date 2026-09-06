@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyInNav, adminOnlyWrites } from './access'
 
 /**
  * Promotional banners rendered between the homepage sections. Each banner is
@@ -9,12 +10,14 @@ import type { CollectionConfig } from 'payload'
 export const Banners: CollectionConfig = {
   slug: 'banners',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'placement', 'variant', 'active', 'sortOrder'],
     group: 'Content',
     description: 'Promotional banners shown between the homepage sections.',
   },
   access: {
+    ...adminOnlyWrites,
     read: () => true,
   },
   fields: [

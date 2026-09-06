@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { catalogueAccess } from './access'
+import { adminOnlyInNav, catalogueAccess } from './access'
 import {
   deriveCategoryLineage,
   ensureCategorySlug,
@@ -27,6 +27,7 @@ import {
 export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'path', 'isDepartment', 'sortOrder'],
   },

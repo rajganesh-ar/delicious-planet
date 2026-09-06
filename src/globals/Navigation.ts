@@ -1,7 +1,9 @@
 import type { GlobalConfig } from 'payload'
+import { adminOnlyInNav } from '../collections/access'
 
 export const Navigation: GlobalConfig = {
   slug: 'navigation',
+  admin: { hidden: adminOnlyInNav },
   access: {
     read: () => true,
     update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),

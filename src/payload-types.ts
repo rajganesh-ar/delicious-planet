@@ -83,6 +83,9 @@ export interface Config {
     testimonials: Testimonial;
     'office-locations': OfficeLocation;
     team: Team;
+    'vendor-applications': VendorApplication;
+    'chef-profiles': ChefProfile;
+    recipes: Recipe;
     'newsletter-subscribers': NewsletterSubscriber;
     banners: Banner;
     'payload-kv': PayloadKv;
@@ -108,6 +111,9 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
+    'vendor-applications': VendorApplicationsSelect<false> | VendorApplicationsSelect<true>;
+    'chef-profiles': ChefProfilesSelect<false> | ChefProfilesSelect<true>;
+    recipes: RecipesSelect<false> | RecipesSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     banners: BannersSelect<false> | BannersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -163,7 +169,10 @@ export interface User {
   id: number;
   name?: string | null;
   phone?: string | null;
-  roles: ('admin' | 'customer')[];
+  /**
+   * Admin sees and edits everything. Order fulfilment can sign in and move orders along — status, carrier, tracking, internal notes — and nothing else. Customer is storefront-only and cannot open this panel. Chef and Vendor are partner-portal roles: also storefront-only, but they unlock /portal — a chef authors recipes, a vendor follows its own application.
+   */
+  roles: ('admin' | 'fulfilment' | 'customer' | 'chef' | 'vendor')[];
   addresses?:
     | {
         /**
@@ -672,6 +681,57 @@ export interface Region {
  */
 export interface Order {
   id: number;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
+  /**
+   * Set by the Stripe webhook — not by the checkout redirect.
+   */
+  paymentStatus: 'unpaid' | 'paid' | 'failed' | 'refunded' | 'invoice';
+  type?: ('retail' | 'b2b') | null;
+  currency: 'USD' | 'AED' | 'GBP' | 'EUR' | 'INR';
+  /**
+   * The note the customer left at checkout. Read-only — these are their words.
+   */
+  notes?: string | null;
+  /**
+   * Staff-only. Never shown to the customer.
+   */
+  internalNotes?: string | null;
+  fulfillment?: {
+    carrier?: ('dhl' | 'fedex' | 'ups' | 'aramex' | 'emirates-post' | 'local-courier' | 'pickup' | 'other') | null;
+    /**
+     * Adding one is recorded on the Activity tab.
+     */
+    trackingNumber?: string | null;
+    /**
+     * Stamped automatically when the status becomes Shipped.
+     */
+    shippedAt?: string | null;
+    /**
+     * Stamped automatically when the status becomes Delivered.
+     */
+    deliveredAt?: string | null;
+  };
+  shippingAddress?: {
+    name?: string | null;
+    line1?: string | null;
+    line2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+  };
+  /**
+   * Raw audit rows. Rendered above.
+   */
+  timeline?:
+    | {
+        event?: string | null;
+        note?: string | null;
+        at?: string | null;
+        by?: (number | null) | User;
+        id?: string | null;
+      }[]
+    | null;
   orderNumber: string;
   user?: (number | null) | User;
   /**
@@ -709,22 +769,6 @@ export interface Order {
     tax?: number | null;
     total: number;
   };
-  currency: 'USD' | 'AED' | 'GBP' | 'EUR' | 'INR';
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
-  type?: ('retail' | 'b2b') | null;
-  shippingAddress?: {
-    name?: string | null;
-    line1?: string | null;
-    line2?: string | null;
-    city?: string | null;
-    state?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-  };
-  /**
-   * Set by the Stripe webhook — not by the checkout redirect.
-   */
-  paymentStatus: 'unpaid' | 'paid' | 'failed' | 'refunded' | 'invoice';
   /**
    * Stripe Checkout session that was opened for this order.
    */
@@ -733,10 +777,6 @@ export interface Order {
    * Stripe payment intent ID for this order.
    */
   stripePaymentIntentId?: string | null;
-  /**
-   * Optional notes left by the customer at checkout.
-   */
-  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1049,6 +1089,669 @@ export interface Team {
   createdAt: string;
 }
 /**
+ * Applications from the /portal/vendor questionnaire. Move one through New → In review → Verification → Approved as the onboarding journey on /vendors describes.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-applications".
+ */
+export interface VendorApplication {
+  id: number;
+  companyName: string;
+  /**
+   * If it differs from the registered name.
+   */
+  tradingName?: string | null;
+  /**
+   * The five partner types on /vendors, plus the adjacent ones.
+   */
+  businessType:
+    | 'producer'
+    | 'cooperative'
+    | 'marine'
+    | 'processor'
+    | 'brand_owner'
+    | 'exporter'
+    | 'distributor'
+    | 'logistics';
+  website?: string | null;
+  /**
+   * Four digits.
+   */
+  yearEstablished?: number | null;
+  registrationNumber?: string | null;
+  taxId?: string | null;
+  employeeBand?: ('1_10' | '11_50' | '51_200' | '201_1000' | 'over_1000') | null;
+  /**
+   * Indicative only, and optional to disclose.
+   */
+  annualTurnover?: ('under_250k' | '250k_1m' | '1m_5m' | '5m_20m' | 'over_20m' | 'undisclosed') | null;
+  /**
+   * What the business does, how long it has done it, and at what scale.
+   */
+  companyProfile: string;
+  contactName: string;
+  contactRole?: string | null;
+  email: string;
+  phone: string;
+  whatsapp?: string | null;
+  preferredContact?: ('email' | 'phone' | 'whatsapp') | null;
+  country:
+    | 'DZ'
+    | 'AR'
+    | 'AU'
+    | 'AT'
+    | 'BH'
+    | 'BD'
+    | 'BE'
+    | 'BO'
+    | 'BR'
+    | 'KH'
+    | 'CA'
+    | 'CL'
+    | 'CN'
+    | 'CO'
+    | 'CR'
+    | 'CI'
+    | 'HR'
+    | 'CU'
+    | 'CY'
+    | 'CZ'
+    | 'DK'
+    | 'DO'
+    | 'EC'
+    | 'EG'
+    | 'SV'
+    | 'ET'
+    | 'FI'
+    | 'FR'
+    | 'DE'
+    | 'GH'
+    | 'GR'
+    | 'GT'
+    | 'HN'
+    | 'HU'
+    | 'IN'
+    | 'ID'
+    | 'IR'
+    | 'IQ'
+    | 'IE'
+    | 'IL'
+    | 'IT'
+    | 'JP'
+    | 'JO'
+    | 'KE'
+    | 'KW'
+    | 'LB'
+    | 'LY'
+    | 'MG'
+    | 'MY'
+    | 'MX'
+    | 'MA'
+    | 'NP'
+    | 'NL'
+    | 'NZ'
+    | 'NI'
+    | 'NG'
+    | 'NO'
+    | 'OM'
+    | 'PK'
+    | 'PS'
+    | 'PA'
+    | 'PY'
+    | 'PE'
+    | 'PH'
+    | 'PL'
+    | 'PT'
+    | 'QA'
+    | 'RO'
+    | 'RW'
+    | 'SA'
+    | 'SN'
+    | 'RS'
+    | 'SG'
+    | 'SK'
+    | 'SI'
+    | 'ZA'
+    | 'KR'
+    | 'ES'
+    | 'LK'
+    | 'SE'
+    | 'CH'
+    | 'SY'
+    | 'TW'
+    | 'TZ'
+    | 'TH'
+    | 'TN'
+    | 'TR'
+    | 'UG'
+    | 'AE'
+    | 'GB'
+    | 'US'
+    | 'UY'
+    | 'VE'
+    | 'VN'
+    | 'YE';
+  address?: {
+    line1?: string | null;
+    line2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postalCode?: string | null;
+  };
+  /**
+   * Where the product is actually made, if not the address above.
+   */
+  productionSites?: string | null;
+  /**
+   * Where the range would sit in our catalogue.
+   */
+  categories?: (number | Category)[] | null;
+  /**
+   * The range, in the applicant’s own words.
+   */
+  productSummary: string;
+  brandsOwned?: string | null;
+  /**
+   * e.g. "20 tonnes / month", "40,000 units / month".
+   */
+  monthlyCapacity?: string | null;
+  minimumOrder?: string | null;
+  leadTime?: ('under_2w' | '2_4w' | '4_8w' | 'over_8w') | null;
+  shelfLifeMonths?: number | null;
+  temperatureRegimes?: ('ambient' | 'chilled' | 'frozen' | 'controlled_atmosphere')[] | null;
+  packagingFormats?: string | null;
+  /**
+   * Harvest windows, or months when supply is constrained.
+   */
+  seasonality?: string | null;
+  privateLabelCapable?: boolean | null;
+  samplesAvailable?: boolean | null;
+  certifications?:
+    | (
+        | 'haccp'
+        | 'iso_22000'
+        | 'iso_9001'
+        | 'brcgs'
+        | 'ifs'
+        | 'fssc_22000'
+        | 'globalgap'
+        | 'halal'
+        | 'kosher'
+        | 'organic'
+        | 'fairtrade'
+        | 'rainforest_alliance'
+        | 'msc_asc'
+        | 'non_gmo'
+        | 'sedex'
+        | 'other'
+      )[]
+    | null;
+  /**
+   * Upload the certificate itself where the applicant has it.
+   */
+  certificationDocs?:
+    | {
+        name: string;
+        issuingBody?: string | null;
+        reference?: string | null;
+        expiresAt?: string | null;
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  traceability: 'batch' | 'farm' | 'chain_of_custody' | 'none';
+  recallProcedure?: boolean | null;
+  lastAuditBody?: string | null;
+  lastAuditDate?: string | null;
+  /**
+   * HACCP plan, testing regime, in-house laboratory, and so on.
+   */
+  foodSafetyNotes?: string | null;
+  /**
+   * All three are non-negotiable on /vendors. An application that cannot affirm them is not one we can take forward.
+   */
+  ethics?: {
+    noForcedOrChildLabour?: boolean | null;
+    safeWorkingConditions?: boolean | null;
+    labourLawCompliance?: boolean | null;
+    notes?: string | null;
+  };
+  insurance?: {
+    productLiability?: boolean | null;
+    insurer?: string | null;
+    coverAmount?: string | null;
+  };
+  /**
+   * Water, waste, energy, packaging recyclability, or certification roadmaps.
+   */
+  sustainability?: string | null;
+  exportsToday?: boolean | null;
+  exportMarkets?: string | null;
+  gccExperience?: boolean | null;
+  uaeRegistered?: boolean | null;
+  incoterms?: ('exw' | 'fca' | 'fob' | 'cfr' | 'cif' | 'cpt' | 'cip' | 'dap' | 'ddp')[] | null;
+  portsOfLoading?: string | null;
+  coldChainCapable?: boolean | null;
+  logisticsNotes?: string | null;
+  currencies?: ('AED' | 'USD' | 'EUR' | 'GBP' | 'INR')[] | null;
+  paymentTerms?: ('advance' | 'letter_of_credit' | 'dp' | 'net_30' | 'net_60' | 'net_90' | 'negotiable')[] | null;
+  priceList?: (number | null) | Media;
+  catalogue?: (number | null) | Media;
+  openToExclusivity?: boolean | null;
+  marketingSupport?: string | null;
+  /**
+   * Existing customers we may contact during verification.
+   */
+  references?:
+    | {
+        company: string;
+        contactName?: string | null;
+        email?: string | null;
+        phone?: string | null;
+        /**
+         * e.g. "Distributor, 3 years".
+         */
+        relationship?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  howHeard?: ('trade_show' | 'referral' | 'search' | 'social' | 'outreach' | 'other') | null;
+  additionalNotes?: string | null;
+  signatoryName: string;
+  signatoryRole: string;
+  declarationAccepted?: boolean | null;
+  consentContact?: boolean | null;
+  /**
+   * Quoted back to the applicant on submission, and what they use to check progress at /portal/vendor/status. Stamped on create.
+   */
+  reference?: string | null;
+  submittedAt?: string | null;
+  status: 'new' | 'in_review' | 'verification' | 'approved' | 'on_hold' | 'rejected';
+  /**
+   * Set on approval. Earned by performance, not agreed at signing.
+   */
+  tier?: ('developmental' | 'approved' | 'strategic') | null;
+  reviewer?: (number | null) | User;
+  /**
+   * The supplier record created once this application is approved.
+   */
+  linkedSupplier?: (number | null) | Supplier;
+  /**
+   * Never shown to the applicant.
+   */
+  internalNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Chefs registered at /portal/chef. Verifying one is a badge on their recipes; it is not what lets them publish — every recipe is reviewed on its own.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chef-profiles".
+ */
+export interface ChefProfile {
+  id: number;
+  /**
+   * The login this profile belongs to. One profile per account.
+   */
+  account: number | User;
+  displayName: string;
+  /**
+   * Derived from the display name on save.
+   */
+  slug: string;
+  email: string;
+  phone?: string | null;
+  portrait?: (number | null) | Media;
+  chefRole:
+    | 'executive_chef'
+    | 'head_chef'
+    | 'sous_chef'
+    | 'pastry_chef'
+    | 'chef_de_partie'
+    | 'private_chef'
+    | 'consultant'
+    | 'instructor'
+    | 'developer'
+    | 'home_cook';
+  establishment?: string | null;
+  kitchenType?:
+    | (
+        | 'fine_dining'
+        | 'casual'
+        | 'hotel'
+        | 'bakery'
+        | 'cafe'
+        | 'catering'
+        | 'cloud_kitchen'
+        | 'school'
+        | 'private'
+        | 'independent'
+      )
+    | null;
+  experience: 'under_2' | '2_5' | '5_10' | '10_20' | 'over_20';
+  cuisines: (
+    | 'italian'
+    | 'french'
+    | 'spanish'
+    | 'mediterranean'
+    | 'middle_eastern'
+    | 'levantine'
+    | 'north_african'
+    | 'indian'
+    | 'japanese'
+    | 'chinese'
+    | 'thai'
+    | 'korean'
+    | 'latin_american'
+    | 'nordic'
+    | 'modern_european'
+    | 'pastry'
+    | 'plant_based'
+  )[];
+  specialities?: string | null;
+  /**
+   * Two or three sentences. Runs under the byline on a published recipe.
+   */
+  bio: string;
+  city?: string | null;
+  country:
+    | 'DZ'
+    | 'AR'
+    | 'AU'
+    | 'AT'
+    | 'BH'
+    | 'BD'
+    | 'BE'
+    | 'BO'
+    | 'BR'
+    | 'KH'
+    | 'CA'
+    | 'CL'
+    | 'CN'
+    | 'CO'
+    | 'CR'
+    | 'CI'
+    | 'HR'
+    | 'CU'
+    | 'CY'
+    | 'CZ'
+    | 'DK'
+    | 'DO'
+    | 'EC'
+    | 'EG'
+    | 'SV'
+    | 'ET'
+    | 'FI'
+    | 'FR'
+    | 'DE'
+    | 'GH'
+    | 'GR'
+    | 'GT'
+    | 'HN'
+    | 'HU'
+    | 'IN'
+    | 'ID'
+    | 'IR'
+    | 'IQ'
+    | 'IE'
+    | 'IL'
+    | 'IT'
+    | 'JP'
+    | 'JO'
+    | 'KE'
+    | 'KW'
+    | 'LB'
+    | 'LY'
+    | 'MG'
+    | 'MY'
+    | 'MX'
+    | 'MA'
+    | 'NP'
+    | 'NL'
+    | 'NZ'
+    | 'NI'
+    | 'NG'
+    | 'NO'
+    | 'OM'
+    | 'PK'
+    | 'PS'
+    | 'PA'
+    | 'PY'
+    | 'PE'
+    | 'PH'
+    | 'PL'
+    | 'PT'
+    | 'QA'
+    | 'RO'
+    | 'RW'
+    | 'SA'
+    | 'SN'
+    | 'RS'
+    | 'SG'
+    | 'SK'
+    | 'SI'
+    | 'ZA'
+    | 'KR'
+    | 'ES'
+    | 'LK'
+    | 'SE'
+    | 'CH'
+    | 'SY'
+    | 'TW'
+    | 'TZ'
+    | 'TH'
+    | 'TN'
+    | 'TR'
+    | 'UG'
+    | 'AE'
+    | 'GB'
+    | 'US'
+    | 'UY'
+    | 'VE'
+    | 'VN'
+    | 'YE';
+  links?: {
+    website?: string | null;
+    instagram?: string | null;
+    youtube?: string | null;
+    linkedin?: string | null;
+  };
+  awards?: string | null;
+  qualifications?:
+    | {
+        name: string;
+        institution?: string | null;
+        year?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional. Helps us suggest a first recipe brief.
+   */
+  familiarProducts?: (number | Product)[] | null;
+  motivation?: string | null;
+  consentPublish?: boolean | null;
+  consentTerms?: boolean | null;
+  status: 'pending' | 'verified' | 'on_hold' | 'declined';
+  /**
+   * Surfaces the chef on /recipes.
+   */
+  featured?: boolean | null;
+  /**
+   * Never shown to the chef.
+   */
+  internalNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Submitted from /portal/chef. A recipe is only visible on the storefront once its status is Published.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recipes".
+ */
+export interface Recipe {
+  id: number;
+  title: string;
+  /**
+   * Derived from the title on save.
+   */
+  slug: string;
+  /**
+   * One or two sentences. Used on the recipe card and in search results.
+   */
+  summary: string;
+  heroImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  course:
+    | 'starter'
+    | 'soup'
+    | 'salad'
+    | 'main'
+    | 'side'
+    | 'pasta_rice'
+    | 'bakery'
+    | 'dessert'
+    | 'sauce'
+    | 'breakfast'
+    | 'drink';
+  cuisine?:
+    | (
+        | 'italian'
+        | 'french'
+        | 'spanish'
+        | 'mediterranean'
+        | 'middle_eastern'
+        | 'levantine'
+        | 'north_african'
+        | 'indian'
+        | 'japanese'
+        | 'chinese'
+        | 'thai'
+        | 'korean'
+        | 'latin_american'
+        | 'nordic'
+        | 'modern_european'
+        | 'pastry'
+        | 'plant_based'
+      )
+    | null;
+  difficulty?: ('easy' | 'intermediate' | 'advanced') | null;
+  /**
+   * What the quantities below make. The portion scaler works off this.
+   */
+  servings: number;
+  prepMinutes?: number | null;
+  cookMinutes?: number | null;
+  /**
+   * Preparation plus cooking. Derived on save.
+   */
+  totalMinutes?: number | null;
+  /**
+   * Every ingredient is a product from our catalogue, with a quantity and a unit. There is no free-text line by design.
+   */
+  ingredients: {
+    product: number | Product;
+    /**
+     * Optional. The exact variant used, when the size matters to the result.
+     */
+    variantSku?: string | null;
+    quantity?: number | null;
+    unit:
+      | 'g'
+      | 'kg'
+      | 'mg'
+      | 'oz'
+      | 'lb'
+      | 'ml'
+      | 'cl'
+      | 'l'
+      | 'tsp'
+      | 'tbsp'
+      | 'cup'
+      | 'fl-oz'
+      | 'piece'
+      | 'clove'
+      | 'slice'
+      | 'sheet'
+      | 'sprig'
+      | 'leaf'
+      | 'bunch'
+      | 'handful'
+      | 'pinch'
+      | 'dash'
+      | 'drop'
+      | 'can'
+      | 'jar'
+      | 'packet'
+      | 'to-taste';
+    /**
+     * e.g. "finely chopped", "at room temperature".
+     */
+    preparation?: string | null;
+    /**
+     * Groups the line under a heading, e.g. "For the sauce".
+     */
+    section?: string | null;
+    optional?: boolean | null;
+    id?: string | null;
+  }[];
+  method: {
+    instruction: string;
+    image?: (number | null) | Media;
+    /**
+     * Shows a timer beside the step.
+     */
+    timerMinutes?: number | null;
+    id?: string | null;
+  }[];
+  chefTips?: string | null;
+  pairing?: string | null;
+  /**
+   * Anything present beyond what the products themselves declare.
+   */
+  allergens?: string | null;
+  /**
+   * The account that wrote it. Pinned from the session — this is what scopes a chef to their own work.
+   */
+  author: number | User;
+  /**
+   * The profile behind the byline. Resolved from the author on save.
+   */
+  chef?: (number | null) | ChefProfile;
+  /**
+   * Byline, snapshotted at save. Kept here so a public recipe page never has to read the private chef profile.
+   */
+  chefName?: string | null;
+  /**
+   * Role and kitchen, snapshotted alongside the name.
+   */
+  chefTitle?: string | null;
+  /**
+   * A chef may only choose Draft or Submitted; the rest is an editorial decision.
+   */
+  status: 'draft' | 'submitted' | 'published' | 'changes_requested' | 'archived';
+  /**
+   * Shown to the chef in their portal. Say what needs changing.
+   */
+  reviewFeedback?: string | null;
+  /**
+   * Never shown to the chef.
+   */
+  internalNotes?: string | null;
+  featured?: boolean | null;
+  submittedAt?: string | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "newsletter-subscribers".
  */
@@ -1199,6 +1902,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'team';
         value: number | Team;
+      } | null)
+    | ({
+        relationTo: 'vendor-applications';
+        value: number | VendorApplication;
+      } | null)
+    | ({
+        relationTo: 'chef-profiles';
+        value: number | ChefProfile;
+      } | null)
+    | ({
+        relationTo: 'recipes';
+        value: number | Recipe;
       } | null)
     | ({
         relationTo: 'newsletter-subscribers';
@@ -1558,6 +2273,40 @@ export interface BrandsSelect<T extends boolean = true> {
  * via the `definition` "orders_select".
  */
 export interface OrdersSelect<T extends boolean = true> {
+  status?: T;
+  paymentStatus?: T;
+  type?: T;
+  currency?: T;
+  notes?: T;
+  internalNotes?: T;
+  fulfillment?:
+    | T
+    | {
+        carrier?: T;
+        trackingNumber?: T;
+        shippedAt?: T;
+        deliveredAt?: T;
+      };
+  shippingAddress?:
+    | T
+    | {
+        name?: T;
+        line1?: T;
+        line2?: T;
+        city?: T;
+        state?: T;
+        postalCode?: T;
+        country?: T;
+      };
+  timeline?:
+    | T
+    | {
+        event?: T;
+        note?: T;
+        at?: T;
+        by?: T;
+        id?: T;
+      };
   orderNumber?: T;
   user?: T;
   guestEmail?: T;
@@ -1581,24 +2330,8 @@ export interface OrdersSelect<T extends boolean = true> {
         tax?: T;
         total?: T;
       };
-  currency?: T;
-  status?: T;
-  type?: T;
-  shippingAddress?:
-    | T
-    | {
-        name?: T;
-        line1?: T;
-        line2?: T;
-        city?: T;
-        state?: T;
-        postalCode?: T;
-        country?: T;
-      };
-  paymentStatus?: T;
   stripeCheckoutSessionId?: T;
   stripePaymentIntentId?: T;
-  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1837,6 +2570,227 @@ export interface TeamSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendor-applications_select".
+ */
+export interface VendorApplicationsSelect<T extends boolean = true> {
+  companyName?: T;
+  tradingName?: T;
+  businessType?: T;
+  website?: T;
+  yearEstablished?: T;
+  registrationNumber?: T;
+  taxId?: T;
+  employeeBand?: T;
+  annualTurnover?: T;
+  companyProfile?: T;
+  contactName?: T;
+  contactRole?: T;
+  email?: T;
+  phone?: T;
+  whatsapp?: T;
+  preferredContact?: T;
+  country?: T;
+  address?:
+    | T
+    | {
+        line1?: T;
+        line2?: T;
+        city?: T;
+        state?: T;
+        postalCode?: T;
+      };
+  productionSites?: T;
+  categories?: T;
+  productSummary?: T;
+  brandsOwned?: T;
+  monthlyCapacity?: T;
+  minimumOrder?: T;
+  leadTime?: T;
+  shelfLifeMonths?: T;
+  temperatureRegimes?: T;
+  packagingFormats?: T;
+  seasonality?: T;
+  privateLabelCapable?: T;
+  samplesAvailable?: T;
+  certifications?: T;
+  certificationDocs?:
+    | T
+    | {
+        name?: T;
+        issuingBody?: T;
+        reference?: T;
+        expiresAt?: T;
+        file?: T;
+        id?: T;
+      };
+  traceability?: T;
+  recallProcedure?: T;
+  lastAuditBody?: T;
+  lastAuditDate?: T;
+  foodSafetyNotes?: T;
+  ethics?:
+    | T
+    | {
+        noForcedOrChildLabour?: T;
+        safeWorkingConditions?: T;
+        labourLawCompliance?: T;
+        notes?: T;
+      };
+  insurance?:
+    | T
+    | {
+        productLiability?: T;
+        insurer?: T;
+        coverAmount?: T;
+      };
+  sustainability?: T;
+  exportsToday?: T;
+  exportMarkets?: T;
+  gccExperience?: T;
+  uaeRegistered?: T;
+  incoterms?: T;
+  portsOfLoading?: T;
+  coldChainCapable?: T;
+  logisticsNotes?: T;
+  currencies?: T;
+  paymentTerms?: T;
+  priceList?: T;
+  catalogue?: T;
+  openToExclusivity?: T;
+  marketingSupport?: T;
+  references?:
+    | T
+    | {
+        company?: T;
+        contactName?: T;
+        email?: T;
+        phone?: T;
+        relationship?: T;
+        id?: T;
+      };
+  howHeard?: T;
+  additionalNotes?: T;
+  signatoryName?: T;
+  signatoryRole?: T;
+  declarationAccepted?: T;
+  consentContact?: T;
+  reference?: T;
+  submittedAt?: T;
+  status?: T;
+  tier?: T;
+  reviewer?: T;
+  linkedSupplier?: T;
+  internalNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chef-profiles_select".
+ */
+export interface ChefProfilesSelect<T extends boolean = true> {
+  account?: T;
+  displayName?: T;
+  slug?: T;
+  email?: T;
+  phone?: T;
+  portrait?: T;
+  chefRole?: T;
+  establishment?: T;
+  kitchenType?: T;
+  experience?: T;
+  cuisines?: T;
+  specialities?: T;
+  bio?: T;
+  city?: T;
+  country?: T;
+  links?:
+    | T
+    | {
+        website?: T;
+        instagram?: T;
+        youtube?: T;
+        linkedin?: T;
+      };
+  awards?: T;
+  qualifications?:
+    | T
+    | {
+        name?: T;
+        institution?: T;
+        year?: T;
+        id?: T;
+      };
+  familiarProducts?: T;
+  motivation?: T;
+  consentPublish?: T;
+  consentTerms?: T;
+  status?: T;
+  featured?: T;
+  internalNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recipes_select".
+ */
+export interface RecipesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  course?: T;
+  cuisine?: T;
+  difficulty?: T;
+  servings?: T;
+  prepMinutes?: T;
+  cookMinutes?: T;
+  totalMinutes?: T;
+  ingredients?:
+    | T
+    | {
+        product?: T;
+        variantSku?: T;
+        quantity?: T;
+        unit?: T;
+        preparation?: T;
+        section?: T;
+        optional?: T;
+        id?: T;
+      };
+  method?:
+    | T
+    | {
+        instruction?: T;
+        image?: T;
+        timerMinutes?: T;
+        id?: T;
+      };
+  chefTips?: T;
+  pairing?: T;
+  allergens?: T;
+  author?: T;
+  chef?: T;
+  chefName?: T;
+  chefTitle?: T;
+  status?: T;
+  reviewFeedback?: T;
+  internalNotes?: T;
+  featured?: T;
+  submittedAt?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "newsletter-subscribers_select".
  */
 export interface NewsletterSubscribersSelect<T extends boolean = true> {
@@ -1927,6 +2881,19 @@ export interface SiteSetting {
     twitter?: string | null;
     linkedin?: string | null;
   };
+  /**
+   * Where staff notifications are sent when an order is paid or an enquiry arrives.
+   */
+  notifications?: {
+    /**
+     * Leave blank to fall back to the ADMIN_NOTIFICATION_EMAIL environment variable, then to the published company mailbox.
+     */
+    orderEmail?: string | null;
+    /**
+     * Unticking this stops staff alerts only. Customers still receive their own order confirmations.
+     */
+    enabled?: boolean | null;
+  };
   defaultMeta?: {
     title?: string | null;
     description?: string | null;
@@ -2003,6 +2970,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         facebook?: T;
         twitter?: T;
         linkedin?: T;
+      };
+  notifications?:
+    | T
+    | {
+        orderEmail?: T;
+        enabled?: T;
       };
   defaultMeta?:
     | T

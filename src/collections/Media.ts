@@ -1,10 +1,28 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyInNav, adminOnlyWrites, hasRole } from './access'
+import { restrictContributorUploads } from './hooks/portalHooks'
 import { publicMediaUrl } from '@/lib/media-url'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  admin: { hidden: adminOnlyInNav },
   access: {
+    ...adminOnlyWrites,
+    /**
+     * Chefs upload too — a recipe without a photograph of the dish is not a
+     * recipe page anybody reads. This is the narrowest widening that makes the
+     * portal's recipe builder work: `create` only. A chef cannot update or
+     * delete a media row, including their own, so an upload is a one-way
+     * contribution rather than a handle on the library.
+     *
+     * `mimeTypes` below already refuses anything that is not an image, and
+     * restrictContributorUploads takes SVG away from non-staff on top of that.
+     */
+    create: ({ req: { user } }) => hasRole(user, 'admin') || hasRole(user, 'chef'),
     read: () => true,
+  },
+  hooks: {
+    beforeValidate: [restrictContributorUploads],
   },
   fields: [
     {

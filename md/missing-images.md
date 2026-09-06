@@ -6,23 +6,51 @@ are two separate kinds, and they are fixed in two different places:
 - **Part A — static slots (37 files).** Declared in each page client's `MEDIA`
   map as `src: null`. Fixed by dropping an AVIF into `public/images/…` and
   pointing the slot at it.
-- **Part B — CMS-backed slots (17 records).** The code is finished; the Payload
+- **Part B — CMS-backed slots (22 records).** The code is finished; the Payload
   record simply has no upload, so the placeholder renders at runtime. Fixed in
   the admin panel, not in the repo.
 
 Both classes show a placeholder to the visitor. Part A is the same hatched box on
 every visit; Part B changes the moment someone uploads a file.
 
-- **Generated:** 2 September 2026, from `src/` on `feat/stripe-checkout`, with the
-  Part B counts queried live against the database the same day.
-- **Broken references:** none. Every hard-coded path in `src/` resolves to a file
-  on disk, so nothing 404s today.
-- **Revised the same day** — see [Revision 1](#revision-1--2-september-2026) for
-  what moved and two corrections to the first draft.
+**Total visible gaps: 59.**
+
+- **Generated:** 2 September 2026, from `src/` on `feat/stripe-checkout`.
+- **Re-verified:** 6 September 2026 — Part A re-counted against `src/`, Part B
+  re-queried live against the database. See
+  [Revision 2](#revision-2--6-september-2026).
+- **Broken references:** none. All 59 hard-coded `/images/…` paths in `src/`
+  resolve to a file on disk, so nothing 404s today.
+- **Revision history** — see [Revision 1](#revision-1--2-september-2026) for the
+  CMS move and two corrections to the first draft.
 
 > Supersedes the "Missing" section of [image-manifest.md](image-manifest.md) and
 > the filename lists in [required-images.md](required-images.md), both of which
 > predate the current page clients.
+
+---
+
+## Revision 2 — 6 September 2026
+
+Re-verified end to end: Part A re-counted from `src/`, Part B re-queried against
+the live database. **Part A is unchanged at 37.** Part B moved, because catalogue
+work has landed since the first pass.
+
+| What changed | Then (2 Sep) | Now (6 Sep) |
+|---|---|---|
+| `categories` rows | 20, 5 missing, 4 visible gaps | **25, 10 missing, 9 visible gaps** |
+| `brands` rows | 9, 4 hidden | **12, 7 hidden** |
+| `products` | 70, all with art | **256, all with art** |
+| Part B visible total | 17 | **22** |
+| Unused files on disk | 6 | **5** — `public/videos/chef-hero.mp4` was deleted in `9551469` |
+
+Unchanged: `office-locations` still has **zero rows**; banners 5/5, team 5/5 and
+suppliers 3/3 are all still empty.
+
+**New in this revision:** [Image reuse](#image-reuse--which-files-do-double-duty),
+prompted by the question of whether the region images are shared with anything
+else. They are — all seven of them. That section maps every file used in more
+than one place.
 
 ---
 
@@ -52,6 +80,8 @@ still hard-coded** and still needs a code change — it is the last literal
 not 42 → 31.
 
 **2 · §B3 said 5 categories show a gap. Only 4 do.**
+*(Superseded by Revision 2 — the catalogue has grown since. It is now 10 missing,
+9 of which show a gap. The reasoning below still holds; only the numbers moved.)*
 This one was wrong in the first draft of this file. Five category records lack an
 upload, but [getCategoryImage](src/lib/images.ts) checks a bundled
 `CATEGORY_IMAGES` table by slug *before* falling back to CMS media, and
@@ -269,15 +299,15 @@ with the office grid entirely, which may be the better fix than shooting for it.
 
 ---
 
-# Part B — CMS-backed slots (17 records)
+# Part B — CMS-backed slots (22 records)
 
 These slots are **finished in code**. They read an upload off a Payload record and
 show a placeholder when the field is empty — so the fix is uploading in the admin
 panel, not adding files to the repo. Counts below are a live query against the
-database on 2 September 2026.
+database on **6 September 2026**.
 
-**Where 17 comes from** — only the records that leave a visible gap:
-5 banners + 5 team portraits + 4 categories + 3 supplier logos. The other empty
+**Where 22 comes from** — only the records that leave a visible gap:
+5 banners + 5 team portraits + 9 categories + 3 supplier logos. The other empty
 fields in the table below either fall back to bundled artwork or are never
 rendered, and are listed so nobody re-audits them. The missing
 `office-locations` records are counted separately: there are none at all, so
@@ -290,13 +320,13 @@ there is no record to attach an image to yet.
 | `office-locations` · `image` | **no rows at all** (0 records) | see below — the whole section is affected | **Yes — worst of the set** |
 | `banners` · `image` | 5 / 5 | Flat colour bar, no photography | **Yes** |
 | `team` · `photo` | 5 / 5 | Hatched placeholder, labelled with the person's name | **Yes** |
-| `categories` · `image` | 5 / 20, of which **4** show a gap | Flat charcoal tile / gradient hero | **Yes — 4 of them** |
+| `categories` · `image` | 10 / 25, of which **9** show a gap | Flat charcoal tile / gradient hero | **Yes — 9 of them** |
 | `suppliers` · `logo` | 3 / 3 | Monogram initial in a bordered box | **Yes** |
 | `blog-posts` · `featuredImage` | 0 / 0 (no posts yet) | "Article image" hatch | Only once posts exist |
-| `brands` · `logo` | 9 / 9 | 5 fall back to bundled art; 4 are hidden | **No** — but see §B6 |
-| `regions` · `image` | 7 / 7 | — falls back to bundled art | **No** |
+| `brands` · `logo` | 12 / 12 | 5 fall back to bundled art; 7 are hidden | **No** — but see §B6 |
+| `regions` · `image` | 7 / 7 | — falls back to bundled art | **No** — but see [Image reuse](#image-reuse--which-files-do-double-duty) |
 | `testimonials` · `image` | 5 / 5 | — field is never rendered | **No** |
-| `products` · `images` | 0 / 70 | — all products have gallery art | **No** |
+| `products` · `images` | 0 / 256 | — all products have gallery art | **No** |
 
 ## B1 · Office locations — affects **Contact** and **About**
 
@@ -348,21 +378,42 @@ bar, so an image there is optional by design.
 
 ## B3 · Categories — affects **home**, **/categories**, **/categories/[slug]**
 
-5 of 20 categories have no upload, but **only 4 actually show a gap**.
+10 of 25 categories have no upload, but **only 9 actually show a gap**.
 [getCategoryImage](src/lib/images.ts) checks a bundled `CATEGORY_IMAGES` table by
-slug before falling back to CMS media, and one of the five is covered there.
+slug before falling back to CMS media, and one of the ten is covered there.
 
-| # | Category | Slug | Bundled art? | Shows a gap? |
-|---|---|---|---|---|
-| 1 | Flours | `flours` | no | **Yes** |
-| 2 | Merchandise | `merchandise` | no | **Yes** |
-| 3 | Chocolate Boxes | `chocolate-boxes` | no (the table has `chocolate-boxes-bonbons`) | **Yes** |
-| 4 | Teddy Bear | `teddy-bear` | no (the table has `teddy-bears`, plural) | **Yes** |
-| 5 | Chocolate Bars | `chocolate-bars` | **yes** → `coco.avif` | No |
+| # | Category | Slug | Parent | Bundled art? | Shows a gap? |
+|---|---|---|---|---|---|
+| 1 | Flours | `flours` | — | no (the table has `flour-baking`) | **Yes** |
+| 2 | Merchandise | `merchandise` | — | no | **Yes** |
+| 3 | Mexican Pantry | `mexican-pantry` | — | no | **Yes** |
+| 4 | Chocolate Boxes | `chocolate-boxes` | Grand Cru Cocoa | no (the table has `chocolate-boxes-bonbons`) | **Yes** |
+| 5 | Teddy Bear | `teddy-bear` | Grand Cru Cocoa | no (the table has `teddy-bears`, plural) | **Yes** |
+| 6 | Chilis | `chilis` | Mexican Pantry | no | **Yes** |
+| 7 | Mexican Candy | `mexican-candy` | Mexican Pantry | no | **Yes** |
+| 8 | Mexican Sauces | `mexican-sauces` | Mexican Pantry | no | **Yes** |
+| 9 | Pantry Staples | `pantry-staples` | Mexican Pantry | no | **Yes** |
+| 10 | Chocolate Bars | `chocolate-bars` | Grand Cru Cocoa | **yes** → `coco.avif` | No |
 
-Two of those misses are near-miss slugs. Renaming the `CATEGORY_IMAGES` keys to
-`chocolate-boxes` and `teddy-bear` would close them for free, without any
-photography — worth doing before commissioning anything.
+### The bundled table has drifted from the catalogue
+
+`CATEGORY_IMAGES` holds **26 keys, 10 of which match no category that exists**,
+while **9 real categories have no key**. The two lists nearly touch in three
+places, so a rename closes the gap with no photography at all:
+
+| Dead key in the table | Real category with no art | Fix |
+|---|---|---|
+| `chocolate-boxes-bonbons` | `chocolate-boxes` | rename the key |
+| `teddy-bears` | `teddy-bear` | rename the key |
+| `flour-baking`, `caputo-flour-baking` | `flours` | rename one, drop the other — **confirm the intent first**, `breads.avif` may not suit a flour department |
+
+The remaining 7 dead keys — `caviar`, `caviar-gift-sets`, `caviar-accessories`,
+`chocolate`, `chocolate-truffles`, `velterra-collection` — are leftovers from a
+sub-category tree that was never built. They cost nothing but are dead weight;
+delete them when convenient.
+
+That leaves **6 categories genuinely needing artwork**: `merchandise`,
+`mexican-pantry`, `chilis`, `mexican-candy`, `mexican-sauces`, `pantry-staples`.
 
 Affected surfaces for a real gap: [CategoryTiles](src/components/sections/home/CategoryTiles.tsx#L31),
 [FeaturedCategories](src/components/sections/home/FeaturedCategories.tsx#L30),
@@ -418,9 +469,10 @@ section hides — the same behaviour as the office section.
 ## B6 · Brand marks — affects **home** and **/brands**
 
 The two logo strips now read the `brands` collection through
-[resolveBrandMarks](src/lib/brand-marks.ts). Nothing is missing on screen: 5 of
-the 9 brands fall back to bundled artwork in `public/images/partner-logo/`, which
-is the same 5 marks that were hard-coded before.
+[resolveBrandMarks](src/lib/brand-marks.ts). Nothing is *broken* on screen: 5 of
+the 12 brands fall back to bundled artwork in `public/images/partner-logo/`,
+which is the same 5 marks that were hard-coded before. **No brand has an
+uploaded logo — all 12 `logo` fields are empty.**
 
 | Brand | Slug | Mark today | On upload |
 |---|---|---|---|
@@ -430,15 +482,24 @@ is the same 5 marks that were hard-coded before.
 | García de la Cruz | `garcia-de-la-cruz` | bundled `garcia.webp` | upload wins |
 | Velsoro | `velsoro` | bundled `velsoro.avif` | upload wins |
 | Castello | `castello` | **none — hidden** | appears in the strip |
+| Intermex | `intermex` | **none — hidden** | appears in the strip |
 | Kolios | `kolios` | **none — hidden** | appears in the strip |
+| La Costeña | `la-costena` | **none — hidden** | appears in the strip |
+| La Meridana | `la-meridana` | **none — hidden** | appears in the strip |
 | Olympus | `olympus` | **none — hidden** | appears in the strip |
 | Sterilgarda | `sterilgarda` | **none — hidden** | appears in the strip |
 
 A brand with neither an upload nor bundled art is dropped rather than rendered as
-an empty cell, so those four are simply absent — not broken. Uploading a logo to
-any of them adds it to both strips, though the strips cap at 5 (the homepage row
-is 5 across; the /brands marque board reserves its 6th cell for the masthead), so
-a 6th logo needs that cap raised.
+an empty cell, so those **seven are simply absent** — not broken, but not
+represented either. This is a silent omission rather than a visible gap, which is
+why it sits outside the count of 22.
+
+Uploading a logo to any of them adds it to both strips, though the strips cap at
+5 (the homepage row is 5 across; the /brands marque board reserves its 6th cell
+for the masthead), so a 6th logo needs that cap raised. **With 12 brands and a
+cap of 5, most of the catalogue's brands cannot appear on either strip regardless
+of uploads** — worth deciding whether the strips should page, scroll, or stay a
+curated five.
 
 Deliver logos as **transparent PNG or SVG, roughly 800 × 400**, with their own
 padding — they render `object-contain` in a fixed box.
@@ -449,12 +510,104 @@ Recorded so nobody re-audits them:
 
 - **`regions` · `image` — 7/7 empty, but invisible.** [resolveRegions](src/lib/regions.ts#L123)
   merges CMS rows over a bundled table and falls back to `base?.image`, so all
-  seven region cards already show art from `public/images/`. Uploading is optional.
+  seven region cards already show art from `public/images/`. Uploading is
+  optional — but **every one of those seven files is borrowed from somewhere
+  else on the site**, so this is the one "no action needed" entry with a real
+  editorial cost. See [Image reuse](#image-reuse--which-files-do-double-duty).
 - **`testimonials` · `image` — 5/5 empty, never rendered.** `TestimonialStrip`
-  does not read the field.
-- **`products` — 0/70 missing.** Every product has gallery art.
+  does not read the field. Uploading here changes nothing until the component is
+  rewired.
+- **`products` — 0/256 missing.** Every product has gallery art (621 media rows
+  in total).
 - **`blog-posts` — 0 records.** The journal is empty; the `featuredImage` slot is
   wired and will hatch with "Article image" once posts are written.
+
+---
+
+## Image reuse — which files do double duty
+
+Separate from "missing". These slots are **full**, but the file behind them is
+also behind something else. 22 of the 59 files in `public/images/` are referenced
+from more than one place. Most of that is harmless; some of it is the same
+photograph carrying two different meanings on the same page.
+
+### Regions borrow all seven of their images
+
+Not one region has its own photograph. [REGIONS](src/lib/regions.ts#L36) is a
+bundled presentation table, and every `image` in it points at a file that already
+belongs to a category tile or an editorial page.
+
+| Region | Bundled image | Also used as |
+|---|---|---|
+| Europe | `collections/olives.avif` | `mediterranean-olive-reserve` category tile, Recipes |
+| Middle East | `collections/spices.avif` | `single-origin-spices` category tile, Recipes |
+| Africa | `sourcing/sourcing-agriculture.avif` | Sourcing §3 `networkStrategic`, Brands page |
+| Latin America | `collections/coffee.avif` | `specialty-coffee-reserve` category tile |
+| North America | `collections/pantry.avif` | `truffle-treasury` tile, nav, Recipes |
+| Asia | `collections/seeds.avif` | `botanical-seed-selection` category tile |
+| Oceania | `collections/honey.avif` | `rare-estate-honey` category tile |
+
+**Why it matters.** Region cards and category cards appear on the same surfaces —
+the homepage, `/categories`, the shop facets. A visitor can see one photograph
+labelled *Europe* in one row and *Mediterranean Olive Reserve* in the next. The
+association is also loose in places: Africa gets a generic agriculture frame,
+North America gets the truffle/pantry shot, Asia gets seeds.
+
+This is deliberate — the comment at the top of `regions.ts` says the table exists
+so "the storefront looks finished before anything is authored". It is working as
+designed. But it means **7 region uploads are the cheapest editorial win
+available**: no code change, no new slot, and each one breaks a duplicate.
+
+### Everything else shared, for reference
+
+| File | Uses | Where |
+|---|---|---|
+| `collections/coco.avif` | 5 | 5 chocolate slugs in `CATEGORY_IMAGES` (4 of them dead keys) |
+| `collections/pantry.avif` | 5 | 2 category slugs, `nav.ts`, regions, Recipes |
+| `collections/breads.avif` | 4 | 3 category slugs, Recipes |
+| `collections/caviar.avif` | 4 | 3 category slugs, Recipes |
+| `logo/logo.svg` | 4 | layout, Header, Footer, MobileDrawer — correct, it is the masthead |
+| `sourcing/sourcing-farmer.avif` | 4 | Sourcing hero, HomeHero, **forgot-password**, **reset-password** |
+| `b2b/commercial-resturant.avif` | 3 | B2B `horeca`, HomeSidebar, `nav.ts` |
+| `collections/oils.avif` | 3 | category tile, HomeHero, Recipes |
+| `collections/olives.avif` | 3 | category tile, regions, Recipes |
+| `collections/spices.avif` | 3 | category tile, regions, Recipes |
+| `experience/experience-dish.avif` | 3 | Experience page, home carousel, Recipes |
+| `sourcing/sourcing-agriculture.avif` | 3 | Sourcing, Brands, regions |
+| `about/about-cover.avif` | 2 | About manifesto, HomeHero |
+| `about/about-customer.avif` | 2 | About `originA`, **register page** |
+| `about/about-retail.avif` | 2 | About `reach`, **login page** |
+| `collections/coffee.avif` | 2 | category tile, regions |
+| `collections/cutlery.avif` | 2 | 2 category slugs |
+| `collections/honey.avif` | 2 | category tile, regions |
+| `collections/seeds.avif` | 2 | category tile, regions |
+| `collections/spreads.avif` | 2 | 2 category slugs |
+| `experience/experience-chef.avif` | 2 | Experience page, home carousel |
+| `experience/experience-experts.avif` | 2 | Experience page, home carousel |
+
+**Worth a look, in rough priority:**
+
+1. **The 7 region images** — above. The only reuse a visitor can catch on a
+   single screen.
+2. **`sourcing-farmer.avif` on four surfaces**, two of which are the auth pages.
+   The homepage hero and the Sourcing hero being the same frame is the visible
+   one: a visitor landing on home and then clicking through to Sourcing sees the
+   identical picture twice.
+3. **`about-customer.avif` / `about-retail.avif` on the auth pages.** Register
+   and login reuse About's editorial frames. Low stakes — different journeys,
+   unlikely to be seen back to back.
+4. **The Experience trio on both the page and the home carousel.** Same three
+   frames in both places; the carousel is a teaser for the page, so this reads as
+   intentional.
+5. **Category slugs sharing one file** (`coco.avif` across chocolate,
+   `breads.avif` across breads and flours, `caviar.avif` across caviar). Sibling
+   categories under one parent showing the same tile is defensible; four
+   *chocolate* keys pointing at one cocoa shot is the weakest case, though 4 of
+   those 5 keys are dead anyway.
+
+Nothing here is a bug. It is recorded so that a future "why does this photo look
+familiar" question has an answer, and so region uploads can be prioritised for
+what they actually buy.
 
 ---
 
@@ -481,13 +634,20 @@ Recorded so nobody re-audits them:
 2. **Shoot the Vendors page** (A§1). Eight slots, hero included — the only page
    with nothing at all behind it.
 3. **Rename two `CATEGORY_IMAGES` keys** (B3) — `chocolate-boxes` and
-   `teddy-bear` are near-miss slugs, so two of the four category gaps close with
-   a one-line edit and no photography.
-4. **Upload the 4 banner images and the remaining category images** (B2, B3).
+   `teddy-bear` are near-miss slugs, so two of the nine category gaps close with
+   a one-line edit and no photography. Check `flour-baking` → `flours` while you
+   are there.
+4. **Point `MEDIA.hero` on Vendors at `misc/become-a-vendor.avif`.** The file is
+   already in the repo and referenced by nothing; it was orphaned when
+   `BecomeVendorCTA.tsx` was removed. Gets the worst page off a hatched hero
+   before the shoot happens.
+5. **Upload the 5 banner images and the 6 remaining category images** (B2, B3).
    Admin-panel work, visible on the home page.
-5. **Team portraits** (B5). Admin-panel work now — 5 uploads.
-6. **About timeline rail** (A§2.2). Still needs the code change below.
-7. Everything else in Part A, page by page.
+6. **Team portraits** (B5). Admin-panel work now — 5 uploads.
+7. **Region images** (B7 / Image reuse). 7 uploads, no code change; each one
+   breaks a duplicate with a category tile.
+8. **About timeline rail** (A§2.2). Still needs the code change below.
+9. Everything else in Part A, page by page.
 
 ---
 
@@ -512,15 +672,17 @@ handling need small code changes:
    the `timeline` array and pass `src={item.image}`. This is the last hard-coded
    `src={null}` on the page.
 
-**Unused assets already on disk.** Six files in `public/` that nothing in `src/`
-references — worth checking before commissioning new work, in case one fits a
-slot above:
+**Unused assets already on disk.** Five files in `public/` that nothing in `src/`
+references, in TSX or CSS — about **12.9 MB** in total. Worth checking before
+commissioning new work, in case one fits a slot above:
 
-| File | Note |
-|---|---|
-| `public/images/misc/become-a-vendor.avif` | Orphaned when `BecomeVendorCTA.tsx` was removed. Candidate for `vendors-hero.avif`. |
-| `public/images/misc/newsletter.avif` | Unreferenced. |
-| `public/images/misc/newsletter-leaves.png` | Unreferenced. |
-| `public/images/policy/policy.avif` | Unreferenced (`policy-cover.avif` is the one in use). |
-| `public/images/sustainability/sustainability-misc.avif` | Abstract yellow texture — the code comment rules it out for the `resource` slot. |
-| `public/videos/chef-hero.mp4` | Unreferenced video. |
+| File | Size | Note |
+|---|---|---|
+| `public/images/misc/become-a-vendor.avif` | 385 KB | Orphaned when `BecomeVendorCTA.tsx` was removed. **Candidate for `vendors-hero.avif`** — see step 4 above. |
+| `public/images/misc/newsletter-leaves.png` | **9.98 MB** | Unreferenced. By far the largest asset in the repo; delete or compress. |
+| `public/images/misc/newsletter.avif` | 1.58 MB | Unreferenced. |
+| `public/images/policy/policy.avif` | 227 KB | Unreferenced (`policy-cover.avif` is the one in use). |
+| `public/images/sustainability/sustainability-misc.avif` | 732 KB | Abstract yellow texture — the code comment rules it out for the `resource` slot. |
+
+`public/videos/chef-hero.mp4` was listed here in Revision 1 and has since been
+deleted (commit `9551469`); `public/videos/` no longer exists.

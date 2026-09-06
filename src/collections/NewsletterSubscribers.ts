@@ -1,8 +1,11 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyInNav } from './access'
+import { notifyNewsletterSignup } from './hooks/notificationHooks'
 
 export const NewsletterSubscribers: CollectionConfig = {
   slug: 'newsletter-subscribers',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'email',
     defaultColumns: ['email', 'source', 'createdAt'],
   },
@@ -11,6 +14,9 @@ export const NewsletterSubscribers: CollectionConfig = {
     read: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
     update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
     delete: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
+  },
+  hooks: {
+    afterChange: [notifyNewsletterSignup],
   },
   fields: [
     {

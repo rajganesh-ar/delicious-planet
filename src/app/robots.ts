@@ -15,8 +15,25 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      allow: '/',
-      disallow: ['/admin', '/api/', '/account', '/cart', '/checkout', '/login', '/register', '/forgot-password'],
+      // The second entry is a longer, more specific path than the
+      // /portal/chef disallow below, and a longer match wins — which is what
+      // keeps the chef sign-up crawlable while the portal behind it is not.
+      allow: ['/', '/portal/chef/register'],
+      disallow: [
+        '/admin',
+        '/api/',
+        '/account',
+        '/cart',
+        '/checkout',
+        '/login',
+        '/register',
+        '/forgot-password',
+        '/reset-password',
+        // Per-contributor and behind a login. /portal itself and
+        // /portal/vendor stay open: both are public front doors.
+        '/portal/chef',
+        '/portal/vendor/status',
+      ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { catalogueAccess } from './access'
+import { adminOnlyInNav, catalogueAccess } from './access'
 
 /**
  * The people shown in "Our people" on /about.
@@ -21,6 +21,7 @@ import { catalogueAccess } from './access'
 export const Team: CollectionConfig = {
   slug: 'team',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'role',
     defaultColumns: ['role', 'name', 'isFounder', 'active', 'sortOrder'],
     group: 'Content',

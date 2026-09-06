@@ -235,6 +235,7 @@ export function buildNav({
               { label: 'Sustainability', href: '/sustainability' },
               { label: 'Experiences', href: '/experiences' },
               { label: 'Journal', href: '/journal' },
+              { label: 'Cook With Us', href: '/portal/chef/register' },
               { label: 'Contact', href: '/contact' },
             ],
           },
@@ -254,6 +255,10 @@ export function buildNav({
               { label: 'B2B Solutions', href: '/b2b' },
               { label: 'Retail Partners', href: '/retail' },
               { label: 'Vendors & Suppliers', href: '/vendors' },
+              // The application itself, not the page describing it — a
+              // supplier who has read /vendors and decided should not have to
+              // find the form from inside it.
+              { label: 'Become a Vendor', href: '/portal/vendor' },
               { label: 'Shipping & Logistics', href: '/shipping' },
               { label: 'Commercial Terms', href: '/policies#b2b-terms' },
             ],

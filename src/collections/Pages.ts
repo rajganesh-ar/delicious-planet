@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyInNav, adminOnlyWrites } from './access'
 import {
   HeroBlock,
   FeaturedProductsBlock,
@@ -16,6 +17,7 @@ import {
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status'],
   },
@@ -25,6 +27,7 @@ export const Pages: CollectionConfig = {
     },
   },
   access: {
+    ...adminOnlyWrites,
     read: ({ req: { user } }) => {
       if (user) return true
       return { _status: { equals: 'published' } }

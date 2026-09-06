@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { catalogueAccess, publishedOrStaff } from './access'
+import { adminOnlyInNav, catalogueAccess, publishedOrStaff } from './access'
 import { COUNTRY_OPTIONS, REGION_BY_COUNTRY, REGION_SLUGS } from '../lib/countries'
 import {
   assertUniqueVariantSkus,
@@ -11,6 +11,7 @@ import {
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'sku', 'category', 'basePrice', 'inStock', '_status'],
     listSearchableFields: ['title', 'sku'],

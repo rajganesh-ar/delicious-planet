@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { catalogueAccess } from './access'
+import { adminOnlyInNav, catalogueAccess } from './access'
 import { REGIONS } from '../lib/regions'
 
 /**
@@ -17,6 +17,7 @@ import { REGIONS } from '../lib/regions'
 export const Regions: CollectionConfig = {
   slug: 'regions',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'label',
     defaultColumns: ['label', 'slug', 'active', 'sortOrder'],
     group: 'Content',

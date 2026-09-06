@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { publicMediaUrl } from './lib/media-url'
@@ -25,6 +26,9 @@ import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
 import { Banners } from './collections/Banners'
 import { Regions } from './collections/Regions'
 import { Team } from './collections/Team'
+import { VendorApplications } from './collections/VendorApplications'
+import { ChefProfiles } from './collections/ChefProfiles'
+import { Recipes } from './collections/Recipes'
 import { SiteSettings } from './globals/SiteSettings'
 import { Navigation } from './globals/Navigation'
 
@@ -56,11 +60,66 @@ if (missingR2.length > 0) {
   console.warn(`⚠ ${message}`)
 }
 
+/**
+ * Transactional email, over SMTP.
+ *
+ * The domain's mail already lives on Google Workspace (its MX is
+ * smtp.google.com and google._domainkey is published), so sending through the
+ * same account means outbound mail is DKIM-signed by the infrastructure that
+ * already owns the domain — no second provider, no separate reputation to
+ * warm up, and nothing new to verify.
+ *
+ * SMTP_PASSWORD is a Google App Password, not the account password: Google
+ * removed plain-password SMTP in 2022, so this only works on an account with
+ * 2-Step Verification turned on. See .env.example.
+ *
+ * Same posture as R2 above: deployed, missing configuration is fatal, because
+ * it means password resets deliver nothing while the UI still says "check your
+ * email", and every order confirmation is silently dropped. Locally it only
+ * warns — with no adapter registered Payload falls back to its built-in stub,
+ * which logs the rendered message to the console instead of sending it. That is
+ * the intended development loop: every template is reviewable without an
+ * account or a single DNS record.
+ */
+const smtp = {
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+}
+
+const SMTP_PORT = Number(process.env.SMTP_PORT || 465)
+
+const missingSmtp = Object.entries(smtp)
+  .filter(([, value]) => !value)
+  .map(([name]) => name)
+
+if (missingSmtp.length > 0) {
+  const message = `Email is not configured: ${missingSmtp.join(', ')}. Password resets and order confirmations will not be sent. See .env.example.`
+  if (process.env.NODE_ENV === 'production') throw new Error(message)
+  console.warn(`⚠ ${message}`)
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    meta: {
+      titleSuffix: ' · Delicious Planet',
+    },
+    components: {
+      /**
+       * The trading dashboard sits above Payload's own collection cards rather
+       * than replacing the dashboard view, so the default navigation is still
+       * there underneath it. `beforeDashboard` is also the stable slot — the
+       * widget API in 3.80 is still marked experimental.
+       */
+      beforeDashboard: ['/components/admin/Dashboard'],
+      graphics: {
+        Logo: '/components/admin/brand/Logo',
+        Icon: '/components/admin/brand/Icon',
+      },
     },
   },
   collections: [
@@ -80,10 +139,35 @@ export default buildConfig({
     Testimonials,
     OfficeLocations,
     Team,
+    VendorApplications,
+    ChefProfiles,
+    Recipes,
     NewsletterSubscribers,
     Banners,
   ],
   globals: [SiteSettings, Navigation],
+  /**
+   * Left undefined without credentials so Payload's console stub takes over.
+   *
+   * The From address defaults to the authenticated mailbox deliberately: Gmail
+   * rewrites a From it does not own back to the account that authenticated, so
+   * a mismatch here would silently send under the wrong address. To send as
+   * something else, add it in Gmail as a verified "Send mail as" alias first.
+   */
+  email:
+    missingSmtp.length === 0
+      ? nodemailerAdapter({
+          defaultFromAddress: process.env.EMAIL_FROM || smtp.SMTP_USER || '',
+          defaultFromName: process.env.EMAIL_FROM_NAME || 'Delicious Planet',
+          transportOptions: {
+            host: smtp.SMTP_HOST,
+            port: SMTP_PORT,
+            // 465 is implicit TLS; 587 starts plain and upgrades via STARTTLS.
+            secure: SMTP_PORT === 465,
+            auth: { user: smtp.SMTP_USER, pass: smtp.SMTP_PASSWORD },
+          },
+        })
+      : undefined,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -1,8 +1,11 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyInNav } from './access'
+import { notifyEnquiryReceived } from './hooks/notificationHooks'
 
 export const B2BInquiries: CollectionConfig = {
   slug: 'b2b-inquiries',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'company',
     defaultColumns: ['company', 'contactName', 'status', 'assignedOffice', 'createdAt'],
   },
@@ -11,6 +14,11 @@ export const B2BInquiries: CollectionConfig = {
     read: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
     update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
     delete: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
+  },
+  hooks: {
+    // The contact page posts here too, not only the trade form, so this fires
+    // for general enquiries as well.
+    afterChange: [notifyEnquiryReceived],
   },
   fields: [
     {

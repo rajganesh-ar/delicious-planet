@@ -1,4 +1,5 @@
 import type { Payload } from 'payload'
+import { notifyOrderPaid } from './email/notify'
 
 /**
  * Marks an order paid.
@@ -45,6 +46,15 @@ export async function markOrderPaid(
       ...(paymentIntentId ? { stripePaymentIntentId: paymentIntentId } : {}),
     },
   })
+
+  // Only this branch is reached, and only once per order — the guard above turns
+  // the loser of the webhook/redirect race into a no-op. That is what makes the
+  // confirmation exactly-once without any additional bookkeeping.
+  //
+  // Awaited rather than left floating: on a serverless host the function can be
+  // frozen the moment the handler returns, which would drop an in-flight send.
+  // notifyOrderPaid never rejects, so this cannot turn a paid order into a 500.
+  await notifyOrderPaid(payload, orderId)
 
   return 'updated'
 }

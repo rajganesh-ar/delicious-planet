@@ -1,8 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyInNav, adminOnlyWrites } from './access'
 
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
   admin: {
+    hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'author', 'categories', '_status', 'publishedAt'],
   },
@@ -12,6 +14,7 @@ export const BlogPosts: CollectionConfig = {
     },
   },
   access: {
+    ...adminOnlyWrites,
     read: ({ req: { user } }) => {
       if (user) return true
       return { _status: { equals: 'published' } }

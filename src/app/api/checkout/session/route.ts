@@ -149,7 +149,11 @@ export async function POST(req: Request) {
           },
         },
       })),
-      success_url: `${origin}/checkout/success?order=${encodeURIComponent(order.orderNumber)}`,
+      // `{CHECKOUT_SESSION_ID}` is a placeholder Stripe substitutes on redirect.
+      // The success page hands it to /api/checkout/confirm, which verifies the
+      // payment against Stripe rather than trusting the redirect — so an order
+      // still reaches `paid` on the spot if the webhook is down or unconfigured.
+      success_url: `${origin}/checkout/success?order=${encodeURIComponent(order.orderNumber)}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout?cancelled=1`,
     })
 

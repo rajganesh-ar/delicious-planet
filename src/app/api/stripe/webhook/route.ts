@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
+import { markOrderPaid, orderIdFromMetadata } from '@/lib/orders'
 import { getStripe } from '@/lib/stripe'
 
 export const runtime = 'nodejs'
@@ -37,11 +38,8 @@ export async function POST(req: Request) {
 
   const payload = await getPayload({ config: await config })
 
-  const orderIdFrom = (meta: Stripe.Metadata | null | undefined): number | null => {
-    const raw = meta?.orderId
-    const id = Number(raw)
-    return Number.isInteger(id) && id > 0 ? id : null
-  }
+  const orderIdFrom = (meta: Stripe.Metadata | null | undefined): number | null =>
+    orderIdFromMetadata(meta)
 
   try {
     switch (event.type) {
@@ -50,19 +48,17 @@ export async function POST(req: Request) {
         const orderId = orderIdFrom(session.metadata)
         // `unpaid` here means an async method (e.g. bank debit) hasn't settled yet.
         if (orderId && session.payment_status === 'paid') {
-          await payload.update({
-            collection: 'orders',
-            id: orderId,
-            overrideAccess: true,
-            data: {
-              status: 'processing',
-              paymentStatus: 'paid',
-              stripePaymentIntentId:
-                typeof session.payment_intent === 'string'
-                  ? session.payment_intent
-                  : (session.payment_intent?.id ?? null),
-            },
-          })
+          // Shared with /api/checkout/confirm, which races this handler on the
+          // redirect. The helper's `paymentStatus` guard is what makes whichever
+          // loses a no-op — and stops a redelivered event from resetting an
+          // order an admin has since moved on to `shipped`.
+          await markOrderPaid(
+            payload,
+            orderId,
+            typeof session.payment_intent === 'string'
+              ? session.payment_intent
+              : (session.payment_intent?.id ?? null),
+          )
         }
         break
       }

@@ -1,21 +1,58 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useCart } from '@/components/layout/CartContext'
 import { Button, Container, Eyebrow, Heading, ProseText } from '@/components/ui'
 
+/**
+ * `pending` covers both "still asking Stripe" and an async payment method that
+ * genuinely has not settled — the copy for those is the same, and it is
+ * deliberately not the confident "your payment has gone through".
+ */
+type PaymentState = 'pending' | 'paid' | 'unconfirmed'
+
 function SuccessInner() {
   const params = useSearchParams()
   const orderNumber = params.get('order') ?? ''
+  const sessionId = params.get('session_id') ?? ''
   const { clearCart } = useCart()
+  const [payment, setPayment] = useState<PaymentState>(sessionId ? 'pending' : 'unconfirmed')
 
   // The cart is kept through the Stripe redirect so a cancelled payment lands
   // back on a full basket. Reaching this page is what makes the sale final.
   useEffect(() => {
     if (orderNumber) clearCart()
   }, [orderNumber, clearCart])
+
+  /**
+   * Confirms the payment against Stripe instead of assuming it from the
+   * redirect. This is also what marks the order paid when the webhook has not
+   * fired — see the docblock on /api/checkout/confirm.
+   *
+   * A failure here is not shown as an error: the money may well have been
+   * taken, and the webhook is still coming. The page falls back to wording that
+   * is true either way rather than claiming a payment it could not verify.
+   */
+  useEffect(() => {
+    if (!sessionId) return
+    let cancelled = false
+
+    fetch(`/api/checkout/confirm?session_id=${encodeURIComponent(sessionId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled) return
+        setPayment(data?.paid ? 'paid' : 'unconfirmed')
+      })
+      .catch(() => {
+        if (!cancelled) setPayment('unconfirmed')
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [sessionId])
 
   return (
     <>
@@ -75,9 +112,27 @@ function SuccessInner() {
             Your order has been received
           </Heading>
 
+          {/*
+            Only the confirmed branch claims the payment succeeded. The other
+            two say something true without it — the order exists either way, and
+            telling a shopper their card went through when we could not verify
+            it is the one thing this page must not do.
+          */}
           <ProseText size="md" tone="muted" className="mb-3!">
-            Your payment has gone through and our team is preparing your order. We&apos;ll be in
-            touch with shipping details shortly.
+            {payment === 'paid' ? (
+              <>
+                Your payment has gone through and our team is preparing your order. We&apos;ll be
+                in touch with shipping details shortly.
+              </>
+            ) : payment === 'pending' ? (
+              <>Confirming your payment…</>
+            ) : (
+              <>
+                Our team is preparing your order and will be in touch with shipping details
+                shortly. If your payment is still settling, the status will update on your
+                account shortly.
+              </>
+            )}
           </ProseText>
           <ProseText size="md" tone="muted" className="mb-10! sm:mb-12!">
             A copy of this confirmation will be sent to your email.

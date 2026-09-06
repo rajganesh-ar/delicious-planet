@@ -34,6 +34,47 @@ const nextConfig: NextConfig = {
         ]
       : [],
   },
+  /**
+   * Baseline hardening headers, applied to every route.
+   *
+   * The Content-Security-Policy here is deliberately narrow in scope: it locks
+   * down framing, plugins, the base URI and form targets, but sets no
+   * `script-src` or `style-src`. A meaningful script policy would need nonces
+   * threaded through both the storefront and the Payload admin (which ships
+   * inline bootstrap scripts), and a half-written `script-src` that has to name
+   * 'unsafe-inline' to work buys nothing while looking like it does. The
+   * directives below are the ones that hold without that machinery.
+   */
+  async headers() {
+    const csp = [
+      "frame-ancestors 'self'",
+      "base-uri 'self'",
+      "object-src 'none'",
+      "form-action 'self'",
+    ].join('; ')
+
+    const headers = [
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      // The site asks for none of these; denying them stops an injected script
+      // or embedded frame from prompting the visitor in the site's name.
+      { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' },
+      { key: 'Content-Security-Policy', value: csp },
+    ]
+
+    // Browsers ignore HSTS over plain http, so this is inert in local dev — but
+    // it is gated anyway so a developer running a local TLS proxy doesn't end
+    // up with a two-year pin on localhost.
+    if (process.env.NODE_ENV === 'production') {
+      headers.push({
+        key: 'Strict-Transport-Security',
+        value: 'max-age=63072000; includeSubDomains; preload',
+      })
+    }
+
+    return [{ source: '/:path*', headers }]
+  },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],

@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { generateOrderNumber } from '@/collections/Orders'
 import { priceCart, type CartLineInput } from '@/lib/cart-pricing'
+import { clientKey, rateLimit } from '@/lib/rate-limit'
 import { getStripe, isStripeConfigured, toMinorUnits } from '@/lib/stripe'
 import type { Order } from '@/payload-types'
 
@@ -41,7 +42,26 @@ function cleanAddress(a: AddressInput | undefined) {
   }
 }
 
+/**
+ * Every accepted call writes an order row and opens a Stripe Checkout session,
+ * so the endpoint is throttled ahead of any of that work — including ahead of
+ * body parsing, which is the only part an attacker controls the cost of.
+ *
+ * Ten a minute is far above real checkout behaviour (a shopper submits once,
+ * maybe retries after a validation error) and far below what makes looping
+ * worthwhile.
+ */
+const CHECKOUT_RATE_LIMIT = { limit: 10, windowMs: 60_000 }
+
 export async function POST(req: Request) {
+  const limit = rateLimit(`checkout:${clientKey(req)}`, CHECKOUT_RATE_LIMIT)
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: 'Too many checkout attempts. Please wait a moment and try again.' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } },
+    )
+  }
+
   let body: Body
   try {
     body = await req.json()

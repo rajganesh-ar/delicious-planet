@@ -1,3 +1,10 @@
+// @vitest-environment node
+
+// Runs against the Payload Local API and the database — there is no DOM in
+// play. It was inheriting the config's jsdom default, which under jsdom 28
+// fails to boot the worker at all (html-encoding-sniffer require()s an ESM
+// module), so the whole file errored before a single assertion ran.
+
 import { getPayload, Payload } from 'payload'
 import config from '@/payload.config'
 

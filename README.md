@@ -65,3 +65,14 @@ That's it! The Docker instance will help you get up and running quickly while al
 ## Questions
 
 If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+
+## Node version
+
+`engines.node` is `^20.19.0 || ^22.12.0 || >=24.0.0`, and the floor is real
+rather than cautious: jsdom 28 (used by the Vitest integration suite) reaches a
+dependency that `require()`s an ES module, which only works from Node 20.19.
+
+The symptom on an older Node is quiet rather than loud — the worker fails to
+start and Vitest reports the file as "no tests" instead of failing it, so a
+suite can appear green while never having run. `node --version` before
+trusting a passing `pnpm test:int`.

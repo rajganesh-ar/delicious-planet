@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCart, lineKey, type CartItem } from './CartContext'
 import { MENU_LOCK_EVENT } from './menu-events'
-import { formatPrice } from '@/lib/product'
+import { BASE_CURRENCY, formatPrice } from '@/lib/product'
 import { cn } from '@/lib/cn'
 
 /**
@@ -37,7 +37,7 @@ const EMPTY_LINKS = [
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, subtotal, totalItems } = useCart()
-  const currency = items[0]?.currency ?? 'AED'
+  const currency = items[0]?.currency ?? BASE_CURRENCY
   const closeRef = useRef<HTMLButtonElement>(null)
 
   // Escape closes, matching the mega menu and mobile drawer.

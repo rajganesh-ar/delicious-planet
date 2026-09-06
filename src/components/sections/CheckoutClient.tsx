@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useCart, lineKey } from '@/components/layout/CartContext'
+import { BASE_CURRENCY } from '@/lib/product'
 import type { User } from '@/payload-types'
 import {
   Button,
@@ -57,7 +58,7 @@ export function CheckoutClient() {
   // Stripe sends people back here with ?cancelled=1 if they abandon the payment page.
   const paymentCancelled = searchParams.get('cancelled') === '1'
   const { items, subtotal, clearCart } = useCart()
-  const currency = items[0]?.currency ?? 'USD'
+  const currency = items[0]?.currency ?? BASE_CURRENCY
 
   const [user, setUser] = useState<User | null>(null)
   const [userLoaded, setUserLoaded] = useState(false)

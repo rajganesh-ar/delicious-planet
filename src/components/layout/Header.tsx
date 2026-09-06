@@ -9,7 +9,7 @@ import { useCart } from './CartContext'
 import { MegaPanel, ListPanel } from './MegaPanel'
 import { MobileDrawer } from './MobileDrawer'
 import { MENU_LOCK_EVENT } from './menu-events'
-import { formatPrice } from '@/lib/product'
+import { BASE_CURRENCY, formatPrice } from '@/lib/product'
 import type { NavEntry } from '@/lib/nav'
 
 export interface SearchScope {
@@ -77,7 +77,7 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
 
   const messages = announcements?.length ? announcements : DEFAULT_ANNOUNCEMENTS
   const announcement = messages[tick % messages.length]
-  const currency = items[0]?.currency ?? 'AED'
+  const currency = items[0]?.currency ?? BASE_CURRENCY
 
   // ── Publish the stuck header height for page-level sticky offsets ──────
   useEffect(() => {

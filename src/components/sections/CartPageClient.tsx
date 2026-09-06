@@ -7,7 +7,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { useCart, lineKey, type CartItem } from '@/components/layout/CartContext'
 import { QuantityStepper } from '@/components/layout/CartDrawer'
 import { Cta, Eyebrow, GUTTER } from '@/components/sections/editorial'
-import { formatPrice } from '@/lib/product'
+import { BASE_CURRENCY, formatPrice } from '@/lib/product'
 import { cn } from '@/lib/cn'
 
 /**
@@ -44,7 +44,7 @@ const ASSURANCES = [
 
 export function CartPageClient() {
   const { items, hydrated, subtotal, totalItems, removeItem, updateQuantity, clearCart } = useCart()
-  const currency = items[0]?.currency ?? 'AED'
+  const currency = items[0]?.currency ?? BASE_CURRENCY
 
   const threshold = FREE_DELIVERY[currency]
   const qualifies = threshold !== undefined && subtotal >= threshold

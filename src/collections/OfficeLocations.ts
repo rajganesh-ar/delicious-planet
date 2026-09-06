@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { catalogueAccess } from './access'
 
 export const OfficeLocations: CollectionConfig = {
   slug: 'office-locations',
@@ -6,6 +7,7 @@ export const OfficeLocations: CollectionConfig = {
     useAsTitle: 'city',
     defaultColumns: ['city', 'country'],
   },
+  access: catalogueAccess,
   fields: [
     { name: 'city', type: 'text', required: true },
     { name: 'country', type: 'text', required: true },

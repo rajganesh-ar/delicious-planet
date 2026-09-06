@@ -29,3 +29,15 @@ export const publishedOrStaff: Access = ({ req: { user } }) => {
   if (user?.roles?.includes('admin')) return true
   return { _status: { equals: 'published' } }
 }
+
+/**
+ * For collections that are pure back-office: nothing on the storefront reads
+ * them, so there is no reason to expose the rows publicly. Distinct from
+ * `catalogueAccess`, whose `read` is deliberately open.
+ */
+export const adminOnlyAccess = {
+  read: isAdmin,
+  create: isAdmin,
+  update: isAdmin,
+  delete: isAdmin,
+} as const

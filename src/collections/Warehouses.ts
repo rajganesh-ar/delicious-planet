@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyAccess } from './access'
 
 export const Warehouses: CollectionConfig = {
   slug: 'warehouses',
@@ -6,6 +7,7 @@ export const Warehouses: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'isActive'],
   },
+  access: adminOnlyAccess,
   fields: [
     {
       name: 'name',

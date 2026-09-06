@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { catalogueAccess } from './access'
 
 export const Suppliers: CollectionConfig = {
   slug: 'suppliers',
@@ -6,6 +7,7 @@ export const Suppliers: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'country', 'website'],
   },
+  access: catalogueAccess,
   fields: [
     {
       name: 'name',

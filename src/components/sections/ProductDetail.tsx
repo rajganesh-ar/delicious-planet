@@ -189,7 +189,11 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                       {marks.map((mark) => (
                         <li
                           key={mark.key}
-                          className="font-heading text-[9px] uppercase tracking-[0.12em] font-semibold text-forest-green bg-forest-green/10 border border-forest-green/20 px-2 py-1 rounded-sm leading-none"
+                          // nowrap: the list already wraps between chips, so a
+                          // two-word mark ("Gluten Free") breaking *inside* its
+                          // own border is never wanted — and at `leading-none`
+                          // the two lines would sit on top of each other.
+                          className="whitespace-nowrap font-heading text-[9px] uppercase tracking-[0.12em] font-semibold text-forest-green bg-forest-green/10 border border-forest-green/20 px-2 py-1 rounded-sm leading-none"
                         >
                           {mark.label}
                         </li>

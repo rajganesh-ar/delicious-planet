@@ -22,7 +22,10 @@ export function Badge({ tone = 'forest', className, children }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center px-3 py-1 text-[10px] tracking-[0.18em] uppercase rounded-pill border font-heading',
+        // nowrap by default: a pill that breaks across two lines inside its own
+        // border is never the intent, and callers wanting it can pass
+        // `whitespace-normal` through className.
+        'inline-flex items-center whitespace-nowrap px-3 py-1 text-[10px] tracking-[0.18em] uppercase rounded-pill border font-heading',
         toneClass[tone],
         className,
       )}

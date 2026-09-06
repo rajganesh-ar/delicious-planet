@@ -70,7 +70,11 @@ export function ActiveFilters({ filters }: { filters: ActiveFilter[] }) {
           )}
           className="group inline-flex items-center gap-1.5 h-7 pl-2.5 pr-2 rounded-sm border border-forest-green/30 bg-forest-green/[0.06] no-underline transition-colors hover:bg-forest-green hover:border-forest-green"
         >
-          <span className="font-sans text-[11.5px] text-forest-green group-hover:text-cream transition-colors">
+          {/* nowrap: the chip is a fixed h-7, so a label that wraps — and
+              these are category and brand names, which get long — spills its
+              second line straight out of the border. The row already wraps
+              between chips, which is where the breaking should happen. */}
+          <span className="whitespace-nowrap font-sans text-[11.5px] text-forest-green group-hover:text-cream transition-colors">
             {filter.label}
           </span>
           <svg

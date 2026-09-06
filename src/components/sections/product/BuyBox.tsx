@@ -65,7 +65,9 @@ export function BuyBox({ product, variants, activeVariant, onSelectVariant }: Bu
                   <span className="font-sans text-[13px] text-stone/45 line-through">
                     {formatPrice(compareAt, price.currency)}
                   </span>
-                  <span className="font-heading text-[9px] uppercase tracking-[0.14em] font-semibold text-obsidian bg-gold px-1.5 py-0.5 rounded-sm leading-none">
+                  {/* nowrap: `leading-none` gives a wrapped badge zero leading,
+                      so "Save" and "25%" would collide inside the gold chip. */}
+                  <span className="whitespace-nowrap font-heading text-[9px] uppercase tracking-[0.14em] font-semibold text-obsidian bg-gold px-1.5 py-0.5 rounded-sm leading-none">
                     Save {percentOff}%
                   </span>
                 </>

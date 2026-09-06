@@ -82,7 +82,10 @@ export function ProductGallery({ images, active, onSelect, flags = [] }: Product
               <span
                 key={flag.label}
                 className={cn(
-                  'font-heading text-[9px] uppercase tracking-[0.16em] font-semibold px-2 py-1 rounded-sm leading-none',
+                  // nowrap: these sit over the image in a column with no width
+                  // of its own, so on a narrow phone "Sold out" would break in
+                  // two — and `leading-none` collapses the two lines together.
+                  'whitespace-nowrap font-heading text-[9px] uppercase tracking-[0.16em] font-semibold px-2 py-1 rounded-sm leading-none',
                   FLAG_TONE[flag.tone],
                 )}
               >

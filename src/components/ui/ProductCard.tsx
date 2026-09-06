@@ -66,21 +66,35 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
       className="group relative flex flex-col h-full border-r border-b border-stone/15 bg-white"
       initial={false}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-3 pt-2 pb-1 shrink-0">
-        <p className="text-[9px] uppercase tracking-[0.25em] text-stone/45 m-0 leading-none font-medium">
+      {/*
+        Header — a flex row of "01 / Category" against a status flag.
+
+        Two rules keep it one line tall, which matters because this row sits
+        above the image: if it grows, that card's photo starts lower than its
+        neighbours' and the whole grid row loses its baseline.
+
+        `min-w-0` + `truncate` let the category label shrink and ellipsis. A
+        flex item defaults to min-width:auto, so without it a long name like
+        "Bespoke Tableware & Glassware" refuses to shrink and squeezes the flag.
+
+        `whitespace-nowrap` + `shrink-0` on each flag stops it being the thing
+        that gives. "Sold Out" was wrapping to two lines inside its border —
+        and with `leading-none` those lines collided.
+      */}
+      <div className="flex items-center justify-between gap-2 px-3 pt-2 pb-1 shrink-0">
+        <p className="min-w-0 truncate text-[9px] uppercase tracking-[0.25em] text-stone/45 m-0 leading-none font-medium">
           {num && label ? `${num} / ${label}` : num ?? label ?? '—'}
         </p>
         {!product.inStock ? (
-          <span className="text-[8px] uppercase tracking-[0.18em] text-stone/55 border border-stone/25 px-1.5 py-0.5 font-medium leading-none">
+          <span className="shrink-0 whitespace-nowrap text-[8px] uppercase tracking-[0.18em] text-stone/55 border border-stone/25 px-1.5 py-0.5 font-medium leading-none">
             Sold Out
           </span>
         ) : onSale ? (
-          <span className="text-[8px] uppercase tracking-[0.18em] text-obsidian bg-gold px-1.5 py-0.5 font-semibold leading-none">
+          <span className="shrink-0 whitespace-nowrap text-[8px] uppercase tracking-[0.18em] text-obsidian bg-gold px-1.5 py-0.5 font-semibold leading-none">
             {percentOff > 0 ? `-${percentOff}%` : 'Sale'}
           </span>
         ) : isNew ? (
-          <span className="text-[8px] uppercase tracking-[0.18em] text-cream bg-forest-green px-1.5 py-0.5 font-semibold leading-none">
+          <span className="shrink-0 whitespace-nowrap text-[8px] uppercase tracking-[0.18em] text-cream bg-forest-green px-1.5 py-0.5 font-semibold leading-none">
             New
           </span>
         ) : null}
@@ -138,7 +152,10 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
             {dietaryTags.map((tag) => (
               <li
                 key={tag}
-                className="text-[8px] uppercase tracking-[0.08em] text-forest-green bg-forest-green/10 border border-forest-green/20 px-1 py-0.5 leading-none rounded-sm"
+                // nowrap for the same reason as the header flags above: the
+                // row wraps between tags, so a tag splitting inside its own
+                // border only ever looks broken.
+                className="whitespace-nowrap text-[8px] uppercase tracking-[0.08em] text-forest-green bg-forest-green/10 border border-forest-green/20 px-1 py-0.5 leading-none rounded-sm"
               >
                 {tag}
               </li>

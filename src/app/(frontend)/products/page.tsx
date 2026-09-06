@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { ProductsListing } from '@/components/sections/ProductsListing'
@@ -25,6 +26,46 @@ const FACET_SCAN_LIMIT = 3000
 /** Slugs are unique, so an impossible one is the safe "match nothing" clause. */
 const NO_MATCH: Where = { slug: { equals: '__no_such_product__' } }
 
+/**
+ * The facet scan, cached across requests.
+ *
+ * This query is the most expensive thing the shop page does — up to 3000 rows —
+ * and it is also the same query every single time: the projection covers the
+ * whole published catalogue, because the sidebar has to count what *unchosen*
+ * filters would return. Only the in-memory tallying downstream varies by
+ * request, so the fetch itself has no business being repeated per visitor.
+ *
+ * The 300s window matches the storefront layout's `revalidate`, so a product
+ * published in the admin reaches the filter counts and the navigation on the
+ * same cadence rather than two different ones.
+ */
+const loadFacetDocs = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: await config })
+    const res = await payload.find({
+      collection: 'products',
+      where: { _status: { equals: 'published' } },
+      depth: 0,
+      limit: FACET_SCAN_LIMIT,
+      select: {
+        title: true,
+        sku: true,
+        shortDescription: true,
+        category: true,
+        brand: true,
+        supplier: true,
+        origin: true,
+        dietary: true,
+        basePrice: true,
+        inStock: true,
+        isFeatured: true,
+      },
+    })
+    return res.docs
+  },
+  ['shop-facet-docs'],
+  { revalidate: 300, tags: ['products'] },
+)
 
 /**
  * Static rather than derived from the active filters. Every filter combination
@@ -139,29 +180,12 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   const where: Where = conditions.length > 1 ? { and: conditions } : conditions[0]
 
-  const [productsRes, facetDocsRes] = await Promise.all([
+  const [productsRes, facetDocs] = await Promise.all([
     payload.find({ collection: 'products', where, sort, page, limit: PER_PAGE, depth: 2 }),
     // One narrow scan of the catalogue feeds every count in the filter panel —
-    // see src/lib/shop-facets.ts for why this beats a query per option.
-    payload.find({
-      collection: 'products',
-      where: { _status: { equals: 'published' } },
-      depth: 0,
-      limit: FACET_SCAN_LIMIT,
-      select: {
-        title: true,
-        sku: true,
-        shortDescription: true,
-        category: true,
-        brand: true,
-        supplier: true,
-        origin: true,
-        dietary: true,
-        basePrice: true,
-        inStock: true,
-        isFeatured: true,
-      },
-    }),
+    // see src/lib/shop-facets.ts for why this beats a query per option, and
+    // `loadFacetDocs` above for why it is cached rather than re-run per visitor.
+    loadFacetDocs(),
   ])
 
   const selection: ShopSelection = {
@@ -178,7 +202,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   }
 
   const facets = buildShopFacets({
-    docs: facetDocsRes.docs,
+    docs: facetDocs,
     categories,
     brands,
     suppliers,

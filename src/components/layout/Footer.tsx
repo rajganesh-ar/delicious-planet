@@ -250,11 +250,20 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
         style={{ willChange: 'transform' }}
         aria-hidden
       >
-        <img
+        {/*
+          Goes through next/image rather than a bare <img> because the footer is
+          on every page: the source file is a 2.1 MB AVIF, and served raw that
+          was the largest single download on the site, repeated site-wide. `fill`
+          matches the previous 100%-height/object-cover behaviour, and there is
+          deliberately no `priority` — the band is decorative and below the fold,
+          so lazy loading is the point.
+        */}
+        <Image
           src="/images/misc/footer.avif"
           alt=""
-          className="w-full"
-          style={{ height: '100%', objectFit: 'cover' }}
+          fill
+          sizes="100vw"
+          className="object-cover"
         />
       </div>
 

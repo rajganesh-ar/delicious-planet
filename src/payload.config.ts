@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { s3Storage } from '@payloadcms/storage-s3'
+import { publicMediaUrl } from './lib/media-url'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -29,6 +30,31 @@ import { Navigation } from './globals/Navigation'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+/**
+ * Cloudflare R2, reached through its S3-compatible API. Every value is
+ * required; see .env.example for where each one comes from.
+ */
+const r2 = {
+  R2_BUCKET: process.env.R2_BUCKET,
+  R2_ENDPOINT: process.env.R2_ENDPOINT,
+  R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID,
+  R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
+  R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
+}
+
+const missingR2 = Object.entries(r2)
+  .filter(([, value]) => !value)
+  .map(([name]) => name)
+
+if (missingR2.length > 0) {
+  const message = `R2 media storage is not configured: ${missingR2.join(', ')}. See .env.example.`
+  // Deployed, this means every image on the site 404s and every upload fails,
+  // so the build must not come up. Locally it is survivable — the rest of the
+  // app works while the bucket is still being set up — so it only warns.
+  if (process.env.NODE_ENV === 'production') throw new Error(message)
+  console.warn(`⚠ ${message}`)
+}
 
 export default buildConfig({
   admin: {
@@ -86,12 +112,47 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    vercelBlobStorage({
+    /**
+     * Media lives in Cloudflare R2, reached through its S3-compatible API.
+     *
+     * Three things are R2-specific: the region is always `auto`, the endpoint is
+     * account-scoped rather than region-scoped, and path-style addressing is
+     * required — R2 does not serve virtual-hosted bucket subdomains.
+     *
+     * `R2_ENDPOINT` is the private API endpoint used for reads and writes.
+     * `R2_PUBLIC_URL` is the separate public domain the bucket is exposed on
+     * (an r2.dev subdomain or a custom one); it is what browsers hit, and
+     * next.config.ts derives its image `remotePatterns` entry from it.
+     */
+    s3Storage({
       enabled: true,
       collections: {
-        media: true,
+        media: {
+          // Media is already world-readable (see Media.access.read), so serving
+          // it straight from R2 costs nothing in access control and saves a
+          // Vercel function invocation per image. Without this every request
+          // would stream through /api/media/file/*, which is most of what the
+          // move to R2 is meant to avoid — R2 egress is free, Vercel's is not.
+          disablePayloadAccessControl: true,
+          // The adapter's own generateURL would point at the private S3
+          // endpoint, so the public domain is applied here instead. Called once
+          // per size with that size's filename, as an afterRead hook — nothing
+          // is written to the database, so the public domain can change later
+          // without a data migration.
+          generateFileURL: ({ filename, prefix }) =>
+            publicMediaUrl([prefix, filename].filter(Boolean).join('/')),
+        },
       },
-      token: process.env.BLOB_READ_WRITE_TOKEN || '',
+      bucket: r2.R2_BUCKET || '',
+      config: {
+        endpoint: r2.R2_ENDPOINT || '',
+        region: 'auto',
+        credentials: {
+          accessKeyId: r2.R2_ACCESS_KEY_ID || '',
+          secretAccessKey: r2.R2_SECRET_ACCESS_KEY || '',
+        },
+        forcePathStyle: true,
+      },
     }),
   ],
 })

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { publicMediaUrl } from '@/lib/media-url'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -47,15 +48,31 @@ export const Media: CollectionConfig = {
         height: undefined,
         formatOptions: { format: 'webp', options: { quality: 85 } },
       },
-      {
-        name: 'og',
-        width: 1200,
-        height: 630,
-        position: 'centre',
-        formatOptions: { format: 'webp', options: { quality: 90 } },
-      },
+      // `og` (1200×630) was removed: nothing read it. Every social card on the
+      // site sets its own art, so it was a fourth derivative written on every
+      // upload that no page ever requested.
+      //
+      // Each size is a separate write, a separate sharp encode and a separate
+      // stored object, so the count here multiplies the cost of every import.
+      // That bill fell on the previous Vercel Blob store, whose per-month
+      // "advanced operations" allowance a 530-image import exhausted at five
+      // files apiece; R2 prices operations far more generously, but an
+      // unrequested rendition is waste under any provider.
+      //
+      // The `sizes_og_*` columns stay on the table until md/scripts/cleanup-r2.ts
+      // has swept the superseded objects — they are what identifies the old og
+      // files in the bucket, and dropping the columns first would strand them.
     ],
-    adminThumbnail: 'thumbnail',
+    // A size name here would make Payload build `thumbnailURL` from its own
+    // static route, which the R2 switch retired — the storage plugin rewrites
+    // `url` and every `sizes.*.url`, but not this one, so admin thumbnails
+    // would be the only 404s on the site. Building it by hand keeps them on the
+    // same public domain as everything else.
+    adminThumbnail: ({ doc }) => {
+      const sizes = doc?.sizes as Record<string, { filename?: string | null }> | undefined
+      const filename = sizes?.thumbnail?.filename ?? (doc?.filename as string | undefined)
+      return filename ? publicMediaUrl(filename) : null
+    },
     mimeTypes: [
       'image/jpeg',
       'image/png',

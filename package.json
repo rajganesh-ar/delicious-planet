@@ -30,13 +30,15 @@
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "migrate:status": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:status",
     "db:push": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" node scripts/db-push.mjs",
-    "migrate:apply": "node scripts/apply-migration.cjs"
+    "migrate:apply": "node scripts/apply-migration.cjs",
+    "media:recover": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/recover-media.ts",
+    "media:cleanup": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/cleanup-r2.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.80.0",
     "@payloadcms/next": "3.80.0",
     "@payloadcms/richtext-lexical": "3.80.0",
-    "@payloadcms/storage-vercel-blob": "3.80.0",
+    "@payloadcms/storage-s3": "3.80.0",
     "@payloadcms/ui": "3.80.0",
     "@tailwindcss/postcss": "^4.2.2",
     "cross-env": "^7.0.3",
@@ -55,6 +57,7 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1124.0",
     "@playwright/test": "1.58.2",
     "@testing-library/react": "16.3.0",
     "@types/jsdom": "^30.0.0",

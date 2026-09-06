@@ -43,7 +43,12 @@ export async function POST(req: Request) {
 
   try {
     switch (event.type) {
-      case 'checkout.session.completed': {
+      // Grouped because the payment_status guard below is what separates them:
+      // on `completed` for a delayed method the session is still `unpaid` and
+      // nothing happens, then the settlement arrives later as
+      // `async_payment_succeeded` with that same session now `paid`.
+      case 'checkout.session.completed':
+      case 'checkout.session.async_payment_succeeded': {
         const session = event.data.object
         const orderId = orderIdFrom(session.metadata)
         // `unpaid` here means an async method (e.g. bank debit) hasn't settled yet.
@@ -76,7 +81,10 @@ export async function POST(req: Request) {
         break
       }
 
-      case 'payment_intent.payment_failed': {
+      // A delayed method that bounces fires both of these. The write is the same
+      // either way, so whichever lands second is a harmless no-op.
+      case 'payment_intent.payment_failed':
+      case 'checkout.session.async_payment_failed': {
         const orderId = orderIdFrom(event.data.object.metadata)
         if (orderId) {
           await payload.update({

@@ -59,9 +59,17 @@ export const Media: CollectionConfig = {
       // files apiece; R2 prices operations far more generously, but an
       // unrequested rendition is waste under any provider.
       //
-      // The `sizes_og_*` columns stay on the table until md/scripts/cleanup-r2.ts
-      // has swept the superseded objects — they are what identifies the old og
-      // files in the bucket, and dropping the columns first would strand them.
+      // Both halves of that removal are accounted for: md/scripts/cleanup-r2.ts
+      // swept the 511 superseded 1200×630 objects out of the bucket, and the
+      // `sizes_og_*` columns go with 20260906_190000_drop_media_og_size.
+      //
+      // An earlier note here claimed the columns had to outlive the sweep
+      // because they were "what identifies the old og files in the bucket".
+      // They were not. cleanup-r2.ts diffs the bucket against the keys Payload
+      // reports, and dropping a size from this array removes it from the
+      // adapter's table definition, so those columns were never read back —
+      // which is exactly why the objects showed up as strays. Either step could
+      // have gone first.
     ],
     // A size name here would make Payload build `thumbnailURL` from its own
     // static route, which the R2 switch retired — the storage plugin rewrites

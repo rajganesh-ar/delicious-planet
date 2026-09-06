@@ -4,6 +4,7 @@ import * as migration_20260901_190000 from './20260901_190000_regions_collection
 import * as migration_20260901_200000 from './20260901_200000_import_provenance'
 import * as migration_20260902_120000 from './20260902_120000_team_collection'
 import * as migration_20260902_130000 from './20260902_130000_brand_marks'
+import * as migration_20260906_190000 from './20260906_190000_drop_media_og_size'
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20260902_130000.up,
     down: migration_20260902_130000.down,
     name: '20260902_130000_brand_marks',
+  },
+  {
+    up: migration_20260906_190000.up,
+    down: migration_20260906_190000.down,
+    name: '20260906_190000_drop_media_og_size',
   },
 ]

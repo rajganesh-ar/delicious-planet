@@ -27,6 +27,19 @@ function resolve(): string {
 
 export const SITE_URL = resolve()
 
+/**
+ * Whether `SITE_URL` came from configuration rather than falling through to the
+ * localhost default.
+ *
+ * The distinction matters where a wrong origin is worse than a slightly stale
+ * one — the Stripe redirect URLs, for instance. A developer running on a port
+ * other than 3000 needs the request's own origin; a deployed environment must
+ * never take the origin from a request header it doesn't control.
+ */
+export const SITE_URL_IS_CONFIGURED = Boolean(
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim(),
+)
+
 /** Absolute URL for a site-relative path. */
 export function absoluteUrl(path: string): string {
   return new URL(path.startsWith('/') ? path : `/${path}`, SITE_URL).toString()

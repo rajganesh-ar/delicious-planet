@@ -4,6 +4,7 @@ import config from '@/payload.config'
 import { generateOrderNumber } from '@/collections/Orders'
 import { priceCart, type CartLineInput } from '@/lib/cart-pricing'
 import { clientKey, rateLimit } from '@/lib/rate-limit'
+import { SITE_URL, SITE_URL_IS_CONFIGURED } from '@/lib/site-url'
 import { getStripe, isStripeConfigured, toMinorUnits } from '@/lib/stripe'
 import type { Order } from '@/payload-types'
 
@@ -126,7 +127,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ orderNumber: order.orderNumber, url: null })
   }
 
-  const origin = new URL(req.url).origin
+  /**
+   * Where Stripe sends the buyer back to.
+   *
+   * Taken from configuration wherever it exists, and only from the request as a
+   * development fallback. `new URL(req.url).origin` is derived from headers the
+   * caller can influence through a proxy, and this value ends up in a live
+   * Stripe session — so on a deployed environment it is the one input here that
+   * must not be attacker-shaped. Reading it from the same constant the sitemap
+   * and canonicals use also means the redirect cannot drift from the domain the
+   * rest of the site claims to be on.
+   *
+   * The fallback exists because SITE_URL defaults to port 3000, which would send
+   * a developer running on 3001 to the wrong place after paying.
+   */
+  const origin = SITE_URL_IS_CONFIGURED ? SITE_URL : new URL(req.url).origin
 
   try {
     const stripe = getStripe()

@@ -122,28 +122,47 @@ export default buildConfig({
       },
     },
   },
+  /**
+   * Order here is the order of the sidebar.
+   *
+   * Payload builds its nav by walking this array and bucketing each entry into
+   * its `admin.group`, so a group first appears where its first member does.
+   * The sequence below is therefore deliberate rather than alphabetical: it
+   * runs from what the shop touches every day (orders) to what it touches once
+   * a quarter (settings). Every collection carries a group, which leaves
+   * Payload's default "Collections" bucket empty — it is dropped automatically
+   * once nothing lands in it.
+   *
+   * Sales · Catalogue · Supply chain · Partners · Content · Customers · Settings
+   */
   collections: [
-    Users,
-    Media,
-    Products,
-    Categories,
-    Regions,
-    Suppliers,
-    Warehouses,
-    Brands,
     Orders,
     B2BInquiries,
+
+    Products,
+    Categories,
+    Brands,
+    Regions,
+
+    Suppliers,
+    Warehouses,
+
+    VendorApplications,
+    ChefProfiles,
+
     Pages,
     BlogPosts,
     BlogCategories,
-    Testimonials,
-    OfficeLocations,
-    Team,
-    VendorApplications,
-    ChefProfiles,
     Recipes,
-    NewsletterSubscribers,
+    Testimonials,
     Banners,
+    Media,
+
+    Users,
+    NewsletterSubscribers,
+
+    Team,
+    OfficeLocations,
   ],
   globals: [SiteSettings, Navigation],
   /**

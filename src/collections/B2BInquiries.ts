@@ -4,7 +4,9 @@ import { notifyEnquiryReceived } from './hooks/notificationHooks'
 
 export const B2BInquiries: CollectionConfig = {
   slug: 'b2b-inquiries',
+  labels: { singular: 'B2B Enquiry', plural: 'B2B Enquiries' },
   admin: {
+    group: 'Sales',
     hidden: adminOnlyInNav,
     useAsTitle: 'company',
     defaultColumns: ['company', 'contactName', 'status', 'assignedOffice', 'createdAt'],

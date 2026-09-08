@@ -4,6 +4,7 @@ import { adminOnlyInNav, catalogueAccess } from './access'
 export const Brands: CollectionConfig = {
   slug: 'brands',
   admin: {
+    group: 'Catalogue',
     hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug'],

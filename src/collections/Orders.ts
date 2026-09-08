@@ -29,6 +29,7 @@ export const PAYMENT_STATUSES = [
 export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
+    group: 'Sales',
     useAsTitle: 'orderNumber',
     // The list is a work queue before it is a record, so it leads with what
     // decides whether a row needs attention — who, how much, paid, shipped —

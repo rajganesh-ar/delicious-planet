@@ -4,6 +4,7 @@ import { adminOnlyInNav, catalogueAccess } from './access'
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: {
+    group: 'Content',
     hidden: adminOnlyInNav,
     useAsTitle: 'name',
     defaultColumns: ['name', 'company', 'rating'],

@@ -4,6 +4,7 @@ import { adminOnlyInNav, catalogueAccess } from './access'
 export const OfficeLocations: CollectionConfig = {
   slug: 'office-locations',
   admin: {
+    group: 'Settings',
     hidden: adminOnlyInNav,
     useAsTitle: 'city',
     defaultColumns: ['city', 'country'],

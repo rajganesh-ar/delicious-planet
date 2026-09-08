@@ -4,6 +4,7 @@ import { adminOnlyInNav, catalogueAccess } from './access'
 export const Suppliers: CollectionConfig = {
   slug: 'suppliers',
   admin: {
+    group: 'Supply chain',
     hidden: adminOnlyInNav,
     useAsTitle: 'name',
     defaultColumns: ['name', 'country', 'website'],

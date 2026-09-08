@@ -20,7 +20,7 @@ export const Regions: CollectionConfig = {
     hidden: adminOnlyInNav,
     useAsTitle: 'label',
     defaultColumns: ['label', 'slug', 'active', 'sortOrder'],
-    group: 'Content',
+    group: 'Catalogue',
     description:
       'The "Shop by Region" row on the homepage. Products are matched by their country of origin — these rows only control wording, artwork and priority.',
   },

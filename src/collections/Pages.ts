@@ -17,6 +17,7 @@ import {
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
+    group: 'Content',
     hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status'],

@@ -28,6 +28,7 @@ import { deriveRecipeRollups, ensureRecipeSlug, pinRecipeOwnership } from './hoo
 export const Recipes: CollectionConfig = {
   slug: 'recipes',
   admin: {
+    group: 'Content',
     hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'chefName', 'course', 'status', 'updatedAt'],

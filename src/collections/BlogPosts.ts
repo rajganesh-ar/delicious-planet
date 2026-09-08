@@ -4,6 +4,7 @@ import { adminOnlyInNav, adminOnlyWrites } from './access'
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
   admin: {
+    group: 'Content',
     hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'author', 'categories', '_status', 'publishedAt'],

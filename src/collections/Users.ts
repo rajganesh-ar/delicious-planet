@@ -20,6 +20,7 @@ const isStaff = (user: MaybeUser): boolean => isAdmin(user) || hasRole(user, 'fu
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
+    group: 'Customers',
     hidden: adminOnlyInNav,
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'role'],

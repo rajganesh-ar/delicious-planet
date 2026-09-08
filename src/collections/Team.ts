@@ -20,11 +20,12 @@ import { adminOnlyInNav, catalogueAccess } from './access'
  */
 export const Team: CollectionConfig = {
   slug: 'team',
+  labels: { singular: 'Team member', plural: 'Team' },
   admin: {
     hidden: adminOnlyInNav,
     useAsTitle: 'role',
     defaultColumns: ['role', 'name', 'isFounder', 'active', 'sortOrder'],
-    group: 'Content',
+    group: 'Settings',
     description:
       'The "Our people" section on the About page. Leave a row\'s name blank to advertise it as an open role.',
   },

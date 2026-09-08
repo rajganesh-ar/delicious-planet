@@ -3,7 +3,7 @@ import { adminOnlyInNav } from '../collections/access'
 
 export const Navigation: GlobalConfig = {
   slug: 'navigation',
-  admin: { hidden: adminOnlyInNav },
+  admin: { hidden: adminOnlyInNav, group: 'Settings' },
   access: {
     read: () => true,
     update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),

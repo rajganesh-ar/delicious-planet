@@ -49,6 +49,7 @@ export const VendorApplications: CollectionConfig = {
     plural: 'Vendor applications',
   },
   admin: {
+    group: 'Partners',
     hidden: adminOnlyInNav,
     useAsTitle: 'companyName',
     defaultColumns: ['companyName', 'businessType', 'country', 'status', 'createdAt'],

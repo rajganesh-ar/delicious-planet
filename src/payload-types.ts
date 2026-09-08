@@ -67,27 +67,27 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
+    orders: Order;
+    'b2b-inquiries': B2BInquiry;
     products: Product;
     categories: Category;
+    brands: Brand;
     regions: Region;
     suppliers: Supplier;
     warehouses: Warehouse;
-    brands: Brand;
-    orders: Order;
-    'b2b-inquiries': B2BInquiry;
+    'vendor-applications': VendorApplication;
+    'chef-profiles': ChefProfile;
     pages: Page;
     'blog-posts': BlogPost;
     'blog-categories': BlogCategory;
-    testimonials: Testimonial;
-    'office-locations': OfficeLocation;
-    team: Team;
-    'vendor-applications': VendorApplication;
-    'chef-profiles': ChefProfile;
     recipes: Recipe;
-    'newsletter-subscribers': NewsletterSubscriber;
+    testimonials: Testimonial;
     banners: Banner;
+    media: Media;
+    users: User;
+    'newsletter-subscribers': NewsletterSubscriber;
+    team: Team;
+    'office-locations': OfficeLocation;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -95,27 +95,27 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    'b2b-inquiries': B2BInquiriesSelect<false> | B2BInquiriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
     suppliers: SuppliersSelect<false> | SuppliersSelect<true>;
     warehouses: WarehousesSelect<false> | WarehousesSelect<true>;
-    brands: BrandsSelect<false> | BrandsSelect<true>;
-    orders: OrdersSelect<false> | OrdersSelect<true>;
-    'b2b-inquiries': B2BInquiriesSelect<false> | B2BInquiriesSelect<true>;
+    'vendor-applications': VendorApplicationsSelect<false> | VendorApplicationsSelect<true>;
+    'chef-profiles': ChefProfilesSelect<false> | ChefProfilesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
-    'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
-    team: TeamSelect<false> | TeamSelect<true>;
-    'vendor-applications': VendorApplicationsSelect<false> | VendorApplicationsSelect<true>;
-    'chef-profiles': ChefProfilesSelect<false> | ChefProfilesSelect<true>;
     recipes: RecipesSelect<false> | RecipesSelect<true>;
-    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     banners: BannersSelect<false> | BannersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    team: TeamSelect<false> | TeamSelect<true>;
+    'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -160,6 +160,111 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
+  /**
+   * Set by the Stripe webhook — not by the checkout redirect.
+   */
+  paymentStatus: 'unpaid' | 'paid' | 'failed' | 'refunded' | 'invoice';
+  type?: ('retail' | 'b2b') | null;
+  currency: 'USD' | 'AED' | 'GBP' | 'EUR' | 'INR';
+  /**
+   * The note the customer left at checkout. Read-only — these are their words.
+   */
+  notes?: string | null;
+  /**
+   * Staff-only. Never shown to the customer.
+   */
+  internalNotes?: string | null;
+  fulfillment?: {
+    carrier?: ('dhl' | 'fedex' | 'ups' | 'aramex' | 'emirates-post' | 'local-courier' | 'pickup' | 'other') | null;
+    /**
+     * Adding one is recorded on the Activity tab.
+     */
+    trackingNumber?: string | null;
+    /**
+     * Stamped automatically when the status becomes Shipped.
+     */
+    shippedAt?: string | null;
+    /**
+     * Stamped automatically when the status becomes Delivered.
+     */
+    deliveredAt?: string | null;
+  };
+  shippingAddress?: {
+    name?: string | null;
+    line1?: string | null;
+    line2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+  };
+  /**
+   * Raw audit rows. Rendered above.
+   */
+  timeline?:
+    | {
+        event?: string | null;
+        note?: string | null;
+        at?: string | null;
+        by?: (number | null) | User;
+        id?: string | null;
+      }[]
+    | null;
+  orderNumber: string;
+  user?: (number | null) | User;
+  /**
+   * Populated for guest checkouts.
+   */
+  guestEmail?: string | null;
+  /**
+   * Line items snapshot what was bought. They must stay readable after the catalogue is re-imported, so the product relationship is a convenience — the snapshot fields are the record.
+   */
+  items: {
+    /**
+     * Null once the product is removed from the catalogue.
+     */
+    product?: (number | null) | Product;
+    /**
+     * The exact variant bought. This is the durable identifier.
+     */
+    variantSku?: string | null;
+    /**
+     * Product title as it was at purchase.
+     */
+    titleSnapshot?: string | null;
+    /**
+     * Variant size as it was at purchase, e.g. "125g".
+     */
+    sizeSnapshot?: string | null;
+    quantity: number;
+    unitAmount: number;
+    currency: string;
+    id?: string | null;
+  }[];
+  totals: {
+    subtotal: number;
+    shipping?: number | null;
+    tax?: number | null;
+    total: number;
+  };
+  /**
+   * Stripe Checkout session that was opened for this order.
+   */
+  stripeCheckoutSessionId?: string | null;
+  /**
+   * Stripe payment intent ID for this order.
+   */
+  stripePaymentIntentId?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -209,56 +314,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  caption?: string | null;
-  /**
-   * Where this file was fetched from, when it came from an external catalogue. An importer matches on it so a second run reuses this upload instead of creating a near-duplicate — filenames alone are not enough, two products can both ship a "Garlic-1.jpg".
-   */
-  sourceUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    hero?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -586,6 +641,56 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  caption?: string | null;
+  /**
+   * Where this file was fetched from, when it came from an external catalogue. An importer matches on it so a second run reuses this upload instead of creating a near-duplicate — filenames alone are not enough, two products can both ship a "Garlic-1.jpg".
+   */
+  sourceUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "brands".
  */
 export interface Brand {
@@ -637,150 +742,6 @@ export interface Warehouse {
   createdAt: string;
 }
 /**
- * The "Shop by Region" row on the homepage. Products are matched by their country of origin — these rows only control wording, artwork and priority.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "regions".
- */
-export interface Region {
-  id: number;
-  /**
-   * Which region this row presents. The list is fixed: a region exists because countries are mapped to it, not because a row was added here.
-   */
-  slug: 'europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania';
-  /**
-   * Big name on the card, e.g. "Europe".
-   */
-  label: string;
-  /**
-   * Small line above the label.
-   */
-  eyebrow?: string | null;
-  /**
-   * Short blurb used on listing pages and in the mega menu.
-   */
-  description?: string | null;
-  /**
-   * Card artwork. Without one the bundled default for this region is used.
-   */
-  image?: (number | null) | Media;
-  /**
-   * Uncheck to hide the region without deleting it.
-   */
-  active?: boolean | null;
-  /**
-   * Lower shows first. Decimals and negatives are allowed, so a region can be slotted between two others (2.5) or pushed to the front (0) without renumbering the rest. Left blank, it falls behind every region that has a number.
-   */
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orders".
- */
-export interface Order {
-  id: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
-  /**
-   * Set by the Stripe webhook — not by the checkout redirect.
-   */
-  paymentStatus: 'unpaid' | 'paid' | 'failed' | 'refunded' | 'invoice';
-  type?: ('retail' | 'b2b') | null;
-  currency: 'USD' | 'AED' | 'GBP' | 'EUR' | 'INR';
-  /**
-   * The note the customer left at checkout. Read-only — these are their words.
-   */
-  notes?: string | null;
-  /**
-   * Staff-only. Never shown to the customer.
-   */
-  internalNotes?: string | null;
-  fulfillment?: {
-    carrier?: ('dhl' | 'fedex' | 'ups' | 'aramex' | 'emirates-post' | 'local-courier' | 'pickup' | 'other') | null;
-    /**
-     * Adding one is recorded on the Activity tab.
-     */
-    trackingNumber?: string | null;
-    /**
-     * Stamped automatically when the status becomes Shipped.
-     */
-    shippedAt?: string | null;
-    /**
-     * Stamped automatically when the status becomes Delivered.
-     */
-    deliveredAt?: string | null;
-  };
-  shippingAddress?: {
-    name?: string | null;
-    line1?: string | null;
-    line2?: string | null;
-    city?: string | null;
-    state?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-  };
-  /**
-   * Raw audit rows. Rendered above.
-   */
-  timeline?:
-    | {
-        event?: string | null;
-        note?: string | null;
-        at?: string | null;
-        by?: (number | null) | User;
-        id?: string | null;
-      }[]
-    | null;
-  orderNumber: string;
-  user?: (number | null) | User;
-  /**
-   * Populated for guest checkouts.
-   */
-  guestEmail?: string | null;
-  /**
-   * Line items snapshot what was bought. They must stay readable after the catalogue is re-imported, so the product relationship is a convenience — the snapshot fields are the record.
-   */
-  items: {
-    /**
-     * Null once the product is removed from the catalogue.
-     */
-    product?: (number | null) | Product;
-    /**
-     * The exact variant bought. This is the durable identifier.
-     */
-    variantSku?: string | null;
-    /**
-     * Product title as it was at purchase.
-     */
-    titleSnapshot?: string | null;
-    /**
-     * Variant size as it was at purchase, e.g. "125g".
-     */
-    sizeSnapshot?: string | null;
-    quantity: number;
-    unitAmount: number;
-    currency: string;
-    id?: string | null;
-  }[];
-  totals: {
-    subtotal: number;
-    shipping?: number | null;
-    tax?: number | null;
-    total: number;
-  };
-  /**
-   * Stripe Checkout session that was opened for this order.
-   */
-  stripeCheckoutSessionId?: string | null;
-  /**
-   * Stripe payment intent ID for this order.
-   */
-  stripePaymentIntentId?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "b2b-inquiries".
  */
@@ -821,268 +782,39 @@ export interface OfficeLocation {
   createdAt: string;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: number;
-  title: string;
-  slug: string;
-  layout?:
-    | (
-        | {
-            headline: string;
-            subheadline?: string | null;
-            backgroundImage?: (number | null) | Media;
-            ctaLabel?: string | null;
-            ctaHref?: string | null;
-            style?: ('fullscreen' | 'split' | 'contained') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | {
-            heading?: string | null;
-            subheading?: string | null;
-            products?: (number | Product)[] | null;
-            layout?: ('grid' | 'carousel') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'featuredProducts';
-          }
-        | {
-            heading?: string | null;
-            categories?: (number | Category)[] | null;
-            style?: ('horizontal-scroll' | 'grid') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'categoryShowcase';
-          }
-        | {
-            heading?: string | null;
-            testimonials?: (number | Testimonial)[] | null;
-            style?: ('carousel' | 'grid') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'testimonials';
-          }
-        | {
-            heading: string;
-            body?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            image?: (number | null) | Media;
-            imagePosition?: ('left' | 'right' | 'fullbleed') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'experience';
-          }
-        | {
-            heading: string;
-            body?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            image?: (number | null) | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'story';
-          }
-        | {
-            heading?: string | null;
-            offices?: (number | OfficeLocation)[] | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'officeLocations';
-          }
-        | {
-            heading: string;
-            subheading?: string | null;
-            buttonLabel?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'newsletter';
-          }
-        | {
-            heading?: string | null;
-            logos?:
-              | {
-                  logo: number | Media;
-                  name: string;
-                  href?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'partnersLogo';
-          }
-        | {
-            heading: string;
-            body?: string | null;
-            buttonLabel: string;
-            buttonHref: string;
-            backgroundImage?: (number | null) | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'ctaBanner';
-          }
-        | {
-            content: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            maxWidth?: ('prose' | 'wide' | 'full') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'richContent';
-          }
-      )[]
-    | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: number;
-  name: string;
-  role?: string | null;
-  company?: string | null;
-  quote: string;
-  image?: (number | null) | Media;
-  rating?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts".
- */
-export interface BlogPost {
-  id: number;
-  title: string;
-  slug: string;
-  /**
-   * Short summary shown on listing cards.
-   */
-  excerpt?: string | null;
-  featuredImage?: (number | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  categories?: (number | BlogCategory)[] | null;
-  author?: (number | null) | User;
-  publishedAt?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-categories".
- */
-export interface BlogCategory {
-  id: number;
-  title: string;
-  slug: string;
-  description?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * The "Our people" section on the About page. Leave a row's name blank to advertise it as an open role.
+ * The "Shop by Region" row on the homepage. Products are matched by their country of origin — these rows only control wording, artwork and priority.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team".
+ * via the `definition` "regions".
  */
-export interface Team {
+export interface Region {
   id: number;
   /**
-   * Job title, e.g. "Head of Sourcing". Shown under the name.
+   * Which region this row presents. The list is fixed: a region exists because countries are mapped to it, not because a row was added here.
    */
-  role: string;
+  slug: 'europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania';
   /**
-   * Leave blank for a vacancy — the card then reads "Open role" and keeps the job title.
+   * Big name on the card, e.g. "Europe".
    */
-  name?: string | null;
+  label: string;
   /**
-   * Square portrait, 800 × 800 or larger. Without one the card shows a placeholder.
+   * Small line above the label.
    */
-  photo?: (number | null) | Media;
+  eyebrow?: string | null;
   /**
-   * Renders this person as the wide card beside the grid, with their quote. Check it on one row only — if several are checked the first by priority wins.
+   * Short blurb used on listing pages and in the mega menu.
    */
-  isFounder?: boolean | null;
+  description?: string | null;
   /**
-   * Only used by the founder card. Quotation marks are added by the page — do not type them.
+   * Card artwork. Without one the bundled default for this region is used.
    */
-  quote?: string | null;
+  image?: (number | null) | Media;
   /**
-   * Uncheck to hide someone without deleting the row.
+   * Uncheck to hide the region without deleting it.
    */
   active?: boolean | null;
   /**
-   * Lower shows first. Decimals and negatives are allowed, so someone can be slotted between two others (2.5) without renumbering the rest. Left blank, they fall behind everyone who has a number.
+   * Lower shows first. Decimals and negatives are allowed, so a region can be slotted between two others (2.5) or pushed to the front (0) without renumbering the rest. Left blank, it falls behind every region that has a number.
    */
   sortOrder?: number | null;
   updatedAt: string;
@@ -1586,6 +1318,235 @@ export interface ChefProfile {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug: string;
+  layout?:
+    | (
+        | {
+            headline: string;
+            subheadline?: string | null;
+            backgroundImage?: (number | null) | Media;
+            ctaLabel?: string | null;
+            ctaHref?: string | null;
+            style?: ('fullscreen' | 'split' | 'contained') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            products?: (number | Product)[] | null;
+            layout?: ('grid' | 'carousel') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featuredProducts';
+          }
+        | {
+            heading?: string | null;
+            categories?: (number | Category)[] | null;
+            style?: ('horizontal-scroll' | 'grid') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'categoryShowcase';
+          }
+        | {
+            heading?: string | null;
+            testimonials?: (number | Testimonial)[] | null;
+            style?: ('carousel' | 'grid') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'testimonials';
+          }
+        | {
+            heading: string;
+            body?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            image?: (number | null) | Media;
+            imagePosition?: ('left' | 'right' | 'fullbleed') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'experience';
+          }
+        | {
+            heading: string;
+            body?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            image?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'story';
+          }
+        | {
+            heading?: string | null;
+            offices?: (number | OfficeLocation)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'officeLocations';
+          }
+        | {
+            heading: string;
+            subheading?: string | null;
+            buttonLabel?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'newsletter';
+          }
+        | {
+            heading?: string | null;
+            logos?:
+              | {
+                  logo: number | Media;
+                  name: string;
+                  href?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'partnersLogo';
+          }
+        | {
+            heading: string;
+            body?: string | null;
+            buttonLabel: string;
+            buttonHref: string;
+            backgroundImage?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'ctaBanner';
+          }
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            maxWidth?: ('prose' | 'wide' | 'full') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richContent';
+          }
+      )[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  name: string;
+  role?: string | null;
+  company?: string | null;
+  quote: string;
+  image?: (number | null) | Media;
+  rating?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Short summary shown on listing cards.
+   */
+  excerpt?: string | null;
+  featuredImage?: (number | null) | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  categories?: (number | BlogCategory)[] | null;
+  author?: (number | null) | User;
+  publishedAt?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories".
+ */
+export interface BlogCategory {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Submitted from /portal/chef. A recipe is only visible on the storefront once its status is Published.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1752,20 +1713,6 @@ export interface Recipe {
   createdAt: string;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "newsletter-subscribers".
- */
-export interface NewsletterSubscriber {
-  id: number;
-  email: string;
-  /**
-   * Where the subscription originated, e.g. "footer", "popup".
-   */
-  source?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Promotional banners shown between the homepage sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1817,6 +1764,59 @@ export interface Banner {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers".
+ */
+export interface NewsletterSubscriber {
+  id: number;
+  email: string;
+  /**
+   * Where the subscription originated, e.g. "footer", "popup".
+   */
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * The "Our people" section on the About page. Leave a row's name blank to advertise it as an open role.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team".
+ */
+export interface Team {
+  id: number;
+  /**
+   * Job title, e.g. "Head of Sourcing". Shown under the name.
+   */
+  role: string;
+  /**
+   * Leave blank for a vacancy — the card then reads "Open role" and keeps the job title.
+   */
+  name?: string | null;
+  /**
+   * Square portrait, 800 × 800 or larger. Without one the card shows a placeholder.
+   */
+  photo?: (number | null) | Media;
+  /**
+   * Renders this person as the wide card beside the grid, with their quote. Check it on one row only — if several are checked the first by priority wins.
+   */
+  isFounder?: boolean | null;
+  /**
+   * Only used by the founder card. Quotation marks are added by the page — do not type them.
+   */
+  quote?: string | null;
+  /**
+   * Uncheck to hide someone without deleting the row.
+   */
+  active?: boolean | null;
+  /**
+   * Lower shows first. Decimals and negatives are allowed, so someone can be slotted between two others (2.5) without renumbering the rest. Left blank, they fall behind everyone who has a number.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1840,12 +1840,12 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'orders';
+        value: number | Order;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'b2b-inquiries';
+        value: number | B2BInquiry;
       } | null)
     | ({
         relationTo: 'products';
@@ -1854,6 +1854,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: number | Brand;
       } | null)
     | ({
         relationTo: 'regions';
@@ -1868,16 +1872,12 @@ export interface PayloadLockedDocument {
         value: number | Warehouse;
       } | null)
     | ({
-        relationTo: 'brands';
-        value: number | Brand;
+        relationTo: 'vendor-applications';
+        value: number | VendorApplication;
       } | null)
     | ({
-        relationTo: 'orders';
-        value: number | Order;
-      } | null)
-    | ({
-        relationTo: 'b2b-inquiries';
-        value: number | B2BInquiry;
+        relationTo: 'chef-profiles';
+        value: number | ChefProfile;
       } | null)
     | ({
         relationTo: 'pages';
@@ -1892,36 +1892,36 @@ export interface PayloadLockedDocument {
         value: number | BlogCategory;
       } | null)
     | ({
+        relationTo: 'recipes';
+        value: number | Recipe;
+      } | null)
+    | ({
         relationTo: 'testimonials';
         value: number | Testimonial;
       } | null)
     | ({
-        relationTo: 'office-locations';
-        value: number | OfficeLocation;
+        relationTo: 'banners';
+        value: number | Banner;
       } | null)
     | ({
-        relationTo: 'team';
-        value: number | Team;
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
-        relationTo: 'vendor-applications';
-        value: number | VendorApplication;
-      } | null)
-    | ({
-        relationTo: 'chef-profiles';
-        value: number | ChefProfile;
-      } | null)
-    | ({
-        relationTo: 'recipes';
-        value: number | Recipe;
+        relationTo: 'users';
+        value: number | User;
       } | null)
     | ({
         relationTo: 'newsletter-subscribers';
         value: number | NewsletterSubscriber;
       } | null)
     | ({
-        relationTo: 'banners';
-        value: number | Banner;
+        relationTo: 'team';
+        value: number | Team;
+      } | null)
+    | ({
+        relationTo: 'office-locations';
+        value: number | OfficeLocation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1967,97 +1967,87 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "orders_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  phone?: T;
-  roles?: T;
-  addresses?:
+export interface OrdersSelect<T extends boolean = true> {
+  status?: T;
+  paymentStatus?: T;
+  type?: T;
+  currency?: T;
+  notes?: T;
+  internalNotes?: T;
+  fulfillment?:
     | T
     | {
-        label?: T;
+        carrier?: T;
+        trackingNumber?: T;
+        shippedAt?: T;
+        deliveredAt?: T;
+      };
+  shippingAddress?:
+    | T
+    | {
+        name?: T;
         line1?: T;
         line2?: T;
         city?: T;
         state?: T;
         postalCode?: T;
         country?: T;
-        isDefault?: T;
-        id?: T;
       };
-  preferredCurrency?: T;
-  preferredLanguage?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+  timeline?:
     | T
     | {
+        event?: T;
+        note?: T;
+        at?: T;
+        by?: T;
         id?: T;
-        createdAt?: T;
-        expiresAt?: T;
       };
+  orderNumber?: T;
+  user?: T;
+  guestEmail?: T;
+  items?:
+    | T
+    | {
+        product?: T;
+        variantSku?: T;
+        titleSnapshot?: T;
+        sizeSnapshot?: T;
+        quantity?: T;
+        unitAmount?: T;
+        currency?: T;
+        id?: T;
+      };
+  totals?:
+    | T
+    | {
+        subtotal?: T;
+        shipping?: T;
+        tax?: T;
+        total?: T;
+      };
+  stripeCheckoutSessionId?: T;
+  stripePaymentIntentId?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "b2b-inquiries_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  caption?: T;
-  sourceUrl?: T;
+export interface B2BInquiriesSelect<T extends boolean = true> {
+  company?: T;
+  contactName?: T;
+  email?: T;
+  phone?: T;
+  products?: T;
+  message?: T;
+  status?: T;
+  assignedOffice?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        card?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        hero?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2202,6 +2192,19 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  logo?: T;
+  website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "regions_select".
  */
 export interface RegionsSelect<T extends boolean = true> {
@@ -2257,98 +2260,164 @@ export interface WarehousesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands_select".
+ * via the `definition` "vendor-applications_select".
  */
-export interface BrandsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  logo?: T;
+export interface VendorApplicationsSelect<T extends boolean = true> {
+  companyName?: T;
+  tradingName?: T;
+  businessType?: T;
   website?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orders_select".
- */
-export interface OrdersSelect<T extends boolean = true> {
-  status?: T;
-  paymentStatus?: T;
-  type?: T;
-  currency?: T;
-  notes?: T;
-  internalNotes?: T;
-  fulfillment?:
+  yearEstablished?: T;
+  registrationNumber?: T;
+  taxId?: T;
+  employeeBand?: T;
+  annualTurnover?: T;
+  companyProfile?: T;
+  contactName?: T;
+  contactRole?: T;
+  email?: T;
+  phone?: T;
+  whatsapp?: T;
+  preferredContact?: T;
+  country?: T;
+  address?:
     | T
     | {
-        carrier?: T;
-        trackingNumber?: T;
-        shippedAt?: T;
-        deliveredAt?: T;
-      };
-  shippingAddress?:
-    | T
-    | {
-        name?: T;
         line1?: T;
         line2?: T;
         city?: T;
         state?: T;
         postalCode?: T;
-        country?: T;
       };
-  timeline?:
+  productionSites?: T;
+  categories?: T;
+  productSummary?: T;
+  brandsOwned?: T;
+  monthlyCapacity?: T;
+  minimumOrder?: T;
+  leadTime?: T;
+  shelfLifeMonths?: T;
+  temperatureRegimes?: T;
+  packagingFormats?: T;
+  seasonality?: T;
+  privateLabelCapable?: T;
+  samplesAvailable?: T;
+  certifications?: T;
+  certificationDocs?:
     | T
     | {
-        event?: T;
-        note?: T;
-        at?: T;
-        by?: T;
+        name?: T;
+        issuingBody?: T;
+        reference?: T;
+        expiresAt?: T;
+        file?: T;
         id?: T;
       };
-  orderNumber?: T;
-  user?: T;
-  guestEmail?: T;
-  items?:
+  traceability?: T;
+  recallProcedure?: T;
+  lastAuditBody?: T;
+  lastAuditDate?: T;
+  foodSafetyNotes?: T;
+  ethics?:
     | T
     | {
-        product?: T;
-        variantSku?: T;
-        titleSnapshot?: T;
-        sizeSnapshot?: T;
-        quantity?: T;
-        unitAmount?: T;
-        currency?: T;
+        noForcedOrChildLabour?: T;
+        safeWorkingConditions?: T;
+        labourLawCompliance?: T;
+        notes?: T;
+      };
+  insurance?:
+    | T
+    | {
+        productLiability?: T;
+        insurer?: T;
+        coverAmount?: T;
+      };
+  sustainability?: T;
+  exportsToday?: T;
+  exportMarkets?: T;
+  gccExperience?: T;
+  uaeRegistered?: T;
+  incoterms?: T;
+  portsOfLoading?: T;
+  coldChainCapable?: T;
+  logisticsNotes?: T;
+  currencies?: T;
+  paymentTerms?: T;
+  priceList?: T;
+  catalogue?: T;
+  openToExclusivity?: T;
+  marketingSupport?: T;
+  references?:
+    | T
+    | {
+        company?: T;
+        contactName?: T;
+        email?: T;
+        phone?: T;
+        relationship?: T;
         id?: T;
       };
-  totals?:
-    | T
-    | {
-        subtotal?: T;
-        shipping?: T;
-        tax?: T;
-        total?: T;
-      };
-  stripeCheckoutSessionId?: T;
-  stripePaymentIntentId?: T;
+  howHeard?: T;
+  additionalNotes?: T;
+  signatoryName?: T;
+  signatoryRole?: T;
+  declarationAccepted?: T;
+  consentContact?: T;
+  reference?: T;
+  submittedAt?: T;
+  status?: T;
+  tier?: T;
+  reviewer?: T;
+  linkedSupplier?: T;
+  internalNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "b2b-inquiries_select".
+ * via the `definition` "chef-profiles_select".
  */
-export interface B2BInquiriesSelect<T extends boolean = true> {
-  company?: T;
-  contactName?: T;
+export interface ChefProfilesSelect<T extends boolean = true> {
+  account?: T;
+  displayName?: T;
+  slug?: T;
   email?: T;
   phone?: T;
-  products?: T;
-  message?: T;
+  portrait?: T;
+  chefRole?: T;
+  establishment?: T;
+  kitchenType?: T;
+  experience?: T;
+  cuisines?: T;
+  specialities?: T;
+  bio?: T;
+  city?: T;
+  country?: T;
+  links?:
+    | T
+    | {
+        website?: T;
+        instagram?: T;
+        youtube?: T;
+        linkedin?: T;
+      };
+  awards?: T;
+  qualifications?:
+    | T
+    | {
+        name?: T;
+        institution?: T;
+        year?: T;
+        id?: T;
+      };
+  familiarProducts?: T;
+  motivation?: T;
+  consentPublish?: T;
+  consentTerms?: T;
   status?: T;
-  assignedOffice?: T;
-  notes?: T;
+  featured?: T;
+  internalNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2521,218 +2590,6 @@ export interface BlogCategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  company?: T;
-  quote?: T;
-  image?: T;
-  rating?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "office-locations_select".
- */
-export interface OfficeLocationsSelect<T extends boolean = true> {
-  city?: T;
-  country?: T;
-  address?: T;
-  phone?: T;
-  email?: T;
-  coordinates?:
-    | T
-    | {
-        lat?: T;
-        lng?: T;
-      };
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team_select".
- */
-export interface TeamSelect<T extends boolean = true> {
-  role?: T;
-  name?: T;
-  photo?: T;
-  isFounder?: T;
-  quote?: T;
-  active?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "vendor-applications_select".
- */
-export interface VendorApplicationsSelect<T extends boolean = true> {
-  companyName?: T;
-  tradingName?: T;
-  businessType?: T;
-  website?: T;
-  yearEstablished?: T;
-  registrationNumber?: T;
-  taxId?: T;
-  employeeBand?: T;
-  annualTurnover?: T;
-  companyProfile?: T;
-  contactName?: T;
-  contactRole?: T;
-  email?: T;
-  phone?: T;
-  whatsapp?: T;
-  preferredContact?: T;
-  country?: T;
-  address?:
-    | T
-    | {
-        line1?: T;
-        line2?: T;
-        city?: T;
-        state?: T;
-        postalCode?: T;
-      };
-  productionSites?: T;
-  categories?: T;
-  productSummary?: T;
-  brandsOwned?: T;
-  monthlyCapacity?: T;
-  minimumOrder?: T;
-  leadTime?: T;
-  shelfLifeMonths?: T;
-  temperatureRegimes?: T;
-  packagingFormats?: T;
-  seasonality?: T;
-  privateLabelCapable?: T;
-  samplesAvailable?: T;
-  certifications?: T;
-  certificationDocs?:
-    | T
-    | {
-        name?: T;
-        issuingBody?: T;
-        reference?: T;
-        expiresAt?: T;
-        file?: T;
-        id?: T;
-      };
-  traceability?: T;
-  recallProcedure?: T;
-  lastAuditBody?: T;
-  lastAuditDate?: T;
-  foodSafetyNotes?: T;
-  ethics?:
-    | T
-    | {
-        noForcedOrChildLabour?: T;
-        safeWorkingConditions?: T;
-        labourLawCompliance?: T;
-        notes?: T;
-      };
-  insurance?:
-    | T
-    | {
-        productLiability?: T;
-        insurer?: T;
-        coverAmount?: T;
-      };
-  sustainability?: T;
-  exportsToday?: T;
-  exportMarkets?: T;
-  gccExperience?: T;
-  uaeRegistered?: T;
-  incoterms?: T;
-  portsOfLoading?: T;
-  coldChainCapable?: T;
-  logisticsNotes?: T;
-  currencies?: T;
-  paymentTerms?: T;
-  priceList?: T;
-  catalogue?: T;
-  openToExclusivity?: T;
-  marketingSupport?: T;
-  references?:
-    | T
-    | {
-        company?: T;
-        contactName?: T;
-        email?: T;
-        phone?: T;
-        relationship?: T;
-        id?: T;
-      };
-  howHeard?: T;
-  additionalNotes?: T;
-  signatoryName?: T;
-  signatoryRole?: T;
-  declarationAccepted?: T;
-  consentContact?: T;
-  reference?: T;
-  submittedAt?: T;
-  status?: T;
-  tier?: T;
-  reviewer?: T;
-  linkedSupplier?: T;
-  internalNotes?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chef-profiles_select".
- */
-export interface ChefProfilesSelect<T extends boolean = true> {
-  account?: T;
-  displayName?: T;
-  slug?: T;
-  email?: T;
-  phone?: T;
-  portrait?: T;
-  chefRole?: T;
-  establishment?: T;
-  kitchenType?: T;
-  experience?: T;
-  cuisines?: T;
-  specialities?: T;
-  bio?: T;
-  city?: T;
-  country?: T;
-  links?:
-    | T
-    | {
-        website?: T;
-        instagram?: T;
-        youtube?: T;
-        linkedin?: T;
-      };
-  awards?: T;
-  qualifications?:
-    | T
-    | {
-        name?: T;
-        institution?: T;
-        year?: T;
-        id?: T;
-      };
-  familiarProducts?: T;
-  motivation?: T;
-  consentPublish?: T;
-  consentTerms?: T;
-  status?: T;
-  featured?: T;
-  internalNotes?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "recipes_select".
  */
 export interface RecipesSelect<T extends boolean = true> {
@@ -2791,11 +2648,15 @@ export interface RecipesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "newsletter-subscribers_select".
+ * via the `definition` "testimonials_select".
  */
-export interface NewsletterSubscribersSelect<T extends boolean = true> {
-  email?: T;
-  source?: T;
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  company?: T;
+  quote?: T;
+  image?: T;
+  rating?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2816,6 +2677,145 @@ export interface BannersSelect<T extends boolean = true> {
   ctaHref?: T;
   active?: T;
   sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  sourceUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  roles?: T;
+  addresses?:
+    | T
+    | {
+        label?: T;
+        line1?: T;
+        line2?: T;
+        city?: T;
+        state?: T;
+        postalCode?: T;
+        country?: T;
+        isDefault?: T;
+        id?: T;
+      };
+  preferredCurrency?: T;
+  preferredLanguage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers_select".
+ */
+export interface NewsletterSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team_select".
+ */
+export interface TeamSelect<T extends boolean = true> {
+  role?: T;
+  name?: T;
+  photo?: T;
+  isFounder?: T;
+  quote?: T;
+  active?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "office-locations_select".
+ */
+export interface OfficeLocationsSelect<T extends boolean = true> {
+  city?: T;
+  country?: T;
+  address?: T;
+  phone?: T;
+  email?: T;
+  coordinates?:
+    | T
+    | {
+        lat?: T;
+        lng?: T;
+      };
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

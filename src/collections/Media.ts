@@ -5,7 +5,7 @@ import { publicMediaUrl } from '@/lib/media-url'
 
 export const Media: CollectionConfig = {
   slug: 'media',
-  admin: { hidden: adminOnlyInNav },
+  admin: { hidden: adminOnlyInNav, group: 'Content' },
   access: {
     ...adminOnlyWrites,
     /**

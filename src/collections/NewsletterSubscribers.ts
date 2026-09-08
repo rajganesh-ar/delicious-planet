@@ -5,6 +5,7 @@ import { notifyNewsletterSignup } from './hooks/notificationHooks'
 export const NewsletterSubscribers: CollectionConfig = {
   slug: 'newsletter-subscribers',
   admin: {
+    group: 'Customers',
     hidden: adminOnlyInNav,
     useAsTitle: 'email',
     defaultColumns: ['email', 'source', 'createdAt'],

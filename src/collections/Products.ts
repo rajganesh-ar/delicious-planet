@@ -11,6 +11,7 @@ import {
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
+    group: 'Catalogue',
     hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'sku', 'category', 'basePrice', 'inStock', '_status'],

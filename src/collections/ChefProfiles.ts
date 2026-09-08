@@ -34,6 +34,7 @@ export const ChefProfiles: CollectionConfig = {
   slug: 'chef-profiles',
   labels: { singular: 'Chef', plural: 'Chefs' },
   admin: {
+    group: 'Partners',
     hidden: adminOnlyInNav,
     useAsTitle: 'displayName',
     defaultColumns: ['displayName', 'establishment', 'country', 'status', 'createdAt'],

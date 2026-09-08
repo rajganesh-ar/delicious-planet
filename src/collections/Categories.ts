@@ -27,6 +27,7 @@ import {
 export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: {
+    group: 'Catalogue',
     hidden: adminOnlyInNav,
     useAsTitle: 'title',
     defaultColumns: ['title', 'path', 'isDepartment', 'sortOrder'],

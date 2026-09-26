@@ -4,6 +4,7 @@
  *   pnpm import:intermex --dry-run       preview, write nothing
  *   pnpm import:intermex                 the real run
  *   pnpm import:intermex --skip-images   copy and pricing only
+ *   pnpm import:intermex --only=a,b,c    just these handles; nothing else is read or written
  *
  * Their Shopify store gives no usable `vendor` and no `product_type`, so brand
  * and category both come from collection membership — the store is organised
@@ -61,6 +62,25 @@ const PROVIDER = 'intermex'
 const argv = process.argv.slice(2)
 const DRY_RUN = argv.includes('--dry-run')
 const SKIP_IMAGES = argv.includes('--skip-images')
+/**
+ * Restrict the run to named handles — for filling gaps without rewriting the
+ * rest of the catalogue, which a full run upserts wholesale.
+ */
+const ONLY = argv
+  .find((a) => a.startsWith('--only='))
+  ?.slice('--only='.length)
+  .split(',')
+  .map((h) => h.trim())
+  .filter(Boolean)
+
+/**
+ * From September 2026 the store prefixes titles with its internal stock code
+ * ("SA 0020 Habanero y Chiltepín…", "CH006 Whole Cascabel Chili"). The
+ * catalogue was imported before that and carries none, so strip it.
+ */
+function stripStockCode(title: string): string {
+  return title.replace(/^[A-Z]{2}\s?\d{3,4}\s+/, '').trim()
+}
 
 const __dirname_ = path.dirname(fileURLToPath(import.meta.url))
 
@@ -92,9 +112,14 @@ async function main() {
   console.log(`origin defaults to ${ORIGIN_COUNTRY} — a Mexican-food importer\n`)
 
   // ── the feed ──
-  const { products } = await fetchJson<{ products: ShopifyProduct[] }>(
-    `${STORE}/products.json?limit=250`,
-  )
+  const feed = await fetchJson<{ products: ShopifyProduct[] }>(`${STORE}/products.json?limit=250`)
+  let products = feed.products.map((p) => ({ ...p, title: stripStockCode(p.title) }))
+  if (ONLY) {
+    const unknown = ONLY.filter((h) => !products.some((p) => p.handle === h))
+    if (unknown.length) throw new Error(`--only: not in the feed: ${unknown.join(', ')}`)
+    products = products.filter((p) => ONLY.includes(p.handle))
+    console.log(`--only: ${products.length} of ${feed.products.length} products\n`)
+  }
 
   // ── collection membership ──
   const membership = new Map<string, string[]>()
@@ -220,8 +245,10 @@ async function main() {
             'One size')
 
       return {
+        // The store fills unset SKUs with "0" as well as leaving them blank;
+        // taken literally, every such product collides on the same SKU.
         sku:
-          v.sku?.trim() ||
+          (/^0*$/.test(v.sku?.trim() ?? '') ? '' : v.sku!.trim()) ||
           assignSku({
             prefix: 'IMX',
             handle: p.handle,
@@ -321,7 +348,11 @@ async function main() {
   }
 
   // ── report ──
-  const reportPath = path.join(__dirname_, `intermex-import-report${DRY_RUN ? '.dry-run' : ''}.json`)
+  // A partial run must not overwrite the full run's report.
+  const reportPath = path.join(
+    __dirname_,
+    `intermex-import-report${ONLY ? '.only' : ''}${DRY_RUN ? '.dry-run' : ''}.json`,
+  )
   fs.writeFileSync(
     reportPath,
     JSON.stringify({ ranAt: new Date().toISOString(), report, problems }, null, 2),

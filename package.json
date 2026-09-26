@@ -32,7 +32,9 @@
     "db:push": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" node scripts/db-push.mjs",
     "migrate:apply": "node scripts/apply-migration.cjs",
     "media:recover": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/recover-media.ts",
-    "media:cleanup": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/cleanup-r2.ts"
+    "media:cleanup": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/cleanup-r2.ts",
+    "fix:catalogue-2026-09-25": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/fix-catalogue-2026-09-25.ts",
+    "check:suppliers": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/check-supplier-drift.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.80.0",

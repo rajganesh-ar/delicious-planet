@@ -79,7 +79,10 @@
 }
 
 /* ── Base styles ──────────────────────────────────────── */
-/* ── Base styles ──────────────────────────────────────── */
+/* Element defaults live in the base layer so that Tailwind utilities (which
+   Tailwind emits in `@layer utilities`) override them. Unlayered, these rules
+   outranked every utility on headings, paragraphs, links and images. */
+@layer base {
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -227,6 +230,7 @@ a {
 
 svg {
   vertical-align: middle;
+}
 }
 
 /* ═══════════════════════════════════════════════════

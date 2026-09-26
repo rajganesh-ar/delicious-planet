@@ -57,13 +57,12 @@ The rest differ by 0.05 to 2 AED. Some are now higher at Intermex and some lower
   `v=DMARC1; p=none; rua=mailto:<reporting address>`. This only monitors at
   first; tighten it to `quarantine` once the reports look clean.
 
-### 1.4 `master` is behind what's live
-- `feat/stripe-checkout` is 22 commits ahead of `master` and `origin/master`.
-  Those commits cover Stripe checkout, R2 media, SEO, security headers, the
-  partner portal, the fulfilment console, transactional email and the admin
-  sidebar.
-- **Fix:** open a PR from `feat/stripe-checkout` into `master` and merge it, so
-  `master` matches production.
+### 1.4 `master` was behind what's live: fixed
+`feat/stripe-checkout` was 22 commits ahead of `master`. Those commits cover
+Stripe checkout, R2 media, SEO, security headers, the partner portal, the
+fulfilment console, transactional email and the admin sidebar. On 2026-09-26
+`master` was fast-forwarded to it (no merge commit, since `master` had nothing
+of its own), along with that day's fixes, and both were pushed to `origin`.
 
 ---
 
@@ -101,13 +100,20 @@ Velsoro, Caputo and García de la Cruz.
 
 ## 3. Catalogue gaps
 
-### 3.1 Intermex: 29 products in their feed but not on our site
-Their live feed has 202 products and we carry 174. The difference:
+### 3.1 Intermex: products in their feed but not on our site
+Their live feed has 202 products. We carried 174, and now carry 197.
 
-- **24 left over from the interrupted import.** The 2026-09-05 run stopped at
-  `el-yucateco-habanero-y-pina-asada-hot-sauce`. That product and the 23 after
-  it in the feed were never imported. **Fix:** add them by hand in the admin.
-  Don't re-run the importer, because it would rewrite all 174 existing products.
+- **The 24 left over from the interrupted import: 23 added on 2026-09-26.**
+  They were imported with `pnpm import:intermex --only=<handles>`, so the other
+  174 products weren't touched. All 23 are published with images, and their
+  stock status matches Intermex (6 are sold out there). Two fixes to the
+  importer went with it: it strips the new stock codes from titles, and it
+  treats a SKU of `"0"` as missing (see 3.4).
+- **1 of those 24 skipped: `el-fresno-whole-pasilla-chili-1`.** Intermex has two
+  "Whole Pasilla Chili, El Fresno" listings: the one we already carry at
+  96.00 AED, and this one at 16.00 AED. Neither gives a size, so we can't tell
+  them apart. Ask Intermex which is which before adding it. Its image is media
+  930 (3.3).
 - **1 excluded on purpose:** `la-costena-guacamole-salsa` is still priced 0.00
   in Intermex's feed. Ask Intermex to correct it; don't import it at 0.00.
 - **4 added by Intermex since the import:**
@@ -127,17 +133,28 @@ Their live feed has 202 products and we carry 174. The difference:
 | Casinetto | Not checked (their feed returns 403) | Not checked | 10 carried |
 | Admiral Caviar | Not checked (imported by scraping, no feed) | Not checked | 11 carried |
 
-### 3.3 Four media files nothing uses
-Media IDs 844, 845 (`la-costena-guacamole-salsa`), 891 and 892
-(`el-yucateco-habanero-y-pina-asada-hot-sauce`). Reuse 891/892 when that product
-is added by hand (3.1). `pnpm fix:catalogue-2026-09-25` deletes 844/845.
+### 3.3 Three media files nothing uses
+- 844, 845 (`la-costena-guacamole-salsa`): `pnpm fix:catalogue-2026-09-25`
+  deletes them.
+- 930 (`el-fresno-whole-pasilla-chili-1`): kept for when the duplicate listing
+  is sorted out (3.1).
 
-### 3.4 40 low-resolution product images
+891/892 were reused when the hot sauce was imported, and 928/929 when Barritas
+Fresa was.
+
+### 3.4 Five products use Intermex's placeholder numbers as SKUs
+Intermex fills some SKUs with small numbers. Five of our products carry them as
+their SKU: `24`, `2` and `50` from the 2026-09-05 import, and `3` (La Meridana
+sampler) and `8` (Pulparindo) from 2026-09-26. They're unique, so nothing
+breaks, but they aren't real SKUs. Changing a live product's SKU is your call.
+Only `"0"` is treated as missing, because several products share it.
+
+### 3.5 40 low-resolution product images
 40 images are narrower than 800px (38 WebP, 2 PNG), so Payload didn't create a
 `card` size and the site shows the original. They display correctly but may look
 soft on product cards. Replace them with larger files when possible.
 
-### 3.5 One draft product
+### 3.6 One draft product
 `e-gift-card` (Caputo) is the only draft; the other 255 are published. It's
 probably drafted on purpose, since a gift card needs its own checkout handling.
 Confirm that.
@@ -208,25 +225,32 @@ needs.
 
 The Shipping, Policies, Recipes and Brands pages have all their images.
 
+**Photos that may already exist:** the unmerged branch `copilot/vscode-mnmtnn44-cy9s`
+(6.4) has 64 photos that aren't in the current code. They include 8 under
+`public/images/vendor/` (farm, farm road, olive farm, paddy field, grapes,
+processing, a person, a woman) and 7 under `public/images/sourcing/` (farmer,
+plant engineers, processing, factory, conveyor, pallet). Check those before
+sourcing new ones for the Vendors and Sourcing slots.
+
 ---
 
 ## 6. Tooling and technical debt
 
-### 6.1 Node version is below what the project requires
-Local Node is `20.9.0`, but `package.json` requires `^20.19.0 || ^22.12.0 || >=24.0.0`.
-On 20.9, `pnpm test:e2e` fails before any spec loads, and
-`tests/int/journal-post.int.spec.ts` can't start.
+### 6.1 Node version: fixed
+Node was `20.9.0`, below the `^20.19.0 || ^22.12.0 || >=24.0.0` that
+`package.json` requires. On it, `pnpm test:e2e` failed before any spec loaded,
+and `tests/int/journal-post.int.spec.ts` couldn't start.
 
-**Confirmed on 2026-09-26 with a portable Node 22** (your system Node wasn't
-changed): all 25 end-to-end specs load, and the integration suite passes 104 of
-104 tests. Getting there also fixed two test-setup bugs the load error had been
+**Node 22.23.2 was installed on 2026-09-26** (`winget`, `OpenJS.NodeJS.22`,
+replacing `OpenJS.NodeJS.20`; global `pnpm` unaffected). `pnpm test:int` now
+passes 104 of 104 tests and `pnpm test:e2e --list` loads all 25 specs. Getting
+there also fixed two test-setup bugs the load error had been
 hiding, both in `vitest.setup.ts`:
 - `jsdom` has no `IntersectionObserver`, which the scroll-in animations use.
   Added a no-op stub.
 - Testing Library wasn't unmounting between tests (vitest `globals` is off), so
   renders piled up and queries found duplicates. Added `cleanup()` after each test.
 
-- **Still to do:** install Node 22 LTS on this machine.
 - **Note:** `tests/int/api.int.spec.ts` sometimes times out (1 run in 3). It
   queries the live Railway database with vitest's default 5-second limit, so
   it's network latency, not a code fault.
@@ -260,9 +284,21 @@ never took effect:
 Nothing broke. The child-`<span>` and `h-11!` workarounds already in the code
 still work, and new code no longer needs them.
 
-### 6.4 Stale branch
-`copilot/vscode-mnmtnn44-cy9s` holds one "Checkpoint from VS Code" commit and
-can probably be deleted (local and remote).
+### 6.4 Unmerged April work on `copilot/vscode-mnmtnn44-cy9s`: don't delete
+This looked like a stray VS Code checkpoint, but its last commit (2026-04-06)
+changes 146 files and adds about 22,000 lines that exist nowhere else:
+- translations for Arabic, English, Spanish and French (`messages/*.json`,
+  `src/i18n/LocaleContext.tsx`)
+- a currency context
+- a `/commercial` page and a `/vendors/apply` page
+- a `ShopProductCard` and loading skeletons
+- a testimonials seed
+- 64 photos (section 5)
+
+It branched off `master` in March, before the Stripe work, so it will conflict
+heavily with the current code. Decide what to salvage from it: at minimum the
+photos, and the translations if the site is meant to be multilingual. Deleting
+it would lose all of this for good.
 
 ### 6.5 New scripts
 - `pnpm check:suppliers`: a read-only report of price, stock and listing
@@ -277,8 +313,8 @@ can probably be deleted (local and remote).
 1. Run `pnpm fix:catalogue-2026-09-25 --dry-run`, then run it for real (section 2).
 2. Decide whether our prices follow Intermex's (1.1).
 3. DNS: SPF and DMARC (1.2, 1.3). About five minutes at Namecheap.
-4. Merge `feat/stripe-checkout` into `master` (1.4).
-5. Add the 24 Intermex products by hand, plus the new ones worth carrying (3.1).
-6. Photos for the Vendors page, which currently has none (section 5).
-7. Install Node 22 LTS (6.1).
-8. Everything else as time allows.
+4. Decide what to salvage from the April branch, starting with its photos
+   (6.4, section 5).
+5. Ask Intermex about the two Pasilla listings, the 0.00 guacamole price and the
+   discontinued tortilla (3.1, section 2).
+6. Everything else as time allows.

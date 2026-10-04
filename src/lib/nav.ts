@@ -15,7 +15,8 @@ import { getCategoryImage } from './images'
 import { REGIONS } from './regions'
 import type { Region } from './regions'
 import { countriesInRegion } from './countries'
-import type { Category, Supplier } from '@/payload-types'
+import type { Brand, Category } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 export interface NavLinkItem {
   label: string
@@ -61,8 +62,8 @@ export interface NavEntry {
 interface BuildNavArgs {
   /** The product-type tree — departments first, in sortOrder. */
   categories: Category[]
-  /** Producers behind the catalogue, shown as the "Shop by Brand" column. */
-  suppliers?: Supplier[]
+  /** Stocked brands, most stocked first, shown as the "Shop by Brand" column. */
+  brands?: Pick<Brand, 'slug' | 'title'>[]
   /**
    * Resolved regions for the "Shop by Region" cards. Defaults to the bundled
    * table so a caller that hasn't fetched the CMS rows still gets a full menu.
@@ -137,21 +138,21 @@ function regionCards(regions: Region[]): NavCard[] {
 
 export function buildNav({
   categories,
-  suppliers = [],
+  brands = [],
   regions = REGIONS,
   originCountries = [],
   cmsItems = [],
 }: BuildNavArgs): NavEntry[] {
   const featured = categories.find((c) => getCategoryImage(c))
 
-  const brandColumn: NavColumn[] = suppliers.length
+  const brandColumn: NavColumn[] = brands.length
     ? [
         {
           heading: 'Shop by Brand',
           links: [
-            ...suppliers.slice(0, 6).map((s) => ({
-              label: s.name,
-              href: `/products?supplier=${s.slug}`,
+            ...brands.slice(0, 6).map((b) => ({
+              label: b.title,
+              href: `/products?brand=${b.slug}`,
             })),
             { label: 'All Brands', href: '/brands' },
           ],
@@ -194,13 +195,13 @@ export function buildNav({
       {
         label: featured?.title ?? 'Curated Collections',
         href: featured ? `/products?category=${featured.slug}` : '/products',
-        image: featured ? getCategoryImage(featured) : '/images/collections/pantry.avif',
+        image: featured ? getCategoryImage(featured) : siteImage('/images/collections/pantry.avif'),
         eyebrow: 'Editor’s pick',
       },
       {
         label: 'Partner with us',
         href: '/b2b',
-        image: '/images/b2b/commercial-resturant.avif',
+        image: siteImage('/images/b2b/commercial-resturant.avif'),
         eyebrow: 'Trade & wholesale',
       },
     ],

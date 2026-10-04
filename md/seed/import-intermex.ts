@@ -6,10 +6,9 @@
  *   pnpm import:intermex --skip-images   copy and pricing only
  *   pnpm import:intermex --only=a,b,c    just these handles; nothing else is read or written
  *
- * Their Shopify store gives no usable `vendor` and no `product_type`, so brand
- * and category both come from collection membership — the store is organised
- * with brands, product types and promotions all as collections side by side.
- * intermex-catalogue.ts holds every decision about which is which.
+ * Their Shopify store gives no usable `vendor` and no `product_type`, so the
+ * category comes from collection membership and the brand from a per-product
+ * list. intermex-catalogue.ts holds every one of those decisions.
  *
  * Structure this creates:
  *
@@ -19,9 +18,8 @@
  *   ├── Pantry Staples
  *   └── Mexican Candy
  *
- * with drinks joining the existing Curated Fine Beverages and accessories the
- * existing Bespoke Tableware & Cutlery, rather than being duplicated inside a
- * Mexican silo.
+ * with drinks joining the existing Curated Fine Beverages rather than being
+ * duplicated inside a Mexican silo. Accessories are not food and are skipped.
  *
  * Prices are AED at source. Same contract as the other importers: upsert on
  * `source.externalId`, media de-duplicated on `sourceUrl`, `isFeatured` and
@@ -43,6 +41,7 @@ import {
   NON_MEXICAN_BRAND_HINT,
   ORIGIN_COUNTRY,
   PARENT_DEPARTMENT,
+  resolveBrand,
   resolveCategory,
   SUB_CATEGORIES,
   type SubCategorySpec,
@@ -84,7 +83,7 @@ function stripStockCode(title: string): string {
 
 const __dirname_ = path.dirname(fileURLToPath(import.meta.url))
 
-/** Every collection whose membership matters — types and brands alike. */
+/** Every collection whose membership matters: types, and the two brand fallbacks. */
 const COLLECTIONS_TO_READ = [...CATEGORY_COLLECTIONS, ...Object.keys(BRAND_COLLECTIONS)]
 
 interface Row {
@@ -102,6 +101,8 @@ interface Row {
 
 const report: Row[] = []
 const problems: string[] = []
+/** Handles skipped because they are not food. */
+const notCarried: string[] = []
 
 async function main() {
   const payload = await getPayload({ config })
@@ -140,8 +141,8 @@ async function main() {
     for (const spec of SUB_CATEGORIES) {
       categoryIds.set(spec.slug, await ensureSubCategory(payload, spec, parentId))
     }
-    // The two existing departments that take products directly.
-    for (const slug of ['curated-fine-beverages', 'bespoke-tableware-cutlery']) {
+    // The existing department that takes products directly.
+    for (const slug of ['curated-fine-beverages']) {
       const found = await payload.find({
         collection: 'categories',
         where: { slug: { equals: slug } },
@@ -198,18 +199,22 @@ async function main() {
     const collections = membership.get(p.handle) ?? []
 
     const { category, from } = resolveCategory(p.title, collections)
+    if (category === null) {
+      notCarried.push(p.handle)
+      return
+    }
     if (from === 'title-rule') {
       flags.push(`category "${category}" inferred from the title — the store files it under none`)
     } else if (from === 'default') {
       flags.push('no category at source and no title match — filed under Pantry Staples')
     }
 
-    // A brand only where the store's own brand collections say so; the other
-    // 128 products import without one rather than having it guessed.
-    const brandCollection = Object.keys(BRAND_COLLECTIONS).find((c) => collections.includes(c))
-    const brandSpec = brandCollection ? BRAND_COLLECTIONS[brandCollection]! : null
+    // The maker named on the pack. A product the list doesn't cover imports
+    // without one rather than having it guessed.
+    const brandSpec = resolveBrand(p.handle, collections)
     const brandId =
       brandSpec && !DRY_RUN ? await brandFor(brandSpec.slug, brandSpec.title) : undefined
+    if (!brandSpec) flags.push('no brand — add the maker to BRANDS in intermex-catalogue.ts')
 
     if (NON_MEXICAN_BRAND_HINT.test(p.title)) {
       flags.push(`origin recorded as ${ORIGIN_COUNTRY} but the title names a non-Mexican brand — verify`)
@@ -366,6 +371,7 @@ async function main() {
   }
 
   console.log(`\n${DRY_RUN ? 'previewed' : 'imported'}: ${report.length}`)
+  console.log(`not food, skipped: ${notCarried.length}`)
   console.log(`images: ${media.resolvedCount} resolved, ${media.uploadCount} newly uploaded`)
   console.log('\nby category:')
   for (const [c, n] of [...byCategory].sort((a, b) => b[1] - a[1])) {

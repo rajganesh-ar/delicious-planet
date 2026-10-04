@@ -5,15 +5,15 @@ import { SectionHeader } from './SectionHeader'
 import type { BrandMark } from '@/lib/brand-marks'
 
 /** The row is five across at lg — more would wrap into a ragged second line. */
-const MAX_MARKS = 5
+export const BRAND_STRIP_MARKS = 5
 
 interface BrandStripProps {
-  /** Resolved brand marks — CMS logos, falling back to bundled artwork. */
+  /** Resolved brand marks — logos first, then wordmarks. */
   marks: BrandMark[]
 }
 
 export function BrandStrip({ marks }: BrandStripProps) {
-  const shown = marks.slice(0, MAX_MARKS)
+  const shown = marks.slice(0, BRAND_STRIP_MARKS)
   if (shown.length === 0) return null
 
   return (
@@ -31,16 +31,22 @@ export function BrandStrip({ marks }: BrandStripProps) {
               className="border-b border-r border-stone/15"
             >
               <Link
-                href="/brands"
+                href={`/products?brand=${mark.slug}`}
                 className="group flex items-center justify-center h-20 md:h-24 px-4 no-underline"
               >
-                <Image
-                  src={mark.src}
-                  alt={mark.name}
-                  width={120}
-                  height={48}
-                  className="max-h-10 w-auto object-contain opacity-75 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
-                />
+                {mark.src ? (
+                  <Image
+                    src={mark.src}
+                    alt={mark.name}
+                    width={120}
+                    height={48}
+                    className="max-h-10 w-auto object-contain opacity-75 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                  />
+                ) : (
+                  <span className="font-luxury text-base md:text-lg font-semibold text-obsidian/60 text-center leading-tight transition-colors duration-300 group-hover:text-obsidian">
+                    {mark.name}
+                  </span>
+                )}
               </Link>
             </li>
           ))}

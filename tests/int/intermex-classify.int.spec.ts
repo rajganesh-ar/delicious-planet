@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { resolveCategory } from '../../md/seed/intermex-catalogue'
+import { resolveBrand, resolveCategory } from '../../md/seed/intermex-catalogue'
 
 /**
  * Titles and collection memberships are verbatim from intermexuae.com. Their
@@ -10,20 +10,19 @@ import { resolveCategory } from '../../md/seed/intermex-catalogue'
  * products land — and a silent misfile is the failure mode, not an error.
  */
 describe('resolveCategory', () => {
-  it('uses the store\'s own collection when there is exactly one', () => {
+  it("uses the store's own collection when there is exactly one", () => {
     expect(resolveCategory('Valentina Hot Sauce', ['mexican-sauces'])).toEqual({
       category: 'mexican-sauces',
       from: 'collection',
     })
   })
 
-  it('sends drinks and accessories to the departments we already have', () => {
+  it('sends drinks to the department we already have, and skips accessories', () => {
     expect(resolveCategory('Jarritos Mandarin 370ml', ['drinks']).category).toBe(
       'curated-fine-beverages',
     )
-    expect(resolveCategory('Molcajete', ['mexican-accessories']).category).toBe(
-      'bespoke-tableware-cutlery',
-    )
+    // The store sells food only.
+    expect(resolveCategory('Molcajete', ['mexican-accessories']).category).toBeNull()
   })
 
   it('prefers the specific collection when a product is in two', () => {
@@ -71,7 +70,7 @@ describe('resolveCategory', () => {
   })
 
   it('drops unmatched products into the catch-all and says so', () => {
-    expect(resolveCategory('Corn Tortilla 4.5\'\' 1kg', [])).toEqual({
+    expect(resolveCategory("Corn Tortilla 4.5'' 1kg", [])).toEqual({
       category: 'pantry-staples',
       from: 'default',
     })
@@ -84,13 +83,38 @@ describe('resolveCategory', () => {
   it('ignores merchandising collections entirely', () => {
     // "Special Offers" and "Mexican Must Haves" are promotions, not types, so a
     // product in only those is still classified from its title.
-    expect(
-      resolveCategory('Pepe Crunch Peanuts Mango Flavour 500g', ['special-offers']),
-    ).toEqual({ category: 'pantry-staples', from: 'default' })
+    expect(resolveCategory('Pepe Crunch Peanuts Mango Flavour 500g', ['special-offers'])).toEqual({
+      category: 'pantry-staples',
+      from: 'default',
+    })
 
     expect(resolveCategory('Chocorroles 8 pieces', ['mexican-must-haves'])).toEqual({
       category: 'mexican-candy',
       from: 'title-rule',
     })
+  })
+})
+
+describe('resolveBrand', () => {
+  it('files a product under the maker on the pack, not the store collection', () => {
+    // Intermex lists these as "Intermex Production"; they are not.
+    expect(resolveBrand('jarritos-mexican-cola-370ml', ['intermex'])?.slug).toBe('jarritos')
+    expect(resolveBrand('fit-panda-flamin-hot-instant-noodles', ['intermex'])?.slug).toBe(
+      'fit-panda',
+    )
+    expect(resolveBrand('intermex-mexican-beef-chorizo', ['intermex'])?.slug).toBe('intermex')
+  })
+
+  it('falls back to the two collections that hold only their own brand', () => {
+    expect(resolveBrand('some-new-salsa', ['la-costena'])).toEqual({
+      slug: 'la-costena',
+      title: 'La Costeña',
+    })
+    expect(resolveBrand('some-new-salsa', ['la-meridana'])?.title).toBe('La Meridana')
+  })
+
+  it('gives no brand rather than a guess', () => {
+    expect(resolveBrand('some-new-salsa', ['intermex'])).toBeNull()
+    expect(resolveBrand('dried-corn-husks', [])).toBeNull()
   })
 })

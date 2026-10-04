@@ -6,10 +6,12 @@ import { ClientShell } from '@/components/layout/ClientShell'
 import { Footer } from '@/components/layout/Footer'
 import { FloatingElements } from '@/components/layout/FloatingElements'
 import type { AnnouncementItem, SearchScope } from '@/components/layout/Header'
+import { stockedBrands } from '@/lib/brand-marks'
 import { buildNav } from '@/lib/nav'
 import { countryName } from '@/lib/countries'
 import { resolveRegions } from '@/lib/regions'
 import { SITE_URL } from '@/lib/site-url'
+import { siteImage } from '@/lib/site-image'
 import './styles.css'
 
 const SITE_NAME = 'Delicious Planet'
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: '/images/logo/logo.svg',
+    icon: siteImage('/images/logo/logo.svg'),
   },
 }
 
@@ -89,7 +91,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
   const payload = await getPayload({ config: await config })
 
-  const [siteSettings, navigation, categoriesRes, suppliersRes, regionsRes, originsRes] =
+  const [siteSettings, navigation, categoriesRes, brandsRes, regionsRes, productsRes] =
     await Promise.all([
       payload.findGlobal({ slug: 'site-settings' }),
       payload.findGlobal({ slug: 'navigation' }),
@@ -103,22 +105,23 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         depth: 1,
         sort: 'sortOrder',
       }),
-      payload.find({ collection: 'suppliers', limit: 8, depth: 0, sort: 'name' }),
+      payload.find({ collection: 'brands', limit: 0, pagination: false, depth: 0 }),
       // Region wording and card art only — membership comes from origin.country.
       payload.find({ collection: 'regions', limit: 20, depth: 1 }),
       // Origins have no collection of their own — tally the free-text field so the
-      // menu only offers countries that actually return products.
+      // menu only offers countries that actually return products. Brands are
+      // tallied from the same rows, for the same reason.
       payload.find({
         collection: 'products',
         where: { _status: { equals: 'published' } },
         limit: 1000,
         depth: 0,
-        select: { origin: true },
+        select: { origin: true, brand: true },
       }),
     ])
 
   const originCounts = new Map<string, number>()
-  for (const doc of originsRes.docs) {
+  for (const doc of productsRes.docs) {
     const country = countryName(doc.origin?.country)
     if (country) originCounts.set(country, (originCounts.get(country) ?? 0) + 1)
   }
@@ -130,7 +133,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // from it; anything an editor added in the CMS is appended.
   const nav = buildNav({
     categories: categoriesRes.docs,
-    suppliers: suppliersRes.docs,
+    brands: stockedBrands(brandsRes.docs, productsRes.docs).map(({ brand }) => ({
+      slug: brand.slug,
+      title: brand.title,
+    })),
     regions: resolveRegions(regionsRes.docs),
     originCountries,
     cmsItems: (navigation.mainNav ?? []).map((item) => ({ label: item.label, href: item.href })),

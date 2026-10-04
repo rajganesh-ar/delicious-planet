@@ -1,0 +1,813 @@
+{
+  "fixedAt": "2026-10-04T14:21:45.589Z",
+  "changes": [
+    {
+      "id": 264,
+      "title": "Achiote Paste. La Meridana",
+      "handle": "la-meridana-achiote-paste",
+      "from": null,
+      "to": "la-meridana"
+    },
+    {
+      "id": 284,
+      "title": "Agave Syrup Organic",
+      "handle": "b-sweet-organic-agave-syrup",
+      "from": null,
+      "to": "b-sweet"
+    },
+    {
+      "id": 306,
+      "title": "Alebrije Mango & Habanero Jam, La Conspiración",
+      "handle": "la-conspiracion-alebrije-mango-habanero-jam",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 341,
+      "title": "Ancho Chili Powder, Xatze",
+      "handle": "xatze-ancho-chili-powder",
+      "from": null,
+      "to": "xatze"
+    },
+    {
+      "id": 340,
+      "title": "Árbol Chili Powder, Xatze",
+      "handle": "xatze-chile-de-arbol-powder",
+      "from": null,
+      "to": "xatze"
+    },
+    {
+      "id": 160,
+      "title": "Banderilla, Tamaroca Tamarind Mexican Stick 1pcs",
+      "handle": "banderilla-tamaroca-tamarind-mexican-stick-30pcs",
+      "from": null,
+      "to": "tama-roca"
+    },
+    {
+      "id": 225,
+      "title": "Barritas de Pina",
+      "handle": "marinela-barritas-pineapple",
+      "from": null,
+      "to": "marinela"
+    },
+    {
+      "id": 343,
+      "title": "Barritas Strawberry,Marinela",
+      "handle": "marinela-barritas-fresa",
+      "from": null,
+      "to": "marinela"
+    },
+    {
+      "id": 309,
+      "title": "Bichi Sauce, La Conspiration",
+      "handle": "la-conspiracion-salsa-bichi",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 308,
+      "title": "Bichola Sauce, La Conspiración",
+      "handle": "la-conspiracion-salsa-bichola",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 192,
+      "title": "Black Beans Dry 900g, La sierra",
+      "handle": "black-beans-dry-900g-la-sierra",
+      "from": "intermex",
+      "to": "la-sierra"
+    },
+    {
+      "id": 172,
+      "title": "Black Sauce (Salsa Picante Negra) 120ml, Yucateco",
+      "handle": "salsa-picante-negra-120ml-yucateco",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 258,
+      "title": "Blue Corn Flour, Naturelo",
+      "handle": "naturelo-eco-friendly-corn-flour",
+      "from": null,
+      "to": "naturelo"
+    },
+    {
+      "id": 194,
+      "title": "Blue Corn Masa Flour, Maseca",
+      "handle": "blue-corn-masa-flour-maseca",
+      "from": null,
+      "to": "maseca"
+    },
+    {
+      "id": 283,
+      "title": "Blue Corn Masa Flour, Naturelo",
+      "handle": "naturelo-blue-corn-masa-flour",
+      "from": null,
+      "to": "naturelo"
+    },
+    {
+      "id": 254,
+      "title": "Cactus Guajillo 454g",
+      "handle": "nopal-foods-nopalitos-en-salsa-de-chile-guajillo",
+      "from": null,
+      "to": "nopal-foods"
+    },
+    {
+      "id": 295,
+      "title": "Chamoy Sauce, El Chilerito 1lt",
+      "handle": "el-chilerito-salsa-chamoy",
+      "from": null,
+      "to": "el-chilerito"
+    },
+    {
+      "id": 186,
+      "title": "Chamoy Sauce, El Chilerito 355ml",
+      "handle": "chamoy-sauce-330ml-intermex",
+      "from": "intermex",
+      "to": "el-chilerito"
+    },
+    {
+      "id": 342,
+      "title": "Chile Ancho 150G (Whole Dried Chilies), INTERMEX",
+      "handle": "xatze-chile-ancho-whole-dried-chilies",
+      "from": null,
+      "to": "intermex"
+    },
+    {
+      "id": 267,
+      "title": "Chocolate Abuelita",
+      "handle": "nestle-abuelita-chocolate-drink-tablets",
+      "from": null,
+      "to": "abuelita"
+    },
+    {
+      "id": 206,
+      "title": "Choco Roles Mini Marinela",
+      "handle": "choco-roles-mini-marinela",
+      "from": null,
+      "to": "marinela"
+    },
+    {
+      "id": 146,
+      "title": "Chocorroles 8 pieces",
+      "handle": "chocorroles-8-pieces",
+      "from": null,
+      "to": "marinela"
+    },
+    {
+      "id": 169,
+      "title": "Cholula Original Chilli Lime Hot Sauce",
+      "handle": "cholula-original-chilli-lime-hot-sauce",
+      "from": null,
+      "to": "cholula"
+    },
+    {
+      "id": 167,
+      "title": "Cholula Original Chipotle Hot Sauce 150ml",
+      "handle": "cholula-original-chipotle-hot-sauce",
+      "from": null,
+      "to": "cholula"
+    },
+    {
+      "id": 312,
+      "title": "Cholula Original Hot Sauce",
+      "handle": "cholula-original-hot-sauce",
+      "from": null,
+      "to": "cholula"
+    },
+    {
+      "id": 166,
+      "title": "Cholula Original Hot Sauce 60ml",
+      "handle": "cholula-original-hot-sauce-60ml",
+      "from": null,
+      "to": "cholula"
+    },
+    {
+      "id": 237,
+      "title": "Clamato® Original 1.89L",
+      "handle": "clamato®-original",
+      "from": null,
+      "to": "clamato"
+    },
+    {
+      "id": 214,
+      "title": "Clemente Jacques Chipotle Peppers in Adobo",
+      "handle": "clemente-jacques-chipotle-peppers-in-adobo",
+      "from": null,
+      "to": "clemente-jacques"
+    },
+    {
+      "id": 147,
+      "title": "Corn Flour Tamal ,Maseca",
+      "handle": "maseca-tamal-corn-flour",
+      "from": null,
+      "to": "maseca"
+    },
+    {
+      "id": 261,
+      "title": "Dehydrated Cactus",
+      "handle": "nopal-tenochtitlan-fibra-de-nopal-deshidratado",
+      "from": null,
+      "to": "nopal-tenochtitlan"
+    },
+    {
+      "id": 305,
+      "title": "Dried chilies crackling, La Conspiración",
+      "handle": "la-conspiracion-chicharron-de-mezcla-de-chiles-secos",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 151,
+      "title": "FIT PANDA Flamin Hot Instant Noodles",
+      "handle": "fit-panda-flamin-hot-instant-noodles",
+      "from": "intermex",
+      "to": "fit-panda"
+    },
+    {
+      "id": 150,
+      "title": "Fit Panda Vegan Chicken Instant Noodles",
+      "handle": "fit-panda-vegan-chicken-instant-noodles",
+      "from": "intermex",
+      "to": "fit-panda"
+    },
+    {
+      "id": 207,
+      "title": "Fritos Lemon & Salt",
+      "handle": "fritos-lemon-salt",
+      "from": null,
+      "to": "fritos"
+    },
+    {
+      "id": 268,
+      "title": "Goat Milk Caramel (Cajeta Quemada), Coronado",
+      "handle": "coronado-cajeta-quemada",
+      "from": null,
+      "to": "coronado"
+    },
+    {
+      "id": 339,
+      "title": "Guajillo Chili Powder, Xatze",
+      "handle": "xatze-guajillo-chili-powder",
+      "from": null,
+      "to": "xatze"
+    },
+    {
+      "id": 322,
+      "title": "Habanero and Coffee Hot Sauce, El Yucateco",
+      "handle": "el-yucateco-habanero-y-cafe-hot-sauce",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 320,
+      "title": "Habanero and Pineapple smoked Hot Sauce, El Yucateco",
+      "handle": "el-yucateco-habanero-y-pina-asada-hot-sauce",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 323,
+      "title": "Habanero & Ghost Chili Hot Sauce, El Yucateco",
+      "handle": "el-yucateco-habanero-ghost-chili-hot-sauce",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 318,
+      "title": "Habanero y Chiltepín Hot Sauce, El Yucateco",
+      "handle": "el-yucateco-habanero-y-chiltepin-hot-sauce",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 211,
+      "title": "Herdez White Mexican Corn",
+      "handle": "herdez-white-mexican-corn",
+      "from": null,
+      "to": "herdez"
+    },
+    {
+      "id": 175,
+      "title": "Homestyle La Costen 475gm",
+      "handle": "homestyle-la-costen-475gm",
+      "from": null,
+      "to": "la-costena"
+    },
+    {
+      "id": 251,
+      "title": "Horchata Concentrate, El Yucateco",
+      "handle": "el-yucateco-horchata-de-arroz",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 171,
+      "title": "Hot Green Sauce (Salsa Picante Green chile Habanero) 120ml, Yucateco",
+      "handle": "salsa-picante-chile-habanero-120ml-yucateco",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 185,
+      "title": "Hungry Guru 35g",
+      "handle": "hungary-guru-35g",
+      "from": null,
+      "to": "hungry-guru"
+    },
+    {
+      "id": 174,
+      "title": "Hungry Guru pack of 12",
+      "handle": "hungry-guru-pack-of-12",
+      "from": "intermex",
+      "to": "hungry-guru"
+    },
+    {
+      "id": 184,
+      "title": "Hungry Guru Pack of 3 (35g)",
+      "handle": "hungary-guru-pack-of-3-35gm",
+      "from": null,
+      "to": "hungry-guru"
+    },
+    {
+      "id": 183,
+      "title": "Hungry Guru Pack of 6 (35G)",
+      "handle": "hungary-guru-pack-of-6-35g",
+      "from": "intermex",
+      "to": "hungry-guru"
+    },
+    {
+      "id": 252,
+      "title": "Jamaica Drink Concentrate, El Yucateco",
+      "handle": "el-yucateco-jamaica-drink-concentrate",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 280,
+      "title": "Jarritos Fruit Punch Drink 370ML",
+      "handle": "jarritos-fruit-punch-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 179,
+      "title": "Jarritos Grapefruit Drink 370ML",
+      "handle": "jarritos-grape-friut-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 180,
+      "title": "Jarritos Guava Drink 370ML",
+      "handle": "jarritos-guava-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 281,
+      "title": "Jarritos Lime Drink 370ML",
+      "handle": "jarritos-lime-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 282,
+      "title": "Jarritos Mandarin Drink 370ML",
+      "handle": "jarritos-mandarin-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 181,
+      "title": "Jarritos Mexican Cola Drink 370ML",
+      "handle": "jarritos-mexican-cola-370ml",
+      "from": "intermex",
+      "to": "jarritos"
+    },
+    {
+      "id": 182,
+      "title": "Jarritos Pineapple Drink 370ML",
+      "handle": "jarritos-pineapple-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 178,
+      "title": "Jarritos Strawberry Drink 370ML",
+      "handle": "jarritos-strawberry-drink-370ml",
+      "from": null,
+      "to": "jarritos"
+    },
+    {
+      "id": 336,
+      "title": "Lucas Muecas Chamoy",
+      "handle": "lucas-muecas-chamoy-1",
+      "from": null,
+      "to": "lucas"
+    },
+    {
+      "id": 332,
+      "title": "Lucas Muecas Mango (Spicy Mango Lollipop with Chili Powder)",
+      "handle": "lucas-muecas-mango-spicy-mango-lollipop-with-chili-powder",
+      "from": null,
+      "to": "lucas"
+    },
+    {
+      "id": 200,
+      "title": "Maggi Liquid Seasoning Sauce (800ml)",
+      "handle": "maggi-liquid-seasoning-sauce-800ml",
+      "from": null,
+      "to": "maggi"
+    },
+    {
+      "id": 210,
+      "title": "Maggi Seasoning Sauce (100ml)",
+      "handle": "maggi-seasoning-sauce-100ml",
+      "from": null,
+      "to": "maggi"
+    },
+    {
+      "id": 266,
+      "title": "Maizena Corn Starch",
+      "handle": "maizena-corn-starch",
+      "from": null,
+      "to": "maizena"
+    },
+    {
+      "id": 317,
+      "title": "Marisquera Black Hot Sauce, El Yucateco",
+      "handle": "el-yucateco-marisquera-negra-hot-sauce",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 321,
+      "title": "Marisquera Red Hot Sauce, El Yucateco",
+      "handle": "el-yucateco-marisquera-roja-hot-sauce",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 173,
+      "title": "Maruchan (Instant Noodles)",
+      "handle": "maruchan",
+      "from": null,
+      "to": "maruchan"
+    },
+    {
+      "id": 260,
+      "title": "Maseca, Nixtamalized Corn Flour",
+      "handle": "maseca-nixtamalized-corn-flour",
+      "from": null,
+      "to": "maseca"
+    },
+    {
+      "id": 156,
+      "title": "Mayonesa Macromick (Lime) 390gm",
+      "handle": "mayonesa-macromick-lime-390gm",
+      "from": null,
+      "to": "mccormick"
+    },
+    {
+      "id": 335,
+      "title": "Mazapan Original, De la Rosa",
+      "handle": "de-la-rosa-mazapan-original",
+      "from": null,
+      "to": "de-la-rosa"
+    },
+    {
+      "id": 227,
+      "title": "Mini Gansito (Marinela)",
+      "handle": "mini-gansito-marinela",
+      "from": null,
+      "to": "marinela"
+    },
+    {
+      "id": 310,
+      "title": "Mojito Green Sauce, La Conspiración",
+      "handle": "la-conspiracion-salsa-mojito-verde",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 285,
+      "title": "Mole Paste, Azteca",
+      "handle": "mole-azteca-paste",
+      "from": null,
+      "to": "azteca"
+    },
+    {
+      "id": 286,
+      "title": "Mole Paste, Doña María",
+      "handle": "dona-maria-mole-paste",
+      "from": null,
+      "to": "dona-maria"
+    },
+    {
+      "id": 287,
+      "title": "Mole, Ready to Serve, Doña María",
+      "handle": "dona-maria-mole-ready-to-serve",
+      "from": null,
+      "to": "dona-maria"
+    },
+    {
+      "id": 202,
+      "title": "Montes Tomy Original Candy (100 pieces)",
+      "handle": "montes-tomy-original-candy-100-pieces",
+      "from": null,
+      "to": "montes"
+    },
+    {
+      "id": 259,
+      "title": "Nixtamalized Corn Flour, Omalli 20kg",
+      "handle": "omalli-nixtamalized-corn-flour",
+      "from": null,
+      "to": "omalli"
+    },
+    {
+      "id": 293,
+      "title": "No Guilt Churritos, Inzi",
+      "handle": "inzi-no-guilt-churritos",
+      "from": "intermex",
+      "to": "inzi"
+    },
+    {
+      "id": 223,
+      "title": "No, Guilt NAchos, cheddar cheese, Inzi",
+      "handle": "no-guilt-nachos-cheddar-cheese-inzi",
+      "from": "intermex",
+      "to": "inzi"
+    },
+    {
+      "id": 224,
+      "title": "No, Guilt nachos, Chilli Lime Inzi",
+      "handle": "no-guilt-nachos-chilli-lime-inzi",
+      "from": "intermex",
+      "to": "inzi"
+    },
+    {
+      "id": 294,
+      "title": "No Guilt Nachos,Inzi",
+      "handle": "inzi-no-guilt-nachos",
+      "from": "intermex",
+      "to": "inzi"
+    },
+    {
+      "id": 257,
+      "title": "Organic Blue Agave Syrup, Mayamel 510g",
+      "handle": "mayamel-organic-blue-agave-syrup",
+      "from": null,
+      "to": "mayamel"
+    },
+    {
+      "id": 337,
+      "title": "Palebola Tama-Roca Tamarind Candy",
+      "handle": "palebola-tama-roca-tamarind-candy",
+      "from": null,
+      "to": "tama-roca"
+    },
+    {
+      "id": 333,
+      "title": "Pelon Pelo Rico Tamarind",
+      "handle": "pelon-pelo-rico-tamarindo",
+      "from": null,
+      "to": "pelon-pelo-rico"
+    },
+    {
+      "id": 164,
+      "title": "Pepe Crunch Peanuts Cheese Flavour 500g",
+      "handle": "pepe-crucnh-peanuts-cheese-flavour-500g",
+      "from": null,
+      "to": "pepe-crunch"
+    },
+    {
+      "id": 165,
+      "title": "Pepe Crunch Peanuts Chilli Flavour 500g",
+      "handle": "pepe-crucnh-peanuts-chilli-flavour-500g",
+      "from": null,
+      "to": "pepe-crunch"
+    },
+    {
+      "id": 163,
+      "title": "Pepe Crunch Peanuts Chipotle Flavour 500g",
+      "handle": "pepe-crucnh-peanuts-chipotle-flavour-500g",
+      "from": "intermex",
+      "to": "pepe-crunch"
+    },
+    {
+      "id": 161,
+      "title": "Pepe Crunch Peanuts Habanero Flavour 500g",
+      "handle": "pepe-crunch-peanuts-habanero-flavour-500g",
+      "from": "intermex",
+      "to": "pepe-crunch"
+    },
+    {
+      "id": 162,
+      "title": "Pepe Crunch Peanuts Mango Flavour 500g",
+      "handle": "pepe-crucnh-peanuts-mango-flavour-500g",
+      "from": null,
+      "to": "pepe-crunch"
+    },
+    {
+      "id": 270,
+      "title": "Pickle Cactus (Nopales en Escabeche), Nopal Foods",
+      "handle": "nopal-foods-nopales-en-escabeche",
+      "from": null,
+      "to": "nopal-foods"
+    },
+    {
+      "id": 307,
+      "title": "Piñera Sauce,La Conspiración",
+      "handle": "la-conspiracion-salsa-pinera",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 334,
+      "title": "Pulparindo Mango (Tamarind Candy with Mango Flavor)",
+      "handle": "pulparindo-mango-tamarind-candy-with-mango-flavor",
+      "from": null,
+      "to": "de-la-rosa"
+    },
+    {
+      "id": 253,
+      "title": "Queso Cotija Excelsior, Mexican Aged Cheese",
+      "handle": "queso-cotija-excelsior-mexican-aged-cheese",
+      "from": "intermex",
+      "to": "excelsior"
+    },
+    {
+      "id": 170,
+      "title": "Red Sauce (Salsa Picante Roja) 120ml, Yucateco",
+      "handle": "salsa-picante-roja-120ml-yucateco",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 190,
+      "title": "Rice Morelo 1kg valle verde",
+      "handle": "rice-morelo-1kg-valle-verde",
+      "from": null,
+      "to": "valle-verde"
+    },
+    {
+      "id": 209,
+      "title": "Ruffles Cheese",
+      "handle": "ruffles-cheese",
+      "from": null,
+      "to": "ruffles"
+    },
+    {
+      "id": 217,
+      "title": "Ruffles Mega Crunch Red Salsa",
+      "handle": "ruffles-mega-crunch-red-salsa",
+      "from": null,
+      "to": "ruffles"
+    },
+    {
+      "id": 313,
+      "title": "Tajín Chamoy Hot Sauce",
+      "handle": "tajin-chamoy-hot-sauce",
+      "from": null,
+      "to": "tajin"
+    },
+    {
+      "id": 191,
+      "title": "Tajin Classico Seasoning 400gm",
+      "handle": "tajin-classico-seasoning-400gm",
+      "from": null,
+      "to": "tajin"
+    },
+    {
+      "id": 250,
+      "title": "Tamarind Concentrate, El Yucateco",
+      "handle": "el-yucateco-tamarindo-1",
+      "from": null,
+      "to": "el-yucateco"
+    },
+    {
+      "id": 311,
+      "title": "Three Chili Sauce, La Conspiración",
+      "handle": "la-conspiracion-salsa-tres-chiles",
+      "from": null,
+      "to": "la-conspiracion"
+    },
+    {
+      "id": 315,
+      "title": "Valentina Salsa Picante (Original Yellow Label)",
+      "handle": "valentina-salsa-picante-original-yellow-label",
+      "from": null,
+      "to": "valentina"
+    },
+    {
+      "id": 314,
+      "title": "Valentina Salsa Picante (Original Yellow Label) 1lt",
+      "handle": "valentina-salsa-picante-original-yellow-label-1",
+      "from": null,
+      "to": "valentina"
+    },
+    {
+      "id": 316,
+      "title": "Valentina Salsa Picante Very Hot (Black Label)",
+      "handle": "valentina-salsa-picante-muy-picante-black-label",
+      "from": null,
+      "to": "valentina"
+    },
+    {
+      "id": 203,
+      "title": "Vero Rellerindos Mix Filled Candies (80 pieces)",
+      "handle": "vero-rellerindos-mix-filled-candies-80-pieces",
+      "from": null,
+      "to": "vero"
+    },
+    {
+      "id": 168,
+      "title": "(White Corn with Epazote) Esquite Natural Con Epazote 1kg",
+      "handle": "esquite-natural-con-epazote-1kg",
+      "from": "intermex",
+      "to": null
+    },
+    {
+      "id": 265,
+      "title": "White Hominy in Brine, El Mexicano 822g (Maiz Pozolero)",
+      "handle": "el-mexicano-maiz-blanco-white-hominy-in-brine",
+      "from": null,
+      "to": "el-mexicano"
+    },
+    {
+      "id": 263,
+      "title": "White Hominy in Brine, El Mexicano (Maiz Pozolero)",
+      "handle": "el-mexicano-white-hominy-in-brine",
+      "from": null,
+      "to": "el-mexicano"
+    },
+    {
+      "id": 195,
+      "title": "Whole Ancho Chili, El Fresno",
+      "handle": "el-fresno-whole-ancho-chili",
+      "from": null,
+      "to": "el-fresno"
+    },
+    {
+      "id": 262,
+      "title": "Whole Black Beans. La Sierra",
+      "handle": "la-sierra-whole-black-beans",
+      "from": null,
+      "to": "la-sierra"
+    },
+    {
+      "id": 228,
+      "title": "Whole Cascabel Chili",
+      "handle": "el-fresno-whole-cascabel-chili",
+      "from": null,
+      "to": "el-fresno"
+    },
+    {
+      "id": 230,
+      "title": "Whole Chile de Arbol",
+      "handle": "el-fresno-whole-chile-de-arbol",
+      "from": null,
+      "to": "el-fresno"
+    },
+    {
+      "id": 229,
+      "title": "Whole Chipotle Chili, El Fresno",
+      "handle": "el-fresno-whole-chipotle-chili",
+      "from": null,
+      "to": "el-fresno"
+    },
+    {
+      "id": 177,
+      "title": "Whole Green Tomatillo 2.8kg clemente jacques",
+      "handle": "whole-green-tomatillo-2-8kg-san-marco",
+      "from": null,
+      "to": "clemente-jacques"
+    },
+    {
+      "id": 196,
+      "title": "Whole Pasilla Chili,El Fresno",
+      "handle": "el-fresno-whole-pasilla-chili",
+      "from": null,
+      "to": "el-fresno"
+    }
+  ],
+  "deletedSuppliers": [
+    {
+      "id": 3,
+      "name": "Caputo",
+      "slug": "caputo",
+      "logo": 953,
+      "website": "https://casinetto.com",
+      "country": "UAE",
+      "description": null,
+      "contactPerson": {
+        "name": null,
+        "title": null
+      },
+      "updatedAt": "2026-10-04T14:21:31.733Z",
+      "createdAt": "2026-03-30T01:31:37.464Z"
+    }
+  ]
+}

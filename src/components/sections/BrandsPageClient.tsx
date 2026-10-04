@@ -8,7 +8,7 @@ import { ImagePlaceholder } from '@/components/ui'
 import { Cta, Eyebrow, GUTTER } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
 import type { BrandMark } from '@/lib/brand-marks'
-import type { Supplier, Media } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 /**
  * Brands — the register archetype.
@@ -23,14 +23,27 @@ import type { Supplier, Media } from '@/payload-types'
  * margins carry `!`.
  */
 
+/** One stocked brand, flattened for the client. */
+export interface BrandEntry {
+  slug: string
+  name: string
+  description: string | null
+  website: string | null
+  logo: string | null
+  /** The origin most of its products state. */
+  country: string | null
+  /** Published products carrying the brand. */
+  count: number
+}
+
 interface BrandsPageClientProps {
-  suppliers: Supplier[]
-  /** Marque board logos — the `brands` collection, bundled art as fallback. */
+  brands: BrandEntry[]
+  /** Marque board marks — logos first, then wordmarks. */
   brandMarks: BrandMark[]
 }
 
 const MEDIA = {
-  masthead: { src: '/images/sourcing/sourcing-agriculture.avif', label: 'Producer network — 3:2' },
+  masthead: { src: siteImage('/images/sourcing/sourcing-agriculture.avif'), label: 'Producer network — 3:2' },
 }
 
 /**
@@ -55,27 +68,21 @@ const CRITERIA = [
   },
 ]
 
-function logoUrl(supplier: Supplier): string | null {
-  const logo = supplier.logo
-  if (typeof logo === 'object' && logo !== null) return (logo as Media).url ?? null
-  return null
-}
-
 function websiteUrl(website: string): string {
   return website.startsWith('http') ? website : `https://${website}`
 }
 
-export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProps) {
+export function BrandsPageClient({ brands, brandMarks }: BrandsPageClientProps) {
   const [query, setQuery] = useState('')
   const [country, setCountry] = useState('')
 
-  const sorted = useMemo(
-    () => [...suppliers].sort((a, b) => a.name.localeCompare(b.name)),
-    [suppliers],
-  )
+  const sorted = useMemo(() => [...brands].sort((a, b) => a.name.localeCompare(b.name)), [brands])
 
   const countries = useMemo(
-    () => Array.from(new Set(sorted.map((s) => s.country).filter(Boolean))).sort(),
+    () =>
+      Array.from(
+        new Set(sorted.map((s) => s.country).filter((c): c is string => Boolean(c))),
+      ).sort(),
     [sorted],
   )
 
@@ -131,17 +138,23 @@ export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProp
                       key={mark.slug}
                       className="relative aspect-3/2 border-r border-b border-cream/12 flex items-center justify-center p-4 md:p-5"
                     >
-                      {/* `fill` + a sized parent: unlayered `img { height: auto }`
-                          in styles.css beats height utilities on a sized <Image>. */}
-                      <span className="relative block w-full h-full">
-                        <Image
-                          src={mark.src}
-                          alt={mark.name}
-                          fill
-                          sizes="(max-width: 1024px) 30vw, 15vw"
-                          className="object-contain opacity-70 hover:opacity-100 transition-opacity"
-                        />
-                      </span>
+                      {mark.src ? (
+                        // `fill` + a sized parent: unlayered `img { height: auto }`
+                        // in styles.css beats height utilities on a sized <Image>.
+                        <span className="relative block w-full h-full">
+                          <Image
+                            src={mark.src}
+                            alt={mark.name}
+                            fill
+                            sizes="(max-width: 1024px) 30vw, 15vw"
+                            className="object-contain opacity-70 hover:opacity-100 transition-opacity"
+                          />
+                        </span>
+                      ) : (
+                        <span className="font-luxury text-sm md:text-base font-semibold text-cream/70 text-center leading-tight">
+                          {mark.name}
+                        </span>
+                      )}
                     </div>
                   ))}
                   <ImagePlaceholder
@@ -162,7 +175,7 @@ export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProp
         {/* Register summary line — a rule, not a stat bar. */}
         <div className={cn(GUTTER, 'border-t border-cream/10')}>
           <p className="m-0! py-4 font-sans text-[11px] md:text-[12px] uppercase tracking-[0.16em] text-cream/45">
-            {suppliers.length} {suppliers.length === 1 ? 'house' : 'houses'}
+            {brands.length} {brands.length === 1 ? 'brand' : 'brands'}
             <span className="text-cream/20"> · </span>
             {countries.length} {countries.length === 1 ? 'country' : 'countries'}
             <span className="text-cream/20"> · </span>
@@ -172,7 +185,7 @@ export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProp
       </section>
 
       {/* ═══ FILTER BAR ═════════════════════════════════════════ */}
-      {suppliers.length > 0 ? (
+      {brands.length > 0 ? (
         <div className="sticky top-(--header-h) z-30 bg-cream/95 backdrop-blur-sm border-b border-stone/15">
           <div className={cn(GUTTER, 'py-3 flex flex-wrap items-center gap-3')}>
             <label htmlFor="brand-search" className="sr-only">
@@ -255,12 +268,12 @@ export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProp
           />
         ) : (
           <ul className="list-none m-0 p-0">
-            {filtered.map((supplier, i) => {
-              const initial = supplier.name.charAt(0).toUpperCase()
+            {filtered.map((brand, i) => {
+              const initial = brand.name.charAt(0).toUpperCase()
               const newLetter = i === 0 || filtered[i - 1].name.charAt(0).toUpperCase() !== initial
 
               return (
-                <li key={supplier.id}>
+                <li key={brand.slug}>
                   {/* Index rule — the letter sits inline on the rule, the way a
                       printed register breaks between initials. */}
                   {newLetter ? (
@@ -272,7 +285,7 @@ export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProp
                     </div>
                   ) : null}
 
-                  <RegisterRow supplier={supplier} index={i + 1} />
+                  <RegisterRow brand={brand} index={i + 1} />
                 </li>
               )
             })}
@@ -347,8 +360,8 @@ export function BrandsPageClient({ suppliers, brandMarks }: BrandsPageClientProp
 
 /* ── One register entry ────────────────────────────────────── */
 
-function RegisterRow({ supplier, index }: { supplier: Supplier; index: number }) {
-  const logo = logoUrl(supplier)
+function RegisterRow({ brand, index }: { brand: BrandEntry; index: number }) {
+  const { logo } = brand
 
   return (
     <FadeIn>
@@ -365,7 +378,7 @@ function RegisterRow({ supplier, index }: { supplier: Supplier; index: number })
               <span className="relative block w-full h-full">
                 <Image
                   src={logo}
-                  alt={supplier.name}
+                  alt={brand.name}
                   fill
                   sizes="(max-width: 768px) 40vw, 16vw"
                   className="object-contain"
@@ -376,7 +389,7 @@ function RegisterRow({ supplier, index }: { supplier: Supplier; index: number })
                 aria-hidden
                 className="font-luxury text-sm font-semibold text-obsidian/30 text-center leading-tight px-2"
               >
-                {supplier.name}
+                {brand.name}
               </span>
             )}
           </div>
@@ -387,26 +400,19 @@ function RegisterRow({ supplier, index }: { supplier: Supplier; index: number })
           <div className="flex items-baseline gap-3 flex-wrap">
             <h2 className="m-0!">
               <span className="block font-luxury text-lg md:text-xl font-semibold text-obsidian leading-tight">
-                {supplier.name}
+                {brand.name}
               </span>
             </h2>
-            {supplier.country ? (
+            {brand.country ? (
               <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-stone">
-                {supplier.country}
+                {brand.country}
               </span>
             ) : null}
           </div>
 
-          {supplier.description ? (
+          {brand.description ? (
             <p className="m-0! mt-2! font-sans text-[12.5px] md:text-[13px] text-stone leading-relaxed max-w-2xl">
-              {supplier.description}
-            </p>
-          ) : null}
-
-          {supplier.contactPerson?.name ? (
-            <p className="m-0! mt-2! font-sans text-[11.5px] text-stone/70">
-              Contact — {supplier.contactPerson.name}
-              {supplier.contactPerson.title ? `, ${supplier.contactPerson.title}` : ''}
+              {brand.description}
             </p>
           ) : null}
         </div>
@@ -414,11 +420,11 @@ function RegisterRow({ supplier, index }: { supplier: Supplier; index: number })
         {/* Actions */}
         <div className="col-span-12 md:col-span-3 flex flex-row md:flex-col md:items-end gap-4 md:gap-2">
           <Link
-            href={`/products?supplier=${supplier.slug}`}
+            href={`/products?brand=${brand.slug}`}
             className="group/link no-underline inline-flex items-center gap-2"
           >
             <span className="font-heading text-[11px] uppercase tracking-[0.16em] font-semibold text-forest-green">
-              View products
+              View {brand.count} {brand.count === 1 ? 'product' : 'products'}
             </span>
             <span
               aria-hidden
@@ -428,9 +434,9 @@ function RegisterRow({ supplier, index }: { supplier: Supplier; index: number })
             </span>
           </Link>
 
-          {supplier.website ? (
+          {brand.website ? (
             <a
-              href={websiteUrl(supplier.website)}
+              href={websiteUrl(brand.website)}
               target="_blank"
               rel="noopener noreferrer"
               className="no-underline"

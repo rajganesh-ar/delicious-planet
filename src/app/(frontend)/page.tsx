@@ -7,7 +7,8 @@ import { RAIL_COLUMNS } from '@/components/sections/home/ProductRail'
 import { DIETARY_FACETS, dietaryWhere } from '@/lib/facets'
 import { countryName } from '@/lib/countries'
 import { resolveRegions } from '@/lib/regions'
-import { resolveBrandMarks } from '@/lib/brand-marks'
+import { resolveBrandMarks, stockedBrands } from '@/lib/brand-marks'
+import { BRAND_STRIP_MARKS } from '@/components/sections/home/BrandStrip'
 
 /**
  * `absolute` opts the title out of the layout's "%s — Delicious Planet"
@@ -71,23 +72,38 @@ export default async function HomePage() {
         where: PUBLISHED,
         depth: 0,
         limit: 1000,
-        select: { origin: true },
+        select: { origin: true, brand: true },
       }),
       // Presentation only — a region's products come from origin.country. Left
       // unsorted here so resolveRegions can apply sortOrder with the bundled
       // table as the tiebreak.
       payload.find({ collection: 'regions', limit: 20, depth: 1 }),
       payload.find({ collection: 'testimonials', limit: 6, depth: 1 }),
+      // depth 2 reaches a featured product's photo (banner → product → media).
+      // `populate` trims that product to what the panel renders, because the
+      // banners are serialised into the client component whole.
       payload.find({
         collection: 'banners',
         where: { active: { equals: true } },
         limit: 24,
-        depth: 1,
+        depth: 2,
         sort: 'sortOrder',
+        populate: {
+          products: {
+            title: true,
+            slug: true,
+            images: true,
+            basePrice: true,
+            baseCompareAt: true,
+            brand: true,
+            _status: true,
+          },
+          brands: { title: true },
+        },
       }),
       // depth 1 so `logo` comes back populated — resolveBrandMarks needs the
       // upload resolved to prefer it over the bundled file.
-      payload.find({ collection: 'brands', limit: 50, depth: 1, sort: 'title' }),
+      payload.find({ collection: 'brands', limit: 0, pagination: false, depth: 1 }),
     ])
 
   // Too few products carry `isFeatured` to fill three rows, so top the rail up
@@ -147,7 +163,10 @@ export default async function HomePage() {
 
   const categories = categoriesRes.docs
   const regions = resolveRegions(regionsRes.docs)
-  const brandMarks = resolveBrandMarks(brandsRes.docs)
+  const brandMarks = resolveBrandMarks(
+    stockedBrands(brandsRes.docs, originsRes.docs).map(({ brand }) => brand),
+    BRAND_STRIP_MARKS,
+  )
 
   // Group banners by their placement slot so the layout can drop each set in.
   const banners: BannerSlots = {}

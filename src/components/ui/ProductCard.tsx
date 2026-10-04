@@ -80,9 +80,12 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
         `whitespace-nowrap` + `shrink-0` on each flag stops it being the thing
         that gives. "Sold Out" was wrapping to two lines inside its border —
         and with `leading-none` those lines collided.
+
+        The fixed height covers the last gap: a bordered flag is ~5px taller
+        than the bare label, so flagged cards' photos sat lower.
       */}
-      <div className="flex items-center justify-between gap-2 px-3 pt-2 pb-1 shrink-0">
-        <p className="min-w-0 truncate text-[9px] uppercase tracking-[0.25em] text-stone/45 m-0 leading-none font-medium">
+      <div className="flex items-center justify-between gap-2 h-[26px] px-3 pt-2 pb-1 shrink-0">
+        <p className="min-w-0 truncate text-[9px] uppercase tracking-[0.25em] text-stone/45 font-medium" style={{ margin: 0, lineHeight: 1 }}>
           {num && label ? `${num} / ${label}` : num ?? label ?? '—'}
         </p>
         {!product.inStock ? (
@@ -130,19 +133,26 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
       {/* Body — gap-1 keeps all elements 4px apart */}
       <div className="flex flex-col grow px-3 pt-1.5 pb-2">
         {brandName && (
-          <p className="text-[9px] uppercase tracking-[0.2em] text-stone/50 m-0 leading-none font-medium">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-stone/50 font-medium" style={{ margin: 0, lineHeight: 1 }}>
             {brandName}
           </p>
         )}
 
+        {/* The size lives on the span, not the h3: the global unlayered `h3`
+            rule in styles.css (22px, 16px margins) beats Tailwind utilities,
+            which truncated titles to a word or two. Margin is inline for the
+            same reason, as it is on every <p> here: the global `p` rule adds
+            16px margins and 1.6 line-height over m-0 / leading-*. */}
         <Link href={`/products/${product.slug}`} className="no-underline">
-          <h3 className="font-luxury italic text-[15px] sm:text-sm text-obsidian m-0 leading-tight line-clamp-1 transition-colors group-hover:text-forest-green" style={{ marginTop: '3px' }}>
-            {product.title}
+          <h3 style={{ margin: '3px 0 0' }}>
+            <span className="font-luxury italic text-[15px] sm:text-sm text-obsidian leading-tight line-clamp-1 transition-colors group-hover:text-forest-green">
+              {product.title}
+            </span>
           </h3>
         </Link>
 
         {product.shortDescription && (
-          <p className="text-[11px] sm:text-[10px] text-stone/70 leading-tight m-0 line-clamp-2" style={{ marginTop: '2px' }}>
+          <p className="text-[11px] sm:text-[10px] text-stone/70 line-clamp-2" style={{ margin: '2px 0 0', lineHeight: 1.25 }}>
             {product.shortDescription}
           </p>
         )}

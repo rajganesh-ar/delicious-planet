@@ -12,8 +12,9 @@ import {
   authInputClass,
 } from '@/components/sections/AuthShell'
 import { safeRedirect, withRedirect } from '@/lib/redirect'
+import { siteImage } from '@/lib/site-image'
 
-const PANEL_IMAGE = { src: '/images/about/about-customer.avif', label: 'Registration panel' }
+const PANEL_IMAGE = { src: siteImage('/images/about/about-customer.avif'), label: 'Registration panel' }
 
 const PANEL_POINTS = [
   'Order from the full catalogue, including limited seasonal lots',

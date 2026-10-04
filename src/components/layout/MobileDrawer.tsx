@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import type { NavEntry } from '@/lib/nav'
+import { siteImage } from '@/lib/site-image'
 
 interface MobileDrawerProps {
   nav: NavEntry[]
@@ -56,7 +57,7 @@ export function MobileDrawer({ nav, onClose }: MobileDrawerProps) {
         <div className="flex items-center justify-between h-16 px-5 border-b border-mist shrink-0">
           <Link href="/" onClick={onClose} className="no-underline">
             {/* `h-8!` — see the logo note in Header.tsx */}
-            <Image src="/images/logo/logo.svg" alt="Delicious Planet" width={236} height={80} className="h-8! w-auto" />
+            <Image src={siteImage('/images/logo/logo.svg')} alt="Delicious Planet" width={236} height={80} className="h-8! w-auto" />
           </Link>
           <button
             type="button"

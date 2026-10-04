@@ -6,6 +6,7 @@ import { PRICE_BANDS } from '@/lib/facets'
 import { getImageUrl, getPrice, formatPrice } from '@/lib/product'
 import type { DietaryCount } from './DietaryStrip'
 import type { Category, Product } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 interface HomeSidebarProps {
   /** The product-type tree. */
@@ -236,7 +237,7 @@ export function HomeSidebar({ categories, regions, dietaryFacets, picks }: HomeS
             className="group relative block no-underline overflow-hidden rounded-sm border border-stone/15 aspect-3/4 bg-charcoal"
           >
             <Image
-              src="/images/b2b/commercial-resturant.avif"
+              src={siteImage('/images/b2b/commercial-resturant.avif')}
               alt=""
               fill
               sizes="240px"

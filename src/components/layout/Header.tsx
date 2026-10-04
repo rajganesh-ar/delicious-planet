@@ -11,6 +11,7 @@ import { MobileDrawer } from './MobileDrawer'
 import { MENU_LOCK_EVENT } from './menu-events'
 import { BASE_CURRENCY, formatPrice } from '@/lib/product'
 import type { NavEntry } from '@/lib/nav'
+import { siteImage } from '@/lib/site-image'
 
 export interface SearchScope {
   label: string
@@ -320,7 +321,7 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
                     unlayered `img { height: auto }` that outranks Tailwind's layered
                     `h-*` — without `!` the image resolves to 0×0. */}
                 <Image
-                  src="/images/logo/logo.svg"
+                  src={siteImage('/images/logo/logo.svg')}
                   alt="Delicious Planet"
                   width={295}
                   height={100}
@@ -459,7 +460,10 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
                 )
               })}
 
-              <li className="ml-auto flex items-center">
+              {/* xl+ only: below 1280 the menu items already fill the bar and
+                  this pushed the page ~60px wider than a 1024 viewport. Help
+                  stays reachable from the utility strip above. */}
+              <li className="ml-auto hidden xl:flex items-center">
                 <Link href="/contact" className="group flex items-center gap-2 no-underline">
                   <svg
                     width="15"

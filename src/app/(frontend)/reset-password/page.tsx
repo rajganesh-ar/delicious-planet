@@ -12,6 +12,7 @@ import {
   AuthSubmit,
   authInputClass,
 } from '@/components/sections/AuthShell'
+import { siteImage } from '@/lib/site-image'
 
 /**
  * Where the emailed reset link lands.
@@ -25,7 +26,7 @@ import {
  * through the sign-in form.
  */
 
-const PANEL_IMAGE = { src: '/images/sourcing/sourcing-farmer.avif', label: 'Reset panel' }
+const PANEL_IMAGE = { src: siteImage('/images/sourcing/sourcing-farmer.avif'), label: 'Reset panel' }
 
 const PANEL_POINTS = [
   'Choose something you have not used on this account before',

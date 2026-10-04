@@ -4,6 +4,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /* ──────────────────────────────────────────────────────────────
  * Media slots.
@@ -13,18 +14,18 @@ import { cn } from '@/lib/cn'
  * setting its path is the only change needed to go live with real art.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/sourcing/sourcing-farmer.avif', label: 'Sourcing hero — 4:3' },
-  pillarQuality: { src: '/images/sourcing/sourcing-lab.avif', label: 'Quality & safety — 4:3' },
-  pillarEthics: { src: '/images/sourcing/sourcing-farmer-2.avif', label: 'Responsible procurement — 4:3' },
-  pillarResilience: { src: '/images/sourcing/sourcing-farm-2.avif', label: 'Resilient supply — 4:3' },
-  networkDirect: { src: '/images/sourcing/sourcing-1.avif', label: 'Producer relationships — 16:9' },
-  networkStrategic: { src: '/images/sourcing/sourcing-agriculture.avif', label: 'Regional partnerships — 16:9' },
-  networkPhased: { src: null, label: 'Measured expansion — 16:9' },
-  standards: { src: null, label: 'Quality verification — 4:5' },
-  environmental: { src: null, label: 'Environmental responsibility — 16:9' },
-  social: { src: null, label: 'Social impact — 16:9' },
-  partnership: { src: null, label: 'Supplier partnership — 4:3' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/sourcing/sourcing-farmer.avif'), label: 'Sourcing hero — 4:3' },
+  pillarQuality: { src: siteImage('/images/sourcing/sourcing-lab.avif'), label: 'Quality & safety — 4:3' },
+  pillarEthics: { src: siteImage('/images/sourcing/sourcing-farmer-2.avif'), label: 'Responsible procurement — 4:3' },
+  pillarResilience: { src: siteImage('/images/sourcing/sourcing-farm-2.avif'), label: 'Resilient supply — 4:3' },
+  networkDirect: { src: siteImage('/images/sourcing/sourcing-1.avif'), label: 'Producer relationships — 16:9' },
+  networkStrategic: { src: siteImage('/images/sourcing/sourcing-agriculture.avif'), label: 'Regional partnerships — 16:9' },
+  networkPhased: { src: siteImage('/images/sourcing/sourcing-network-phased.avif'), label: 'Measured expansion — 16:9', alt: 'Rows of young trees on newly planted farmland' },
+  standards: { src: siteImage('/images/sourcing/sourcing-standards.avif'), label: 'Quality verification — 4:5', alt: 'A technician testing coffee beans with a moisture meter' },
+  environmental: { src: siteImage('/images/sourcing/sourcing-environmental.avif'), label: 'Environmental responsibility — 16:9', alt: 'Young wheat rows growing in tilled soil' },
+  social: { src: siteImage('/images/sourcing/sourcing-social.avif'), label: 'Social impact — 16:9', alt: 'Tea pluckers gathered at a weighing station' },
+  partnership: { src: siteImage('/images/sourcing/sourcing-partnership.avif'), label: 'Supplier partnership — 4:3', alt: 'A handshake across a wheat field' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

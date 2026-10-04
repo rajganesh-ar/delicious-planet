@@ -4,6 +4,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /* ──────────────────────────────────────────────────────────────
  * Media slots.
@@ -13,14 +14,14 @@ import { cn } from '@/lib/cn'
  * setting its path is the only change needed to go live with real art.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/b2b/commercial-logistics.avif', label: 'B2B hero — 4:3' },
-  horeca: { src: '/images/b2b/commercial-resturant.avif', label: 'Foodservice — 16:9' },
-  manufacturer: { src: '/images/b2b/commercial-factory.avif', label: 'Manufacturing — 16:9' },
-  institutional: { src: '/images/b2b/commercial-cafe.avif', label: 'Institutional — 16:9' },
-  wholesale: { src: '/images/b2b/commercial-farm.avif', label: 'Wholesale — 16:9' },
-  quality: { src: null, label: 'Quality verification' },
-  customisation: { src: null, label: 'Contract supply — 16:9' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/b2b/commercial-logistics.avif'), label: 'B2B hero — 4:3' },
+  horeca: { src: siteImage('/images/b2b/commercial-resturant.avif'), label: 'Foodservice — 16:9' },
+  manufacturer: { src: siteImage('/images/b2b/commercial-factory.avif'), label: 'Manufacturing — 16:9' },
+  institutional: { src: siteImage('/images/b2b/commercial-cafe.avif'), label: 'Institutional — 16:9' },
+  wholesale: { src: siteImage('/images/b2b/commercial-farm.avif'), label: 'Wholesale — 16:9' },
+  quality: { src: siteImage('/images/b2b/commercial-quality.avif'), label: 'Quality verification', alt: 'An inspector in gloves checking cheese on storage racks' },
+  customisation: { src: siteImage('/images/b2b/commercial-contract.avif'), label: 'Contract supply — 16:9', alt: 'Stretch-wrapped cartons staged on pallets' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

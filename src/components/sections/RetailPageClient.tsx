@@ -4,6 +4,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /* ──────────────────────────────────────────────────────────────
  * Media slots.
@@ -13,17 +14,17 @@ import { cn } from '@/lib/cn'
  * setting its path is the only change needed to go live with real art.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/retail/retail-grocery.avif', label: 'Retail hero — 4:3' },
-  fresh: { src: '/images/retail/retail-fresh.avif', label: 'Fresh & perishable — 16:9' },
-  shelfStable: { src: '/images/retail/retail-breads.avif', label: 'Packaged & shelf-stable — 16:9' },
-  specialty: { src: '/images/retail/retail-organic.avif', label: 'Specialty & regional — 16:9' },
-  privateLabel: { src: '/images/retail/retail-dairy.avif', label: 'Private label — 16:9' },
-  quality: { src: '/images/retail/retail-cold.avif', label: 'Quality & compliance' },
-  privateLabelFeature: { src: '/images/retail/retail-veg.avif', label: 'Private label programme' },
-  regionMature: { src: null, label: 'Mature markets — 16:9' },
-  regionGrowth: { src: null, label: 'Growth markets — 16:9' },
-  regionLocal: { src: '/images/retail/retail-softdrinks.avif', label: 'Local assortment — 16:9' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/retail/retail-grocery.avif'), label: 'Retail hero — 4:3' },
+  fresh: { src: siteImage('/images/retail/retail-fresh.avif'), label: 'Fresh & perishable — 16:9' },
+  shelfStable: { src: siteImage('/images/retail/retail-breads.avif'), label: 'Packaged & shelf-stable — 16:9' },
+  specialty: { src: siteImage('/images/retail/retail-organic.avif'), label: 'Specialty & regional — 16:9' },
+  privateLabel: { src: siteImage('/images/retail/retail-dairy.avif'), label: 'Private label — 16:9' },
+  quality: { src: siteImage('/images/retail/retail-cold.avif'), label: 'Quality & compliance' },
+  privateLabelFeature: { src: siteImage('/images/retail/retail-veg.avif'), label: 'Private label programme' },
+  regionMature: { src: siteImage('/images/retail/retail-mature.avif'), label: 'Mature markets — 16:9', alt: 'Shelves of a specialty delicatessen' },
+  regionGrowth: { src: siteImage('/images/retail/retail-growth.avif'), label: 'Growth markets — 16:9', alt: 'Shoppers in a busy covered market' },
+  regionLocal: { src: siteImage('/images/retail/retail-softdrinks.avif'), label: 'Local assortment — 16:9' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

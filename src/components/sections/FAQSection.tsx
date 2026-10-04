@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { FadeIn } from '@/components/animations/FadeIn'
 import { Eyebrow, GUTTER } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 interface FAQItem {
   question: string
@@ -83,7 +84,7 @@ export function FAQSection() {
             <div className="bg-white border border-stone/15 rounded-sm overflow-hidden">
               <div className="relative aspect-video w-full bg-mist">
                 <Image
-                  src="/images/misc/faq.avif"
+                  src={siteImage('/images/misc/faq.avif')}
                   alt=""
                   fill
                   sizes="(max-width: 1024px) 100vw, 30vw"

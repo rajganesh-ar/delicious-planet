@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { getPayload } from 'payload'
 import { DeleteObjectsCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3'
 import config from '../../src/payload.config'
+import { SITE_IMAGE_PREFIX } from '../../src/lib/site-image'
 
 /**
  * Post-migration housekeeping for the R2 media store.
@@ -98,7 +99,12 @@ async function main() {
   }
 
   const bucketObjects = await listBucket()
-  const strays = [...bucketObjects.keys()].filter((key) => !expected.has(key))
+  // `site/` holds the static page art (src/lib/site-image.ts). No media row
+  // will ever name those keys, so without this every one of them would be
+  // reported, and with --strays deleted, as a stray.
+  const strays = [...bucketObjects.keys()].filter(
+    (key) => !expected.has(key) && !key.startsWith(`${SITE_IMAGE_PREFIX}/`),
+  )
   const strayBytes = strays.reduce((sum, k) => sum + (bucketObjects.get(k) ?? 0), 0)
 
   // ── Which media rows does anything actually point at? ────────────────────

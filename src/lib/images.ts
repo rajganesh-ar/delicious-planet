@@ -1,45 +1,44 @@
 import type { Category, Media } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 /**
- * Static tile art bundled in `public/` for known category slugs.
+ * Static tile art for known category slugs, served from R2 (see siteImage).
  *
- * Preferred over CMS media: these ship with the build, so a category tile can
- * never render as a grey box because an upload is missing or the blob store is
- * slow. CMS media is the fallback, which is what a category added through the
- * admin UI will use.
+ * Preferred over CMS media: the paths are fixed in code, so a category tile
+ * can't lose its art to an upload being removed in the admin. CMS media is the
+ * fallback, which is what a category added through the admin UI will use.
  *
  * The first block is the 15 departments that came over from product-collections
  * (see migration 20260901_180000); the rest are leaf slugs waiting on the
  * sub-category tree.
  */
 const CATEGORY_IMAGES: Record<string, string> = {
-  'caviar-selection': '/images/collections/caviar.avif',
-  'truffle-treasury': '/images/collections/pantry.avif',
-  'grand-cru-cocoa-chocolat': '/images/collections/coco.avif',
-  'heritage-extra-virgin-oils': '/images/collections/oils.avif',
-  'rare-estate-honey': '/images/collections/honey.avif',
-  'aged-balsamic-vinegars': '/images/collections/vinegar.avif',
-  'mediterranean-olive-reserve': '/images/collections/olives.avif',
-  'single-origin-spices': '/images/collections/spices.avif',
-  'signature-gourmet-spreads': '/images/collections/spreads.avif',
-  'fromagerie-selection': '/images/collections/Fromagerie.avif',
-  'artisan-heritage-breads': '/images/collections/breads.avif',
-  'specialty-coffee-reserve': '/images/collections/coffee.avif',
-  'botanical-seed-selection': '/images/collections/seeds.avif',
-  'curated-fine-beverages': '/images/collections/beverages.avif',
-  'bespoke-tableware-cutlery': '/images/collections/cutlery.avif',
+  'caviar-selection': siteImage('/images/collections/caviar.avif'),
+  'truffle-treasury': siteImage('/images/collections/pantry.avif'),
+  'grand-cru-cocoa-chocolat': siteImage('/images/collections/coco.avif'),
+  'heritage-extra-virgin-oils': siteImage('/images/collections/oils.avif'),
+  'rare-estate-honey': siteImage('/images/collections/honey.avif'),
+  'aged-balsamic-vinegars': siteImage('/images/collections/vinegar.avif'),
+  'mediterranean-olive-reserve': siteImage('/images/collections/olives.avif'),
+  'single-origin-spices': siteImage('/images/collections/spices.avif'),
+  'signature-gourmet-spreads': siteImage('/images/collections/spreads.avif'),
+  'fromagerie-selection': siteImage('/images/collections/Fromagerie.avif'),
+  'artisan-heritage-breads': siteImage('/images/collections/breads.avif'),
+  'specialty-coffee-reserve': siteImage('/images/collections/coffee.avif'),
+  'botanical-seed-selection': siteImage('/images/collections/seeds.avif'),
+  'curated-fine-beverages': siteImage('/images/collections/beverages.avif'),
 
-  caviar: '/images/collections/caviar.avif',
-  'caviar-gift-sets': '/images/collections/caviar.avif',
-  'caviar-accessories': '/images/collections/cutlery.avif',
-  chocolate: '/images/collections/coco.avif',
-  'chocolate-boxes-bonbons': '/images/collections/coco.avif',
-  'chocolate-bars': '/images/collections/coco.avif',
-  'chocolate-truffles': '/images/collections/coco.avif',
-  'flour-baking': '/images/collections/breads.avif',
-  'caputo-flour-baking': '/images/collections/breads.avif',
-  'teddy-bears': '/images/collections/spreads.avif',
-  'velterra-collection': '/images/collections/pantry.avif',
+  caviar: siteImage('/images/collections/caviar.avif'),
+  'caviar-gift-sets': siteImage('/images/collections/caviar.avif'),
+  'caviar-accessories': siteImage('/images/collections/cutlery.avif'),
+  chocolate: siteImage('/images/collections/coco.avif'),
+  'chocolate-boxes-bonbons': siteImage('/images/collections/coco.avif'),
+  'chocolate-bars': siteImage('/images/collections/coco.avif'),
+  'chocolate-truffles': siteImage('/images/collections/coco.avif'),
+  'flour-baking': siteImage('/images/collections/breads.avif'),
+  'caputo-flour-baking': siteImage('/images/collections/breads.avif'),
+  'teddy-bears': siteImage('/images/collections/spreads.avif'),
+  'velterra-collection': siteImage('/images/collections/pantry.avif'),
 }
 
 /**

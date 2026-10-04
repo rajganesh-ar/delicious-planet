@@ -10,6 +10,7 @@ import { BAND, Cta, Eyebrow, GUTTER, SectionHead } from '@/components/sections/e
 import { cn } from '@/lib/cn'
 import { CONTACT, PEOPLE } from '@/lib/contact'
 import type { OfficeLocation, Media } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 interface ContactPageClientProps {
   offices: OfficeLocation[]
@@ -21,10 +22,10 @@ type FormTab = 'general' | 'b2b'
  * Media slots — `src: null` renders the designed placeholder.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/contact/contact-cover.avif', label: 'Contact hero — 4:3' },
-  formAside: { src: '/images/contact/contact-misc.avif', label: 'Team at work — 4:3' },
-  locations: { src: null, label: 'Operating regions' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/contact/contact-cover.avif'), label: 'Contact hero — 4:3' },
+  formAside: { src: siteImage('/images/contact/contact-misc.avif'), label: 'Team at work — 4:3' },
+  locations: { src: siteImage('/images/contact/contact-locations.avif'), label: 'Operating regions' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 const CHANNELS = [
   {

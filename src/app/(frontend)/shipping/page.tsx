@@ -3,6 +3,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 export const metadata: Metadata = {
   title: 'Shipping Policy',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 const LAST_UPDATED = 'May 2026'
 
 const MEDIA = {
-  hero: { src: '/images/policy/shipping-policy.avif', label: 'Shipping hero — 4:3' },
+  hero: { src: siteImage('/images/policy/shipping-policy.avif'), label: 'Shipping hero — 4:3' },
 }
 
 type Section = {

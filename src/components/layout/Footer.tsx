@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { cn } from '@/lib/cn'
 import { CONTACT } from '@/lib/contact'
 import type { Navigation as NavigationType, SiteSetting } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 interface FooterProps {
   navigation: NavigationType
@@ -259,7 +260,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
           so lazy loading is the point.
         */}
         <Image
-          src="/images/misc/footer.avif"
+          src={siteImage('/images/misc/footer.avif')}
           alt=""
           fill
           sizes="100vw"
@@ -283,7 +284,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
             <div>
               <Link href="/" className="no-underline inline-block">
                 <Image
-                  src="/images/logo/logo.svg"
+                  src={siteImage('/images/logo/logo.svg')}
                   alt="Delicious Planet"
                   width={240}
                   height={60}

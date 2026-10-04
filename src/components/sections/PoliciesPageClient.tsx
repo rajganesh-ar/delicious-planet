@@ -5,6 +5,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 type Policy = {
   id: string
@@ -17,7 +18,7 @@ type Policy = {
 const LAST_UPDATED = 'May 2026'
 
 const MEDIA = {
-  hero: { src: '/images/policy/policy-cover.avif', label: 'Policies hero — 4:3' },
+  hero: { src: siteImage('/images/policy/policy-cover.avif'), label: 'Policies hero — 4:3' },
 } satisfies Record<string, { src: string | null; label: string }>
 
 const policies: Policy[] = [

@@ -10,8 +10,19 @@ import type { NextConfig } from 'next'
 const r2PublicUrl = process.env.R2_PUBLIC_URL ? new URL(process.env.R2_PUBLIC_URL) : null
 
 const nextConfig: NextConfig = {
+  // Static site images (src/lib/site-image.ts) are read in client components,
+  // so the bucket's public URL has to be inlined into the browser bundle too.
+  // Derived here rather than set as its own variable so it cannot disagree
+  // with the server's R2_PUBLIC_URL.
+  env: {
+    NEXT_PUBLIC_MEDIA_URL: process.env.R2_PUBLIC_URL ?? '',
+  },
   images: {
     localPatterns: [
+      // Static site images live in R2 too (src/lib/site-image.ts); this only
+      // covers the bare `/images/...` path siteImage() falls back to when
+      // R2_PUBLIC_URL is unset, so a misconfigured checkout shows broken images
+      // instead of next/image throwing.
       {
         pathname: '/images/**',
       },

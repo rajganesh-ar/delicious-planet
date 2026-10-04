@@ -8,6 +8,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { Cta, Eyebrow, GUTTER } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /**
  * Recipes — the carte archetype.
@@ -24,7 +25,7 @@ import { cn } from '@/lib/cn'
  */
 
 const MEDIA = {
-  cta: { src: '/images/experience/experience-dish.avif', label: 'Plated dish — full bleed' },
+  cta: { src: siteImage('/images/experience/experience-dish.avif'), label: 'Plated dish — full bleed' },
 }
 
 type Course = {
@@ -37,7 +38,7 @@ type Course = {
 }
 
 /**
- * Images are all real files in /public/images/collections. The previous version
+ * Images are all real files in R2 under site/images/collections. The previous version
  * pointed the Italian card at `pasta.avif`, which does not exist — hence the
  * onError handler it carried.
  */
@@ -48,14 +49,14 @@ const MENU: Course[] = [
     title: 'Italian cuisine',
     description:
       'Pasta, risotti and antipasti built on imported grains, single-estate oils and aged vinegars.',
-    image: '/images/collections/oils.avif',
+    image: siteImage('/images/collections/oils.avif'),
   },
   {
     slug: 'mediterranean',
     course: 'Coastal',
     title: 'Mediterranean',
     description: 'Bright, ingredient-led plates from the coasts of Spain, Greece and North Africa.',
-    image: '/images/collections/olives.avif',
+    image: siteImage('/images/collections/olives.avif'),
   },
   {
     slug: 'bakery',
@@ -63,7 +64,7 @@ const MENU: Course[] = [
     title: 'Bakery applications',
     description:
       'Breads and pastries developed around heritage flours, premium seeds and single-origin honeys.',
-    image: '/images/collections/breads.avif',
+    image: siteImage('/images/collections/breads.avif'),
   },
   {
     slug: 'professional',
@@ -71,7 +72,7 @@ const MENU: Course[] = [
     title: 'Professional kitchen',
     description:
       'Technically driven preparations sized for restaurant and catering service, with yields stated.',
-    image: '/images/collections/spices.avif',
+    image: siteImage('/images/collections/spices.avif'),
   },
   {
     slug: 'vegetarian',
@@ -79,7 +80,7 @@ const MENU: Course[] = [
     title: 'Vegetarian preparations',
     description:
       'Dishes that let pantry staples, condiments and preserved produce carry the plate.',
-    image: '/images/collections/pantry.avif',
+    image: siteImage('/images/collections/pantry.avif'),
   },
   {
     slug: 'fine-dining',
@@ -87,7 +88,7 @@ const MENU: Course[] = [
     title: 'Caviar & fine dining',
     description:
       'Refined small plates and pairings built around Admiral Caviar and specialty imports.',
-    image: '/images/collections/caviar.avif',
+    image: siteImage('/images/collections/caviar.avif'),
   },
 ]
 

@@ -4,6 +4,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /* ──────────────────────────────────────────────────────────────
  * Media slots.
@@ -13,21 +14,21 @@ import { cn } from '@/lib/cn'
  * setting its path is the only change needed to go live with real art.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/sustainability/sustainability-cover.avif', label: 'Sustainability hero — 4:3' },
-  environmental: { src: null, label: 'Environmental — 4:3' },
-  social: { src: null, label: 'Social — 4:3' },
-  governance: { src: '/images/sustainability/sustainability-lab.avif', label: 'Governance — 4:3' },
-  climate: { src: '/images/sustainability/sustainabilty-logisitcs.avif', label: 'Climate & emissions — 16:9' },
-  // sustainability-misc.avif is an abstract yellow texture — nothing to do with
-  // water, energy or waste — so this stays a labelled placeholder.
-  resource: { src: null, label: 'Resource efficiency — 16:9' },
-  sourcing: { src: '/images/sustainability/sustainability-factory.avif', label: 'Sustainable sourcing — 16:9' },
-  // Deliberately empty: the only spare asset is a 24MP portrait, and cropping it
-  // to a full-width band would cost a 3840px fetch for a decorative backdrop.
-  quote: { src: null, label: 'Quote backdrop' },
-  fair: { src: null, label: 'Fair & ethical practices — 16:9' },
-  inclusive: { src: null, label: 'Inclusive supply chains — 16:9' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/sustainability/sustainability-cover.avif'), label: 'Sustainability hero — 4:3' },
+  environmental: { src: siteImage('/images/sustainability/sustainability-environmental.avif'), label: 'Environmental — 4:3', alt: 'Aerial view of farmland bordered by hedgerows' },
+  social: { src: siteImage('/images/sustainability/sustainability-social.avif'), label: 'Social — 4:3', alt: 'Women sorting red chillies drying in the sun' },
+  governance: { src: siteImage('/images/sustainability/sustainability-lab.avif'), label: 'Governance — 4:3' },
+  climate: { src: siteImage('/images/sustainability/sustainabilty-logisitcs.avif'), label: 'Climate & emissions — 16:9' },
+  // Not sustainability-misc.avif: that is an abstract yellow texture, nothing
+  // to do with water, energy or waste.
+  resource: { src: siteImage('/images/sustainability/sustainability-resource.avif'), label: 'Resource efficiency — 16:9', alt: 'Drip irrigation lines running between rows of seedlings' },
+  sourcing: { src: siteImage('/images/sustainability/sustainability-factory.avif'), label: 'Sustainable sourcing — 16:9' },
+  // Decorative, under a forest-green overlay: no alt. Landscape and capped at
+  // 2560px, unlike the 24MP portrait that kept this slot empty before.
+  quote: { src: siteImage('/images/sustainability/sustainability-quote.avif'), label: 'Quote backdrop' },
+  fair: { src: siteImage('/images/sustainability/sustainability-fair.avif'), label: 'Fair & ethical practices — 16:9', alt: 'Workers in hairnets grading produce on a packing line' },
+  inclusive: { src: siteImage('/images/sustainability/sustainability-inclusive.avif'), label: 'Inclusive supply chains — 16:9', alt: 'Smallholder farmers sharing seed in a field' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

@@ -4,27 +4,28 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /* ──────────────────────────────────────────────────────────────
  * Media slots.
  *
- * `public/images/vendor/` does not exist, so every slot here renders the
- * designed placeholder from <ImagePlaceholder>. Dropping a file in and
- * setting its path is the only change needed to go live.
+ * Files live in R2 under `site/images/vendor/`, cropped to each slot's
+ * ratio (md/image-manifest.md §2.2); see siteImage(). A slot set back to
+ * `src: null` renders the designed placeholder from <ImagePlaceholder>.
  *
  * `misc/become-a-vendor.avif` is named for this page but is an abstract
  * purple texture — deliberately not used here.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: null, label: 'Vendors hero — 4:3' },
-  producers: { src: null, label: 'Producers — 16:9' },
-  marine: { src: null, label: 'Fisheries & aquaculture — 16:9' },
-  processors: { src: null, label: 'Processors — 16:9' },
-  aggregators: { src: null, label: 'Aggregators & export — 16:9' },
-  logistics: { src: null, label: 'Cold chain & logistics — 16:9' },
-  philosophy: { src: null, label: 'Partnership philosophy' },
-  development: { src: null, label: 'Supplier development' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/vendor/vendor-hero.avif'), label: 'Vendors hero — 4:3', alt: 'A grower letting grain run through a cupped hand on a farm visit' },
+  producers: { src: siteImage('/images/vendor/vendor-producers.avif'), label: 'Producers — 16:9', alt: 'A grower tipping sweet potatoes into field crates' },
+  marine: { src: siteImage('/images/vendor/vendor-marine.avif'), label: 'Fisheries & aquaculture — 16:9', alt: 'Iced fish in crates on the floor of a fish auction hall' },
+  processors: { src: siteImage('/images/vendor/vendor-processors.avif'), label: 'Processors — 16:9', alt: 'Workers on a fruit packing line' },
+  aggregators: { src: siteImage('/images/vendor/vendor-aggregators.avif'), label: 'Aggregators & export — 16:9', alt: 'Workers carrying sacks through a dim warehouse' },
+  logistics: { src: siteImage('/images/vendor/vendor-logistics.avif'), label: 'Cold chain & logistics — 16:9', alt: 'A row of refrigerated trailers at a cold-storage depot' },
+  philosophy: { src: siteImage('/images/vendor/vendor-philosophy.avif'), label: 'Partnership philosophy' },
+  development: { src: siteImage('/images/vendor/vendor-development.avif'), label: 'Supplier development', alt: 'Two people at the edge of a wheat field, one pointing across the crop' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

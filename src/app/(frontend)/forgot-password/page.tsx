@@ -11,8 +11,9 @@ import {
   AuthSubmit,
   authInputClass,
 } from '@/components/sections/AuthShell'
+import { siteImage } from '@/lib/site-image'
 
-const PANEL_IMAGE = { src: '/images/sourcing/sourcing-farmer.avif', label: 'Reset panel' }
+const PANEL_IMAGE = { src: siteImage('/images/sourcing/sourcing-farmer.avif'), label: 'Reset panel' }
 
 const PANEL_POINTS = [
   'Reset links expire shortly after they are issued',

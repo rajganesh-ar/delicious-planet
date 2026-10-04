@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
+import { siteImage } from '@/lib/site-image'
 
 interface HeroSlide {
   image: string
@@ -18,7 +19,7 @@ interface HeroSlide {
 
 const SLIDES: HeroSlide[] = [
   {
-    image: '/images/about/about-cover.avif',
+    image: siteImage('/images/about/about-cover.avif'),
     lead: 'Discover',
     accent: 'Authentic Flavors',
     tail: 'From Around the World',
@@ -27,7 +28,7 @@ const SLIDES: HeroSlide[] = [
     secondary: { label: 'Explore Regions', href: '/products?region=europe' },
   },
   {
-    image: '/images/sourcing/sourcing-farmer.avif',
+    image: siteImage('/images/sourcing/sourcing-farmer.avif'),
     lead: 'Sourced Direct',
     accent: 'From the Producers',
     tail: 'Who Know Them Best',
@@ -36,7 +37,7 @@ const SLIDES: HeroSlide[] = [
     secondary: { label: 'Shop Best Sellers', href: '/products?featured=true' },
   },
   {
-    image: '/images/collections/oils.avif',
+    image: siteImage('/images/collections/oils.avif'),
     lead: 'Curated',
     accent: 'Gourmet Collections',
     tail: 'For Every Kitchen',

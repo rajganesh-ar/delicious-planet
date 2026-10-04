@@ -4,6 +4,7 @@ import { FadeIn } from '@/components/animations/FadeIn'
 import { ImagePlaceholder } from '@/components/ui'
 import { BAND, Cta, Eyebrow, GUTTER, Point, SectionHead } from '@/components/sections/editorial'
 import { cn } from '@/lib/cn'
+import { siteImage } from '@/lib/site-image'
 
 /* ──────────────────────────────────────────────────────────────
  * Media slots.
@@ -13,14 +14,14 @@ import { cn } from '@/lib/cn'
  * setting its path is the only change needed to go live with real art.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/experience/experience-experts.avif', label: 'Ecosystem hero — 4:3' },
-  originA: { src: null, label: 'Cultivation — 4:3' },
-  originB: { src: null, label: 'Harvest — 4:3' },
-  specialty: { src: null, label: 'Vineyards & estates — 16:9' },
-  processing: { src: null, label: 'Processing & cold chain — 16:9' },
-  endUse: { src: '/images/experience/experience-chef.avif', label: 'Foodservice — 16:9' },
-  retail: { src: '/images/experience/experience-dish.avif', label: 'Retail & consumer — 16:9' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/experience/experience-experts.avif'), label: 'Ecosystem hero — 4:3' },
+  originA: { src: siteImage('/images/experience/experience-cultivation.avif'), label: 'Cultivation — 4:5', alt: 'Olives ripening on the branch' },
+  originB: { src: siteImage('/images/experience/experience-harvest.avif'), label: 'Harvest — 4:5', alt: 'Hands sorting harvested olives into a crate' },
+  specialty: { src: siteImage('/images/experience/experience-specialty.avif'), label: 'Vineyards & estates — 16:9', alt: 'Vineyard rows on a hillside estate in low sun' },
+  processing: { src: siteImage('/images/experience/experience-processing.avif'), label: 'Processing & cold chain — 16:9', alt: 'Racks of cheese in a temperature-controlled room' },
+  endUse: { src: siteImage('/images/experience/experience-chef.avif'), label: 'Foodservice — 16:9' },
+  retail: { src: siteImage('/images/experience/experience-dish.avif'), label: 'Retail & consumer — 16:9' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

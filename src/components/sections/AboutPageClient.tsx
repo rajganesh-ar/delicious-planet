@@ -6,6 +6,7 @@ import { BAND, Cta, Eyebrow, GUTTER, SectionHead } from '@/components/sections/e
 import { cn } from '@/lib/cn'
 import { mediaUrl } from '@/lib/images'
 import type { OfficeLocation, Media, Team } from '@/payload-types'
+import { siteImage } from '@/lib/site-image'
 
 interface AboutPageClientProps {
   offices: OfficeLocation[]
@@ -29,14 +30,14 @@ function memberAlt(member: Team): string {
  * setting its path is the only change needed to go live with real art.
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
-  hero: { src: '/images/about/about-timeline.avif', label: 'Hero — 4:3' },
-  originA: { src: '/images/about/about-customer.avif', label: 'Producer — 4:3' },
-  originB: { src: null, label: 'Apiary — 4:3' },
-  originC: { src: null, label: 'Harvest — 4:3' },
-  manifesto: { src: '/images/about/about-cover.avif', label: 'Manifesto backdrop' },
-  reach: { src: '/images/about/about-retail.avif', label: 'Regional operations — 4:3' },
-  capability: { src: '/images/about/about-resturant.avif', label: 'Coordination layer' },
-} satisfies Record<string, { src: string | null; label: string }>
+  hero: { src: siteImage('/images/about/about-timeline.avif'), label: 'Hero — 4:3' },
+  originA: { src: siteImage('/images/about/about-customer.avif'), label: 'Producer — 4:3' },
+  originB: { src: siteImage('/images/about/about-apiary.avif'), label: 'Apiary — 4:3', alt: 'A beekeeper lifting a frame from a hive' },
+  originC: { src: siteImage('/images/about/about-harvest.avif'), label: 'Harvest — 4:3', alt: 'Freshly harvested olives in yellow crates' },
+  manifesto: { src: siteImage('/images/about/about-cover.avif'), label: 'Manifesto backdrop' },
+  reach: { src: siteImage('/images/about/about-retail.avif'), label: 'Regional operations — 4:3' },
+  capability: { src: siteImage('/images/about/about-resturant.avif'), label: 'Coordination layer' },
+} satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */
 

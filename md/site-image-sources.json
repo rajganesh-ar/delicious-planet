@@ -1,0 +1,275 @@
+{
+  "note": "Where each static page photo added on 2026-10-04 came from. Unsplash and Pexels licences allow commercial use without credit; april-branch files come from origin/copilot/vscode-mnmtnn44-cy9s.",
+  "images": [
+    {
+      "key": "site/images/vendor/vendor-hero.avif",
+      "page": "vendors",
+      "slot": "hero",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/17765437/",
+      "photographer": "NC Farm Bureau Mark",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/vendor/vendor-producers.avif",
+      "page": "vendors",
+      "slot": "producers",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/9798971/",
+      "photographer": "NC Farm Bureau Mark",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/vendor/vendor-marine.avif",
+      "page": "vendors",
+      "slot": "marine",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/YkYA4_430Qk",
+      "photographer": "Paul Einerhand",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/vendor/vendor-processors.avif",
+      "page": "vendors",
+      "slot": "processors",
+      "source": "april-branch",
+      "sourcePage": "origin/copilot/vscode-mnmtnn44-cy9s:public/images/sourcing/sourcing-factory-a.avif",
+      "photographer": null,
+      "license": "From the April branch. Original photographer/licence not recorded in the branch filename; verify before launch"
+    },
+    {
+      "key": "site/images/vendor/vendor-aggregators.avif",
+      "page": "vendors",
+      "slot": "aggregators",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/38715718/",
+      "photographer": "Mwesigwa Joel",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/vendor/vendor-logistics.avif",
+      "page": "vendors",
+      "slot": "logistics",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/27099094/",
+      "photographer": "TheMrJaxon",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/vendor/vendor-philosophy.avif",
+      "page": "vendors",
+      "slot": "philosophy",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/LhsHMKL48y0",
+      "photographer": "Andrew V",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/vendor/vendor-development.avif",
+      "page": "vendors",
+      "slot": "development",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/13212978/",
+      "photographer": "Hyukman Kwon",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/sustainability/sustainability-environmental.avif",
+      "page": "sustainability",
+      "slot": "environmental",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/xDLEUTWCZdc",
+      "photographer": "Yulian Alexeyev",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/sustainability/sustainability-social.avif",
+      "page": "sustainability",
+      "slot": "social",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/37386773/",
+      "photographer": "Zunaid Hasan",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/sustainability/sustainability-resource.avif",
+      "page": "sustainability",
+      "slot": "resource",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/tlRkBCY9vsI",
+      "photographer": "Anil Sharma",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/sustainability/sustainability-quote.avif",
+      "page": "sustainability",
+      "slot": "quote",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/zjBQjHDAcOU",
+      "photographer": "Huy Nguyen",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/sustainability/sustainability-fair.avif",
+      "page": "sustainability",
+      "slot": "fair",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/2889093/",
+      "photographer": "NC Farm Bureau Mark",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/sustainability/sustainability-inclusive.avif",
+      "page": "sustainability",
+      "slot": "inclusive",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/20458079/",
+      "photographer": "EqualStock",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/sourcing/sourcing-network-phased.avif",
+      "page": "sourcing",
+      "slot": "networkPhased",
+      "source": "april-branch",
+      "sourcePage": "origin/copilot/vscode-mnmtnn44-cy9s:public/images/vendor/vendor-olive-farm.avif",
+      "photographer": "Dan Meyers (Unsplash IQVFVH0ajag, matched by content and 3992x2992)",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/sourcing/sourcing-standards.avif",
+      "page": "sourcing",
+      "slot": "standards",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/9550568/",
+      "photographer": "Hannoversche Kaffeemanufaktur",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/sourcing/sourcing-environmental.avif",
+      "page": "sourcing",
+      "slot": "environmental",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/LTMaAwxanGk",
+      "photographer": "Jan Kopřiva",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/sourcing/sourcing-social.avif",
+      "page": "sourcing",
+      "slot": "social",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/_gO7V0fMpac",
+      "photographer": "Rohit Dey",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/sourcing/sourcing-partnership.avif",
+      "page": "sourcing",
+      "slot": "partnership",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/J33qmCVr02A",
+      "photographer": "Warren",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/experience/experience-cultivation.avif",
+      "page": "experience",
+      "slot": "originA",
+      "source": "april-branch",
+      "sourcePage": "origin/copilot/vscode-mnmtnn44-cy9s:public/images/misc/janine-joles--8nbY8W2YEE-unsplash.avif (Unsplash -8nbY8W2YEE)",
+      "photographer": "Janine Joles",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/experience/experience-harvest.avif",
+      "page": "experience",
+      "slot": "originB",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/aIAaIA9cLxA",
+      "photographer": "Joana Abreu",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/experience/experience-specialty.avif",
+      "page": "experience",
+      "slot": "specialty",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/0AgtPoAARtE",
+      "photographer": "Dan Meyers",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/experience/experience-processing.avif",
+      "page": "experience",
+      "slot": "processing",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/5953713/",
+      "photographer": "Anna Shvets",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/about/about-apiary.avif",
+      "page": "about",
+      "slot": "originB",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/IGTlDjRN3kc",
+      "photographer": "Bianca Ackermann",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/about/about-harvest.avif",
+      "page": "about",
+      "slot": "originC",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/29878979/",
+      "photographer": "chermitove",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/b2b/commercial-quality.avif",
+      "page": "b2b",
+      "slot": "quality",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/5953727/",
+      "photographer": "Anna Shvets",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/b2b/commercial-contract.avif",
+      "page": "b2b",
+      "slot": "customisation",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/34221998/",
+      "photographer": "Freek Wolsink",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/retail/retail-mature.avif",
+      "page": "retail",
+      "slot": "regionMature",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/LfXqsVC9IOw",
+      "photographer": "T",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/retail/retail-growth.avif",
+      "page": "retail",
+      "slot": "regionGrowth",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/34655593/",
+      "photographer": "Giovana Montes Furlan",
+      "license": "Pexels License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/contact/contact-locations.avif",
+      "page": "contact",
+      "slot": "locations",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/M3yYOCob6kE",
+      "photographer": "CHUTTERSNAP",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    }
+  ]
+}

@@ -29,14 +29,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import {
-  CATEGORY,
-  MERCH_CATEGORY,
-  MERCH_ORIGIN_COUNTRY,
-  MERCH_OVERRIDES,
-  PRODUCT_OVERRIDES,
-  PRODUCT_TYPE,
-} from './caputo-catalogue'
+import { CATEGORY, PRODUCT_OVERRIDES, PRODUCT_TYPE } from './caputo-catalogue'
 import {
   createMediaResolver,
   fetchJson,
@@ -226,31 +219,6 @@ async function ensureCategory(
   return created.id
 }
 
-/**
- * The apparel copy is a lead paragraph followed by a `<br>`-separated bullet
- * list of real specifications — fabric composition, crown height, head
- * circumference, and the blank's sourcing statement. That list is the whole
- * substance of a merch listing, so it becomes the specifications table rather
- * than being flattened into prose.
- */
-function bulletSpecs(html: string): Array<{ label: string; value: string }> {
-  return html
-    .split(/<br\s*\/?>/i)
-    .map((chunk) => decode(chunk))
-    .filter((line) => line.startsWith('•'))
-    .map((line) => line.replace(/^•\s*/, ''))
-    .filter(Boolean)
-    .map((line) => {
-      // "Head circumference: 21⅝″–23⅝″" splits into a label/value pair; a bare
-      // claim like "Mesh back" has no colon and becomes a Detail row.
-      const idx = line.indexOf(':')
-      if (idx > 0 && idx < 40) {
-        return { label: line.slice(0, idx).trim(), value: line.slice(idx + 1).trim() }
-      }
-      return { label: 'Detail', value: line }
-    })
-}
-
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -264,13 +232,15 @@ async function main() {
     `${STORE}/collections/all/products.json?limit=250`,
   )
 
+  // Everything else in the feed is apparel and a gift card. The store sells
+  // food only, so those are not carried.
   const flours = all.filter((p) => p.product_type === PRODUCT_TYPE)
-  const merch = all.filter((p) => p.product_type !== PRODUCT_TYPE)
-  console.log(`feed: ${all.length} products, ${flours.length} flour, ${merch.length} merchandise\n`)
+  console.log(
+    `feed: ${all.length} products, ${flours.length} flour, ${all.length - flours.length} not food — skipped\n`,
+  )
 
   let brandId: number | string | undefined
   let categoryId: number | string | undefined
-  let merchCategoryId: number | string | undefined
 
   if (!DRY_RUN) {
     const existingBrand = await payload.find({
@@ -287,7 +257,6 @@ async function main() {
       console.log(`brand: created ${BRAND.title} (id ${brandId})`)
     }
     categoryId = await ensureCategory(payload, CATEGORY)
-    merchCategoryId = await ensureCategory(payload, MERCH_CATEGORY)
     console.log('')
   }
 
@@ -297,17 +266,6 @@ async function main() {
   for (const p of flours) {
     try {
       await importFlour(p)
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err)
-      problems.push(`${p.handle}: ${msg}`)
-      console.log(`   FAIL   ${p.handle} — ${msg}`)
-    }
-  }
-
-  console.log(`\n── merchandise → ${MERCH_CATEGORY.slug}`)
-  for (const p of merch) {
-    try {
-      await importMerch(p)
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       problems.push(`${p.handle}: ${msg}`)
@@ -481,123 +439,6 @@ async function main() {
     report.push(row)
   }
 
-  /**
-   * Merchandise: apparel and the gift card. Shares the upsert and the image
-   * pipeline with the flours, but almost nothing else — there is no dietary
-   * profile, no allergen panel and no product page worth scraping, and the
-   * substance of the listing is the bullet-list of fabric and fit specs.
-   */
-  async function importMerch(p: ShopifyProduct) {
-    const override = MERCH_OVERRIDES[p.handle] ?? {}
-    const flags: string[] = [
-      'origin recorded as US — the source states a multi-country sourcing pool, not an origin',
-    ]
-    if (override.note) flags.push(override.note)
-    if (override.title) flags.push(`retitled from "${p.title}" — two listings shared that title`)
-
-    const title = override.title ?? p.title
-
-    const ordered = [...p.images].sort((a, b) => a.position - b.position)
-    const imageIdBySrc = new Map<string, number | string>()
-    if (!DRY_RUN) {
-      for (const [i, img] of ordered.entries()) {
-        const alt = img.alt ?? (i === 0 ? title : `${title}, view ${i + 1}`)
-        const id = await media.resolve(img.src, alt, `${p.handle}-${i + 1}`)
-        if (id !== undefined) imageIdBySrc.set(img.src, id)
-      }
-      if (imageIdBySrc.size === 0) {
-        throw new Error('no images resolved — refusing to save a product with an empty gallery')
-      }
-    }
-
-    const variants = p.variants.map((v, i) => {
-      // Colour and size are separate Shopify options; the orderable unit is the
-      // combination, so both go into `size` — "Heather Dust / L" is what a
-      // customer picks, not "Heather Dust".
-      const parts = [v.option1, v.option2, v.option3]
-        .filter((o): o is string => Boolean(o) && o!.toLowerCase() !== 'default title')
-        .map((o) => o.trim())
-      const price = toAed(v.price)
-      // A gift card's "size" is its denomination, which Shopify labels in USD.
-      // Left alone it would read "$10.00 — AED 36.73" on the same row, so the
-      // label is restated in the currency the catalogue actually charges.
-      const size =
-        parts.length === 1 && /^\$[\d.,]+$/.test(parts[0]!)
-          ? `AED ${price.toFixed(2)}`
-          : parts.length
-            ? parts.join(' / ')
-            : (override.size ?? 'One size')
-
-      const sku = v.sku?.trim() || `${override.skuPrefix ?? p.handle.toUpperCase()}-${i + 1}`
-
-      return {
-        sku,
-        size,
-        price,
-        ...(v.compare_at_price ? { compareAt: toAed(v.compare_at_price) } : {}),
-        // Unlike the food lines, Shopify's `grams` here is the garment weight
-        // rather than a shipping estimate, so it is the honest net weight.
-        ...(v.grams > 0 ? { weightGrams: v.grams } : {}),
-        inStock: v.available,
-        isDefault: i === 0,
-        ...(v.featured_image?.src && imageIdBySrc.has(v.featured_image.src)
-          ? { image: imageIdBySrc.get(v.featured_image.src) }
-          : {}),
-      }
-    })
-
-    const blurb = shortDescription(p.body_html)
-    const specifications = bulletSpecs(p.body_html)
-
-    const data = {
-      title,
-      sku: variants[0]!.sku,
-      category: merchCategoryId,
-      brand: brandId,
-      origin: { country: MERCH_ORIGIN_COUNTRY },
-      shortDescription: blurb,
-      description: convertHTMLToLexical({ editorConfig, html: p.body_html, JSDOM }),
-      images: ordered
-        .filter((img) => imageIdBySrc.has(img.src))
-        .map((img) => ({ image: imageIdBySrc.get(img.src) })),
-      variants,
-      ...(specifications.length ? { specifications } : {}),
-      shipping: { shippingClass: 'standard' },
-      meta: { title, description: blurb },
-      source: {
-        provider: PROVIDER,
-        externalId: String(p.id),
-        handle: p.handle,
-        url: `${STORE}/products/${p.handle}`,
-        importedAt: new Date().toISOString(),
-      },
-      _status: override.draft ? 'draft' : 'published',
-    } as RequiredDataFromCollectionSlug<'products'>
-
-    const row: Row = {
-      handle: p.handle,
-      title,
-      action: DRY_RUN ? 'preview' : 'created',
-      sku: variants[0]!.sku,
-      aed: variants[0]!.price,
-      size: variants[0]!.size,
-      images: ordered.length,
-      specs: specifications.length,
-      flags,
-    }
-
-    if (DRY_RUN) {
-      report.push(row)
-      console.log(
-        `   preview ${p.handle}  AED ${row.aed}  ${variants.length} variant(s), ` +
-          `${row.images} image(s), ${row.specs} spec(s)${override.draft ? '  [DRAFT]' : ''}`,
-      )
-      return
-    }
-
-    await saveProduct(p, data, row)
-  }
-
   const reportPath = path.join(__dirname_, `caputo-import-report${DRY_RUN ? '.dry-run' : ''}.json`)
   fs.writeFileSync(
     reportPath,
@@ -613,11 +454,6 @@ async function main() {
   console.log(`images: ${media.resolvedCount} resolved, ${media.uploadCount} newly uploaded`)
   console.log(`report: ${path.relative(process.cwd(), reportPath)}`)
 
-  const drafts = report.filter((r) => r.flags.some((f) => f.startsWith('Imported as a DRAFT')))
-  if (drafts.length) {
-    console.log(`\nimported unpublished (${drafts.length}):`)
-    for (const d of drafts) console.log(`  · ${d.title}`)
-  }
   const flagged = report.filter((r) => r.flags.length)
   if (flagged.length) {
     console.log(`\nneeds a human look (${flagged.length}):`)

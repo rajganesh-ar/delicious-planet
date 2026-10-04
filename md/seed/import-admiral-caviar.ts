@@ -30,6 +30,7 @@ import { fileURLToPath } from 'url'
 import {
   BREADCRUMB_TO_CATEGORY,
   DEFAULT_CATEGORY,
+  NOT_CARRIED_BREADCRUMBS,
   ORIGIN_BY_HANDLE,
   ORIGIN_FALLBACK,
   SPEC_LABELS,
@@ -236,7 +237,13 @@ async function main() {
   const editorConfig = await editorConfigFactory.default({ config: payload.config })
 
   console.log(`\nAdmiral Caviar import${DRY_RUN ? '  (dry run — nothing is written)' : ''}`)
-  console.log(`feed: ${feed.products.length} product(s), harvested ${feed.harvestedAt}`)
+  const products = feed.products.filter(
+    (p) => !NOT_CARRIED_BREADCRUMBS.has(p.breadcrumb[p.breadcrumb.length - 1] ?? ''),
+  )
+  console.log(
+    `feed: ${feed.products.length} product(s), harvested ${feed.harvestedAt} — ` +
+      `${feed.products.length - products.length} not food, skipped`,
+  )
   console.log('prices are AED at source — no conversion\n')
 
   let brandId: number | string | undefined
@@ -274,7 +281,7 @@ async function main() {
     fetcher: plainImageFetcher,
   })
 
-  for (const p of feed.products) {
+  for (const p of products) {
     try {
       await importProduct(p)
     } catch (err) {
@@ -313,8 +320,8 @@ async function main() {
       }
     }
 
-    // Single-price products (gift sets, spoons) carry their weight in the title
-    // — "Osetra Trio – 90g" — and the spoons have no size at all.
+    // Single-price products (the gift sets) carry their weight in the title —
+    // "Osetra Trio – 90g".
     const compareAt = compareAtFor(p.sizes)
     const rawVariants = p.sizes.length
       ? p.sizes.map((s) => ({

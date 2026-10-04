@@ -16,13 +16,17 @@
  * department it calls "Caviar Selection", which is the exact title of the
  * department already sitting at sort order 1 here — creating a second caviar
  * department beside it would split nine products across two near-identical
- * listings for no gain. Its two mother-of-pearl spoons are serveware, not food,
- * and land in the existing tableware department rather than under caviar.
+ * listings for no gain.
  */
 export const BREADCRUMB_TO_CATEGORY: Record<string, string> = {
   'Caviar Selection': 'caviar-selection',
-  'Luxury Caviar Accessories': 'bespoke-tableware-cutlery',
 }
+
+/**
+ * Breadcrumb leaves that are not food. The store sells food only, so these are
+ * left out of the import — today that is the two mother-of-pearl caviar spoons.
+ */
+export const NOT_CARRIED_BREADCRUMBS = new Set(['Luxury Caviar Accessories'])
 
 /**
  * The three tasting sets sit directly under "Store" with no sub-category, but

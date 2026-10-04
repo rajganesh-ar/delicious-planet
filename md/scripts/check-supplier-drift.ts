@@ -20,7 +20,8 @@
  * copying its price across.
  *
  * "new" is noisy for suppliers whose importer reads only some collections;
- * those products were left out on purpose.
+ * those products were left out on purpose. So is anything that is not food —
+ * Intermex accessories and Caputo apparel — which the importers skip.
  */
 import 'dotenv/config'
 import { getPayload } from 'payload'

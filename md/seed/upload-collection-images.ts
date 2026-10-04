@@ -33,11 +33,6 @@ const REMAINING = [
   { slug: 'specialty-coffee-reserve', imageFile: 'coffee.avif', title: 'Specialty Coffee Reserve' },
   { slug: 'botanical-seed-selection', imageFile: 'seeds.avif', title: 'Botanical Seed Selection' },
   { slug: 'curated-fine-beverages', imageFile: 'beverages.avif', title: 'Curated Fine Beverages' },
-  {
-    slug: 'bespoke-tableware-cutlery',
-    imageFile: 'cutlery.avif',
-    title: 'Bespoke Tableware & Cutlery',
-  },
 ]
 
 async function login(): Promise<string> {

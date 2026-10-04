@@ -17,6 +17,7 @@
 import type { RegionSlug } from './countries'
 import { REGION_SLUGS } from './countries'
 import { mediaUrl } from './images'
+import { siteImage } from '@/lib/site-image'
 // The CMS row. Aliased because `Region` below is the resolved shape the
 // storefront renders — the row is only one of its two sources.
 import type { Region as RegionDoc } from '@/payload-types'
@@ -32,6 +33,10 @@ export interface Region {
   image: string
 }
 
+// Card art is one landmark per region (Eiffel Tower, Burj Khalifa, Giza,
+// Machu Picchu, Statue of Liberty, Taj Mahal, Sydney Opera House), so the row
+// reads as a map at a glance. All seven are Unsplash-licensed (free for
+// commercial use, no credit required) and cropped to the card's 3:4.
 export const REGIONS: Region[] = [
   {
     slug: 'europe',
@@ -39,14 +44,14 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description:
       'Explore authentic European gourmet foods from Italy, France, Spain, Greece and more.',
-    image: '/images/collections/olives.avif',
+    image: siteImage('/images/regions/europe-eiffel-tower.avif'),
   },
   {
     slug: 'middle-east',
     label: 'Middle East',
     eyebrow: 'Bite into',
     description: 'Spices, mezze and confections from the Levant, the Gulf and Anatolia.',
-    image: '/images/collections/spices.avif',
+    image: siteImage('/images/regions/middle-east-burj-khalifa.avif'),
   },
   {
     slug: 'africa',
@@ -54,35 +59,35 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description:
       'Single-origin coffee, honey, argan and heritage grains from across the continent.',
-    image: '/images/sourcing/sourcing-agriculture.avif',
+    image: siteImage('/images/regions/africa-giza.avif'),
   },
   {
     slug: 'latin-america',
     label: 'Latin America',
     eyebrow: 'Bite into',
     description: 'Cacao, coffee, ancient grains and chillies from Mexico down to Patagonia.',
-    image: '/images/collections/coffee.avif',
+    image: siteImage('/images/regions/latin-america-machu-picchu.avif'),
   },
   {
     slug: 'north-america',
     label: 'North America',
     eyebrow: 'Bite into',
     description: 'Maple, wild rice, craft preserves and small-batch pantry staples.',
-    image: '/images/collections/pantry.avif',
+    image: siteImage('/images/regions/north-america-statue-of-liberty.avif'),
   },
   {
     slug: 'asia',
     label: 'Asia',
     eyebrow: 'Bite into',
     description: 'Rice, tea, soy and spice traditions from East, South and Southeast Asia.',
-    image: '/images/collections/seeds.avif',
+    image: siteImage('/images/regions/asia-taj-mahal.avif'),
   },
   {
     slug: 'oceania',
     label: 'Oceania',
     eyebrow: 'Bite into',
     description: 'Manuka honey, macadamia and cool-climate produce from Australia and New Zealand.',
-    image: '/images/collections/honey.avif',
+    image: siteImage('/images/regions/oceania-sydney-opera-house.avif'),
   },
 ]
 

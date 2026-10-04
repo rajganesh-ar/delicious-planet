@@ -1,0 +1,551 @@
+[
+  {
+    "slug": "chipotle-sauce-220ml-la-costena",
+    "productId": 275,
+    "before": [
+      751,
+      752
+    ],
+    "after": [
+      954,
+      752
+    ],
+    "mediaId": 954,
+    "at": "2026-10-04T14:48:43.760Z"
+  },
+  {
+    "slug": "chipotles-adobados-chipotle-peppers-in-adobo-sauce-la-costena",
+    "productId": 148,
+    "before": [
+      565,
+      566
+    ],
+    "after": [
+      955,
+      566
+    ],
+    "mediaId": 955,
+    "at": "2026-10-04T14:49:01.264Z"
+  },
+  {
+    "slug": "diced-jalapenos-picados",
+    "productId": 215,
+    "before": [
+      642
+    ],
+    "after": [
+      956
+    ],
+    "mediaId": 956,
+    "at": "2026-10-04T14:49:19.490Z"
+  },
+  {
+    "slug": "herdez-white-mexican-corn",
+    "productId": 211,
+    "before": [
+      638
+    ],
+    "after": [
+      957
+    ],
+    "mediaId": 957,
+    "at": "2026-10-04T14:49:37.182Z"
+  },
+  {
+    "slug": "huitlacoche-la-costena",
+    "productId": 274,
+    "before": [
+      749,
+      750
+    ],
+    "after": [
+      958,
+      750
+    ],
+    "mediaId": 958,
+    "at": "2026-10-04T14:49:54.292Z"
+  },
+  {
+    "slug": "la-costena-jalapeno-nachos-220g",
+    "productId": 212,
+    "before": [
+      639
+    ],
+    "after": [
+      959
+    ],
+    "mediaId": 959,
+    "at": "2026-10-04T14:50:12.508Z"
+  },
+  {
+    "slug": "la-costena-jalapeno-slices",
+    "productId": 255,
+    "before": [
+      715,
+      716
+    ],
+    "after": [
+      960,
+      716
+    ],
+    "mediaId": 960,
+    "at": "2026-10-04T14:50:30.834Z"
+  },
+  {
+    "slug": "refried-black-beans-la-costena",
+    "productId": 273,
+    "before": [
+      747,
+      748
+    ],
+    "after": [
+      961,
+      748
+    ],
+    "mediaId": 961,
+    "at": "2026-10-04T14:50:48.672Z"
+  },
+  {
+    "slug": "whole-bayo-beans-la-costena",
+    "productId": 271,
+    "before": [
+      743,
+      744
+    ],
+    "after": [
+      962,
+      744
+    ],
+    "mediaId": 962,
+    "at": "2026-10-04T14:51:05.621Z"
+  },
+  {
+    "slug": "osetra-trio-90g",
+    "productId": 94,
+    "before": [
+      418,
+      419,
+      420
+    ],
+    "after": [
+      963,
+      418,
+      419,
+      420
+    ],
+    "mediaId": 963,
+    "at": "2026-10-04T14:51:22.883Z"
+  },
+  {
+    "slug": "a-trio-of-perfection-90g",
+    "productId": 95,
+    "before": [
+      421,
+      422,
+      423,
+      424
+    ],
+    "after": [
+      964,
+      421,
+      422,
+      423,
+      424
+    ],
+    "mediaId": 964,
+    "at": "2026-10-04T14:51:39.992Z"
+  },
+  {
+    "slug": "the-grand-caviar-journey-150g",
+    "productId": 96,
+    "before": [
+      425,
+      426,
+      427,
+      428
+    ],
+    "after": [
+      965,
+      425,
+      426,
+      427,
+      428
+    ],
+    "mediaId": 965,
+    "at": "2026-10-04T14:51:58.160Z"
+  },
+  {
+    "slug": "mexican-candy-bag-mix",
+    "productId": 149,
+    "before": [
+      567
+    ],
+    "after": [
+      966
+    ],
+    "mediaId": 966,
+    "at": "2026-10-04T14:52:13.989Z"
+  },
+  {
+    "slug": "banderilla-tamaroca-tamarind-mexican-stick-1pcs",
+    "productId": 160,
+    "before": [
+      583,
+      584
+    ],
+    "after": [
+      967,
+      584
+    ],
+    "mediaId": 967,
+    "at": "2026-10-04T14:52:30.147Z"
+  },
+  {
+    "slug": "black-beans-dry-900g-la-sierra",
+    "productId": 192,
+    "before": [
+      619
+    ],
+    "after": [
+      968
+    ],
+    "mediaId": 968,
+    "at": "2026-10-04T14:52:46.891Z"
+  },
+  {
+    "slug": "black-sauce-salsa-picante-negra-120ml-yucateco",
+    "productId": 172,
+    "before": [
+      596
+    ],
+    "after": [
+      969
+    ],
+    "mediaId": 969,
+    "at": "2026-10-04T14:53:04.828Z"
+  },
+  {
+    "slug": "botanera-sauce-370-ml",
+    "productId": 145,
+    "before": [
+      560
+    ],
+    "after": [
+      970
+    ],
+    "mediaId": 970,
+    "at": "2026-10-04T14:53:23.832Z"
+  },
+  {
+    "slug": "chamoy-sauce-el-chilerito-355ml",
+    "productId": 186,
+    "before": [
+      613
+    ],
+    "after": [
+      971
+    ],
+    "mediaId": 971,
+    "at": "2026-10-04T14:53:44.129Z"
+  },
+  {
+    "slug": "chocorroles-8-pieces",
+    "productId": 146,
+    "before": [
+      561
+    ],
+    "after": [
+      972
+    ],
+    "mediaId": 972,
+    "at": "2026-10-04T14:54:02.644Z"
+  },
+  {
+    "slug": "cholula-original-chilli-lime-hot-sauce",
+    "productId": 169,
+    "before": [
+      593
+    ],
+    "after": [
+      973
+    ],
+    "mediaId": 973,
+    "at": "2026-10-04T14:54:21.320Z"
+  },
+  {
+    "slug": "cholula-original-chipotle-hot-sauce-150ml",
+    "productId": 167,
+    "before": [
+      591
+    ],
+    "after": [
+      974
+    ],
+    "mediaId": 974,
+    "at": "2026-10-04T14:54:39.266Z"
+  },
+  {
+    "slug": "cholula-original-hot-sauce-60ml",
+    "productId": 166,
+    "before": [
+      590
+    ],
+    "after": [
+      975
+    ],
+    "mediaId": 975,
+    "at": "2026-10-04T14:54:58.227Z"
+  },
+  {
+    "slug": "homestyle-la-costen-475gm",
+    "productId": 175,
+    "before": [
+      599
+    ],
+    "after": [
+      976
+    ],
+    "mediaId": 976,
+    "at": "2026-10-04T14:55:15.950Z"
+  },
+  {
+    "slug": "hot-green-sauce-salsa-picante-green-chile-habanero-120ml-yucateco",
+    "productId": 171,
+    "before": [
+      595
+    ],
+    "after": [
+      977
+    ],
+    "mediaId": 977,
+    "at": "2026-10-04T14:55:32.611Z"
+  },
+  {
+    "slug": "hungry-guru-35g",
+    "productId": 185,
+    "before": [
+      612
+    ],
+    "after": [
+      978
+    ],
+    "mediaId": 978,
+    "at": "2026-10-04T14:55:49.662Z"
+  },
+  {
+    "slug": "hungry-guru-pack-of-12",
+    "productId": 174,
+    "before": [
+      598
+    ],
+    "after": [
+      979
+    ],
+    "mediaId": 979,
+    "at": "2026-10-04T14:56:10.062Z"
+  },
+  {
+    "slug": "hungry-guru-pack-of-3-35g",
+    "productId": 184,
+    "before": [
+      611
+    ],
+    "after": [
+      980
+    ],
+    "mediaId": 980,
+    "at": "2026-10-04T14:56:26.600Z"
+  },
+  {
+    "slug": "hungry-guru-pack-of-6-35g",
+    "productId": 183,
+    "before": [
+      610
+    ],
+    "after": [
+      981
+    ],
+    "mediaId": 981,
+    "at": "2026-10-04T14:56:45.361Z"
+  },
+  {
+    "slug": "jarritos-fruit-punch-drink-370ml",
+    "productId": 280,
+    "before": [
+      818
+    ],
+    "after": [
+      982
+    ],
+    "mediaId": 982,
+    "at": "2026-10-04T14:57:03.379Z"
+  },
+  {
+    "slug": "jarritos-grapefruit-drink-370ml",
+    "productId": 179,
+    "before": [
+      604
+    ],
+    "after": [
+      983
+    ],
+    "mediaId": 983,
+    "at": "2026-10-04T14:57:20.178Z"
+  },
+  {
+    "slug": "jarritos-guava-drink-370ml",
+    "productId": 180,
+    "before": [
+      606
+    ],
+    "after": [
+      984
+    ],
+    "mediaId": 984,
+    "at": "2026-10-04T14:57:36.502Z"
+  },
+  {
+    "slug": "jarritos-lime-drink-370ml",
+    "productId": 281,
+    "before": [
+      819
+    ],
+    "after": [
+      985
+    ],
+    "mediaId": 985,
+    "at": "2026-10-04T14:57:56.491Z"
+  },
+  {
+    "slug": "jarritos-mandarin-drink-370ml",
+    "productId": 282,
+    "before": [
+      820
+    ],
+    "after": [
+      986
+    ],
+    "mediaId": 986,
+    "at": "2026-10-04T14:58:14.441Z"
+  },
+  {
+    "slug": "jarritos-mexican-cola-drink-370ml",
+    "productId": 181,
+    "before": [
+      607
+    ],
+    "after": [
+      987
+    ],
+    "mediaId": 987,
+    "at": "2026-10-04T14:58:37.011Z"
+  },
+  {
+    "slug": "jarritos-pineapple-drink-370ml",
+    "productId": 182,
+    "before": [
+      609
+    ],
+    "after": [
+      988
+    ],
+    "mediaId": 988,
+    "at": "2026-10-04T14:58:55.839Z"
+  },
+  {
+    "slug": "jarritos-strawberry-drink-370ml",
+    "productId": 178,
+    "before": [
+      603
+    ],
+    "after": [
+      989
+    ],
+    "mediaId": 989,
+    "at": "2026-10-04T14:59:13.624Z"
+  },
+  {
+    "slug": "maiz-blanco-la-costena-3kg",
+    "productId": 193,
+    "before": [
+      620
+    ],
+    "after": [
+      990
+    ],
+    "mediaId": 990,
+    "at": "2026-10-04T14:59:30.456Z"
+  },
+  {
+    "slug": "mayonesa-macromick-lime-390gm",
+    "productId": 156,
+    "before": [
+      577
+    ],
+    "after": [
+      991
+    ],
+    "mediaId": 991,
+    "at": "2026-10-04T14:59:50.741Z"
+  },
+  {
+    "slug": "nachos-jalapeno-2-8kg-costena",
+    "productId": 189,
+    "before": [
+      616
+    ],
+    "after": [
+      992
+    ],
+    "mediaId": 992,
+    "at": "2026-10-04T15:00:10.470Z"
+  },
+  {
+    "slug": "red-sauce-salsa-picante-roja-120ml-yucateco",
+    "productId": 170,
+    "before": [
+      594
+    ],
+    "after": [
+      993
+    ],
+    "mediaId": 993,
+    "at": "2026-10-04T15:00:28.126Z"
+  },
+  {
+    "slug": "tajin-classico-seasoning-400gm",
+    "productId": 191,
+    "before": [
+      618
+    ],
+    "after": [
+      994
+    ],
+    "mediaId": 994,
+    "at": "2026-10-04T15:00:45.497Z"
+  },
+  {
+    "slug": "whole-black-beans-560g-costena",
+    "productId": 188,
+    "before": [
+      615
+    ],
+    "after": [
+      995
+    ],
+    "mediaId": 995,
+    "at": "2026-10-04T15:01:05.185Z"
+  },
+  {
+    "slug": "whole-green-tomatillo-2-8kg-clemente-jacques",
+    "productId": 177,
+    "before": [
+      601
+    ],
+    "after": [
+      996
+    ],
+    "mediaId": 996,
+    "at": "2026-10-04T15:01:23.223Z"
+  }
+]

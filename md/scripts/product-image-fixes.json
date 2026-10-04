@@ -1,0 +1,293 @@
+[
+  {
+    "slug": "chipotle-sauce-220ml-la-costena",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "chipotles-adobados-chipotle-peppers-in-adobo-sauce-la-costena",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "diced-jalapenos-picados",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "herdez-white-mexican-corn",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "huitlacoche-la-costena",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "la-costena-jalapeno-nachos-220g",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "la-costena-jalapeno-slices",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "refried-black-beans-la-costena",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "whole-bayo-beans-la-costena",
+    "action": "reframe",
+    "fill": 0.68,
+    "note": "TINY: product about 40% of the tile on Intermex's studio sweep"
+  },
+  {
+    "slug": "osetra-trio-90g",
+    "action": "file",
+    "file": "out/osetra-trio-90g.webp",
+    "keepOriginal": true,
+    "note": "CUT: wide promo graphic with headline and price baked in. Replaced by the set's own single-tin photos arranged on cream; the promo moves to second place."
+  },
+  {
+    "slug": "a-trio-of-perfection-90g",
+    "action": "file",
+    "file": "out/a-trio-of-perfection-90g.webp",
+    "keepOriginal": true,
+    "note": "CUT: wide promo graphic with headline and price baked in. Replaced by the set's own single-tin photos arranged on cream; the promo moves to second place."
+  },
+  {
+    "slug": "the-grand-caviar-journey-150g",
+    "action": "file",
+    "file": "out/the-grand-caviar-journey-150g.webp",
+    "keepOriginal": true,
+    "note": "CUT: wide promo graphic with headline and price baked in. Replaced by the set's own single-tin photos arranged on cream; the promo moves to second place."
+  },
+  {
+    "slug": "mexican-candy-bag-mix",
+    "action": "file",
+    "file": "out/mexican-candy-bag-mix.webp",
+    "note": "CUT: portrait bag on a plain yellow backdrop, extended to a square with the backdrop's own colour"
+  },
+  {
+    "slug": "banderilla-tamaroca-tamarind-mexican-stick-1pcs",
+    "action": "cutout",
+    "file": "replace/banderilla-tamaroca-tamarind-mexican-stick-1pcs.png",
+    "sourceUrl": "https://tamaroca.com/wp-content/uploads/2023/09/banderilla.png",
+    "note": "LOWRES: supplier photo 480x720; replaced with the brand's official packshot (tamaroca.com)"
+  },
+  {
+    "slug": "black-beans-dry-900g-la-sierra",
+    "action": "cutout",
+    "file": "replace/black-beans-dry-900g-la-sierra.jpg",
+    "sourceUrl": "https://i5.walmartimages.com.mx/gr/images/product-images/img_large/00750105242147L.jpg",
+    "note": "CUT+LOWRES: supplier photo 303x439; replaced with the manufacturer's packshot (super.walmart.com.mx)"
+  },
+  {
+    "slug": "black-sauce-salsa-picante-negra-120ml-yucateco",
+    "action": "cutout",
+    "file": "replace/black-sauce-salsa-picante-negra-120ml-yucateco.jpg",
+    "sourceUrl": "https://i5.walmartimages.com.mx/gr/images/product-images/img_large/00750101766042L.jpg",
+    "note": "CUT+LOWRES: supplier photo 348x463; replaced with the manufacturer's packshot (despensa.bodegaaurrera.com.mx)"
+  },
+  {
+    "slug": "botanera-sauce-370-ml",
+    "action": "cutout",
+    "file": "replace/botanera-sauce-370-ml.webp",
+    "sourceUrl": "https://images.heb.com/is/image/HEBGrocery/001669203?wid=3000&hei=3000&fmt=jpg&qlt=95",
+    "note": "LOWRES: supplier photo 453x472; replaced with the manufacturer's packshot (heb.com)"
+  },
+  {
+    "slug": "chamoy-sauce-el-chilerito-355ml",
+    "action": "cutout",
+    "file": "replace/chamoy-sauce-el-chilerito-355ml.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/51bkl-jUPHL.jpg",
+    "note": "CUT+LOWRES: supplier photo 325x604; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "chocorroles-8-pieces",
+    "action": "cutout",
+    "file": "replace/chocorroles-8-pieces.png",
+    "sourceUrl": "https://marinela-com-mx-assets.s3.amazonaws.com/s3fs-public/images/2024-03/Cajilla-mini-chocoroles-224gr.png?VersionId=vPmAS7qZPFVtglCG71YVgDww.ytunNkZ",
+    "note": "LOWRES: supplier photo 469x477; replaced with the brand's official packshot (marinela.com.mx)"
+  },
+  {
+    "slug": "cholula-original-chilli-lime-hot-sauce",
+    "action": "cutout",
+    "file": "replace/cholula-original-chilli-lime-hot-sauce.jpg",
+    "sourceUrl": "https://www.mccormick.com/cdn/shop/files/00049733840118_A1N1-2023-10-30.jpg",
+    "note": "CUT+LOWRES: supplier photo 252x546; replaced with the brand's official packshot (cholula.com)"
+  },
+  {
+    "slug": "cholula-original-chipotle-hot-sauce-150ml",
+    "action": "cutout",
+    "file": "replace/cholula-original-chipotle-hot-sauce-150ml.jpg",
+    "sourceUrl": "https://www.mccormick.com/cdn/shop/files/00049733830119_A1N1_master-2021-04-30.jpg",
+    "note": "CUT+LOWRES: supplier photo 225x568; replaced with the brand's official packshot (cholula.com)"
+  },
+  {
+    "slug": "cholula-original-hot-sauce-60ml",
+    "action": "cutout",
+    "file": "replace/cholula-original-hot-sauce-60ml.jpg",
+    "sourceUrl": "https://i5.walmartimages.com.mx/gr/images/product-images/img_large/00004973300006L.jpg",
+    "note": "CUT+LOWRES: supplier photo 286x408; replaced with the manufacturer's packshot (super.walmart.com.mx)"
+  },
+  {
+    "slug": "homestyle-la-costen-475gm",
+    "action": "cutout",
+    "file": "replace/homestyle-la-costen-475gm.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/71OtnHKnciL.jpg",
+    "note": "CUT+LOWRES: supplier photo 225x392; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "hot-green-sauce-salsa-picante-green-chile-habanero-120ml-yucateco",
+    "action": "cutout",
+    "file": "replace/hot-green-sauce-salsa-picante-green-chile-habanero-120ml-yucateco.jpg",
+    "sourceUrl": "https://chedrauimx.vteximg.com.br/arquivos/ids/77857887/7501017660025_00.jpg",
+    "note": "CUT+LOWRES: supplier photo 299x416; replaced with the manufacturer's packshot (chedraui.com.mx)"
+  },
+  {
+    "slug": "hungry-guru-35g",
+    "action": "cutout",
+    "file": "replace/hungry-guru-35g.png",
+    "sourceUrl": "https://images-eu-prod.cms.commerce.dynamics.com/cms/api/vnnhvggtsx/imageFileData/search?fileName=/Products%2F105620_000_001.png",
+    "note": "CUT: supplier photo 1279x1600; replaced with the manufacturer's packshot (localy.ae)"
+  },
+  {
+    "slug": "hungry-guru-pack-of-12",
+    "action": "cutout",
+    "file": "replace/hungry-guru-pack-of-12.png",
+    "sourceUrl": "https://cdn.zyrosite.com/cdn-ecommerce/store_01KKXFYHKCZDXS8HQ27Q768M37/assets/5b3c9fec-192a-4ad9-8ede-a0a1e6de4965.png",
+    "note": "LOWRES: supplier photo 375x257; replaced with the brand's official packshot (hungry-guru.com)"
+  },
+  {
+    "slug": "hungry-guru-pack-of-3-35g",
+    "action": "cutout",
+    "file": "replace/hungry-guru-pack-of-3-35g.png",
+    "sourceUrl": "https://cdn.zyrosite.com/cdn-ecommerce/store_01KKXFYHKCZDXS8HQ27Q768M37/assets/855d4016-6656-4d53-8502-66a60174c4cc.png",
+    "note": "CUT: supplier photo 1279x1600; replaced with the brand's official packshot (hungry-guru.com)"
+  },
+  {
+    "slug": "hungry-guru-pack-of-6-35g",
+    "action": "cutout",
+    "file": "replace/hungry-guru-pack-of-6-35g.png",
+    "sourceUrl": "https://cdn.zyrosite.com/cdn-ecommerce/store_01KKXFYHKCZDXS8HQ27Q768M37/assets/0b3a92dd-7d88-4814-98b2-de323092f3d1.png",
+    "note": "LOWRES: supplier photo 301x244; replaced with the brand's official packshot (hungry-guru.com)"
+  },
+  {
+    "slug": "jarritos-fruit-punch-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-fruit-punch-drink-370ml.jpg",
+    "sourceUrl": "https://i5.walmartimages.com/seo/Jarritos-Fruit-Punch-Soda-12-5-fl-oz-370ml-Glass-Bottle-1-Count_ba00e063-45b1-4f10-af94-bb1f510cbe49_1.c5635a1a75a8ebdda0f4dda9fd5f2d93.jpeg",
+    "note": "CUT+LOWRES: supplier photo 424x754; replaced with the manufacturer's packshot (walmart.com)"
+  },
+  {
+    "slug": "jarritos-grapefruit-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-grapefruit-drink-370ml.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/617XskLAozL.jpg",
+    "note": "CUT+LOWRES: supplier photo 298x515; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "jarritos-guava-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-guava-drink-370ml.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/41cifeaynCL.jpg",
+    "note": "CUT+LOWRES: supplier photo 340x532; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "jarritos-lime-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-lime-drink-370ml.jpg",
+    "sourceUrl": "https://i5.walmartimages.com/asr/2970b6f8-880b-414e-8e41-fe8bb447a663_1.ccc28490aeab1e41290469bb1869317a.jpeg",
+    "note": "CUT+LOWRES: supplier photo 232x363; replaced with the manufacturer's packshot (walmart.com)"
+  },
+  {
+    "slug": "jarritos-mandarin-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-mandarin-drink-370ml.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/71Y1MT2nRYL.jpg",
+    "note": "CUT+LOWRES: supplier photo 374x542; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "jarritos-mexican-cola-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-mexican-cola-drink-370ml.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/51kQeISJgKL.jpg",
+    "note": "CUT+LOWRES: supplier photo 272x409; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "jarritos-pineapple-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-pineapple-drink-370ml.jpg",
+    "sourceUrl": "https://i5.walmartimages.com/seo/Jarritos-Pineapple-Soda-12-5-fl-oz-370-ml-Glass-Bottle-1-Count_caea2b8c-d055-457e-b1e6-346d76349476.8547e380ff7d252653c3f89482b49a7e.jpeg",
+    "note": "LOWRES: supplier photo 280x369; replaced with the manufacturer's packshot (walmart.com)"
+  },
+  {
+    "slug": "jarritos-strawberry-drink-370ml",
+    "action": "cutout",
+    "file": "replace/jarritos-strawberry-drink-370ml.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/81sFUfwM91L.jpg",
+    "note": "CUT+LOWRES: supplier photo 281x521; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "maiz-blanco-la-costena-3kg",
+    "action": "cutout",
+    "file": "replace/maiz-blanco-la-costena-3kg.jpg",
+    "sourceUrl": "https://chedrauimx.vteximg.com.br/arquivos/ids/77853685/7501017020461_00.jpg",
+    "note": "CUT+LOWRES: supplier photo 367x413; replaced with the manufacturer's packshot (chedraui.com.mx)"
+  },
+  {
+    "slug": "mayonesa-macromick-lime-390gm",
+    "action": "cutout",
+    "file": "replace/mayonesa-macromick-lime-390gm.webp",
+    "sourceUrl": "https://images.albertsons-media.com/is/image/ABS/960209497?scl=1",
+    "note": "CUT+LOWRES: supplier photo 431x647; replaced with the manufacturer's packshot (randalls.com)"
+  },
+  {
+    "slug": "nachos-jalapeno-2-8kg-costena",
+    "action": "cutout",
+    "file": "replace/nachos-jalapeno-2-8kg-costena.png",
+    "sourceUrl": "https://gdx-assets.costco.com/adobe/assets/urn:aaid:aem:d410c841-590d-4fb3-ad6c-fd9d6ad3d39c/as/307839__1.png?width=3000",
+    "note": "CUT+LOWRES: supplier photo 362x432; replaced with the manufacturer's packshot (costcobusinessdelivery.com)"
+  },
+  {
+    "slug": "red-sauce-salsa-picante-roja-120ml-yucateco",
+    "action": "cutout",
+    "file": "replace/red-sauce-salsa-picante-roja-120ml-yucateco.jpg",
+    "sourceUrl": "https://chedrauimx.vteximg.com.br/arquivos/ids/78225463/7501017660018_00.jpg",
+    "note": "CUT+LOWRES: supplier photo 299x429; replaced with the manufacturer's packshot (chedraui.com.mx)"
+  },
+  {
+    "slug": "tajin-classico-seasoning-400gm",
+    "action": "cutout",
+    "file": "replace/tajin-classico-seasoning-400gm.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/710Q5UhtS7L.jpg",
+    "note": "CUT+LOWRES: supplier photo 253x427; replaced with the manufacturer's packshot (amazon.com)"
+  },
+  {
+    "slug": "whole-black-beans-560g-costena",
+    "action": "cutout",
+    "file": "replace/whole-black-beans-560g-costena.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/81l4s0lgZFL.jpg",
+    "note": "CUT+LOWRES: supplier photo 353x435; replaced with the manufacturer's packshot (amazon.in)"
+  },
+  {
+    "slug": "whole-green-tomatillo-2-8kg-clemente-jacques",
+    "action": "cutout",
+    "file": "replace/whole-green-tomatillo-2-8kg-clemente-jacques.jpg",
+    "sourceUrl": "https://m.media-amazon.com/images/I/61XLsnZ9gsL.jpg",
+    "note": "CUT+LOWRES: supplier photo 376x458; replaced with the manufacturer's packshot (amazon.co.uk)"
+  }
+]

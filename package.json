@@ -22,6 +22,7 @@
     "scrape:admiral": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/scrape-admiral-caviar.ts",
     "import:gdlc": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/import-garcia-de-la-cruz.ts",
     "seed:banners": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/seed-banners.ts",
+    "seed:banner-images": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/seed-banner-images.ts",
     "seed:collection-images": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/upload-collection-images.ts",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
@@ -33,6 +34,9 @@
     "migrate:apply": "node scripts/apply-migration.cjs",
     "media:recover": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/recover-media.ts",
     "media:cleanup": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/cleanup-r2.ts",
+    "images:audit": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/audit-product-images.ts",
+    "images:fix": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/fix-product-images.ts",
+    "images:site": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/upload-site-images.ts",
     "fix:catalogue-2026-09-25": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/fix-catalogue-2026-09-25.ts",
     "check:suppliers": "cross-env NODE_OPTIONS=--no-deprecation tsx md/scripts/check-supplier-drift.ts"
   },

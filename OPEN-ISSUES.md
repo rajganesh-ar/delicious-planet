@@ -149,15 +149,98 @@ sampler) and `8` (Pulparindo) from 2026-09-26. They're unique, so nothing
 breaks, but they aren't real SKUs. Changing a live product's SKU is your call.
 Only `"0"` is treated as missing, because several products share it.
 
-### 3.5 40 low-resolution product images
-40 images are narrower than 800px (38 WebP, 2 PNG), so Payload didn't create a
-`card` size and the site shows the original. They display correctly but may look
-soft on product cards. Replace them with larger files when possible.
+### 3.5 Bad product photos: 43 fixed on 2026-10-04, 13 left
+`pnpm images:audit` (read-only) measures each product's first photo the way the
+product card frames it, as a square with `object-cover`, and flags three faults:
+- **CUT:** part of the product falls outside the square.
+- **TINY:** a small product in a big plain frame.
+- **LOWRES:** narrower than 600px, so it goes soft on a 2× screen.
 
-### 3.6 One draft product
-`e-gift-card` (Caputo) is the only draft; the other 255 are published. It's
-probably drafted on purpose, since a gift card needs its own checkout handling.
-Confirm that.
+It flagged 65 of the 279 products at the time. `pnpm images:fix` replaced 43
+primary photos with exact 1200×1200 squares, so Payload's `card` is exactly
+800×800. Photos that were fine were left alone. The plan is
+`md/scripts/product-image-fixes.json`:
+- **9 La Costeña and Herdez cans (TINY):** re-cropped around the can, keeping
+  Intermex's backdrop.
+- **30 Intermex screenshots (225–480px) and bad shots:** replaced with the
+  manufacturer's packshot, cut out and centred on the card's cream `#f5f4f1`.
+  Two of the old ones had a fake transparency checkerboard baked in. Brand sites
+  rarely publish packshots, so most new files come from big retailers' listings
+  (Walmart MX, Chedraui, Amazon, HEB). Each media row's `sourceUrl` names the
+  file. Some packs are a newer label design of the same product.
+- **3 Admiral Caviar sets:** the photos were promo graphics with headlines and
+  prices baked in, cut mid-word by the card. Each set's own tin photos are now
+  arranged on cream, and the promo graphic is kept as the second image.
+- **Banderilla:** the official Tama-Roca single-stick render. The old photo
+  showed 5 sticks for a 1-piece product. The mixed candy bag (yellow backdrop)
+  was squared off with its own backdrop colour.
+
+Each product's gallery before and after is in
+`md/scripts/product-image-fixes.applied.json`. The replaced photos keep their
+media rows, so a fix can be reverted. `pnpm media:cleanup --orphans` will list
+those rows, and deleting them removes the way back. A targeted re-import
+(`import:intermex --only=`) of one of these products resets its gallery to
+Intermex's photos.
+
+**After the fixes,** `pnpm images:audit` flags 23 of 254. Ten of those were
+looked at and kept on purpose:
+- the five Velsoro/Casinetto bonbon boxes and the two salted-caramel boxes,
+  which are lifestyle shots that still read well with the box edges trimmed
+- `alebrije-mango-and-habanero-jam-…` and `la-costena-whole-guavas-in-syrup`,
+  which sit right at the 45% TINY line, like the bottles that were left alone
+- `snack-wheel-chicharon-50gm`, a shop scene
+
+**The other 13 are still flagged.** None of these can be fixed without Intermex:
+- **No usable image anywhere.** These are Intermex's own packs or unbranded:
+  - `assorted-mexican-candy-bag`
+  - `white-corn-with-epazote-…` (plain foil pouch)
+  - `chile-ancho-150g-…-intermex`
+  - the five `pepe-crunch-peanuts-*-500g` flavours
+  - both 30g `japanese-style-peanuts-*`
+
+  They need photos taken in-house, or from Intermex.
+- `blue-corn-masa-flour-maseca`: the 1kg pack seems to have been replaced by
+  907g under the same barcode. A clean 907g image exists (heb.com) if that's
+  what's stocked.
+- **Title and photo disagree, so both were left alone:**
+  - `apricot-in-syrup-820g`: the photo is La Costeña sliced **peaches**
+    (Duraznos), not apricots (Chabacanos).
+  - `rice-morelo-1kg-valle-verde`: the photo is the 454g (1 lb) US bag.
+
+  Ask Intermex which product is actually sold.
+- **Catalogue errors found on the way:**
+  - The "chipotle" Pepe Crunch photo is a different product (Kronchito
+    chorizo-chipotle).
+  - The "mango" bag reads 900g, not 500g.
+  - Valentina peanuts look like a pairing Intermex put together, not a
+    manufacturer product.
+
+### 3.6 One draft product: resolved
+`e-gift-card` (Caputo) was the only draft. It was deleted on 2026-10-04 with the
+rest of the non-food products, so every remaining product is published.
+
+### 3.7 Brands (re-verified 2026-10-04)
+Caputo is a brand we carry, not a supplier. The `Caputo` supplier record (its
+website was casinetto.com, and nothing linked to it) is deleted. The header's
+"Shop by Brand" menu, `/brands` and the homepage brand strip now read the
+Brands collection, listing only brands with published products. Before this
+they read Suppliers, so every menu link opened an empty listing.
+
+Intermex products are now filed under the maker on the pack: 113 changed, 44
+brands added. The list is `BRANDS` in `md/seed/intermex-catalogue.ts`, and the
+previous values are in `md/scripts/fixed-brands-2026-10-04.json`. Still to decide:
+- **15 products with no brand,** because neither the title nor Intermex's
+  description names a maker: the esquite, both candy bags, both popsicle packs,
+  both Japanese-style peanuts, the snack wheel, Botanera sauce, cactus in brine,
+  corn husks, whole guajillo chili, Paleta Payaso and Rancheritos.
+- **`De la Rosa Coronado Butter Rum Hard Candies`** names two makers. Check the
+  pack.
+- **Filed from what the brand makes, not from the text:** Chocorroles under
+  Marinela, Pulparindo under De la Rosa.
+- **`/brands` copy** still says "a short list, kept deliberately short", but it
+  now lists 55 brands, including Jarritos and Ruffles.
+- **Cebon** has a brand record and a bundled logo but no products, so it is no
+  longer shown.
 
 ---
 
@@ -167,70 +250,64 @@ All of these can be added in the Payload admin. No code changes are needed.
 
 | Collection | Missing | Where it shows | What visitors see now |
 |---|---|---|---|
-| Categories | 10 of 25 | `/categories` tiles, category page hero | Dark gradient tile, no photo |
-| Team | 5 of 5 photos | About page | Grey placeholder boxes |
-| Banners | 5 of 5 | Homepage promo banners | Plain colour background |
-| Suppliers | 3 of 3 logos | `/brands` supplier list | No logo |
+| Categories | 0 of 23 (fixed 2026-10-04) | `/categories` tiles, category page hero | Photos throughout |
+| Team | 5 of 5 photos | About page | Grey placeholder boxes. These must be the real people, so no stock photos were used |
+| Banners | 2 of 9 (both slim text strips) | Homepage promo banners | Plain colour bar |
+| Brands | 51 of 55 stocked brands have no logo | `/brands` register, homepage "Brands We Carry", the /brands marque board | The brand name set as text. Only Velsoro, García de la Cruz, Admiral Caviar and Caputo have artwork, and theirs is bundled, not uploaded |
 
-`pnpm fix:catalogue-2026-09-25` sets product photos, chosen by eye from in-stock
-products, on the four largest: `pantry-staples` (Nopal Foods jar),
-`mexican-sauces` (La Meridana hot sauce basket), `mexican-candy` (Tomy candies)
-and `chocolate-bars` (Velsoro ruby pistachio bar). These are stand-ins until
-there is proper category art.
+On 2026-10-04 `chilis`, `chocolate-boxes`, `flours`, `mexican-pantry` and
+`teddy-bear` got Unsplash/Pexels photos, with each media row's `sourceUrl` set to
+the photo's page (`md/scripts/set-cms-images-2026-10-04.ts`). The flours photo
+is strong as a tile, but in the wide category-page hero its flour heap sits low
+and mostly the sack shows.
+
+Four categories still use product photos as stand-ins, chosen by eye by
+`pnpm fix:catalogue-2026-09-25` until there is proper category art:
+`pantry-staples` (Nopal Foods jar), `mexican-sauces` (La Meridana hot sauce
+basket), `mexican-candy` (Tomy candies) and `chocolate-bars` (Velsoro ruby
+pistachio bar).
 
 Also check the category filing: most of what's in `mexican-candy` is chips and
-chicharrón (Ruffles, Churritos, Chicharron, Tortilla Chips), not candy.
-
-### Categories with no image (largest first)
-
-| Category | Type | Products |
-|---|---|---|
-| `pantry-staples` | leaf | 72 |
-| `mexican-sauces` | leaf | 40 |
-| `mexican-candy` | leaf | 24 |
-| `chocolate-bars` | leaf | 18 |
-| `chilis` | leaf | 10 |
-| `flours` | department | 7 |
-| `merchandise` | department | 7 |
-| `chocolate-boxes` | leaf | 7 |
-| `teddy-bear` | leaf | 5 |
-| `mexican-pantry` | department | 0 (consider deleting) |
+chicharrón (Ruffles, Churritos, Chicharron, Tortilla Chips), not candy. And
+`mexican-pantry` has no products of its own (consider deleting it).
 
 **Not an issue (corrected from the first audit):**
 - **Product SEO images:** none of the 256 are set, but link previews fall back to
   the product's main photo (`src/app/(frontend)/products/[slug]/page.tsx:49-52`).
-- **Testimonial, region and brand images:** all empty, but the site never
-  displays these fields. Filling them in would change nothing.
+- **Testimonial and region images:** all empty, but the site never displays
+  these fields. Filling them in would change nothing. (Brand logos *are* shown:
+  see the Brands row above.)
 
 ---
 
-## 5. Missing images: static page placeholders
+## 5. Static page images: all 30 empty slots filled on 2026-10-04
 
 Each static page declares its images in a `MEDIA` object at the top of its file.
-A slot set to `src: null` shows the designed `<ImagePlaceholder>` instead of a
-photo. There are 30 empty slots. To fill one, add the file under
-`public/images/...` and set its `src`. The label gives the aspect ratio the image
-needs.
+The 30 slots that showed the hatched `<ImagePlaceholder>` all have photos now,
+in the Vendors (8), Sustainability (6), Sourcing (5), Experience (4), About (2),
+B2B (2), Retail (2) and Contact (1) pages. Sources: 13 Unsplash, 14 Pexels and
+3 from the April branch (6.4). Each photo's source page and photographer are in
+`md/site-image-sources.json`. Neither licence requires a credit.
 
-| Page | File | Empty slots |
-|---|---|---|
-| Vendors | `src/components/sections/VendorsPageClient.tsx` | **8 of 8.** Hero (4:3), Producers (16:9), Fisheries & aquaculture (16:9), Processors (16:9), Aggregators & export (16:9), Cold chain & logistics (16:9), Partnership philosophy, Supplier development |
-| Sustainability | `src/components/sections/SustainabilityPageClient.tsx` | **6.** Environmental (4:3), Social (4:3), Resource efficiency (16:9), Quote backdrop, Fair & ethical practices (16:9), Inclusive supply chains (16:9) |
-| Sourcing | `src/components/sections/SourcingPageClient.tsx` | **5.** Measured expansion (16:9), Quality verification (4:5), Environmental responsibility (16:9), Social impact (16:9), Supplier partnership (4:3) |
-| Experience | `src/components/sections/ExperiencePageClient.tsx` | **4.** Cultivation (4:3), Harvest (4:3), Vineyards & estates (16:9), Processing & cold chain (16:9) |
-| About | `src/components/sections/AboutPageClient.tsx` | **2.** Apiary (4:3), Harvest (4:3). The 5 team photos come from the Team collection (section 4). |
-| B2B Solutions | `src/components/sections/B2BSolutionsPageClient.tsx` | **2.** Quality verification, Contract supply (16:9) |
-| Retail | `src/components/sections/RetailPageClient.tsx` | **2.** Mature markets (16:9), Growth markets (16:9) |
-| Contact | `src/components/sections/ContactPageClient.tsx` | **1.** Operating regions |
+Slots with a fixed `ratio` were cropped to it at the size in
+`md/image-manifest.md` §2. Slots whose height comes from the layout, such as
+the full-width bands and the sticky side columns, kept the photo's shape at
+2560px, because they render at different ratios on phone and desktop. Every new
+slot has alt text, except the three decorative backdrops under text.
 
-The Shipping, Policies, Recipes and Brands pages have all their images.
-
-**Photos that may already exist:** the unmerged branch `copilot/vscode-mnmtnn44-cy9s`
-(6.4) has 64 photos that aren't in the current code. They include 8 under
-`public/images/vendor/` (farm, farm road, olive farm, paddy field, grapes,
-processing, a person, a woman) and 7 under `public/images/sourcing/` (farmer,
-plant engineers, processing, factory, conveyor, pallet). Check those before
-sourcing new ones for the Vendors and Sourcing slots.
+Worth a look:
+- **Four photos drift from the doc's brief, because no clean match existed:**
+  - Vendors marine shows a fish auction hall, not boats at a quay.
+  - Aggregators shows sacks, not palletised cartons.
+  - Inclusive supply chains shows a field, not a market.
+  - Retail mature markets shows a deli, not a supermarket aisle. Every aisle
+    photo showed legible brands.
+- **Vendors processors** is the April branch's `sourcing-factory-a.avif`. Its
+  source isn't recorded, so check it before relying on it.
+- **Stale labels:** the Experience origin pair renders at 4:5, although the doc
+  and the old labels said 4:3. The labels are corrected.
+- **Not slots:** `about-founder` in the doc is a Team photo (section 4), and
+  the doc's broken `pasta.avif` reference no longer exists in the code.
 
 ---
 
@@ -293,7 +370,9 @@ changes 146 files and adds about 22,000 lines that exist nowhere else:
 - a `/commercial` page and a `/vendors/apply` page
 - a `ShopProductCard` and loading skeletons
 - a testimonials seed
-- 64 photos (section 5)
+- 64 photos. All were checked on 2026-10-04: most are already live under new
+  names, 3 more now fill page slots (section 5), and the rest were rejected for
+  legible third-party brands
 
 It branched off `master` in March, before the Stripe work, so it will conflict
 heavily with the current code. Decide what to salvage from it: at minimum the
@@ -305,6 +384,42 @@ it would lose all of this for good.
   differences against each supplier's store.
 - `pnpm fix:catalogue-2026-09-25`: the stock, category-image and orphaned-media
   fixes from sections 2–4. Supports `--dry-run` and is safe to run twice.
+- `pnpm tsx md/scripts/fix-brands-2026-10-04.ts [--apply]`: the brand fixes in
+  3.7. A dry run by default. Running it again changes nothing.
+- `pnpm images:audit`: a read-only list of products whose first photo looks bad
+  in the product card (3.5). Run it after any import.
+- `pnpm images:fix [--dry-run --preview=<dir>] --dir=<sources>`: applies
+  `md/scripts/product-image-fixes.json`, creating exact 1200×1200 squares
+  (re-crop, cut-out on cream, or a ready-made file). It skips anything already
+  done, and logs each gallery's before and after.
+- `pnpm images:site <file> images/<path> [--ratio=16:9 --width=1600]`: uploads a
+  static site image to R2 (6.6), cropped and sized on the way. `--manifest=` does
+  many at once, and `--dry-run` previews.
+- `md/scripts/set-cms-images-2026-10-04.ts`: the category art and supplier logos
+  from section 4. Running it again changes nothing.
+
+### 6.6 Static images load from R2 (2026-10-04)
+Every `/images/...` path in `src/` now goes through `siteImage()`
+(`src/lib/site-image.ts`), which points it at `<R2_PUBLIC_URL>/site/images/...`.
+`next.config.ts` passes the bucket URL to client code as `NEXT_PUBLIC_MEDIA_URL`,
+copied from `R2_PUBLIC_URL`, so nothing new needs setting in Vercel. The 71
+existing files were uploaded scaled to at most 2560px, which cut them from
+112 MB to 20 MB with no visible loss at 100%.
+- **`public/images/` is still in the repo but the site no longer reads it.**
+  Deleting it takes 112 MB out of every deploy. Two old one-off scripts read it:
+  `md/scripts/recover-media.ts` and `pnpm seed:collection-images`. Git holds the
+  only full-resolution originals.
+- **New page art goes to R2:** `pnpm images:site <file> images/<path>`. A file
+  dropped into `public/images/` won't show.
+- **`pnpm media:cleanup` skips the `site/` prefix.** It used to report
+  everything that wasn't a media row as a stray, and with `--strays` it would
+  have deleted these files.
+- **The bucket is served from its `r2.dev` URL,** which Cloudflare rate-limits
+  and doesn't recommend for production. Most images go through next/image, so
+  R2 sees few requests. The logo SVG and favicon load straight from it, though.
+  Connecting a custom domain (for example `media.deliciousplanet.co`) and
+  pointing `R2_PUBLIC_URL` at it fixes this, but needs the domain's DNS on
+  Cloudflare.
 
 ---
 
@@ -313,8 +428,10 @@ it would lose all of this for good.
 1. Run `pnpm fix:catalogue-2026-09-25 --dry-run`, then run it for real (section 2).
 2. Decide whether our prices follow Intermex's (1.1).
 3. DNS: SPF and DMARC (1.2, 1.3). About five minutes at Namecheap.
-4. Decide what to salvage from the April branch, starting with its photos
-   (6.4, section 5).
-5. Ask Intermex about the two Pasilla listings, the 0.00 guacamole price and the
-   discontinued tortilla (3.1, section 2).
-6. Everything else as time allows.
+4. Decide what to salvage from the April branch: the translations, pages and
+   components. Its photos have been dealt with (6.4).
+5. Ask Intermex about the two Pasilla listings, the 0.00 guacamole price, the
+   discontinued tortilla (3.1, section 2), and the product photos in 3.5: the
+   apricot/peach and rice titles, plus photos of their own packs.
+6. Team photos for the About page (section 4). They must be the real people.
+7. Everything else as time allows.

@@ -1744,11 +1744,15 @@ export interface Banner {
    */
   image?: (number | null) | Media;
   /**
+   * Optional. Shows this product’s photo, name and price beside the text. Ignored on the strip variant. With no link below, the banner links to the product.
+   */
+  product?: (number | null) | Product;
+  /**
    * e.g. "Shop now".
    */
   ctaLabel?: string | null;
   /**
-   * e.g. /products?dietary=halal
+   * e.g. /products?dietary=halal. Left blank, it falls back to the featured product, then to /products.
    */
   ctaHref?: string | null;
   /**
@@ -2673,6 +2677,7 @@ export interface BannersSelect<T extends boolean = true> {
   heading?: T;
   subheading?: T;
   image?: T;
+  product?: T;
   ctaLabel?: T;
   ctaHref?: T;
   active?: T;

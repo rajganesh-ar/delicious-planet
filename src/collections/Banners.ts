@@ -76,11 +76,27 @@ export const Banners: CollectionConfig = {
       relationTo: 'media',
       admin: { description: 'Optional. Without one the banner uses a solid brand background.' },
     },
+    {
+      // A relationship rather than a second upload: the panel reads the
+      // product's own photo, name and price, so the banner never advertises a
+      // price the catalogue has since changed.
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      filterOptions: { _status: { equals: 'published' } },
+      admin: {
+        description:
+          'Optional. Shows this product’s photo, name and price beside the text. Ignored on the strip variant. With no link below, the banner links to the product.',
+      },
+    },
     { name: 'ctaLabel', type: 'text', admin: { description: 'e.g. "Shop now".' } },
     {
       name: 'ctaHref',
       type: 'text',
-      admin: { description: 'e.g. /products?dietary=halal' },
+      admin: {
+        description:
+          'e.g. /products?dietary=halal. Left blank, it falls back to the featured product, then to /products.',
+      },
     },
     {
       name: 'active',

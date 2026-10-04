@@ -4,11 +4,12 @@ import * as migration_20260901_190000_regions_collection from './20260901_190000
 import * as migration_20260901_200000_import_provenance from './20260901_200000_import_provenance';
 import * as migration_20260902_120000_team_collection from './20260902_120000_team_collection';
 import * as migration_20260902_130000_brand_marks from './20260902_130000_brand_marks';
-import * as migration_20260906_230000_partner_portal from './20260906_230000_partner_portal';
 import * as migration_20260906_190000_drop_media_og_size from './20260906_190000_drop_media_og_size';
 import * as migration_20260906_210000_site_settings_notifications from './20260906_210000_site_settings_notifications';
 import * as migration_20260906_213000_order_fulfilment from './20260906_213000_order_fulfilment';
 import * as migration_20260906_223000_fulfilment_role from './20260906_223000_fulfilment_role';
+import * as migration_20260906_230000_partner_portal from './20260906_230000_partner_portal';
+import * as migration_20261004_134814_banner_product from './20261004_134814_banner_product';
 
 export const migrations = [
   {
@@ -65,5 +66,10 @@ export const migrations = [
     up: migration_20260906_230000_partner_portal.up,
     down: migration_20260906_230000_partner_portal.down,
     name: '20260906_230000_partner_portal',
+  },
+  {
+    up: migration_20261004_134814_banner_product.up,
+    down: migration_20261004_134814_banner_product.down,
+    name: '20261004_134814_banner_product'
   },
 ];

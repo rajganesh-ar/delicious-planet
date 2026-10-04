@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { FadeIn } from '@/components/animations/FadeIn'
+import { siteImage } from '@/lib/site-image'
 
 export function StoryBanner() {
   return (
@@ -8,7 +9,7 @@ export function StoryBanner() {
       <FadeIn>
           <div className="relative overflow-hidden rounded-sm bg-obsidian min-h-65 md:min-h-80 lg:min-h-90 flex items-center">
             <Image
-              src="/images/misc/philosophy.avif"
+              src={siteImage('/images/misc/philosophy.avif')}
               alt=""
               fill
               sizes="100vw"

@@ -18,6 +18,16 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_MEDIA_URL: process.env.R2_PUBLIC_URL ?? '',
   },
   images: {
+    // Serve every image straight from R2 instead of through Vercel's optimizer.
+    // Every remote image counted against the project's Vercel Image
+    // Optimization allowance. Once that ran out, each transform not already
+    // cached returned 402 (`x-vercel-error:
+    // OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED`), so newly uploaded images
+    // broke while old ones kept working from cache. Nothing is lost here:
+    // Payload already writes WebP renditions on upload (thumbnail 400, card
+    // 800, hero 1920 — see Media.ts imageSizes), and the components pick
+    // those, not the originals. The patterns below still validate URLs.
+    unoptimized: true,
     localPatterns: [
       // Static site images live in R2 too (src/lib/site-image.ts); this only
       // covers the bare `/images/...` path siteImage() falls back to when

@@ -4,7 +4,7 @@ Every image the site loads, the size to deliver it at, and the `alt` it should
 carry. Generated from the code, not from the design deck — each row maps to a
 real `src` in `src/`.
 
-> Supersedes `md/required-images.md`, which lists filenames (`hero-sourcing.avif`,
+> Supersedes `md/archive/required-images.md`, which lists filenames (`hero-sourcing.avif`,
 > `pillar-quality.avif`, …) that no longer match the code.
 
 ---

@@ -1,0 +1,410 @@
+{
+  "categories": [
+    {
+      "slug": "chocolate-bars",
+      "file": "photos/C/cat-chocolate-bars-alt.jpg",
+      "sourceUrl": "https://unsplash.com/photos/a-pile-of-chocolate-sitting-on-top-of-a-piece-of-paper-kNw0fPSsRvc",
+      "alt": "Stacked dark chocolate bars and broken squares with a cocoa-pod emboss on crumpled parchment over dark blue wood."
+    },
+    {
+      "slug": "mexican-sauces",
+      "file": "photos/C/cat-mexican-sauces.jpg",
+      "sourceUrl": "https://unsplash.com/photos/a-plate-of-chips-salsa-and-guacamole-on-a-table-GH4wbLUCYMg",
+      "alt": "Overhead view of a bowl of red salsa on a platter of tortilla chips, surrounded by green salsa verde, guacamole, queso and chopped onion on grey stone."
+    },
+    {
+      "slug": "pantry-staples",
+      "file": "photos/C/cat-pantry-staples.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/sacks-of-beans-and-grains-in-the-market-13612369/",
+      "alt": "An open burlap sack of speckled dried pinto beans in front of sacks of red lentils and grains."
+    },
+    {
+      "slug": "mexican-candy",
+      "file": "photos/C/cat-mexican-candy.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/colorful-display-of-assorted-sweets-in-mexico-city-market-37829753/",
+      "alt": "Tubs of colourful loose candy at a Mexico City market stall: rainbow sour belts, twisted gummy worms, sugared green-and-purple straws, fruit gummies and gummy bears."
+    },
+    {
+      "slug": "north-african-pantry",
+      "file": "photos/F/north-african-pantry.jpg",
+      "sourceUrl": "https://unsplash.com/photos/a-table-with-food-on-it-4Tgjeh1fWCc",
+      "alt": "A low Moroccan table laid with salads, orange slices, olives, small clay bowls and round flatbreads in front of a cushioned banquette."
+    },
+    {
+      "slug": "north-african-pasta-grains",
+      "file": "photos/F/north-african-pasta-grains-alt.jpg",
+      "sourceUrl": "https://unsplash.com/photos/a-variety-of-beans-and-cereals-in-trays-TRwU_MgG1sQ",
+      "alt": "Square metal trays of dried pulses and grains, from mung beans and lentils to maize and red beans, at a market."
+    },
+    {
+      "slug": "north-african-canned",
+      "file": "photos/F/north-african-canned.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/fresh-tuna-and-tomato-salad-with-herbs-38681231/",
+      "alt": "Flaked tuna on sliced ripe tomatoes topped with red onion rings, pickled peppers and parsley on a metal platter."
+    },
+    {
+      "slug": "north-african-sauces",
+      "file": "photos/F/north-african-sauces-alt.jpg",
+      "sourceUrl": "https://unsplash.com/photos/red-chili-paste-in-a-white-bowl-gie59CNUoqY",
+      "alt": "A white bowl heaped with coarse red chilli paste on a woven mat."
+    },
+    {
+      "slug": "north-african-seasonings",
+      "file": "photos/F/north-african-seasonings.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/chickpea-soup-with-vegetables-in-white-bowl-33597401/",
+      "alt": "A bowl of chickpea and vermicelli soup with tomato and courgette, chorba-style, on a patterned placemat."
+    },
+    {
+      "slug": "north-african-baking",
+      "file": "photos/F/north-african-baking.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/traditional-moroccan-sweets-on-a-beautiful-big-plate-18077172/",
+      "alt": "A hand holds a painted Moroccan platter of pastries: ring biscuits, crescent cookies, rolled filo cigars, macaroons and white meringues."
+    },
+    {
+      "slug": "north-african-spreads",
+      "file": "photos/F/north-african-spreads.jpg",
+      "sourceUrl": "https://unsplash.com/photos/a-wooden-cutting-board-topped-with-slices-of-bread-and-jam-EcnfRSLJtOA",
+      "alt": "Slices of baguette spread thickly with orange-apricot jam on a wooden board, with a spoon and a jam jar behind."
+    },
+    {
+      "slug": "north-african-coffee-tea",
+      "file": "photos/F/north-african-coffee-tea.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/traditional-moroccan-tea-ceremony-in-draa-tafilalet-31497982/",
+      "alt": "Mint tea is poured from high into rows of gold-patterned Moroccan tea glasses on a silver tray."
+    },
+    {
+      "slug": "north-african-snacks",
+      "file": "photos/F/north-african-snacks.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/chocolate-wafers-and-bars-on-a-bucket-12430678/",
+      "alt": "Chocolate-coated wafer bars and a broken slab of dark chocolate piled in a small metal pail."
+    },
+    {
+      "slug": "curated-fine-beverages",
+      "file": "photos/F/curated-fine-beverages.jpg",
+      "sourceUrl": "https://www.pexels.com/photo/refreshing-agua-de-jamaica-drink-with-hibiscus-37228408/",
+      "alt": "A tall glass of iced ruby-red hibiscus drink on a white board, with dried hibiscus flowers and a halved citrus around it."
+    }
+  ],
+  "brands": [
+    {
+      "slug": "la-costena",
+      "file": "logos/1/la-costena.svg",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9e/La_Coste%C3%B1a_logo.svg"
+    },
+    {
+      "slug": "intermex",
+      "file": "logos/1/intermex.png",
+      "sourceUrl": "https://intermexuae.com/cdn/shop/files/YELLOW_PNG.png?v=1749546480"
+    },
+    {
+      "slug": "el-yucateco",
+      "file": "logos/1/el-yucateco.png",
+      "sourceUrl": "https://static.wixstatic.com/media/3aa6d8_340f58474ad148d18809a86857ac0204~mv2.png"
+    },
+    {
+      "slug": "la-meridana",
+      "file": "logos/1/la-meridana.png",
+      "sourceUrl": "https://www.lameridana.com/wp-content/uploads/2020/09/logo-webretina.png"
+    },
+    {
+      "slug": "jarritos",
+      "file": "logos/1/jarritos.png",
+      "sourceUrl": "https://jarritos.com/wp-content/uploads/2025/03/Jarritos_logo.png"
+    },
+    {
+      "slug": "la-conspiracion",
+      "file": "logos/1/la-conspiracion.svg",
+      "sourceUrl": "https://conspiraciondesabor.com/wp-content/uploads/2025/10/lk0g0.svg"
+    },
+    {
+      "slug": "el-fresno",
+      "file": "logos/1/el-fresno.png",
+      "sourceUrl": "https://empacadoraelfresno.com.mx/wp-content/uploads/2021/12/logo.png"
+    },
+    {
+      "slug": "marinela",
+      "file": "logos/1/marinela.svg",
+      "sourceUrl": "https://marinela-com-mx-assets.s3.amazonaws.com/s3fs-public/images/svgs/2023-06/marinela_logo_azul.svg?VersionId=e6O7UTpzmPslKIz0r0vvhWsu2nU.QEmQ"
+    },
+    {
+      "slug": "pepe-crunch",
+      "file": "logos/1/pepe-crunch.png",
+      "sourceUrl": "https://pepito.company/sites/default/files/logos/pepecrunch_logo_0.png"
+    },
+    {
+      "slug": "cholula",
+      "file": "logos/1/cholula.png",
+      "sourceUrl": "https://www.mccormick.com/cdn/shop/files/cholula-logo_aa5b5ba5-cb17-467a-a58b-bfe560ca6775.png"
+    },
+    {
+      "slug": "hungry-guru",
+      "file": "logos/1/hungry-guru.svg",
+      "sourceUrl": "https://assets.zyrosite.com/ncsOZRkQSSEcPDwm/hungry-guru-logo-horizontal-2-DQ2ACRo8LN1IOgeC.svg"
+    },
+    {
+      "slug": "inzi",
+      "file": "logos/1/inzi.png",
+      "sourceUrl": "https://inzieats.com/cdn/shop/files/Nachos_Churritos_curv.png?v=1758606061"
+    },
+    {
+      "slug": "sterilgarda",
+      "file": "logos/1/sterilgarda.png",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Sterilgarda_logo.png"
+    },
+    {
+      "slug": "kolios",
+      "file": "logos/1/kolios.png",
+      "sourceUrl": "https://kolios.gr/wp-content/uploads/2018/06/KOLIOS-LOGO-retina-1.png"
+    },
+    {
+      "slug": "maseca",
+      "file": "logos/1/maseca.png",
+      "sourceUrl": "https://www.maseca.com.mx/media/1911/logo_maseca-2x.png"
+    },
+    {
+      "slug": "valentina",
+      "file": "logos/1/valentina.svg",
+      "sourceUrl": "https://www.salsavalentina.com/images/logo_valentina.svg"
+    },
+    {
+      "slug": "xatze",
+      "file": "logos/1/xatze.png",
+      "sourceUrl": "https://www.xatze.mx/wp-content/uploads/2024/05/logotipo.png"
+    },
+    {
+      "slug": "clemente-jacques",
+      "file": "logos/1/clemente-jacques.png",
+      "sourceUrl": "https://www.clementejacques.com.mx/wp-content/uploads/2025/09/logo-clemente.png"
+    },
+    {
+      "slug": "de-la-rosa",
+      "file": "logos/1/de-la-rosa.svg",
+      "sourceUrl": "https://tiendadelarosa.com/cdn/shop/files/img-logo-de-la-rosa-01.svg?v=1773628629"
+    },
+    {
+      "slug": "dona-maria",
+      "file": "logos/1/dona-maria.png",
+      "sourceUrl": "https://grupoherdez.com.mx/api/media/25f7bc14e68fb4981b388247f4e5107067cfe1f0_5a60434260_7f544476d7/25f7bc14e68fb4981b388247f4e5107067cfe1f0_5a60434260_7f544476d7.png"
+    },
+    {
+      "slug": "el-chilerito",
+      "file": "logos/1/el-chilerito.png",
+      "sourceUrl": "https://www.elchilerito.com/wp-content/uploads/2025/08/logo-el-chilerito-1.png"
+    },
+    {
+      "slug": "el-mexicano",
+      "file": "logos/1/el-mexicano.png",
+      "sourceUrl": "https://elmexicano.net/wp-content/uploads/2014/10/logomexweb_75.png"
+    },
+    {
+      "slug": "la-sierra",
+      "file": "logos/1/la-sierra.png",
+      "sourceUrl": "https://lasierra.com.mx/Pop/MySite/img/logo-lasierra.png"
+    },
+    {
+      "slug": "lucas",
+      "file": "logos/1/lucas.svg",
+      "sourceUrl": "https://www.lucas.com.mx/sites/g/files/fnmzdf1681/files/Lucas_logo.svg"
+    },
+    {
+      "slug": "maggi",
+      "file": "logos/1/maggi.svg",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/8/83/Maggi_logo.svg"
+    },
+    {
+      "slug": "olympus",
+      "file": "logos/2/olympus.svg",
+      "sourceUrl": "https://www.olympusfoods.com/assets/img/logo.svg"
+    },
+    {
+      "slug": "ruffles",
+      "file": "logos/2/ruffles.png",
+      "sourceUrl": "https://www.sabritas.com.mx/storage/images/brands/Logo_Ruffles.png"
+    },
+    {
+      "slug": "tajin",
+      "file": "logos/2/tajin.svg",
+      "sourceUrl": "https://www.tajin.com/resources/images/theme/tajin-logo.svg"
+    },
+    {
+      "slug": "tama-roca",
+      "file": "logos/2/tama-roca.svg",
+      "sourceUrl": "https://tamaroca.com/wp-content/uploads/2023/09/logo_tamaroca.svg"
+    },
+    {
+      "slug": "abuelita",
+      "file": "logos/2/abuelita.png",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/en/0/06/Abuelita_chocolate_logo.png"
+    },
+    {
+      "slug": "castello",
+      "file": "logos/2/castello.png",
+      "sourceUrl": "https://cdn.castellocheese.com/4a499c/globalassets/castello_logo_rgb.png"
+    },
+    {
+      "slug": "clamato",
+      "file": "logos/2/clamato.png",
+      "sourceUrl": "https://www.clamato.com/img/clamato-logo-large.png"
+    },
+    {
+      "slug": "excelsior",
+      "file": "logos/2/excelsior.png",
+      "sourceUrl": "https://quesosexcelsior.com/wp-content/uploads/2022/05/cropped-logo-excelsior_Mesa-de-trabajo-1_Mesa-de-trabajo-1.png"
+    },
+    {
+      "slug": "fritos",
+      "file": "logos/2/fritos.png",
+      "sourceUrl": "https://digitalassets.pepsico.com/asset/524e1e02-8630-4660-8ddb-0367761be20d/Presentation-PNG/fritos-full-offwhite.png"
+    },
+    {
+      "slug": "herdez",
+      "file": "logos/2/herdez.svg",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/3/35/Herdez_logo.svg"
+    },
+    {
+      "slug": "maruchan",
+      "file": "logos/2/maruchan.jpg",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Maruchan_Inc_Logo.jpg"
+    },
+    {
+      "slug": "mayamel",
+      "file": "logos/2/mayamel.jpg",
+      "sourceUrl": "https://mayamel.mx/wp-content/uploads/2021/11/NUEVO_LOGOMAYAMEL-min.jpg"
+    },
+    {
+      "slug": "mccormick",
+      "file": "logos/2/mccormick.png",
+      "sourceUrl": "https://www.mccormick.mx/static/media/Logo_McCormick.d7df3bd84fd8be589fb8.png"
+    },
+    {
+      "slug": "montes",
+      "file": "logos/2/montes.svg",
+      "sourceUrl": "https://montes.com.mx/wp-content/uploads/2024/03/logo-montes.svg"
+    },
+    {
+      "slug": "omalli",
+      "file": "logos/2/alternates/omalli-color-small.png",
+      "sourceUrl": "https://www.omalli.mx/img/omalli_logo.png"
+    },
+    {
+      "slug": "valle-verde",
+      "file": "logos/2/valle-verde.svg",
+      "sourceUrl": "https://verdevalle.com.mx/img/logotipo.svg"
+    },
+    {
+      "slug": "vero",
+      "file": "logos/2/vero.png",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Dulces_Vero.png"
+    },
+    {
+      "slug": "bimo",
+      "file": "logos/3/bimo.png",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/9/94/Logo-bimo.png"
+    },
+    {
+      "slug": "nouara",
+      "file": "logos/3/nouara.png",
+      "sourceUrl": "https://www.nouara.com/img/464045763-10161865788882920-4375438777237999249-n-1.png"
+    },
+    {
+      "slug": "moment",
+      "file": "logos/3/moment.png",
+      "sourceUrl": "https://palmaryfood.com/wp-content/uploads/2024/05/Plan-de-travail-4@3x.png"
+    },
+    {
+      "slug": "isabel",
+      "file": "logos/3/isabel.png",
+      "sourceUrl": "https://www.isabel.net/wp-content/uploads/2024/02/logo_isabel.png"
+    },
+    {
+      "slug": "lesieur",
+      "file": "logos/3/lesieur.png",
+      "sourceUrl": "https://www.lesieur.fr/sites/default/files/2023-11/LOGO%20LESIEUR%202020%20HD.png"
+    },
+    {
+      "slug": "jumbo",
+      "file": "logos/3/jumbo.svg",
+      "sourceUrl": "https://gbprodjumboalgeriacdn-axf9f7hfcbdvgrcq.a03.azurefd.net/files/theme/img/header/Jumbo-Logo.svg"
+    },
+    {
+      "slug": "ricamar",
+      "file": "logos/3/ricamar.png",
+      "sourceUrl": "https://raja-food.com/wp-content/uploads/2022/03/ricamar-prem.png"
+    },
+    {
+      "slug": "garrido",
+      "file": "logos/3/garrido.png",
+      "sourceUrl": "https://garrido.dz/wp-content/themes/garrido/images/logo-garrido.png"
+    },
+    {
+      "slug": "el-sanoubar",
+      "file": "logos/3/el-sanoubar.png",
+      "sourceUrl": "https://graph.facebook.com/elsanoubar/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "labelle",
+      "file": "logos/3/labelle.png",
+      "sourceUrl": "https://www.groupelabelle.dz/wp-content/uploads/2025/05/Logo-Labelle.png"
+    },
+    {
+      "slug": "aroma-cafe",
+      "file": "logos/3/aroma-cafe.png",
+      "sourceUrl": "https://graph.facebook.com/AromaCafeDZ/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "cafe-1001",
+      "file": "logos/3/cafe-1001.png",
+      "sourceUrl": "https://graph.facebook.com/cafe1001dz/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "bonal",
+      "file": "logos/3/bonal.png",
+      "sourceUrl": "https://www.groupelabelle.dz/wp-content/uploads/2025/02/bonal-1.png"
+    },
+    {
+      "slug": "moula",
+      "file": "logos/3/moula.png",
+      "sourceUrl": "https://emploitic.com/images/logos/arn:eu-west-1:oss::acea5af85eddf6631463bf90:logo:662992dcb5d95b7345366755"
+    },
+    {
+      "slug": "medina",
+      "file": "logos/3/medina.png",
+      "sourceUrl": "https://www.cevital-agro-industrie.com/wp-content/uploads/2023/03/medina.png"
+    },
+    {
+      "slug": "sol",
+      "file": "logos/3/sol.png",
+      "sourceUrl": "https://www.mateg.net/gallery_gen/be20eb2a3ca57d644d819b8b2a6779e3_280x180.png"
+    },
+    {
+      "slug": "daily-sauce",
+      "file": "logos/3/daily-sauce.png",
+      "sourceUrl": "https://graph.facebook.com/DailySauceDz/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "sim",
+      "file": "logos/3/sim.png",
+      "sourceUrl": "https://groupesim.com/wp-content/uploads/2021/08/Logo-Groupe-Sim-removebg-preview.png"
+    },
+    {
+      "slug": "telloise",
+      "file": "logos/3/telloise.png",
+      "sourceUrl": "https://graph.facebook.com/Telloise.02/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "dreamy",
+      "file": "logos/3/dreamy.png",
+      "sourceUrl": "https://graph.facebook.com/dreamy.dz/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "el-fawaha",
+      "file": "logos/3/el-fawaha.png",
+      "sourceUrl": "https://graph.facebook.com/fawahaofficiel/picture?width=1000&height=1000"
+    },
+    {
+      "slug": "el-aila",
+      "file": "logos/3/el-aila.png",
+      "sourceUrl": "https://graph.facebook.com/DioulsElAyla/picture?width=1000&height=1000"
+    }
+  ]
+}

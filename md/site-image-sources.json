@@ -1,5 +1,5 @@
 {
-  "note": "Where each static page photo added on 2026-10-04 came from. Unsplash and Pexels licences allow commercial use without credit; april-branch files come from origin/copilot/vscode-mnmtnn44-cy9s.",
+  "note": "Where each static page photo added from 2026-10-04 on came from. Unsplash and Pexels licences allow commercial use without credit; april-branch files come from origin/copilot/vscode-mnmtnn44-cy9s.",
   "images": [
     {
       "key": "site/images/vendor/vendor-hero.avif",
@@ -270,6 +270,415 @@
       "sourcePage": "https://unsplash.com/photos/M3yYOCob6kE",
       "photographer": "CHUTTERSNAP",
       "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)"
+    },
+    {
+      "key": "site/images/home/hero-world-flavours.avif",
+      "page": "home",
+      "slot": "hero-1",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/orange-and-red-spices-on-street-market-5504603/",
+      "photographer": "Mike van Schoonderwalt",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/home/hero-producers.avif",
+      "page": "home",
+      "slot": "hero-2",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/a-woman-holding-lettuce-and-cauliflower-7456786/",
+      "photographer": "Kindel Media",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/home/hero-collections.avif",
+      "page": "home",
+      "slot": "hero-3",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/assorted-cheese-and-nuts-on-the-wooden-platter-7799695/",
+      "photographer": "Anna Pyshniuk",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/home/experience-curated.avif",
+      "page": "home",
+      "slot": "exp-1",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/person-holding-silver-spoon-and-white-ceramic-bowl-KYiOK4gy9jA",
+      "photographer": "Nathan Dumlao",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/home/experience-source-to-table.avif",
+      "page": "home",
+      "slot": "exp-2",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/basket-of-freshly-dug-colorful-carrots-15698595/",
+      "photographer": "Antigoni Pavlaki",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/home/experience-cooks.avif",
+      "page": "home",
+      "slot": "exp-3",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/a-woman-cooking-food-in-a-frying-pan-on-a-stove-P3ifwJoTS5E",
+      "photographer": "Olivier Amyot",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/italian.avif",
+      "page": "recipes",
+      "slot": "recipes-italian",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/pasta-dish-on-white-ceramic-plate-84qvBiHrWgg",
+      "photographer": "Hamideh Jafari",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/mediterranean.avif",
+      "page": "recipes",
+      "slot": "recipes-mediterranean",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/grilled-fish-with-vegetable-salad-on-white-ceramic-plate-N8-bMqUMS8g",
+      "photographer": "Alex Teixeira",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/bakery.avif",
+      "page": "recipes",
+      "slot": "recipes-bakery",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/view-of-baked-bread-on-jute-kU7TkW9FIJY",
+      "photographer": "Maria Orlova",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/professional-kitchen.avif",
+      "page": "recipes",
+      "slot": "recipes-professional",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/man-in-black-t-shirt-holding-stainless-steel-bowl-eBmyH7oO5wY",
+      "photographer": "Sebastian Coman Photography",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/vegetarian.avif",
+      "page": "recipes",
+      "slot": "recipes-vegetarian",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/a-white-plate-with-a-dish-of-food-on-it-27774175/",
+      "photographer": "Leonardo Aquino",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/fine-dining.avif",
+      "page": "recipes",
+      "slot": "recipes-fine-dining",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/pancake-with-cream-and-jam-26586605/",
+      "photographer": "Luiz Henrique Mendes",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/recipes/journal-band.avif",
+      "page": "recipes",
+      "slot": "recipes-cta",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/chef-creating-fiery-culinary-art-in-modern-kitchen-35841508/",
+      "photographer": "Alex Grandidier",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2020.avif",
+      "page": "about",
+      "slot": "timeline-2020",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/row-of-beehives-standing-in-an-apiary-10101599/",
+      "photographer": "Mahdi Hajimohammadi",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2021.avif",
+      "page": "about",
+      "slot": "timeline-2021",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/close-up-of-dried-fruits-10111853/",
+      "photographer": "Engin Akyurt",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2022.avif",
+      "page": "about",
+      "slot": "timeline-2022",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/olive-trees-on-a-hillside-below-a-rocky-mountain-YOlMK-_PM50",
+      "photographer": "Alexis Presa",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2023.avif",
+      "page": "about",
+      "slot": "timeline-2023",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/man-among-construction-materials-4484042/",
+      "photographer": "Tiger Lily",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2024.avif",
+      "page": "about",
+      "slot": "timeline-2024",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/rows-of-glass-jars-with-golden-lids-DZmt060T0E4",
+      "photographer": "Alexandr Popadin",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2025.avif",
+      "page": "about",
+      "slot": "timeline-2025",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/an-aerial-view-of-a-cargo-ship-in-the-ocean-0A7YwYhZhWw",
+      "photographer": "Bent Van Aeken",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/about/timeline-2026.avif",
+      "page": "about",
+      "slot": "timeline-2026",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/the-skyline-of-abu-dhabi-united-arab-emirates-19965889/",
+      "photographer": "YFS Visuals",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/brands/masthead.avif",
+      "page": "brands",
+      "slot": "brands-masthead",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/homemade-preserves-in-mason-jars-on-wooden-shelf-35567499/",
+      "photographer": "Yasin Onus",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/home/partner-sidebar.avif",
+      "page": "home",
+      "slot": "partner-sidebar",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/chef-plating-food-in-restaurant-kitchen-5SoVvOuxaOE",
+      "photographer": "Ximin Lin",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/nav/partner-card.avif",
+      "page": "home",
+      "slot": "partner-mega",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/corridor-between-piles-of-containers-in-storehouse-7513430/",
+      "photographer": "Bence Szemerey",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/auth/login.avif",
+      "page": "account",
+      "slot": "auth-login",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/assorted-cooking-spices-2802527/",
+      "photographer": "Shantanu Pal",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/auth/register.avif",
+      "page": "account",
+      "slot": "auth-register",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/clear-glass-cruet-bottle-uOBApnN_K7w",
+      "photographer": "Roberta Sorge",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/auth/forgot-password.avif",
+      "page": "account",
+      "slot": "auth-forgot",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/brown-coffee-beans-on-brown-wooden-surface-PDipEilB0b8",
+      "photographer": "Nathan Dumlao",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/auth/reset-password.avif",
+      "page": "account",
+      "slot": "auth-reset",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/close-up-of-nuts-and-fruit-10398524/",
+      "photographer": "Lichtscheune Media",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-05"
+    },
+    {
+      "key": "site/images/regions/algeria-maqam-echahid.avif",
+      "page": "home",
+      "slot": "region card: algeria",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/I6R7hNbmlf0",
+      "photographer": "Paulo Lopes",
+      "license": "Unsplash License: free commercial use, no attribution required"
+    },
+    {
+      "key": "site/images/sourcing/social-impact.avif",
+      "page": "sourcing",
+      "slot": "sourcing-social",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/traditional-harvesting-in-rural-morocco-30609509/",
+      "photographer": "Moussa Idrissi (Mographe)",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/sourcing/quality-verification.avif",
+      "page": "sourcing",
+      "slot": "sourcing-standards",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/african-woman-sorting-rice-in-woven-basket-31718293/",
+      "photographer": "Nannawa Badiya",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/sustainability/social.avif",
+      "page": "sustainability",
+      "slot": "sustainability-social",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/high-angle-view-of-women-wearing-traditional-clothing-grinding-seeds-with-stones-13812743/",
+      "photographer": "Ivan Dražić",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/sustainability/inclusive.avif",
+      "page": "sustainability",
+      "slot": "sustainability-inclusive",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/tunisian-farmer-selling-vegetables-27869951/",
+      "photographer": "Mahmoud Yahyaoui",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/sustainability/quote-band.avif",
+      "page": "sustainability",
+      "slot": "sustainability-quote",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/olive-groves-and-ancient-ruins-in-tunisia-29821261/",
+      "photographer": "Mahmoud Yahyaoui",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/experience/table-dish.avif",
+      "page": "experience",
+      "slot": "experience-dish",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/a-bowl-of-food-sitting-on-top-of-a-table-q11NM0cFFzY",
+      "photographer": "HamZa NOUASRIA",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/collections/fine-beverages.avif",
+      "page": "categories",
+      "slot": "curated-fine-beverages",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/refreshing-agua-de-jamaica-drink-with-hibiscus-37228408/",
+      "photographer": "Cristian Arteaga",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/about/origin-producer.avif",
+      "page": "about",
+      "slot": "about-origin",
+      "source": "unsplash",
+      "sourcePage": "https://unsplash.com/photos/man-holding-oranges-Fb1O51_hTdI",
+      "photographer": "Mika Ruusunen",
+      "license": "Unsplash License: free commercial use, no attribution required (served from images.unsplash.com, so not Unsplash+/plus.unsplash.com and not an iStock sponsored result)",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/about/regional-operations.avif",
+      "page": "about",
+      "slot": "about-reach",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/scenic-view-of-algiers-harbor-with-historic-shipping-36987449/",
+      "photographer": "Jean Marc Bonnel",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/retail/shelf-stable.avif",
+      "page": "retail",
+      "slot": "retail-shelf-stable",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/chickpeas-and-peas-27867131/",
+      "photographer": "Mahmoud Yahyaoui",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/retail/specialty.avif",
+      "page": "retail",
+      "slot": "retail-specialty",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/young-ethnic-guy-selling-fresh-berries-in-oriental-market-6313514/",
+      "photographer": "Piotr Arnoldes",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/retail/local-assortment.avif",
+      "page": "retail",
+      "slot": "retail-local",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/bustling-outdoor-market-in-sfax-tunisia-35829938/",
+      "photographer": "Memory Lane",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
+    },
+    {
+      "key": "site/images/vendor/processors.avif",
+      "page": "vendors",
+      "slot": "vendor-processors",
+      "source": "pexels",
+      "sourcePage": "https://www.pexels.com/photo/dates-on-production-line-11679691/",
+      "photographer": "Mark Stebnicki",
+      "license": "Pexels License: free commercial use, no attribution required",
+      "added": "2026-10-06"
     }
   ]
 }

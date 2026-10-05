@@ -547,5 +547,787 @@
     ],
     "mediaId": 996,
     "at": "2026-10-04T15:01:23.223Z"
+  },
+  {
+    "slug": "apricot-in-syrup-820g",
+    "productId": 187,
+    "before": [
+      614
+    ],
+    "after": [
+      997
+    ],
+    "mediaId": 997,
+    "at": "2026-10-04T19:03:03.842Z"
+  },
+  {
+    "slug": "chile-ancho-150g-whole-dried-chilies-intermex",
+    "productId": 342,
+    "before": [
+      937,
+      938
+    ],
+    "after": [
+      998,
+      938
+    ],
+    "mediaId": 998,
+    "at": "2026-10-04T19:32:04.450Z"
+  },
+  {
+    "slug": "blue-corn-masa-flour-maseca",
+    "productId": 194,
+    "before": [
+      621
+    ],
+    "after": [
+      999
+    ],
+    "mediaId": 999,
+    "at": "2026-10-04T19:32:21.113Z"
+  },
+  {
+    "slug": "assorted-mexican-candy-bag",
+    "productId": 155,
+    "before": [
+      576
+    ],
+    "after": [
+      1000
+    ],
+    "mediaId": 1000,
+    "at": "2026-10-04T19:32:38.405Z"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-cheese-flavour-500g",
+    "productId": 164,
+    "before": [
+      588
+    ],
+    "after": [
+      1001
+    ],
+    "mediaId": 1001,
+    "at": "2026-10-04T19:32:54.966Z"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-chipotle-flavour-500g",
+    "productId": 163,
+    "before": [
+      587
+    ],
+    "after": [
+      1002
+    ],
+    "mediaId": 1002,
+    "at": "2026-10-04T19:33:12.449Z"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-mango-flavour-500g",
+    "productId": 162,
+    "before": [
+      586
+    ],
+    "after": [
+      1003
+    ],
+    "mediaId": 1003,
+    "at": "2026-10-04T19:33:30.112Z"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-chilli-flavour-500g",
+    "productId": 165,
+    "before": [
+      589
+    ],
+    "after": [
+      1004
+    ],
+    "mediaId": 1004,
+    "at": "2026-10-04T19:33:47.029Z"
+  },
+  {
+    "slug": "white-corn-with-epazote-esquite-natural-con-epazote-1kg",
+    "productId": 168,
+    "before": [
+      592
+    ],
+    "after": [
+      1005
+    ],
+    "mediaId": 1005,
+    "at": "2026-10-04T19:34:04.413Z"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-habanero-flavour-500g",
+    "productId": 161,
+    "before": [
+      585
+    ],
+    "after": [
+      1006
+    ],
+    "mediaId": 1006,
+    "at": "2026-10-04T19:34:22.037Z"
+  },
+  {
+    "slug": "japanese-style-peanuts-30g",
+    "productId": 159,
+    "before": [
+      582
+    ],
+    "after": [
+      1007
+    ],
+    "mediaId": 1007,
+    "at": "2026-10-04T19:34:38.641Z"
+  },
+  {
+    "slug": "japanese-style-peanuts-with-valentina-sauce-30g",
+    "productId": 158,
+    "before": [
+      581
+    ],
+    "after": [
+      1008
+    ],
+    "mediaId": 1008,
+    "at": "2026-10-04T19:34:55.329Z"
+  },
+  {
+    "slug": "milky-bear",
+    "productId": 140,
+    "before": [
+      548,
+      549
+    ],
+    "after": [
+      1009,
+      549
+    ],
+    "mediaId": 1009,
+    "at": "2026-10-04T19:35:13.423Z"
+  },
+  {
+    "slug": "box-of-12-mixed-artisanal-bonbons",
+    "productId": 135,
+    "before": [
+      538,
+      539
+    ],
+    "after": [
+      1010,
+      539
+    ],
+    "mediaId": 1010,
+    "at": "2026-10-04T19:35:33.170Z"
+  },
+  {
+    "slug": "box-of-48-mixed-artisanal-bonbons",
+    "productId": 138,
+    "before": [
+      543,
+      544
+    ],
+    "after": [
+      1011,
+      544
+    ],
+    "mediaId": 1011,
+    "at": "2026-10-04T19:35:51.238Z"
+  },
+  {
+    "slug": "custom-chocolate-box",
+    "productId": 144,
+    "before": [
+      539,
+      559,
+      543
+    ],
+    "after": [
+      1012,
+      559,
+      543
+    ],
+    "mediaId": 1012,
+    "at": "2026-10-04T19:36:08.895Z"
+  },
+  {
+    "slug": "salted-caramel-collection-box-of-24",
+    "productId": 136,
+    "before": [
+      540,
+      541
+    ],
+    "after": [
+      1013,
+      541
+    ],
+    "mediaId": 1013,
+    "at": "2026-10-04T19:36:26.682Z"
+  },
+  {
+    "slug": "salted-caramel-crunchy-box-of-12",
+    "productId": 137,
+    "before": [
+      542,
+      541
+    ],
+    "after": [
+      1014,
+      541
+    ],
+    "mediaId": 1014,
+    "at": "2026-10-04T19:36:45.558Z"
+  },
+  {
+    "slug": "caramel-pistachio-delight-56g",
+    "productId": 132,
+    "before": [
+      527,
+      528,
+      529,
+      530
+    ],
+    "after": [
+      1015,
+      528,
+      529,
+      530
+    ],
+    "mediaId": 1015,
+    "at": "2026-10-04T19:37:05.064Z"
+  },
+  {
+    "slug": "caramel-pistachio-delight",
+    "productId": 115,
+    "before": [
+      475,
+      476,
+      477,
+      478
+    ],
+    "after": [
+      1016,
+      476,
+      477,
+      478
+    ],
+    "mediaId": 1016,
+    "at": "2026-10-04T19:37:25.120Z"
+  },
+  {
+    "slug": "dark-chocolate-70-with-hazelnut-roasted-40g",
+    "productId": 120,
+    "before": [
+      493,
+      494,
+      495,
+      496
+    ],
+    "after": [
+      1017,
+      494,
+      495,
+      496
+    ],
+    "mediaId": 1017,
+    "at": "2026-10-04T19:37:48.005Z"
+  },
+  {
+    "slug": "dark-chocolate-70-with-hazelnut-roasted-56g",
+    "productId": 131,
+    "before": [
+      523,
+      524,
+      525,
+      526
+    ],
+    "after": [
+      1018,
+      524,
+      525,
+      526
+    ],
+    "mediaId": 1018,
+    "at": "2026-10-04T19:38:06.553Z"
+  },
+  {
+    "slug": "milk-chocolate-almond-56g",
+    "productId": 119,
+    "before": [
+      489,
+      490,
+      491,
+      492
+    ],
+    "after": [
+      1019,
+      490,
+      491,
+      492
+    ],
+    "mediaId": 1019,
+    "at": "2026-10-04T19:38:26.670Z"
+  },
+  {
+    "slug": "milk-chocolate-almond-40g",
+    "productId": 116,
+    "before": [
+      479,
+      480,
+      481,
+      482
+    ],
+    "after": [
+      1020,
+      480,
+      481,
+      482
+    ],
+    "mediaId": 1020,
+    "at": "2026-10-04T19:38:46.858Z"
+  },
+  {
+    "slug": "ruby-chocolate-bar-with-roasted-crushed-pistachios-40g",
+    "productId": 128,
+    "before": [
+      515,
+      516,
+      517,
+      518
+    ],
+    "after": [
+      1021,
+      516,
+      517,
+      518
+    ],
+    "mediaId": 1021,
+    "at": "2026-10-04T19:39:07.154Z"
+  },
+  {
+    "slug": "ruby-chocolate-bar-with-roasted-crushed-pistachios-56g",
+    "productId": 117,
+    "before": [
+      483,
+      484,
+      485,
+      486
+    ],
+    "after": [
+      1022,
+      484,
+      485,
+      486
+    ],
+    "mediaId": 1022,
+    "at": "2026-10-04T19:39:26.389Z"
+  },
+  {
+    "slug": "sugar-free-dark-chocolate-bar-56g",
+    "productId": 124,
+    "before": [
+      503,
+      504,
+      505,
+      506
+    ],
+    "after": [
+      1023,
+      504,
+      505,
+      506
+    ],
+    "mediaId": 1023,
+    "at": "2026-10-04T19:39:45.532Z"
+  },
+  {
+    "slug": "sugar-free-dark-chocolate-bar-with-maltitol-40g",
+    "productId": 125,
+    "before": [
+      507,
+      508,
+      509,
+      510
+    ],
+    "after": [
+      1024,
+      508,
+      509,
+      510
+    ],
+    "mediaId": 1024,
+    "at": "2026-10-04T19:40:03.048Z"
+  },
+  {
+    "slug": "caramel-chocolate-with-roasted-crushed-pistachios",
+    "productId": 126,
+    "before": [
+      511,
+      512
+    ],
+    "after": [
+      1025,
+      512
+    ],
+    "mediaId": 1025,
+    "at": "2026-10-04T19:40:21.722Z"
+  },
+  {
+    "slug": "dark-chocolate-70-with-roasted-crushed-hazelnuts",
+    "productId": 127,
+    "before": [
+      513,
+      514
+    ],
+    "after": [
+      1026,
+      514
+    ],
+    "mediaId": 1026,
+    "at": "2026-10-04T19:40:41.024Z"
+  },
+  {
+    "slug": "milk-chocolate-with-roasted-crunched-almonds",
+    "productId": 123,
+    "before": [
+      501,
+      502
+    ],
+    "after": [
+      1027,
+      502
+    ],
+    "mediaId": 1027,
+    "at": "2026-10-04T19:41:00.324Z"
+  },
+  {
+    "slug": "ruby-chocolate-with-roasted-crushed-pistachios",
+    "productId": 122,
+    "before": [
+      499,
+      500
+    ],
+    "after": [
+      1028,
+      500
+    ],
+    "mediaId": 1028,
+    "at": "2026-10-04T19:41:18.114Z"
+  },
+  {
+    "slug": "sugar-free-plain-chocolate-with-maltitol",
+    "productId": 121,
+    "before": [
+      497,
+      498
+    ],
+    "after": [
+      1029,
+      498
+    ],
+    "mediaId": 1029,
+    "at": "2026-10-04T19:41:36.754Z"
+  },
+  {
+    "slug": "bimo-ambassadeur-extra-fine-milk-chocolate-100g",
+    "productId": 361,
+    "before": [
+      1093
+    ],
+    "after": [
+      1134
+    ],
+    "mediaId": 1134,
+    "at": "2026-10-05T03:47:50.323Z"
+  },
+  {
+    "slug": "bimo-ambassadeur-noir-dark-chocolate-100g",
+    "productId": 360,
+    "before": [
+      1092
+    ],
+    "after": [
+      1135
+    ],
+    "mediaId": 1135,
+    "at": "2026-10-05T03:48:01.939Z"
+  },
+  {
+    "slug": "bimo-ambassadeur-noir-precieux-70-dark-chocolate-100g",
+    "productId": 390,
+    "before": [
+      1122
+    ],
+    "after": [
+      1136
+    ],
+    "mediaId": 1136,
+    "at": "2026-10-05T03:48:13.703Z"
+  },
+  {
+    "slug": "bimo-double-mix-wafers-strawberry-and-chocolate-200g",
+    "productId": 372,
+    "before": [
+      1104
+    ],
+    "after": [
+      1137
+    ],
+    "mediaId": 1137,
+    "at": "2026-10-05T03:48:25.386Z"
+  },
+  {
+    "slug": "bimo-double-mix-wafers-vanilla-and-chocolate-200g",
+    "productId": 362,
+    "before": [
+      1094
+    ],
+    "after": [
+      1138
+    ],
+    "mediaId": 1138,
+    "at": "2026-10-05T03:48:38.344Z"
+  },
+  {
+    "slug": "bimo-double-mix-wafers-vanilla-and-hazelnut-200g",
+    "productId": 371,
+    "before": [
+      1103
+    ],
+    "after": [
+      1139
+    ],
+    "mediaId": 1139,
+    "at": "2026-10-05T03:48:51.345Z"
+  },
+  {
+    "slug": "cafe-1001-gout-espresso-ground-coffee-250g",
+    "productId": 384,
+    "before": [
+      1116
+    ],
+    "after": [
+      1140
+    ],
+    "mediaId": 1140,
+    "at": "2026-10-05T03:49:03.366Z"
+  },
+  {
+    "slug": "cafe-bonal-ground-coffee-250g",
+    "productId": 385,
+    "before": [
+      1117
+    ],
+    "after": [
+      1141
+    ],
+    "mediaId": 1141,
+    "at": "2026-10-05T03:49:15.307Z"
+  },
+  {
+    "slug": "cafe-boukhari-ground-coffee-250g",
+    "productId": 381,
+    "before": [
+      1113
+    ],
+    "after": [
+      1142
+    ],
+    "mediaId": 1142,
+    "at": "2026-10-05T03:49:27.553Z"
+  },
+  {
+    "slug": "cafe-facto-genereux-et-intense-ground-coffee-250g",
+    "productId": 382,
+    "before": [
+      1114
+    ],
+    "after": [
+      1143
+    ],
+    "mediaId": 1143,
+    "at": "2026-10-05T03:49:40.077Z"
+  },
+  {
+    "slug": "dreamy-heritage-milk-chocolate-with-pistachio-100g",
+    "productId": 355,
+    "before": [
+      1087
+    ],
+    "after": [
+      1144
+    ],
+    "mediaId": 1144,
+    "at": "2026-10-05T03:49:49.991Z"
+  },
+  {
+    "slug": "el-fawaha-mloukhia-100g",
+    "productId": 368,
+    "before": [
+      1100
+    ],
+    "after": [
+      1145
+    ],
+    "mediaId": 1145,
+    "at": "2026-10-05T03:50:01.495Z"
+  },
+  {
+    "slug": "el-raki-chinese-green-tea-41025-125g",
+    "productId": 349,
+    "before": [
+      1081
+    ],
+    "after": [
+      1146
+    ],
+    "mediaId": 1146,
+    "at": "2026-10-05T03:50:13.296Z"
+  },
+  {
+    "slug": "garrido-extra-chickpeas-500g",
+    "productId": 363,
+    "before": [
+      1095
+    ],
+    "after": [
+      1147
+    ],
+    "mediaId": 1147,
+    "at": "2026-10-05T03:50:26.106Z"
+  },
+  {
+    "slug": "lesieur-dijon-mustard-260g",
+    "productId": 369,
+    "before": [
+      1101
+    ],
+    "after": [
+      1148
+    ],
+    "mediaId": 1148,
+    "at": "2026-10-05T03:50:39.038Z"
+  },
+  {
+    "slug": "lesieur-sauce-algerienne-240g",
+    "productId": 396,
+    "before": [
+      1128
+    ],
+    "after": [
+      1149
+    ],
+    "mediaId": 1149,
+    "at": "2026-10-05T03:50:49.342Z"
+  },
+  {
+    "slug": "moment-djazair-makrout-el-louz-chocolate-150g",
+    "productId": 359,
+    "before": [
+      1091
+    ],
+    "after": [
+      1150
+    ],
+    "mediaId": 1150,
+    "at": "2026-10-05T03:50:59.797Z"
+  },
+  {
+    "slug": "moment-les-croquants-milk-chocolate-raisins-and-hazelnuts-145g",
+    "productId": 358,
+    "before": [
+      1090
+    ],
+    "after": [
+      1151
+    ],
+    "mediaId": 1151,
+    "at": "2026-10-05T03:51:12.361Z"
+  },
+  {
+    "slug": "moula-medium-semolina-1kg",
+    "productId": 386,
+    "before": [
+      1118
+    ],
+    "after": [
+      1152
+    ],
+    "mediaId": 1152,
+    "at": "2026-10-05T03:51:23.685Z"
+  },
+  {
+    "slug": "nouara-baking-powder-levure-chimique-10g",
+    "productId": 380,
+    "before": [
+      1112
+    ],
+    "after": [
+      1153
+    ],
+    "mediaId": 1153,
+    "at": "2026-10-05T03:51:33.672Z"
+  },
+  {
+    "slug": "nouara-chocolate-flan-mix-56g",
+    "productId": 379,
+    "before": [
+      1111
+    ],
+    "after": [
+      1154
+    ],
+    "mediaId": 1154,
+    "at": "2026-10-05T03:51:46.329Z"
+  },
+  {
+    "slug": "nouara-lemon-flan-mix-50g",
+    "productId": 378,
+    "before": [
+      1110
+    ],
+    "after": [
+      1155
+    ],
+    "mediaId": 1155,
+    "at": "2026-10-05T03:51:57.335Z"
+  },
+  {
+    "slug": "nouara-vanilla-flan-mix-50g",
+    "productId": 377,
+    "before": [
+      1109
+    ],
+    "after": [
+      1156
+    ],
+    "mediaId": 1156,
+    "at": "2026-10-05T03:52:08.487Z"
+  },
+  {
+    "slug": "safinet-e-sahraa-chunmee-green-tea-9371-125g",
+    "productId": 392,
+    "before": [
+      1124
+    ],
+    "after": [
+      1157
+    ],
+    "mediaId": 1157,
+    "at": "2026-10-05T03:52:19.787Z"
+  },
+  {
+    "slug": "telloise-apricot-jam-400g",
+    "productId": 347,
+    "before": [
+      1079
+    ],
+    "after": [
+      1158
+    ],
+    "mediaId": 1158,
+    "at": "2026-10-05T03:52:29.018Z"
   }
 ]

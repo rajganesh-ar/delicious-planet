@@ -7,12 +7,20 @@
  * the way ProductCard frames it (an exact square, `object-cover`):
  *
  *   CUT     part of the product falls outside the square crop
+ *   TOUCH   something runs into the edge of the square on a plain backdrop,
+ *           including a product that already touches the edge of its photo
  *   TINY    the product is a small object in a big plain frame
  *   LOWRES  narrower than 600px, so it goes soft on a 2× screen
  *
  * A flagged product is fixed with `pnpm images:fix` (see that script). An
  * unflagged one is left alone: a good photo is not re-processed for the sake
  * of uniformity.
+ *
+ * Photos already settled are skipped, so the list is only what still needs a
+ * look: the image `images:fix` made (per its applied log), or one kept on
+ * purpose with a `{ slug, action: "keep", mediaId, note }` entry in the plan.
+ * Both match on the media id, so a product whose photo later changes is
+ * audited again.
  *
  * Writes md/scripts/product-image-audit.json alongside the printed list.
  */
@@ -28,7 +36,23 @@ import { measure, type ImageMeasure } from './lib/product-image'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const CONCURRENCY = 8
 
+/** slug → media id of a primary photo that has been fixed or deliberately kept. */
+function settledPhotos(): Map<string, number> {
+  const settled = new Map<string, number>()
+  const read = (file: string) =>
+    fs.existsSync(path.join(dirname, file)) ? JSON.parse(fs.readFileSync(path.join(dirname, file), 'utf8')) : []
+  for (const l of read('product-image-fixes.applied.json') as Array<{ slug: string; mediaId: number }>) {
+    settled.set(l.slug, l.mediaId)
+  }
+  for (const e of read('product-image-fixes.json') as Array<{ slug: string; action: string; mediaId?: number }>) {
+    if (e.action === 'keep' && e.mediaId) settled.set(e.slug, e.mediaId)
+  }
+  return settled
+}
+
 async function main() {
+  const settled = settledPhotos()
+  let skipped = 0
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'products',
@@ -51,6 +75,10 @@ async function main() {
           continue
         }
         const m = media as Media
+        if (settled.get(product.slug) === m.id) {
+          skipped++
+          continue
+        }
         // the card rendition keeps the aspect ratio, so it measures the same
         // as the original at a fraction of the download
         const url = m.sizes?.card?.url ?? m.url
@@ -72,7 +100,9 @@ async function main() {
   )
 
   const flagged = rows.filter((r) => r.flags.length > 0).sort((a, b) => a.slug.localeCompare(b.slug))
-  console.log(`\n${docs.length} published products, ${flagged.length} with a bad primary photo\n`)
+  console.log(
+    `\n${docs.length} published products: ${skipped} already fixed or kept, ${flagged.length} of the rest with a bad primary photo\n`,
+  )
   for (const r of flagged) {
     const detail = [
       `${r.width}×${r.height}`,

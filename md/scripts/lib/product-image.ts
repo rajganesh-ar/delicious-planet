@@ -23,7 +23,7 @@ export const CREAM = { r: 245, g: 244, b: 241 } as const
 /** Below this width the card upscales on a 2× screen and the photo goes soft. */
 export const MIN_WIDTH = 600
 
-export type ImageFlag = 'CUT' | 'TINY' | 'LOWRES'
+export type ImageFlag = 'CUT' | 'TOUCH' | 'TINY' | 'LOWRES'
 
 export type ImageMeasure = {
   width: number
@@ -141,10 +141,48 @@ export async function measure(
   const scene = roughness > 4
   const flags: ImageFlag[] = []
   if (cutBy > 0.03 && !(scene && cutBy < 0.12)) flags.push('CUT')
+  if (await touchesFrame(input)) flags.push('TOUCH')
   if (!scene && tileFrac !== null && tileFrac < 0.45) flags.push('TINY')
   if (width < MIN_WIDTH) flags.push('LOWRES')
 
   return { width, height, bbox, roughness, cutBy, tileFrac, flags }
+}
+
+/**
+ * Does something run into the edge of the card's square? Looks at exactly the
+ * square the card shows and asks whether any side's outer pixels break from
+ * the backdrop (the median border colour) over more than 4% of their length.
+ *
+ * This catches what `cutBy` can't: a product that already touches the edge of
+ * its own photo, where the border model counts the product as backdrop. Only
+ * asked of photos whose border is mostly plain; a full-bleed scene touches
+ * every edge by nature.
+ */
+export async function touchesFrame(input: Buffer | string): Promise<boolean> {
+  const S = 300
+  const { data } = await sharp(input)
+    .resize(S, S, { fit: 'cover' })
+    .flatten({ background: CREAM })
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  const px = (x: number, y: number) => {
+    const o = (y * S + x) * 3
+    return [data[o]!, data[o + 1]!, data[o + 2]!]
+  }
+  const sides: number[][][] = [[], [], [], []]
+  for (let k = 0; k < S; k++) {
+    sides[0]!.push(px(k, 1))
+    sides[1]!.push(px(k, S - 2))
+    sides[2]!.push(px(1, k))
+    sides[3]!.push(px(S - 2, k))
+  }
+  const all = sides.flat()
+  const med = [0, 1, 2].map((c) => all.map((p) => p[c]!).sort((a, b) => a - b)[all.length >> 1]!)
+  const off = (p: number[]) => Math.max(...[0, 1, 2].map((c) => Math.abs(p[c]! - med[c]!))) > 45
+  const plain = all.filter((p) => !off(p)).length / all.length
+  if (plain < 0.6) return false
+  return sides.some((side) => side.filter(off).length / side.length > 0.04)
 }
 
 /**
@@ -169,6 +207,84 @@ export async function reframe(input: Buffer | string, fill = 0.68): Promise<Buff
   const top = Math.min(Math.max(Math.round(cy - side / 2), 0), H - side)
   return sharp(input)
     .extract({ left, top, width: side, height: side })
+    .resize(SQUARE_SIZE, SQUARE_SIZE)
+    .webp({ quality: 86 })
+    .toBuffer()
+}
+
+/** Mean colour of a strip just inside one edge, clear of any 1–2px frame line. */
+async function edgeColour(input: Buffer, W: number, H: number, side: 'top' | 'bottom' | 'left' | 'right') {
+  const inset = Math.max(2, Math.round(Math.min(W, H) * 0.01))
+  const t = Math.max(4, Math.round(Math.min(W, H) * 0.02))
+  const box = {
+    top: { left: 0, top: inset, width: W, height: t },
+    bottom: { left: 0, top: H - inset - t, width: W, height: t },
+    left: { left: inset, top: 0, width: t, height: H },
+    right: { left: W - inset - t, top: 0, width: t, height: H },
+  }[side]
+  const { channels } = await sharp(input).extract(box).flatten({ background: '#ffffff' }).stats()
+  return channels.slice(0, 3).map((c) => c.mean)
+}
+
+/**
+ * Square a photo off without cropping it: the short sides grow, filled with
+ * the photo's own backdrop colour and a feathered seam. For a whole product on
+ * a plain, even backdrop (a seamless studio sweep) that the card would crop.
+ *
+ * @param margin Extra room around the photo, as a share of its long side.
+ */
+export async function padToSquare(input: Buffer, margin = 0.06): Promise<Buffer> {
+  const meta = await sharp(input).metadata()
+  const W = meta.width!
+  const H = meta.height!
+  const S = Math.round(Math.max(W, H) * (1 + margin))
+  const padX = Math.round((S - W) / 2)
+  const padY = Math.round((S - H) / 2)
+  const sides = (['left', 'right', 'top', 'bottom'] as const).filter((s) => (s === 'left' || s === 'right' ? padX : padY) > 0)
+  const cols = await Promise.all(sides.map((s) => edgeColour(input, W, H, s)))
+  const bg = [0, 1, 2].map((k) => Math.round(cols.reduce((a, c) => a + c[k]!, 0) / cols.length))
+  // fade the photo's outer few percent into the backdrop so no edge shows
+  const f = Math.round(Math.min(W, H) * 0.04)
+  const mask = Buffer.from(
+    `<svg width="${W}" height="${H}"><defs><filter id="b"><feGaussianBlur stdDeviation="${f / 2}"/></filter></defs>` +
+      `<rect x="${f}" y="${f}" width="${W - 2 * f}" height="${H - 2 * f}" fill="#fff" filter="url(#b)"/></svg>`,
+  )
+  const alpha = await sharp(mask).resize(W, H).extractChannel(0).toBuffer()
+  const faded = await sharp(input).flatten({ background: '#ffffff' }).removeAlpha().joinChannel(alpha).png().toBuffer()
+  const canvas = await sharp({ create: { width: S, height: S, channels: 3, background: { r: bg[0]!, g: bg[1]!, b: bg[2]! } } })
+    .composite([{ input: faded, left: padX, top: padY }])
+    .png()
+    .toBuffer()
+  return sharp(canvas).resize(SQUARE_SIZE, SQUARE_SIZE).webp({ quality: 86 }).toBuffer()
+}
+
+/**
+ * Crop a chosen square out of a scene photo, for a product the centred crop
+ * cuts but a shifted one shows whole. Where the window runs a little past the
+ * photo, the edge is mirrored, which is invisible on stone or fabric.
+ *
+ * @param window [centre x, centre y, side] as fractions of the photo's width,
+ *   height and width.
+ */
+export async function cropWindow(input: Buffer, window: [number, number, number]): Promise<Buffer> {
+  const meta = await sharp(input).metadata()
+  const W = meta.width!
+  const H = meta.height!
+  const side = Math.round(window[2] * W)
+  const left = Math.round(window[0] * W - side / 2)
+  const top = Math.round(window[1] * H - side / 2)
+  const ext = {
+    left: Math.max(0, -left),
+    top: Math.max(0, -top),
+    right: Math.max(0, left + side - W),
+    bottom: Math.max(0, top + side - H),
+  }
+  if (Math.max(ext.left, ext.top, ext.right, ext.bottom) > side * 0.08) {
+    throw new Error('crop window runs more than 8% past the photo; pick a smaller one')
+  }
+  const extended = await sharp(input).extend({ ...ext, extendWith: 'mirror' }).toBuffer()
+  return sharp(extended)
+    .extract({ left: left + ext.left, top: top + ext.top, width: side, height: side })
     .resize(SQUARE_SIZE, SQUARE_SIZE)
     .webp({ quality: 86 })
     .toBuffer()
@@ -237,8 +353,35 @@ export async function cutout(
     }
   }
 
+  // Drop specks: foreground islands far smaller than the product. The darkest
+  // corner of a vignette can fall outside the backdrop test, and a stray speck
+  // there would both show and stretch the trimmed box off-centre.
+  const label = new Int32Array(N).fill(-1)
+  const sizes: number[] = []
+  for (let i = 0; i < N; i++) {
+    if (bg[i] || label[i] !== -1) continue
+    const id = sizes.length
+    let size = 0
+    label[i] = id
+    stack.push(i)
+    while (stack.length) {
+      const p = stack.pop()!
+      size++
+      const x = p % W
+      const y = (p / W) | 0
+      const next = [x > 0 ? p - 1 : -1, x < W - 1 ? p + 1 : -1, y > 0 ? p - W : -1, y < H - 1 ? p + W : -1]
+      for (const j of next) {
+        if (j >= 0 && !bg[j] && label[j] === -1) {
+          label[j] = id
+          stack.push(j)
+        }
+      }
+    }
+    sizes.push(size)
+  }
+  const keepFrom = Math.max(...sizes, 0) * 0.02
   const hard = Buffer.alloc(N)
-  for (let i = 0; i < N; i++) hard[i] = bg[i] ? 0 : 255
+  for (let i = 0; i < N; i++) hard[i] = !bg[i] && sizes[label[i]!]! >= keepFrom ? 255 : 0
   // extractChannel: sharp hands a blurred one-channel raw image back as three
   const soft = await sharp(hard, { raw: { width: W, height: H, channels: 1 } })
     .blur(1.2)
@@ -294,17 +437,35 @@ export async function withShadow(
 }
 
 /**
- * Centre a cut-out on cream at exactly SQUARE_SIZE², its longest side taking
- * `fill` of the frame. Tall bottles and wide bags end up the same visual size.
+ * Never enlarge a source product more than this many times. A 300px supplier
+ * screenshot blown up to fill the frame turns to mush, so a small source is
+ * placed smaller instead: whole and sharp beats big and blurred.
  */
-export async function onCream(cut: Buffer, fill = 0.82): Promise<Buffer> {
+export const MAX_UPSCALE = 3
+
+/**
+ * Centre a cut-out on a plain backdrop at exactly SQUARE_SIZE², its longest
+ * side taking `fill` of the frame (less for a small source, see MAX_UPSCALE).
+ * Tall bottles and wide bags end up the same visual size.
+ *
+ * @param background Cream by default; white keeps a fix in line with sibling
+ *   products that are shot on white and were left alone.
+ */
+export async function onCream(
+  cut: Buffer,
+  fill = 0.82,
+  background: { r: number; g: number; b: number } = CREAM,
+): Promise<Buffer> {
+  const src = await sharp(cut).metadata()
+  const longest = Math.max(src.width ?? 0, src.height ?? 0)
+  const effective = Math.max(0.5, Math.min(fill, (MAX_UPSCALE * longest) / SQUARE_SIZE))
   const { buf } = await withShadow(cut)
   const placed = await sharp(buf)
     .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 }, threshold: 1 })
-    .resize(Math.round(SQUARE_SIZE * fill), Math.round(SQUARE_SIZE * fill), { fit: 'inside' })
+    .resize(Math.round(SQUARE_SIZE * effective), Math.round(SQUARE_SIZE * effective), { fit: 'inside' })
     .toBuffer({ resolveWithObject: true })
   // composite and resize are separate passes: within one sharp pipeline resize runs first
-  return sharp({ create: { width: SQUARE_SIZE, height: SQUARE_SIZE, channels: 3, background: CREAM } })
+  return sharp({ create: { width: SQUARE_SIZE, height: SQUARE_SIZE, channels: 3, background } })
     .composite([
       {
         input: placed.data,

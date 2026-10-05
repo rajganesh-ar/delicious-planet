@@ -289,5 +289,430 @@
     "file": "replace/whole-green-tomatillo-2-8kg-clemente-jacques.jpg",
     "sourceUrl": "https://m.media-amazon.com/images/I/61XLsnZ9gsL.jpg",
     "note": "CUT+LOWRES: supplier photo 376x458; replaced with the manufacturer's packshot (amazon.co.uk)"
+  },
+  {
+    "slug": "apricot-in-syrup-820g",
+    "action": "cutout",
+    "file": "apricot/344-chabacanosalmibarmitades-820g.png",
+    "sourceUrl": "https://www.lacostena.com.mx/media/uploads/Products/frutas/344-chabacanosalmibarmitades-820g.png",
+    "note": "CUT+LOWRES: Intermex screenshot 288x330 of La Costeña sliced PEACHES under an apricot title. The owner confirmed apricots on 2026-10-05; replaced with La Costeña's official Chabacanos en Almíbar Mitades 820g render (only published at 488x550)."
+  },
+  {
+    "slug": "chile-ancho-150g-whole-dried-chilies-intermex",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "blue-corn-masa-flour-maseca",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "assorted-mexican-candy-bag",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-cheese-flavour-500g",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-chipotle-flavour-500g",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-mango-flavour-500g",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-chilli-flavour-500g",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "white-corn-with-epazote-esquite-natural-con-epazote-1kg",
+    "action": "cutout",
+    "note": "CUT (2026-10-05): the card cropped the product and no better photo exists anywhere; the supplier photo is cut out and centred whole on cream"
+  },
+  {
+    "slug": "pepe-crunch-peanuts-habanero-flavour-500g",
+    "action": "cutout",
+    "minLum": 40,
+    "note": "CUT (2026-10-05): phone shot with dark vignetted corners, cut out whole onto cream"
+  },
+  {
+    "slug": "japanese-style-peanuts-30g",
+    "action": "cutout",
+    "minLum": 40,
+    "note": "CUT (2026-10-05): phone shot with dark vignetted corners, cut out whole onto cream"
+  },
+  {
+    "slug": "japanese-style-peanuts-with-valentina-sauce-30g",
+    "action": "cutout",
+    "minLum": 40,
+    "note": "CUT (2026-10-05): phone shot with dark vignetted corners, cut out whole onto cream"
+  },
+  {
+    "slug": "milky-bear",
+    "action": "cutout",
+    "background": "white",
+    "note": "CUT (2026-10-05): the bear sat on the bottom edge; centred with room on white, like the other bears"
+  },
+  {
+    "slug": "box-of-12-mixed-artisanal-bonbons",
+    "action": "crop",
+    "window": [
+      0.53,
+      0.46,
+      1.06
+    ],
+    "note": "CUT (2026-10-05): the centred crop cut the lid and base; the window now holds the whole box"
+  },
+  {
+    "slug": "box-of-48-mixed-artisanal-bonbons",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.57,
+      1
+    ],
+    "note": "CUT (2026-10-05): window moved down so the whole tray of 48 shows"
+  },
+  {
+    "slug": "custom-chocolate-box",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.58,
+      1
+    ],
+    "note": "CUT (2026-10-05): window moved down so the whole tray shows"
+  },
+  {
+    "slug": "salted-caramel-collection-box-of-24",
+    "action": "pad",
+    "note": "CUT (2026-10-05): tall open box on a plain grey sweep; squared off with the same grey so the whole box shows"
+  },
+  {
+    "slug": "salted-caramel-crunchy-box-of-12",
+    "action": "pad",
+    "note": "CUT (2026-10-05): tall open box on a plain grey sweep; squared off with the same grey so the whole box shows"
+  },
+  {
+    "slug": "caramel-pistachio-delight-56g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "caramel-pistachio-delight",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "dark-chocolate-70-with-hazelnut-roasted-40g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "dark-chocolate-70-with-hazelnut-roasted-56g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "milk-chocolate-almond-56g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "milk-chocolate-almond-40g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "ruby-chocolate-bar-with-roasted-crushed-pistachios-40g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "ruby-chocolate-bar-with-roasted-crushed-pistachios-56g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "sugar-free-dark-chocolate-bar-56g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "sugar-free-dark-chocolate-bar-with-maltitol-40g",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.62,
+      0.78
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: the centred crop cut the box and flowers behind; recropped around the bars"
+  },
+  {
+    "slug": "caramel-chocolate-with-roasted-crushed-pistachios",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.58,
+      1.04
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: recropped so the larger bars sit whole with room"
+  },
+  {
+    "slug": "dark-chocolate-70-with-roasted-crushed-hazelnuts",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.58,
+      1.04
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: recropped so the larger bars sit whole with room"
+  },
+  {
+    "slug": "milk-chocolate-with-roasted-crunched-almonds",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.58,
+      1.04
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: recropped so the larger bars sit whole with room"
+  },
+  {
+    "slug": "ruby-chocolate-with-roasted-crushed-pistachios",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.58,
+      1.04
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: recropped so the larger bars sit whole with room"
+  },
+  {
+    "slug": "sugar-free-plain-chocolate-with-maltitol",
+    "action": "crop",
+    "window": [
+      0.5,
+      0.58,
+      1.04
+    ],
+    "note": "CUT (2026-10-05): Velsoro flat-lay: recropped so the larger bars sit whole with room"
+  },
+  {
+    "slug": "box-of-24-mixed-artisanal-bonbons",
+    "action": "keep",
+    "mediaId": 531,
+    "note": "Reviewed 2026-10-05: Close-up of the bonbons inside the box; cut by design"
+  },
+  {
+    "slug": "box-of-4-mix",
+    "action": "keep",
+    "mediaId": 535,
+    "note": "Reviewed 2026-10-05: Whole box already shows in the card"
+  },
+  {
+    "slug": "mascarpone-in-a-tetrapack",
+    "action": "keep",
+    "mediaId": 461,
+    "note": "Reviewed 2026-10-05: Only the serving board reaches the edge; the carton is whole"
+  },
+  {
+    "slug": "snack-wheel-chicharon-50gm",
+    "action": "keep",
+    "mediaId": 625,
+    "note": "Reviewed 2026-10-05: Shop-shelf scene; the bag is whole"
+  },
+  {
+    "slug": "alebrije-mango-and-habanero-jam-la-conspiracion",
+    "action": "keep",
+    "mediaId": 865,
+    "note": "Reviewed 2026-10-05: Right at the 45% TINY line, like the Intermex bottles left alone"
+  },
+  {
+    "slug": "la-costena-whole-guavas-in-syrup",
+    "action": "keep",
+    "mediaId": 643,
+    "note": "Reviewed 2026-10-05: Right at the 45% TINY line, like the Intermex bottles left alone"
+  },
+  {
+    "slug": "bimo-ambassadeur-extra-fine-milk-chocolate-100g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "bimo-ambassadeur-noir-dark-chocolate-100g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "bimo-ambassadeur-noir-precieux-70-dark-chocolate-100g",
+    "action": "cutout",
+    "note": "CUT+LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "bimo-double-mix-wafers-strawberry-and-chocolate-200g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "bimo-double-mix-wafers-vanilla-and-chocolate-200g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "bimo-double-mix-wafers-vanilla-and-hazelnut-200g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "cafe-1001-gout-espresso-ground-coffee-250g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "cafe-bonal-ground-coffee-250g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "cafe-boukhari-ground-coffee-250g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "cafe-facto-genereux-et-intense-ground-coffee-250g",
+    "action": "cutout",
+    "note": "TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "dreamy-heritage-milk-chocolate-with-pistachio-100g",
+    "action": "file",
+    "file": "replace/dreamy-heritage-milk-chocolate-with-pistachio-100g.webp",
+    "note": "CUT: the Open Food Facts photo is the pack edge to edge, with no backdrop to cut; the whole photo placed on cream"
+  },
+  {
+    "slug": "el-fawaha-mloukhia-100g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "el-raki-chinese-green-tea-41025-125g",
+    "action": "cutout",
+    "note": "CUT+TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "garrido-extra-chickpeas-500g",
+    "action": "cutout",
+    "note": "CUT+TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "lesieur-dijon-mustard-260g",
+    "action": "cutout",
+    "note": "TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "lesieur-sauce-algerienne-240g",
+    "action": "cutout",
+    "note": "CUT+TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "moment-djazair-makrout-el-louz-chocolate-150g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "moment-les-croquants-milk-chocolate-raisins-and-hazelnuts-145g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "moula-medium-semolina-1kg",
+    "action": "cutout",
+    "note": "TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "nouara-baking-powder-levure-chimique-10g",
+    "action": "cutout",
+    "note": "LOWRES: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "nouara-chocolate-flan-mix-56g",
+    "action": "cutout",
+    "note": "CUT+TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "nouara-lemon-flan-mix-50g",
+    "action": "cutout",
+    "note": "TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "nouara-vanilla-flan-mix-50g",
+    "action": "cutout",
+    "note": "TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "safinet-e-sahraa-chunmee-green-tea-9371-125g",
+    "action": "cutout",
+    "note": "CUT+TOUCH: Fennec import; best photo found online, cut out onto cream"
+  },
+  {
+    "slug": "telloise-apricot-jam-400g",
+    "action": "cutout",
+    "note": "CUT+TOUCH: Open Food Facts shop photo on a granite counter; replaced with a retailer packshot (coursesnet.dz)",
+    "file": "replace/telloise-apricot-jam-400g.jpg",
+    "sourceUrl": "https://www.coursesnet.dz/wp-content/uploads/2022/06/Telloise-Confiture-Abrictos-400g-2.jpg"
   }
 ]

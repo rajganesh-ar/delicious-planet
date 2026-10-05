@@ -12,13 +12,25 @@
  *   { slug, action: "reframe", fill? }
  *       Re-crop the current primary photo around the product, keeping its own
  *       backdrop. For a product shot small in a big plain frame (TINY).
- *   { slug, action: "cutout", file, sourceUrl, fill? }
- *       Lift the product off a light plain backdrop in `file` (relative to
- *       --dir) and centre it on the card's cream. For a replacement packshot
- *       when the supplier's own photo is unusable (LOWRES, or CUT on a backdrop
- *       that can't be extended). `sourceUrl` records where it came from.
+ *   { slug, action: "cutout", file?, sourceUrl?, fill?, minLum?, background? }
+ *       Lift the product off a light plain backdrop and centre it, whole, on
+ *       the card's cream. `file` (relative to --dir) is a replacement packshot,
+ *       with `sourceUrl` recording where it came from; without `file` the
+ *       current primary photo is cut out, for a product the card crops but
+ *       that has no better photo anywhere. `minLum` (default 150) goes lower
+ *       for a photo with dark vignetted corners, and `background: "white"`
+ *       matches siblings shot on white.
+ *   { slug, action: "pad", margin? }
+ *       Square the current photo off with its own plain backdrop, uncropped.
+ *       For a whole product on an even studio sweep that cutout can't separate.
+ *   { slug, action: "crop", window: [cx, cy, side] }
+ *       Crop a chosen square from the current photo (fractions of its width,
+ *       height and width). For a scene the centred crop cuts the product in.
  *   { slug, action: "file", file }
  *       Upload `file` as is; it must already be exactly 1200×1200.
+ *   { slug, action: "keep", mediaId, note }
+ *       Looked at and left alone on purpose. Nothing is done here;
+ *       `images:audit` stops flagging it while `mediaId` is the primary photo.
  *
  * Add `"keepOriginal": true` to move the old primary to second place instead
  * of dropping it from the gallery. Dropped photos keep their media rows, so a
@@ -39,7 +51,7 @@ import { fileURLToPath } from 'url'
 import { getPayload } from 'payload'
 import config from '../../src/payload.config'
 import type { Media, Product } from '../../src/payload-types'
-import { assertExactSquare, cutout, onCream, reframe } from './lib/product-image'
+import { assertExactSquare, cropWindow, cutout, onCream, padToSquare, reframe } from './lib/product-image'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const PLAN_FILE = path.join(dirname, 'product-image-fixes.json')
@@ -51,10 +63,26 @@ const PREVIEW = arg('preview')
 const SOURCE_DIR = arg('dir')
 const ONLY = arg('only')?.split(',')
 
-type Entry =
-  | { slug: string; action: 'reframe'; fill?: number; keepOriginal?: boolean; note?: string }
-  | { slug: string; action: 'cutout'; file: string; sourceUrl: string; fill?: number; keepOriginal?: boolean; note?: string }
-  | { slug: string; action: 'file'; file: string; keepOriginal?: boolean; note?: string }
+type Common = { slug: string; keepOriginal?: boolean; note?: string }
+type Entry = Common &
+  (
+    | { action: 'reframe'; fill?: number }
+    | {
+        action: 'cutout'
+        file?: string
+        sourceUrl?: string
+        fill?: number
+        minLum?: number
+        background?: 'white'
+      }
+    | { action: 'pad'; margin?: number }
+    | { action: 'crop'; window: [number, number, number] }
+    | { action: 'file'; file: string }
+    // reviewed and left as is; images:audit skips it while mediaId is the primary
+    | { action: 'keep'; mediaId: number }
+  )
+
+const WHITE = { r: 255, g: 255, b: 255 }
 
 type LogEntry = { slug: string; productId: number; before: number[]; after: number[]; mediaId: number; at: string }
 
@@ -63,23 +91,39 @@ function source(file: string): Buffer {
   return fs.readFileSync(path.resolve(SOURCE_DIR, file))
 }
 
-async function build(entry: Entry, primary: Media): Promise<Buffer> {
-  if (entry.action === 'reframe') {
-    if (!primary.url) throw new Error('primary image has no url')
-    const res = await fetch(primary.url)
-    if (!res.ok) throw new Error(`fetching ${primary.url}: HTTP ${res.status}`)
-    return reframe(Buffer.from(await res.arrayBuffer()), entry.fill)
+async function current(primary: Media): Promise<Buffer> {
+  if (!primary.url) throw new Error('primary image has no url')
+  const res = await fetch(primary.url)
+  if (!res.ok) throw new Error(`fetching ${primary.url}: HTTP ${res.status}`)
+  return Buffer.from(await res.arrayBuffer())
+}
+
+async function build(entry: Exclude<Entry, { action: 'keep' }>, primary: Media): Promise<Buffer> {
+  switch (entry.action) {
+    case 'reframe':
+      return reframe(await current(primary), entry.fill)
+    case 'cutout': {
+      const input = entry.file ? source(entry.file) : await current(primary)
+      const cut = await cutout(input, entry.minLum !== undefined ? { minLum: entry.minLum } : {})
+      return onCream(cut, entry.fill, entry.background === 'white' ? WHITE : undefined)
+    }
+    case 'pad':
+      return padToSquare(await current(primary), entry.margin)
+    case 'crop':
+      return cropWindow(await current(primary), entry.window)
+    case 'file': {
+      const buf = source(entry.file)
+      await assertExactSquare(buf)
+      return buf
+    }
   }
-  if (entry.action === 'cutout') return onCream(await cutout(source(entry.file)), entry.fill)
-  const buf = source(entry.file)
-  await assertExactSquare(buf)
-  return buf
 }
 
 async function main() {
   const plan = JSON.parse(fs.readFileSync(PLAN_FILE, 'utf8')) as Entry[]
   const log: LogEntry[] = fs.existsSync(LOG_FILE) ? JSON.parse(fs.readFileSync(LOG_FILE, 'utf8')) : []
-  const entries = ONLY ? plan.filter((e) => ONLY.includes(e.slug)) : plan
+  const fixes = plan.filter((e): e is Exclude<Entry, { action: 'keep' }> => e.action !== 'keep')
+  const entries = ONLY ? fixes.filter((e) => ONLY.includes(e.slug)) : fixes
   if (PREVIEW) fs.mkdirSync(PREVIEW, { recursive: true })
 
   const payload = await getPayload({ config })
@@ -130,7 +174,7 @@ async function main() {
         collection: 'media',
         data: {
           alt: product.title,
-          ...(entry.action === 'cutout' ? { sourceUrl: entry.sourceUrl } : {}),
+          ...(entry.action === 'cutout' && entry.sourceUrl ? { sourceUrl: entry.sourceUrl } : {}),
         },
         file: {
           data: image,

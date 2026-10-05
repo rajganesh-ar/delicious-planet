@@ -5,6 +5,12 @@ export interface OutgoingEmail {
   subject: string
   html: string
   text: string
+  /**
+   * Overrides the adapter's default From. The authenticated Gmail account must
+   * own this address as a verified "Send mail as" alias — otherwise Gmail
+   * silently rewrites it back to SMTP_USER. See .env.example.
+   */
+  from?: string
 }
 
 /**
@@ -27,8 +33,12 @@ export async function sendEmail(payload: Payload, email: OutgoingEmail): Promise
     return false
   }
 
+  // The nodemailer adapter spreads the message over its default From, so a
+  // present-but-undefined `from` would erase the sender rather than keep it.
+  const { from, ...rest } = email
+
   try {
-    await payload.sendEmail(email)
+    await payload.sendEmail(from ? email : rest)
     return true
   } catch (err) {
     payload.logger.error({ err, to: email.to, subject: email.subject }, 'Email failed to send')

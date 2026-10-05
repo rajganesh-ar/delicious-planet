@@ -6,7 +6,7 @@
  */
 
 export const CONTACT = {
-  email: 'info@deliciousplanet.co',
+  email: 'business@deliciousplanet.co',
   phone: '+971506035008',
   phoneLabel: '+971 50 603 5008',
   whatsapp: 'https://wa.me/971506035008',

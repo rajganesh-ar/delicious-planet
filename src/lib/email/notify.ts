@@ -4,6 +4,17 @@ import { sendEmail } from './send'
 import { customerEmail, orderAdminAlertEmail, orderConfirmationEmail } from './templates/order'
 
 /**
+ * The order confirmation goes out from the order mailbox so a customer's reply
+ * lands with whoever handles orders. Undefined falls back to the adapter's
+ * default From (EMAIL_FROM).
+ */
+function orderFrom(): string | undefined {
+  const address = process.env.ORDER_EMAIL_FROM?.trim()
+  if (!address) return undefined
+  return `${process.env.EMAIL_FROM_NAME || 'Delicious Planet'} <${address}>`
+}
+
+/**
  * Sends the two emails a newly paid order produces.
  *
  * Called from markOrderPaid's `'updated'` branch, which is the one place in the
@@ -35,7 +46,9 @@ export async function notifyOrderPaid(payload: Payload, orderId: number): Promis
     const sends: Promise<boolean>[] = []
 
     if (buyer) {
-      sends.push(sendEmail(payload, { to: buyer, ...orderConfirmationEmail(order) }))
+      sends.push(
+        sendEmail(payload, { to: buyer, from: orderFrom(), ...orderConfirmationEmail(order) }),
+      )
     } else {
       payload.logger.warn(
         { orderNumber: order.orderNumber },

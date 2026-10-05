@@ -1,0 +1,982 @@
+{
+  "harvestedAt": "2026-10-05T02:49:43.071Z",
+  "store": "https://fennectradingllc.odoo.com",
+  "products": [
+    {
+      "externalId": "10",
+      "handle": "chakhchokha-el-sanawbar-900g",
+      "url": "https://fennectradingllc.odoo.com/shop/chakhchokha-el-sanawbar-900g-10",
+      "title": "Chakhchokha El Sanawbar – 900g",
+      "price": 15,
+      "breadcrumb": [
+        "Rice, Grains & Pasta"
+      ],
+      "summary": "Chakhchokha El Sanawbar, 900g pack, traditional wheat-based product, imported from Algeria.",
+      "body": "Chakhchokha El Sanawbar is a traditional Algerian specialty made from high-quality wheat, carefully prepared for authentic home-style cooking. Commonly used in classic Chakhchokha dishes, it pairs perfectly with rich sauces, vegetables, and meat-based recipes. Easy to prepare and deeply rooted in North African cuisine, this product brings traditional Algerian flavors to your kitchen. Imported from Algeria , it offers trusted quality and authentic taste for everyday meals.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/10/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/48/image_1920"
+      ]
+    },
+    {
+      "externalId": "21",
+      "handle": "trida-el-sanaoubar-450g",
+      "url": "https://fennectradingllc.odoo.com/shop/trida-el-sanaoubar-450g-21",
+      "title": "Trida El Sanaoubar – 450g",
+      "price": 10,
+      "breadcrumb": [
+        "Rice, Grains & Pasta"
+      ],
+      "summary": "Trida El Sanaoubar, 450g pack, traditional durum wheat pasta, imported from Algeria.\nUnit Price: AED 10",
+      "body": "Trida El Sanaoubar is a traditional Algerian pasta made from high-quality durum wheat semolina. Perfect for classic Trida dishes, it cooks evenly and absorbs flavors beautifully, making it ideal for family meals and special occasions. Quick and easy to prepare, it brings authentic North African taste to your kitchen. Imported from Algeria , ensuring premium quality and genuine flavor.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/21/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/53/image_1920"
+      ]
+    },
+    {
+      "externalId": "23",
+      "handle": "izdihar-tomato-paste-400g",
+      "url": "https://fennectradingllc.odoo.com/shop/izdihar-tomato-paste-400g-23",
+      "title": "Izdihar Tomato Paste – 400g",
+      "price": 9,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Izdihar Tomato Paste, 400g can, concentrated tomato product, imported from Algeria.\nUnit Price: AED 9",
+      "body": "zdihar Tomato Paste is made from carefully selected ripe tomatoes, cooked and concentrated to deliver rich flavor and vibrant color. Perfect for enhancing soups, stews, sauces, and traditional North African dishes, it adds depth and authentic taste to your meals. Imported from Algeria , ensuring high-quality, fresh-tasting tomato paste for everyday cooking.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/23/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/54/image_1920"
+      ]
+    },
+    {
+      "externalId": "26",
+      "handle": "apricot-jam-telloise-400g",
+      "url": "https://fennectradingllc.odoo.com/shop/apricot-jam-telloise-400g-26",
+      "title": "Apricot Jam Telloise – 400g",
+      "price": 10,
+      "breadcrumb": [
+        "Honey, Syrups & Sweeteners"
+      ],
+      "summary": "Apricot Jam Telloise, 400g jar, apricot fruit spread, imported from Algeria.\nUnit Price: AED 10",
+      "body": "Apricot Jam Telloise is made from carefully selected ripe apricots, delivering a naturally sweet and fruity flavor. Perfect for spreading on bread, toast, or pastries, and ideal for breakfast or dessert recipes. Smooth, flavorful, and made with quality ingredients, it brings a taste of Algeria to your kitchen. Imported from Algeria , ensuring authentic flavor and consistent quality.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/26/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/55/image_1920"
+      ]
+    },
+    {
+      "externalId": "28",
+      "handle": "harissa-cab-135g",
+      "url": "https://fennectradingllc.odoo.com/shop/harissa-cab-135g-28",
+      "title": "Harissa CAB – 135g",
+      "price": 5,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Harissa CAB, 380g jar, chili paste, imported from Algeria.\nUnit Price: AED 5",
+      "body": "Harissa CAB is a bold and flavorful chili paste made using a traditional recipe, delivering an authentic North African taste. Prepared from carefully selected red chili peppers and spices, it adds a rich heat and depth of flavor to couscous, grilled meats, sauces, and everyday dishes. Smooth in texture and well-balanced in spice, it is a must-have for lovers of authentic Algerian and Mediterranean cuisine. Imported from Algeria , it guarantees genuine flavor and consistent quality.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/28/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/56/image_1920"
+      ]
+    },
+    {
+      "externalId": "33",
+      "handle": "al-raki-green-tea-125g",
+      "url": "https://fennectradingllc.odoo.com/shop/al-raki-green-tea-125g-33",
+      "title": "Al Raki Green Tea – 125g",
+      "price": 9,
+      "breadcrumb": [
+        "Tea & Beverages"
+      ],
+      "summary": "Al Raki Green Tea, 125g pack, premium green tea leaves, imported from Algeria.",
+      "body": "Al Raki Green Tea is a premium-quality Algerian green tea made from carefully selected tea leaves. Known for its fresh aroma and delicate flavor, it is perfect for daily consumption or serving to guests. Brew a soothing cup to enjoy the authentic taste of North African tea culture. Imported from Algeria , ensuring freshness and consistent quality.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/33/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/58/image_1920"
+      ]
+    },
+    {
+      "externalId": "34",
+      "handle": "reccamar-tuna-in-tomato-sauce-65g-3-pack-imported",
+      "url": "https://fennectradingllc.odoo.com/shop/reccamar-tuna-in-tomato-sauce-65g-3-pack-imported-34",
+      "title": "Reccamar Tuna in Tomato Sauce – 65g × 3 Pack (Imported)",
+      "price": 13,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Reccamar Tuna in Tomato Sauce, 65g × 3 cans pack.\nUnit Price: AED 13",
+      "body": "Reccamar Tuna in Tomato Sauce is made from quality tuna combined with a rich, flavorful tomato sauce. Conveniently packed in a set of three 65g cans, it is perfect for quick meals, sandwiches, salads, and light snacks. Ready to use and easy to store, it offers great taste and everyday convenience for home kitchens.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/34/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/27/image_1920"
+      ]
+    },
+    {
+      "externalId": "36",
+      "handle": "ricamar-tuna-in-oil-65g-3-pack",
+      "url": "https://fennectradingllc.odoo.com/shop/ricamar-tuna-in-oil-65g-3-pack-36",
+      "title": "Ricamar Tuna in Oil – 65g × 3 Pack",
+      "price": 13,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Ricamar Tuna in Oil, 65g × 3 cans pack.\nUnit Price: AED 13",
+      "body": "Ricamar Tuna in Oil is made from quality tuna preserved in oil to retain its rich taste and tender texture. Packed in a convenient set of three 65g cans, it is ideal for sandwiches, salads, pasta, and quick meals. Ready to eat and easy to store, it is a practical choice for everyday home cooking.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/36/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/28/image_1920"
+      ]
+    },
+    {
+      "externalId": "37",
+      "handle": "izabel-tuna-in-tomato-sauce-160g",
+      "url": "https://fennectradingllc.odoo.com/shop/izabel-tuna-in-tomato-sauce-160g-37",
+      "title": "Izabel Tuna in Tomato Sauce – 160g",
+      "price": 12,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Izabel Tuna in Tomato Sauce, 160g can.\nUnit Price: AED 12",
+      "body": "Izabel Tuna in Tomato Sauce combines quality tuna with a rich, flavorful tomato sauce, making it perfect for quick and tasty meals. Ideal for sandwiches, salads, pasta dishes, or as a ready-to-eat option, it offers convenience without compromising on taste. A practical pantry essential for everyday cooking.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/37/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/59/image_1920"
+      ]
+    },
+    {
+      "externalId": "38",
+      "handle": "izabel-tuna-in-oil-160g",
+      "url": "https://fennectradingllc.odoo.com/shop/izabel-tuna-in-oil-160g-38",
+      "title": "Izabel Tuna in Oil – 160g",
+      "price": 12,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Izabel Tuna in Oil, 160g can.\nUnit Price: AED 12",
+      "body": "Izabel Tuna in Oil is made from quality tuna preserved in oil to maintain its rich flavor and tender texture. Ideal for sandwiches, salads, pasta, and quick meals, it is a convenient and versatile option for everyday home cooking. Easy to use and ready to eat.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/38/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/60/image_1920"
+      ]
+    },
+    {
+      "externalId": "43",
+      "handle": "izabel-tuna-in-tomato-sauce-65g-3-pack",
+      "url": "https://fennectradingllc.odoo.com/shop/izabel-tuna-in-tomato-sauce-65g-3-pack-43",
+      "title": "Izabel Tuna in Tomato Sauce – 65g × 3 Pack",
+      "price": 13,
+      "breadcrumb": [
+        "Canned & Preserved Foods"
+      ],
+      "summary": "Izabel Tuna in Tomato Sauce, 65g × 3 cans pack.\nUnit Price: AED 13",
+      "body": "Izabel Tuna in Tomato Sauce combines quality tuna with a rich and flavorful tomato sauce for a convenient and tasty meal option. Packed in a set of three 65g cans, it is perfect for sandwiches, salads, pasta dishes, and quick snacks. Ready to eat and easy to store for everyday use.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/43/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/64/image_1920"
+      ]
+    },
+    {
+      "externalId": "50",
+      "handle": "dreamy-heritage-pistachio-100-g",
+      "url": "https://fennectradingllc.odoo.com/shop/dreamy-heritage-pistachio-100-g-50",
+      "title": "Dreamy Héritage Pistachio – 100 g",
+      "price": 17,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Dreamy Héritage Pistachio, 100g pack, confectionery product with pistachios.",
+      "body": "Dreamy Héritage Pistachio is a premium sweet treat made with carefully selected pistachios for a rich, nutty flavor. Perfect as a snack, dessert, or gift, it delivers an authentic North African taste and a satisfying crunch in every bite. A small yet luxurious 100g pack ideal for personal indulgence.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/50/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/65/image_1920"
+      ]
+    },
+    {
+      "externalId": "52",
+      "handle": "moment-les-croquants-hazelnut",
+      "url": "https://fennectradingllc.odoo.com/shop/moment-les-croquants-hazelnut-52",
+      "title": "Moment Les Croquants Hazelnut",
+      "price": 18,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Moment Les Croquants Hazelnut, premium crunchy biscuits with hazelnuts.\nUnit Price: AED 18",
+      "body": "are crunchy, nutty biscuits made with premium-quality hazelnuts. Perfect for tea time, coffee breaks, or as a snack, they deliver a satisfying crunch and rich flavor in every bite. Ideal for families or gifting.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/52/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/66/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/67/image_1920"
+      ]
+    },
+    {
+      "externalId": "53",
+      "handle": "moment-les-croquants-almond",
+      "url": "https://fennectradingllc.odoo.com/shop/moment-les-croquants-almond-53",
+      "title": "Moment Les Croquants Almond",
+      "price": 18,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Moment Les Croquants Almond, premium crunchy biscuits with almonds.\nUnit Price: AED 18",
+      "body": "are crunchy, nutty biscuits made with premium-quality almonds. Perfect for tea time, coffee breaks, or as a snack, they deliver a satisfying crunch and rich almond flavor in every bite. Ideal for families or gifting.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/53/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/68/image_1920"
+      ]
+    },
+    {
+      "externalId": "54",
+      "handle": "moment-les-croquants-raisins-hazelnuts",
+      "url": "https://fennectradingllc.odoo.com/shop/moment-les-croquants-raisins-hazelnuts-54",
+      "title": "Moment Les Croquants Raisins & Hazelnuts",
+      "price": 18,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Moment Les Croquants Raisins & Hazelnuts, premium crunchy biscuits with raisins and hazelnuts.\nUnit Price: AED 18",
+      "body": "are crunchy, flavorful biscuits made with premium-quality hazelnuts and sweet raisins. Perfect for tea time, coffee breaks, or as a snack, they offer a delightful mix of textures and rich flavors. Ideal for everyday indulgence or gifting.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/54/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/69/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/70/image_1920"
+      ]
+    },
+    {
+      "externalId": "56",
+      "handle": "tablette-chocolat-moment-djazair-makrout-el-louz-150g",
+      "url": "https://fennectradingllc.odoo.com/shop/tablette-chocolat-moment-djazair-makrout-el-louz-150g-56",
+      "title": "Tablette Chocolat Moment Djazair Makrout El Louz – 150g",
+      "price": 19,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Tablette Chocolat Moment Djazair Makrout El Louz, 150g, chocolate confectionery with almond paste.\nUnit Price: AED 19",
+      "body": "Tablette Chocolat Moment Djazair Makrout El Louz is a traditional Algerian sweet made with premium chocolate and almond paste. Perfect as a dessert, snack, or gift, it offers an authentic North African flavor with a rich, nutty, and indulgent taste. The 150g pack is ideal for sharing or personal enjoyment.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/56/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/96/image_1920"
+      ]
+    },
+    {
+      "externalId": "57",
+      "handle": "ambassadeur-dark-chocolate",
+      "url": "https://fennectradingllc.odoo.com/shop/ambassadeur-dark-chocolate-57",
+      "title": "Ambassadeur Dark Chocolate",
+      "price": 12,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Ambassadeur Dark Chocolate, premium dark chocolate bar.\nUnit Price: AED 12",
+      "body": "is a rich and smooth chocolate bar made from premium cocoa. Perfect for snacking, baking, or gifting, it delivers a deep chocolate flavor that chocolate lovers will enjoy. A convenient and delicious treat for everyday indulgence.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/57/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/97/image_1920"
+      ]
+    },
+    {
+      "externalId": "58",
+      "handle": "ambassadeur-dark-chocolate-white",
+      "url": "https://fennectradingllc.odoo.com/shop/ambassadeur-dark-chocolate-white-58",
+      "title": "Ambassadeur Dark Chocolate White",
+      "price": 12,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Ambassadeur Dark Chocolate White, premium chocolate bar combining dark and white chocolate.\nUnit Price: AED 12",
+      "body": "is a smooth and creamy chocolate bar combining rich dark chocolate with a layer of white chocolate for a balanced, indulgent flavor. Perfect for snacking, baking, or gifting, it offers a delicious treat for chocolate lovers.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/58/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/73/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/74/image_1920"
+      ]
+    },
+    {
+      "externalId": "61",
+      "handle": "double-mix-wafer-chocolate",
+      "url": "https://fennectradingllc.odoo.com/shop/double-mix-wafer-chocolate-61",
+      "title": "Double Mix Wafer Chocolate",
+      "price": 10,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Double Mix Wafer Chocolate, crispy wafer with chocolate filling.\nUnit Price: AED 10",
+      "body": "is a crispy and delicious wafer layered with creamy chocolate filling. Perfect for snacking, sharing, or enjoying with coffee and tea, it delivers a satisfying crunch and rich chocolate flavor in every bite.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/61/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/78/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/79/image_1920"
+      ]
+    },
+    {
+      "externalId": "63",
+      "handle": "garrido-chickpeas-500g",
+      "url": "https://fennectradingllc.odoo.com/shop/garrido-chickpeas-500g-63",
+      "title": "Garrido Chickpeas – 500g",
+      "price": 12,
+      "breadcrumb": [
+        "Rice, Grains & Pasta"
+      ],
+      "summary": "Garrido Chickpeas, 500g pack, high-quality legumes.\nUnit Price: AED 12",
+      "body": "Garrido Chickpeas are high-quality, versatile legumes perfect for cooking a variety of dishes such as stews, salads, soups, and traditional Algerian recipes. Packed in a 500g bag, they are ideal for everyday use and provide a healthy source of protein and fiber.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/63/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/82/image_1920"
+      ]
+    },
+    {
+      "externalId": "67",
+      "handle": "garrido-lentils-500g",
+      "url": "https://fennectradingllc.odoo.com/shop/garrido-lentils-500g-67",
+      "title": "Garrido Lentils – 500g",
+      "price": 12,
+      "breadcrumb": [
+        "Rice, Grains & Pasta"
+      ],
+      "summary": "Garrido Lentils, 500g pack, premium legumes.\nUnit Price: AED 12",
+      "body": "Garrido Lentils are high-quality legumes, perfect for soups, stews, salads, and traditional Algerian dishes. Packed in a 500g bag, they cook evenly and provide a nutritious source of protein, fiber, and essential nutrients for everyday meals.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/67/image_1920"
+      ]
+    },
+    {
+      "externalId": "68",
+      "handle": "jumbo-stock-cubes-beef-flavour-pack-x48",
+      "url": "https://fennectradingllc.odoo.com/shop/jumbo-stock-cubes-beef-flavour-pack-x48-68",
+      "title": "Jumbo Stock Cubes, beef flavour, pack x48",
+      "price": 25,
+      "breadcrumb": [
+        "Spices, Herbs & Seasonings"
+      ],
+      "summary": "Jumbo stock cubes, beef flavour, cooking seasoning.\nUnit Price: AED 25",
+      "body": "Jumbo Beef Flavour Stock Cubes add rich, savory taste to soups, rice, sauces, and stews. Easy to use and full of flavor, they are ideal for enhancing everyday cooking and traditional dishes. A kitchen essential for quick and tasty meals.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/68/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/84/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/85/image_1920"
+      ]
+    },
+    {
+      "externalId": "69",
+      "handle": "jumbo-stock-cubes-chicken-flavour-x48",
+      "url": "https://fennectradingllc.odoo.com/shop/jumbo-stock-cubes-chicken-flavour-x48-69",
+      "title": "Jumbo Stock Cubes – Chicken Flavour x48",
+      "price": 25,
+      "breadcrumb": [
+        "Spices, Herbs & Seasonings"
+      ],
+      "summary": "Jumbo Stock Cubes, chicken flavour, pack of 24.\nUnit Price: AED 25",
+      "body": "Jumbo Chicken Flavour Stock Cubes enhance the taste of soups, gravies, rice, noodles, and everyday meals. This pack of 24 cubes is perfect for regular home cooking and food service use, offering consistent and delicious chicken flavor every time.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/69/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/86/image_1920"
+      ]
+    },
+    {
+      "externalId": "71",
+      "handle": "salha-butter-500g",
+      "url": "https://fennectradingllc.odoo.com/shop/salha-butter-500g-71",
+      "title": "Salha Butter 500g",
+      "price": 12,
+      "breadcrumb": [
+        "Dairy & Spreads"
+      ],
+      "summary": "Salha Butter, 500g pack.\nUnit Price: AED 12",
+      "body": "Salha Butter offers a rich and creamy taste, perfect for everyday cooking, baking, and spreading. Made to deliver consistent quality and flavor, it enhances both traditional and modern recipes. Ideal for home kitchens and food lovers who value taste and reliability.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/71/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/87/image_1920"
+      ]
+    },
+    {
+      "externalId": "72",
+      "handle": "moulukhia-fawaha-100g",
+      "url": "https://fennectradingllc.odoo.com/shop/moulukhia-fawaha-100g-72",
+      "title": "Moulukhia Fawaha 100g",
+      "price": 4,
+      "breadcrumb": [
+        "Spices, Herbs & Seasonings"
+      ],
+      "summary": "Moulukhia Fawaha, 100g pack.\nUnit Price: AED 4",
+      "body": "Fawaha Moulukhia is finely dried and carefully prepared to deliver authentic flavor and aroma. Ideal for making traditional moulukhia dishes with a smooth texture and rich taste. A staple ingredient for home cooking, especially in Middle Eastern and North African cuisines.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/72/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/88/image_1920"
+      ]
+    },
+    {
+      "externalId": "73",
+      "handle": "medina-margarine-500g",
+      "url": "https://fennectradingllc.odoo.com/shop/medina-margarine-500g-73",
+      "title": "Medina Margarine 500g",
+      "price": 13,
+      "breadcrumb": [
+        "Dairy & Spreads"
+      ],
+      "summary": "Medina Margarine, 500g pack.\nUnit Price: AED 13",
+      "body": "Medina Margarine is a versatile cooking and baking margarine with a smooth texture and rich taste. Ideal for everyday use in baking, frying, and spreading, it enhances flavor while delivering consistent results. Suitable for home kitchens and professional use alike.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/73/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/89/image_1920"
+      ]
+    },
+    {
+      "externalId": "76",
+      "handle": "lesieur-mustard-260g",
+      "url": "https://fennectradingllc.odoo.com/shop/lesieur-mustard-260g-76",
+      "title": "Lesieur Mustard 260g",
+      "price": 11,
+      "breadcrumb": [
+        "Condiments & Sauces"
+      ],
+      "summary": "Lesieur Mustard, 260g jar.\nUnit Price: AED 11",
+      "body": "Lesieur Mustard offers a bold, tangy flavor that enhances sandwiches, burgers, marinades, and dressings. Smooth in texture with a balanced taste, it is a versatile condiment for everyday cooking and table use.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/76/image_1920"
+      ]
+    },
+    {
+      "externalId": "78",
+      "handle": "lesieur-ciboulette-persil-500ml",
+      "url": "https://fennectradingllc.odoo.com/shop/lesieur-ciboulette-persil-500ml-78",
+      "title": "Lesieur Ciboulette & Persil – 500ml",
+      "price": 12,
+      "breadcrumb": [
+        "Condiments & Sauces"
+      ],
+      "summary": "Lesieur Ciboulette & Persil, 500ml bottle, herb-based condiment.\nUnit Price: AED 12",
+      "body": "Lesieur Ciboulette & Persil is a flavorful herb-based condiment, blending fresh chives and parsley to enhance salads, sandwiches, dips, and cooked dishes. Packed in a convenient 500ml bottle, it delivers consistent flavor and freshness for everyday use.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/78/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/92/image_1920"
+      ]
+    },
+    {
+      "externalId": "83",
+      "handle": "bimo-double-mix-wafer-vanilla-with-hazelnuts",
+      "url": "https://fennectradingllc.odoo.com/shop/bimo-double-mix-wafer-vanilla-with-hazelnuts-83",
+      "title": "Bimo Double Mix Wafer – Vanilla with Hazelnuts",
+      "price": 10,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Bimo Double Mix Wafer, vanilla with hazelnuts.\nUnit Price: AED 10",
+      "body": "Bimo Double Mix Wafer combines crispy wafer layers with smooth vanilla cream and rich hazelnut flavor. Light, crunchy, and satisfying, it is ideal as a snack with tea or coffee, or as a sweet treat any time of the day.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/83/image_1920"
+      ]
+    },
+    {
+      "externalId": "85",
+      "handle": "bimo-double-mix-wafer-strawberry-chocolate",
+      "url": "https://fennectradingllc.odoo.com/shop/bimo-double-mix-wafer-strawberry-chocolate-85",
+      "title": "Bimo Double Mix Wafer – Strawberry & Chocolate",
+      "price": 10,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "summary": "Bimo Double Mix Wafer, strawberry & chocolate flavor.\nUnit Price: AED 10",
+      "body": "Bimo Double Mix Wafer Strawberry & Chocolate combines crispy wafer layers with smooth strawberry cream and rich chocolate flavor. A balanced mix of fruity and chocolatey taste, perfect for snacking anytime or enjoying with tea and coffee.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/85/image_1920"
+      ]
+    },
+    {
+      "externalId": "86",
+      "handle": "al-aila-dyoul-sheets-10-pieces",
+      "url": "https://fennectradingllc.odoo.com/shop/al-aila-dyoul-sheets-10-pieces-86",
+      "title": "Al Aila Dyoul Sheets – 10 Pieces",
+      "price": 8,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Al Aila Dyoul sheets, pack of 10 pieces.\nUnit Price: AED 8",
+      "body": "Al Aila Dyoul Sheets are thin, ready-to-use pastry sheets ideal for preparing traditional dishes such as briwat, samosa, and stuffed pastries. Easy to handle and perfectly sized, they help you create crispy and delicious homemade recipes with convenience.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/86/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/103/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/104/image_1920"
+      ]
+    },
+    {
+      "externalId": "87",
+      "handle": "dyoul-oum-walid-10-pieces",
+      "url": "https://fennectradingllc.odoo.com/shop/dyoul-oum-walid-10-pieces-87",
+      "title": "Dyoul OUM WALID – 10 Pieces",
+      "price": 8,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Dyoul OUM WALID sheets, pack of 10 pieces.\nUnit Price: AED 8",
+      "body": "Dyoul OUM WALID pastry sheets are thin, flexible, and easy to use, perfect for preparing a variety of traditional and homemade pastries such as briwat, rolls, and stuffed snacks. Designed for consistent results, they help you achieve crispy and delicious dishes every time.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/87/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/105/image_1920"
+      ]
+    },
+    {
+      "externalId": "88",
+      "handle": "nouara-flan-strawberry-50g",
+      "url": "https://fennectradingllc.odoo.com/shop/nouara-flan-strawberry-50g-88",
+      "title": "Nouara Flan Strawberry – 50g",
+      "price": 4,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Nouara Flan Strawberry, 50g pack.\nUnit Price: AED 4",
+      "body": "Nouara Strawberry Flan is an easy-to-prepare dessert mix with a smooth texture and refreshing strawberry flavor. Perfect for quick homemade desserts, family servings, or special occasions. Serve chilled for best taste and presentation.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/88/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/106/image_1920"
+      ]
+    },
+    {
+      "externalId": "89",
+      "handle": "nouara-flan-caramel-50g",
+      "url": "https://fennectradingllc.odoo.com/shop/nouara-flan-caramel-50g-89",
+      "title": "Nouara Flan Caramel – 50g",
+      "price": 4,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Nouara Flan Caramel, 50g pack.\nUnit Price: AED 4",
+      "body": "Nouara Caramel Flan is a simple and delicious dessert mix with a rich caramel flavor and smooth texture. Easy to prepare and ideal for family desserts or quick sweet treats. Serve chilled for a perfect finish.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/89/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/107/image_1920"
+      ]
+    },
+    {
+      "externalId": "90",
+      "handle": "nouara-flan-vanilla-50g",
+      "url": "https://fennectradingllc.odoo.com/shop/nouara-flan-vanilla-50g-90",
+      "title": "Nouara Flan Vanilla – 50g",
+      "price": 4,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Nouara Flan Vanilla, 50g pack.\nUnit Price: AED 4",
+      "body": "Nouara Vanilla Flan is an easy-to-make dessert mix with a smooth texture and classic vanilla flavor. Ideal for everyday desserts, family meals, or special occasions. Simple preparation and consistent results every time. Pack Size: 50g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/90/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/108/image_1920"
+      ]
+    },
+    {
+      "externalId": "91",
+      "handle": "nouara-flan-lemon-50g",
+      "url": "https://fennectradingllc.odoo.com/shop/nouara-flan-lemon-50g-91",
+      "title": "Nouara Flan Lemon – 50g",
+      "price": 4,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Nouara Flan Lemon, 50g pack.\nUnit Price: AED 4",
+      "body": "Nouara Lemon Flan is a quick and easy dessert mix with a smooth texture and zesty lemon flavor. Perfect for light, refreshing desserts for family meals or special occasions. Simple to prepare and serve chilled for best results. Pack Size: 50g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/91/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/109/image_1920"
+      ]
+    },
+    {
+      "externalId": "92",
+      "handle": "nouara-flan-chocolate-50g",
+      "url": "https://fennectradingllc.odoo.com/shop/nouara-flan-chocolate-50g-92",
+      "title": "Nouara Flan Chocolate – 50g",
+      "price": 4,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Nouara Flan Chocolate, 50g pack.\nUnit Price: AED 4",
+      "body": "Nouara Chocolate Flan is a quick and easy dessert mix with a rich chocolate flavor and smooth, creamy texture. Ideal for family desserts, quick treats, or special occasions. Simple preparation and best served chilled. Pack Size: 50g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/92/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/110/image_1920"
+      ]
+    },
+    {
+      "externalId": "93",
+      "handle": "nouara-levure-baking-yeast",
+      "url": "https://fennectradingllc.odoo.com/shop/nouara-levure-baking-yeast-93",
+      "title": "Nouara Levure (Baking Yeast)",
+      "price": 2,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "summary": "Nouara Levure (Baking Yeast), single pack.\nUnit Price: AED 2",
+      "body": "Nouara Levure is a high-quality baking yeast, perfect for bread, pastries, and other baked goods. Ensures consistent rising and fluffy texture in every bake. Essential for home bakers and professional kitchens alike.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/93/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/111/image_1920"
+      ]
+    },
+    {
+      "externalId": "101",
+      "handle": "bokhari-coffee-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/bokhari-coffee-250g-101",
+      "title": "Bokhari Coffee – 250g",
+      "price": 13,
+      "breadcrumb": [
+        "Tea & Beverages"
+      ],
+      "summary": "Bokhari Coffee, 250g pack, premium coffee blend.\nUnit Price: AED 13",
+      "body": "Bokhari Coffee is a rich and aromatic blend, perfect for traditional brewing or modern coffee makers. Packed in a 250g pack, it offers full-bodied flavor and an inviting aroma, making it ideal for home or office use. Pack Size: 250g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/101/image_1920"
+      ]
+    },
+    {
+      "externalId": "102",
+      "handle": "facto-coffee-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/facto-coffee-250g-102",
+      "title": "Facto Coffee – 250g",
+      "price": 14,
+      "breadcrumb": [
+        "Tea & Beverages"
+      ],
+      "summary": "Facto Coffee, 250g pack, premium coffee blend.\nUnit Price: AED 14",
+      "body": "Facto Coffee is a premium blend with rich aroma and smooth flavor, perfect for daily coffee enjoyment. Packaged in 250g, it’s ideal for home brewing, offering a satisfying and invigorating coffee experience. Pack Size: 250g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/102/image_1920"
+      ]
+    },
+    {
+      "externalId": "103",
+      "handle": "aroma-coffee-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/aroma-coffee-250g-103",
+      "title": "Aroma Coffee – 250g",
+      "price": 13,
+      "breadcrumb": [
+        "Tea & Beverages"
+      ],
+      "summary": "Aroma Coffee, 250g pack, premium coffee blend.\nUnit Price: AED 13",
+      "body": "Aroma Coffee is a flavorful and aromatic coffee blend, perfect for daily enjoyment. Packed in 250g, it offers a smooth and rich taste ideal for home brewing, delivering a satisfying coffee experience every time. Pack Size: 250g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/103/image_1920"
+      ]
+    },
+    {
+      "externalId": "104",
+      "handle": "1001-coffee-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/1001-coffee-250g-104",
+      "title": "1001 Coffee – 250g",
+      "price": 14,
+      "breadcrumb": [
+        "Tea & Beverages"
+      ],
+      "summary": "1001 Coffee, 250g pack, premium coffee blend.\nUnit Price: AED 14",
+      "body": "1001 Coffee is a premium coffee blend with a rich aroma and smooth flavor, ideal for daily brewing at home or office. Packed in 250g, it delivers a consistent and satisfying coffee experience with every cup. Pack Size: 250g",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/104/image_1920"
+      ]
+    },
+    {
+      "externalId": "105",
+      "handle": "bonal-coffee-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/bonal-coffee-250g-105",
+      "title": "Bonal Coffee – 250g",
+      "price": 12,
+      "breadcrumb": [
+        "Tea & Beverages"
+      ],
+      "summary": "Bonal Coffee, 250g pack, premium coffee blend.\nUnit Price: AED 12",
+      "body": "Bonal Coffee is a rich and aromatic blend, perfect for daily brewing at home or in the office. Packaged in a 250g pack, it delivers smooth flavor and a satisfying coffee experience every time.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/105/image_1920"
+      ]
+    },
+    {
+      "externalId": "109",
+      "handle": "semolina-moula-1kg-medium",
+      "url": "https://fennectradingllc.odoo.com/shop/semolina-moula-1kg-medium-109",
+      "title": "SEMOLINA MOULA 1KG MEDIUM",
+      "price": 11,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/109/image_1920"
+      ]
+    },
+    {
+      "externalId": "113",
+      "handle": "la-belle-margarine-500g",
+      "url": "https://fennectradingllc.odoo.com/shop/la-belle-margarine-500g-113",
+      "title": "LA BELLE MARGARINE 500G",
+      "price": 12,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/113/image_1920"
+      ]
+    },
+    {
+      "externalId": "114",
+      "handle": "la-belle-margarine-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/la-belle-margarine-250g-114",
+      "title": "LA BELLE MARGARINE 250G",
+      "price": 9,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/114/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/116/image_1920"
+      ]
+    },
+    {
+      "externalId": "115",
+      "handle": "medina-vegitable-ghee-500g",
+      "url": "https://fennectradingllc.odoo.com/shop/medina-vegitable-ghee-500g-115",
+      "title": "MEDINA VEGITABLE GHEE 500G",
+      "price": 13.5,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/115/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/113/image_1920"
+      ]
+    },
+    {
+      "externalId": "117",
+      "handle": "semolina-moula-1kg-medieum",
+      "url": "https://fennectradingllc.odoo.com/shop/semolina-moula-1kg-medieum-117",
+      "title": "SEMOLINA MOULA 1KG MEDIEUM",
+      "price": 11,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/117/image_1920"
+      ]
+    },
+    {
+      "externalId": "118",
+      "handle": "ambassadeur-noir-precieux-chocolate",
+      "url": "https://fennectradingllc.odoo.com/shop/ambassadeur-noir-precieux-chocolate-118",
+      "title": "AMBASSADEUR NOIR PRECIEUX CHOCOLATE",
+      "price": 10,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/118/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/112/image_1920"
+      ]
+    },
+    {
+      "externalId": "119",
+      "handle": "jumbo-stock-cubes-mutton-flavour-pack-x48",
+      "url": "https://fennectradingllc.odoo.com/shop/jumbo-stock-cubes-mutton-flavour-pack-x48-119",
+      "title": "Jumbo Stock Cubes, MUTTON flavour, pack x48",
+      "price": 25,
+      "breadcrumb": [
+        "Spices, Herbs & Seasonings"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/119/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/94/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/95/image_1920"
+      ]
+    },
+    {
+      "externalId": "120",
+      "handle": "extra-virgin-olive-oil-750ml-by-fennec-grove",
+      "url": "https://fennectradingllc.odoo.com/shop/extra-virgin-olive-oil-750ml-by-fennec-grove-120",
+      "title": "EXTRA VIRGIN OLIVE OIL 750ML BY FENNEC GROVE",
+      "price": 30,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/120/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/118/image_1920"
+      ]
+    },
+    {
+      "externalId": "121",
+      "handle": "l-algerina-extra-virgin-olive-oil-500ml",
+      "url": "https://fennectradingllc.odoo.com/shop/l-algerina-extra-virgin-olive-oil-500ml-121",
+      "title": "L`ALGERINA EXTRA VIRGIN OLIVE OIL 500ML",
+      "price": 25,
+      "breadcrumb": [
+        "Bakery & Cooking Essentials"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/121/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/119/image_1920"
+      ]
+    },
+    {
+      "externalId": "122",
+      "handle": "the-flecha-green-tea-100g",
+      "url": "https://fennectradingllc.odoo.com/shop/the-flecha-green-tea-100g-122",
+      "title": "THE FLECHA GREEN TEA 100g",
+      "price": 9,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/122/image_1920"
+      ]
+    },
+    {
+      "externalId": "123",
+      "handle": "safinet-al-sahra-green-tea-125g",
+      "url": "https://fennectradingllc.odoo.com/shop/safinet-al-sahra-green-tea-125g-123",
+      "title": "SAFINET AL`SAHRA GREEN TEA 125G",
+      "price": 10,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/123/image_1920"
+      ]
+    },
+    {
+      "externalId": "126",
+      "handle": "sol-margarine-250g",
+      "url": "https://fennectradingllc.odoo.com/shop/sol-margarine-250g-126",
+      "title": "SOL MARGARINE 250G",
+      "price": 8,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/126/image_1920"
+      ]
+    },
+    {
+      "externalId": "130",
+      "handle": "daily-sauce-professional-barbecue-900ml",
+      "url": "https://fennectradingllc.odoo.com/shop/daily-sauce-professional-barbecue-900ml-130",
+      "title": "Daily Sauce Professional Barbecue 900ml",
+      "price": 15,
+      "breadcrumb": [
+        "Condiments & Sauces"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/130/image_1920"
+      ]
+    },
+    {
+      "externalId": "131",
+      "handle": "el-mordjene-peanut-butter-700ml",
+      "url": "https://fennectradingllc.odoo.com/shop/el-mordjene-peanut-butter-700ml-131",
+      "title": "El Mordjene Peanut Butter 700ml",
+      "price": 25,
+      "breadcrumb": [
+        "Dairy & Spreads"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/131/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/121/image_1920"
+      ]
+    },
+    {
+      "externalId": "133",
+      "handle": "couscous-d-orge-900g",
+      "url": "https://fennectradingllc.odoo.com/shop/couscous-d-orge-900g-133",
+      "title": "Couscous D'Orge 900g",
+      "price": 13,
+      "breadcrumb": [
+        "Rice, Grains & Pasta"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/133/image_1920"
+      ]
+    },
+    {
+      "externalId": "135",
+      "handle": "lesieur-algerian-sauce-240ml",
+      "url": "https://fennectradingllc.odoo.com/shop/lesieur-algerian-sauce-240ml-135",
+      "title": "Lesieur Algerian Sauce 240ml",
+      "price": 7,
+      "breadcrumb": [
+        "Condiments & Sauces"
+      ],
+      "body": "Lesieur Sauce Algérienne – 240g Bring a burst of bold, savory flavor to your meals with Lesieur Sauce Algérienne . Crafted by the historic French brand Lesieur (established in 1908), this classic Algerian-style sauce is a favorite across Mediterranean and European street food culture. Characterized by its distinct orange hue, this creamy sauce delivers a delightfully tangy and subtly spicy kick, traditionally infused with notes of onions and spices. It is the perfect accompaniment to elevate your grilled meats, kebabs, french fries, burgers, and wraps.",
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/135/image_1920"
+      ]
+    },
+    {
+      "externalId": "136",
+      "handle": "tlitli-500g-sim",
+      "url": "https://fennectradingllc.odoo.com/shop/tlitli-500g-sim-136",
+      "title": "TLITLI 500g SIM",
+      "price": 9,
+      "breadcrumb": [
+        "Rice, Grains & Pasta"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/136/image_1920"
+      ]
+    },
+    {
+      "externalId": "139",
+      "handle": "velocity-protein-bar-white-chocolate-flavour-almond-butter-60g",
+      "url": "https://fennectradingllc.odoo.com/shop/velocity-protein-bar-white-chocolate-flavour-almond-butter-60g-139",
+      "title": "Velocity Protein Bar (White Chocolate Flavour Almond Butter) - 60g",
+      "price": 8,
+      "breadcrumb": [
+        "Confectionery & Snacks"
+      ],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/139/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/37/image_1920"
+      ]
+    },
+    {
+      "externalId": "140",
+      "handle": "velocity-protein-bar-white-chocolate-flavour-almond-butter-60g-x-12",
+      "url": "https://fennectradingllc.odoo.com/shop/velocity-protein-bar-white-chocolate-flavour-almond-butter-60g-x-12-140",
+      "title": "Velocity Protein Bar (White Chocolate Flavour Almond Butter) - 60g x 12",
+      "price": 84,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/140/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/38/image_1920"
+      ]
+    },
+    {
+      "externalId": "141",
+      "handle": "el-mordjene-vanilla-200g",
+      "url": "https://fennectradingllc.odoo.com/shop/el-mordjene-vanilla-200g-141",
+      "title": "El Mordjene Vanilla - 200g",
+      "price": 9,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/141/image_1920"
+      ]
+    },
+    {
+      "externalId": "142",
+      "handle": "el-mordjene-chantilly-200g",
+      "url": "https://fennectradingllc.odoo.com/shop/el-mordjene-chantilly-200g-142",
+      "title": "El Mordjene Chantilly - 200g",
+      "price": 10,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/142/image_1920"
+      ]
+    },
+    {
+      "externalId": "144",
+      "handle": "el-mordjene-cacao-150g",
+      "url": "https://fennectradingllc.odoo.com/shop/el-mordjene-cacao-150g-144",
+      "title": "El Mordjene Cacao - 150g",
+      "price": 11,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/144/image_1920"
+      ]
+    },
+    {
+      "externalId": "145",
+      "handle": "el-mordjene-sucre-glace-extra-fine-700g",
+      "url": "https://fennectradingllc.odoo.com/shop/el-mordjene-sucre-glace-extra-fine-700g-145",
+      "title": "El Mordjene Sucre Glace Extra Fine - 700g",
+      "price": 13,
+      "breadcrumb": [],
+      "images": [
+        "https://fennectradingllc.odoo.com/web/image/product.template/145/image_1920",
+        "https://fennectradingllc.odoo.com/web/image/product.image/117/image_1920"
+      ]
+    }
+  ]
+}

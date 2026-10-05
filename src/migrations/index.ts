@@ -10,6 +10,8 @@ import * as migration_20260906_213000_order_fulfilment from './20260906_213000_o
 import * as migration_20260906_223000_fulfilment_role from './20260906_223000_fulfilment_role';
 import * as migration_20260906_230000_partner_portal from './20260906_230000_partner_portal';
 import * as migration_20261004_134814_banner_product from './20261004_134814_banner_product';
+import * as migration_20261005_024217_algeria_region from './20261005_024217_algeria_region';
+import * as migration_20261005_024300_algeria_region_row from './20261005_024300_algeria_region_row';
 
 export const migrations = [
   {
@@ -70,6 +72,16 @@ export const migrations = [
   {
     up: migration_20261004_134814_banner_product.up,
     down: migration_20261004_134814_banner_product.down,
-    name: '20261004_134814_banner_product'
+    name: '20261004_134814_banner_product',
+  },
+  {
+    up: migration_20261005_024217_algeria_region.up,
+    down: migration_20261005_024217_algeria_region.down,
+    name: '20261005_024217_algeria_region'
+  },
+  {
+    up: migration_20261005_024300_algeria_region_row.up,
+    down: migration_20261005_024300_algeria_region_row.down,
+    name: '20261005_024300_algeria_region_row',
   },
 ];

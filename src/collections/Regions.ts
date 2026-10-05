@@ -19,7 +19,7 @@ export const Regions: CollectionConfig = {
   admin: {
     hidden: adminOnlyInNav,
     useAsTitle: 'label',
-    defaultColumns: ['label', 'slug', 'active', 'sortOrder'],
+    defaultColumns: ['label', 'slug', 'active', 'highlighted', 'sortOrder'],
     group: 'Catalogue',
     description:
       'The "Shop by Region" row on the homepage. Products are matched by their country of origin — these rows only control wording, artwork and priority.',
@@ -66,6 +66,15 @@ export const Regions: CollectionConfig = {
       type: 'checkbox',
       defaultValue: true,
       admin: { description: 'Uncheck to hide the region without deleting it.' },
+    },
+    {
+      name: 'highlighted',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          'Draws this region as the spotlight card on the homepage: wider, framed and badged. Meant for one region at a time.',
+      },
     },
     {
       // Kept as `sortOrder` in code and in the database — every other collection

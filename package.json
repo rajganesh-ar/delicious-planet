@@ -1,7 +1,7 @@
 {
   "name": "delicious-planet",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Delicious Planet — speciality food storefront and trade portal (Payload CMS 3 + Next.js 16)",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -20,10 +20,11 @@
     "import:intermex": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/import-intermex.ts",
     "import:velsoro": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/import-velsoro.ts",
     "scrape:admiral": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/scrape-admiral-caviar.ts",
+    "scrape:fennec": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/scrape-fennec.ts",
+    "import:fennec": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/import-fennec.ts",
     "import:gdlc": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/import-garcia-de-la-cruz.ts",
     "seed:banners": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/seed-banners.ts",
     "seed:banner-images": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/seed-banner-images.ts",
-    "seed:collection-images": "cross-env NODE_OPTIONS=--no-deprecation tsx md/seed/upload-collection-images.ts",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",

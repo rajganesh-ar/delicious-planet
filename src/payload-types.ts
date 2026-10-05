@@ -439,7 +439,9 @@ export interface Product {
     /**
      * Derived from the country on save.
      */
-    region?: ('europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania') | null;
+    region?:
+      | ('europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania' | 'algeria')
+      | null;
     /**
      * Sub-national origin, e.g. "Piedmont", "Kalamata".
      */
@@ -792,7 +794,7 @@ export interface Region {
   /**
    * Which region this row presents. The list is fixed: a region exists because countries are mapped to it, not because a row was added here.
    */
-  slug: 'europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania';
+  slug: 'algeria' | 'europe' | 'middle-east' | 'africa' | 'latin-america' | 'north-america' | 'asia' | 'oceania';
   /**
    * Big name on the card, e.g. "Europe".
    */
@@ -813,6 +815,10 @@ export interface Region {
    * Uncheck to hide the region without deleting it.
    */
   active?: boolean | null;
+  /**
+   * Draws this region as the spotlight card on the homepage: wider, framed and badged. Meant for one region at a time.
+   */
+  highlighted?: boolean | null;
   /**
    * Lower shows first. Decimals and negatives are allowed, so a region can be slotted between two others (2.5) or pushed to the front (0) without renumbering the rest. Left blank, it falls behind every region that has a number.
    */
@@ -2218,6 +2224,7 @@ export interface RegionsSelect<T extends boolean = true> {
   description?: T;
   image?: T;
   active?: T;
+  highlighted?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;

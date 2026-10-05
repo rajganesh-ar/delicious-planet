@@ -1,0 +1,983 @@
+{
+  "ranAt": "2026-10-05T03:24:03.994Z",
+  "report": [
+    {
+      "externalId": "10",
+      "title": "El Sanoubar Chakhchoukha 900g",
+      "action": "preview",
+      "category": "north-african-pasta-grains",
+      "brand": "El Sanoubar",
+      "variants": [
+        {
+          "sku": "FEN-EL-SANOUBAR-CHAKHCHOUKHA-900G",
+          "size": "900g",
+          "aed": 15
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "21",
+      "title": "El Sanoubar Trida 450g",
+      "action": "preview",
+      "category": "north-african-pasta-grains",
+      "brand": "El Sanoubar",
+      "variants": [
+        {
+          "sku": "FEN-EL-SANOUBAR-TRIDA-450G",
+          "size": "450g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "23",
+      "title": "Izdihar Double Concentrated Tomato Paste 400g",
+      "action": "preview",
+      "category": "north-african-canned",
+      "brand": "Izdihar",
+      "variants": [
+        {
+          "sku": "FEN-IZDIHAR-TOMATO-PASTE-400G",
+          "size": "400g",
+          "aed": 9
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "26",
+      "title": "Telloise Apricot Jam 400g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "Telloise",
+      "variants": [
+        {
+          "sku": "FEN-TELLOISE-APRICOT-JAM-400G",
+          "size": "400g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "only an Open Food Facts shop photo of this tin exists; replace with a photo of our stock"
+      ]
+    },
+    {
+      "externalId": "28",
+      "title": "CAB Harissa 135g",
+      "action": "preview",
+      "category": "north-african-sauces",
+      "brand": "CAB",
+      "variants": [
+        {
+          "sku": "FEN-CAB-HARISSA-135G",
+          "size": "135g",
+          "aed": 5
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec’s description says \"380g jar\"; its title, photo and price are the 135g tin"
+      ]
+    },
+    {
+      "externalId": "33",
+      "title": "El Raki Chinese Green Tea 41025, 125g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "El Raki",
+      "variants": [
+        {
+          "sku": "FEN-EL-RAKI-GREEN-TEA-125G",
+          "size": "125g",
+          "aed": 9
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec says \"imported from Algeria\"; the box says the tea is Chinese, so origin is CN"
+      ]
+    },
+    {
+      "externalId": "34",
+      "title": "Ricamar Tuna in Tomato Sauce 3 × 65g",
+      "action": "preview",
+      "category": "north-african-canned",
+      "brand": "Ricamar",
+      "variants": [
+        {
+          "sku": "FEN-RICAMAR-TUNA-TOMATO-3X65G",
+          "size": "3 × 65g",
+          "aed": 13
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec spells this one \"Reccamar\"; the brand is Ricamar"
+      ]
+    },
+    {
+      "externalId": "36",
+      "title": "Ricamar Whole Tuna in Vegetable Oil 3 × 65g",
+      "action": "preview",
+      "category": "north-african-canned",
+      "brand": "Ricamar",
+      "variants": [
+        {
+          "sku": "FEN-RICAMAR-TUNA-OIL-3X65G",
+          "size": "3 × 65g",
+          "aed": 13
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "37",
+      "title": "Isabel Tuna in Tomato Sauce 160g",
+      "action": "preview",
+      "category": "north-african-canned",
+      "brand": "Isabel",
+      "variants": [
+        {
+          "sku": "FEN-ISABEL-TUNA-TOMATO-160G",
+          "size": "160g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec spells the brand \"Izabel\"; the photo is the current carton, and Fennec photographs the older one"
+      ]
+    },
+    {
+      "externalId": "38",
+      "title": "Isabel Tuna in Vegetable Oil 160g",
+      "action": "preview",
+      "category": "north-african-canned",
+      "brand": "Isabel",
+      "variants": [
+        {
+          "sku": "FEN-ISABEL-TUNA-OIL-160G",
+          "size": "160g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec spells the brand \"Izabel\"; the photo is the current carton, and Fennec photographs the older one"
+      ]
+    },
+    {
+      "externalId": "43",
+      "title": "Isabel Tuna in Tomato Sauce 3 × 65g",
+      "action": "preview",
+      "category": "north-african-canned",
+      "brand": "Isabel",
+      "variants": [
+        {
+          "sku": "FEN-ISABEL-TUNA-TOMATO-3X65G",
+          "size": "3 × 65g",
+          "aed": 13
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "origin recorded as ES because Fennec photographs the Spanish sleeve; confirm against the stock"
+      ]
+    },
+    {
+      "externalId": "50",
+      "title": "Dreamy Héritage Milk Chocolate with Pistachio 100g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Dreamy",
+      "variants": [
+        {
+          "sku": "FEN-DREAMY-HERITAGE-PISTACHIO-100G",
+          "size": "100g",
+          "aed": 17
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "52",
+      "title": "Moment Les Croquants Milk Chocolate, Whole Hazelnuts 145g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Moment",
+      "variants": [
+        {
+          "sku": "FEN-MOMENT-CROQUANTS-HAZELNUT-145G",
+          "size": "145g",
+          "aed": 18
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "53",
+      "title": "Moment Les Croquants Milk Chocolate, Almonds 145g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Moment",
+      "variants": [
+        {
+          "sku": "FEN-MOMENT-CROQUANTS-ALMOND-145G",
+          "size": "145g",
+          "aed": 18
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "54",
+      "title": "Moment Les Croquants Milk Chocolate, Raisins & Hazelnuts 145g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Moment",
+      "variants": [
+        {
+          "sku": "FEN-MOMENT-CROQUANTS-RAISIN-HAZELNUT-145G",
+          "size": "145g",
+          "aed": 18
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "56",
+      "title": "Moment Djazaïr Makrout El Louz Chocolate 150g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Moment",
+      "variants": [
+        {
+          "sku": "FEN-MOMENT-DJAZAIR-MAKROUT-150G",
+          "size": "150g",
+          "aed": 19
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "57",
+      "title": "Bimo Ambassadeur Noir Dark Chocolate 100g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Bimo",
+      "variants": [
+        {
+          "sku": "FEN-BIMO-AMBASSADEUR-NOIR-100G",
+          "size": "100g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "58",
+      "title": "Bimo Ambassadeur Extra-Fine Milk Chocolate 100g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Bimo",
+      "variants": [
+        {
+          "sku": "FEN-BIMO-AMBASSADEUR-LAIT-100G",
+          "size": "100g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists this as \"Ambassadeur Dark Chocolate White\"; the pack is the milk chocolate, so it is titled as milk"
+      ]
+    },
+    {
+      "externalId": "61",
+      "title": "Bimo Double Mix Wafers, Vanilla & Chocolate 200g",
+      "action": "preview",
+      "category": "north-african-snacks",
+      "brand": "Bimo",
+      "variants": [
+        {
+          "sku": "FEN-BIMO-DOUBLE-MIX-VANILLA-CHOCOLATE-200G",
+          "size": "200g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "63",
+      "title": "Garrido Extra Chickpeas 500g",
+      "action": "preview",
+      "category": "north-african-pasta-grains",
+      "brand": "Garrido",
+      "variants": [
+        {
+          "sku": "FEN-GARRIDO-CHICKPEAS-500G",
+          "size": "500g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "67",
+      "title": "Garrido Lentils 500g",
+      "action": "preview",
+      "category": "north-african-pasta-grains",
+      "brand": "Garrido",
+      "variants": [
+        {
+          "sku": "FEN-GARRIDO-LENTILS-500G",
+          "size": "500g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "68",
+      "title": "Jumbo Beef Stock Cubes 48 × 10g",
+      "action": "preview",
+      "category": "north-african-seasonings",
+      "brand": "Jumbo",
+      "variants": [
+        {
+          "sku": "FEN-JUMBO-BEEF-48",
+          "size": "48 cubes",
+          "aed": 25
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "69",
+      "title": "Jumbo Chicken Stock Cubes 48 × 10g",
+      "action": "preview",
+      "category": "north-african-seasonings",
+      "brand": "Jumbo",
+      "variants": [
+        {
+          "sku": "FEN-JUMBO-CHICKEN-48",
+          "size": "48 cubes",
+          "aed": 25
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec’s description says \"pack of 24\"; the tray is 48 × 10g as the title says"
+      ]
+    },
+    {
+      "externalId": "71",
+      "title": "Salha Puff-Pastry Margarine 500g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "Salha",
+      "variants": [
+        {
+          "sku": "FEN-SALHA-MARGARINE-FEUILLETAGE-500G",
+          "size": "500g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists \"Salha Butter\"; the pack is puff-pastry margarine"
+      ]
+    },
+    {
+      "externalId": "72",
+      "title": "El Fawaha Mloukhia 100g",
+      "action": "preview",
+      "category": "north-african-seasonings",
+      "brand": "El Fawaha",
+      "variants": [
+        {
+          "sku": "FEN-EL-FAWAHA-MLOUKHIA-100G",
+          "size": "100g",
+          "aed": 4
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec’s photo shows a different product (Al Dhawaka coriander & caraway); confirm the brand on the shelf"
+      ]
+    },
+    {
+      "externalId": "76",
+      "title": "Lesieur Dijon Mustard 260g",
+      "action": "preview",
+      "category": "north-african-sauces",
+      "brand": "Lesieur",
+      "variants": [
+        {
+          "sku": "FEN-LESIEUR-DIJON-MUSTARD-260G",
+          "size": "260g",
+          "aed": 11
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "78",
+      "title": "Lesieur Chive & Parsley Salad Dressing 500ml",
+      "action": "preview",
+      "category": "north-african-sauces",
+      "brand": "Lesieur",
+      "variants": [
+        {
+          "sku": "FEN-LESIEUR-CIBOULETTE-PERSIL-500ML",
+          "size": "500ml",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "83",
+      "title": "Bimo Double Mix Wafers, Vanilla & Hazelnut 200g",
+      "action": "preview",
+      "category": "north-african-snacks",
+      "brand": "Bimo",
+      "variants": [
+        {
+          "sku": "FEN-BIMO-DOUBLE-MIX-VANILLA-HAZELNUT-200G",
+          "size": "200g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "85",
+      "title": "Bimo Double Mix Wafers, Strawberry & Chocolate 200g",
+      "action": "preview",
+      "category": "north-african-snacks",
+      "brand": "Bimo",
+      "variants": [
+        {
+          "sku": "FEN-BIMO-DOUBLE-MIX-STRAWBERRY-CHOCOLATE-200G",
+          "size": "200g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "86",
+      "title": "El Aila Dyoul Brick Pastry Sheets, 10 Sheets",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "El Aila",
+      "variants": [
+        {
+          "sku": "FEN-EL-AILA-DYOUL-10",
+          "size": "10 sheets",
+          "aed": 8
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "87",
+      "title": "Oum Walid Dyoul Brick Pastry Sheets, 10 Sheets",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Oum Walid",
+      "variants": [
+        {
+          "sku": "FEN-OUM-WALID-DYOUL-10",
+          "size": "10 sheets",
+          "aed": 8
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "88",
+      "title": "Nouara Strawberry Flan Mix 50g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Nouara",
+      "variants": [
+        {
+          "sku": "FEN-NOUARA-FLAN-FRAISE",
+          "size": "50g",
+          "aed": 4
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "89",
+      "title": "Nouara Caramel Flan Mix 50g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Nouara",
+      "variants": [
+        {
+          "sku": "FEN-NOUARA-FLAN-CARAMEL",
+          "size": "50g",
+          "aed": 4
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "90",
+      "title": "Nouara Vanilla Flan Mix 50g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Nouara",
+      "variants": [
+        {
+          "sku": "FEN-NOUARA-FLAN-VANILLE",
+          "size": "50g",
+          "aed": 4
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "91",
+      "title": "Nouara Lemon Flan Mix 50g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Nouara",
+      "variants": [
+        {
+          "sku": "FEN-NOUARA-FLAN-CITRON",
+          "size": "50g",
+          "aed": 4
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "92",
+      "title": "Nouara Chocolate Flan Mix 56g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Nouara",
+      "variants": [
+        {
+          "sku": "FEN-NOUARA-FLAN-CHOCOLAT",
+          "size": "56g",
+          "aed": 4
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists 50g; the chocolate box says 56g"
+      ]
+    },
+    {
+      "externalId": "93",
+      "title": "Nouara Baking Powder (Levure Chimique) 10g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Nouara",
+      "variants": [
+        {
+          "sku": "FEN-NOUARA-BAKING-POWDER-10G",
+          "size": "10g",
+          "aed": 2
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists \"Baking Yeast\"; the sachet is baking powder, so it is titled as baking powder"
+      ]
+    },
+    {
+      "externalId": "101",
+      "title": "Café Boukhari Ground Coffee 250g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "Boukhari",
+      "variants": [
+        {
+          "sku": "FEN-BOUKHARI-COFFEE-250G",
+          "size": "250g",
+          "aed": 13
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "only a 405px photo of this pack exists online; replace with a photo of our stock when possible"
+      ]
+    },
+    {
+      "externalId": "102",
+      "title": "Café Facto Généreux et Intense Ground Coffee 250g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "Facto",
+      "variants": [
+        {
+          "sku": "FEN-FACTO-COFFEE-250G",
+          "size": "250g",
+          "aed": 14
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "103",
+      "title": "Aroma Café Ground Coffee 250g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "Aroma Café",
+      "variants": [
+        {
+          "sku": "FEN-AROMA-COFFEE-250G",
+          "size": "250g",
+          "aed": 13
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "104",
+      "title": "Café 1001 Goût Espresso Ground Coffee 250g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "Café 1001",
+      "variants": [
+        {
+          "sku": "FEN-CAFE-1001-250G",
+          "size": "250g",
+          "aed": 14
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "105",
+      "title": "Café Bonal Ground Coffee 250g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "Bonal",
+      "variants": [
+        {
+          "sku": "FEN-BONAL-COFFEE-250G",
+          "size": "250g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "109",
+      "title": "Moula Medium Semolina 1kg",
+      "action": "preview",
+      "category": "north-african-pasta-grains",
+      "brand": "Moula",
+      "variants": [
+        {
+          "sku": "FEN-MOULA-SEMOLINA-MEDIUM-1KG",
+          "size": "1kg",
+          "aed": 11
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "113",
+      "title": "LaBelle Margarine 100% Vegetable 500g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "LaBelle",
+      "variants": [
+        {
+          "sku": "FEN-LABELLE-MARGARINE-500G",
+          "size": "500g",
+          "aed": 12
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "114",
+      "title": "LaBelle Margarine 100% Vegetable 250g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "LaBelle",
+      "variants": [
+        {
+          "sku": "FEN-LABELLE-MARGARINE-250G",
+          "size": "250g",
+          "aed": 9
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "115",
+      "title": "Medina Smen Vegetable Ghee 500g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "Medina",
+      "variants": [
+        {
+          "sku": "FEN-MEDINA-SMEN-500G",
+          "size": "500g",
+          "aed": 13.5
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "halal from \"PRODUIT HALAL\" on the older 500g pack; the current pack’s back panel was not seen",
+        "photo shows the older pack; Fennec stocks the newer \"Recette Authentique\" design"
+      ]
+    },
+    {
+      "externalId": "118",
+      "title": "Bimo Ambassadeur Noir Précieux 70% Dark Chocolate 100g",
+      "action": "preview",
+      "category": "chocolate-bars",
+      "brand": "Bimo",
+      "variants": [
+        {
+          "sku": "FEN-BIMO-AMBASSADEUR-NOIR-PRECIEUX-100G",
+          "size": "100g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "119",
+      "title": "Jumbo Mutton Stock Cubes 48 × 10g",
+      "action": "preview",
+      "category": "north-african-seasonings",
+      "brand": "Jumbo",
+      "variants": [
+        {
+          "sku": "FEN-JUMBO-MUTTON-48",
+          "size": "48 cubes",
+          "aed": 25
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "123",
+      "title": "Safinet E’Sahraa Chunmee Green Tea 9371, 125g",
+      "action": "preview",
+      "category": "north-african-coffee-tea",
+      "brand": "Safinet E’Sahraa",
+      "variants": [
+        {
+          "sku": "FEN-SAFINET-ESAHRAA-GREEN-TEA-125G",
+          "size": "125g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "126",
+      "title": "SOL Margarine 100% Vegetable 250g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "SOL",
+      "variants": [
+        {
+          "sku": "FEN-SOL-MARGARINE-250G",
+          "size": "250g",
+          "aed": 8
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "photo is the maker’s older pack design; Fennec stocks the newer Arabic-led pot"
+      ]
+    },
+    {
+      "externalId": "130",
+      "title": "Daily Sauce Professionnel Barbecue Sauce 900g",
+      "action": "preview",
+      "category": "north-african-sauces",
+      "brand": "Daily Sauce",
+      "variants": [
+        {
+          "sku": "FEN-DAILY-SAUCE-BBQ-900G",
+          "size": "900g",
+          "aed": 15
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists 900ml; the wholesaler and the range are 900g"
+      ]
+    },
+    {
+      "externalId": "131",
+      "title": "El Mordjene Roasted Peanut Cream 700g",
+      "action": "preview",
+      "category": "north-african-spreads",
+      "brand": "Cebon",
+      "variants": [
+        {
+          "sku": "FEN-EL-MORDJENE-PEANUT-CREAM-700G",
+          "size": "700g",
+          "aed": 25
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists \"Peanut Butter 700ml\"; it is a 700g sweetened peanut cream"
+      ]
+    },
+    {
+      "externalId": "135",
+      "title": "Lesieur Sauce Algérienne 240g",
+      "action": "preview",
+      "category": "north-african-sauces",
+      "brand": "Lesieur",
+      "variants": [
+        {
+          "sku": "FEN-LESIEUR-SAUCE-ALGERIENNE-240G",
+          "size": "240g",
+          "aed": 7
+        }
+      ],
+      "images": 1,
+      "flags": [
+        "Fennec lists 240ml; the bottle says 240g. No ingredient panel found for this size"
+      ]
+    },
+    {
+      "externalId": "136",
+      "title": "SIM Tlitli No. 1, 500g",
+      "action": "preview",
+      "category": "north-african-pasta-grains",
+      "brand": "SIM",
+      "variants": [
+        {
+          "sku": "FEN-SIM-TLITLI-500G",
+          "size": "500g",
+          "aed": 9
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "141",
+      "title": "El Mordjene Vanilla Flavouring Powder 200g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Cebon",
+      "variants": [
+        {
+          "sku": "FEN-EL-MORDJENE-VANILLA-200G",
+          "size": "200g",
+          "aed": 9
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "142",
+      "title": "El Mordjene Chantilly Whipped Cream Powder 200g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Cebon",
+      "variants": [
+        {
+          "sku": "FEN-EL-MORDJENE-CHANTILLY-200G",
+          "size": "200g",
+          "aed": 10
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "144",
+      "title": "El Mordjene Cocoa Powder 150g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Cebon",
+      "variants": [
+        {
+          "sku": "FEN-EL-MORDJENE-CACAO-150G",
+          "size": "150g",
+          "aed": 11
+        }
+      ],
+      "images": 1,
+      "flags": []
+    },
+    {
+      "externalId": "145",
+      "title": "El Mordjene Extra-Fine Icing Sugar 700g",
+      "action": "preview",
+      "category": "north-african-baking",
+      "brand": "Cebon",
+      "variants": [
+        {
+          "sku": "FEN-EL-MORDJENE-SUCRE-GLACE-700G",
+          "size": "700g",
+          "aed": 13
+        }
+      ],
+      "images": 1,
+      "flags": []
+    }
+  ],
+  "notImported": {
+    "73": "duplicate: \"Medina Margarine 500g\" is Medina Smen, the same product as 115, listed at 13 AED against 13.50",
+    "117": "duplicate of 109 (Moula medium semolina 1kg); same photo, \"MEDIEUM\" typo",
+    "120": "Fennec Grove own label: the only photo is an AI mock-up and nothing independent exists",
+    "121": "L’Algerina own label: the only photo is an AI mock-up and nothing independent exists",
+    "122": "no usable photo: Fennec’s is AI-generated and the only real ones are watermarked",
+    "133": "weight unknown: listed as 900g, the pack photo is illegible (500g?), retailers sell 1kg",
+    "139": "no usable photo: Fennec’s is an ad with text, and no packshot of this flavour exists",
+    "140": "no usable photo: Fennec’s shows a different Oleabio product; would be the 12-bar box of 139"
+  },
+  "problems": []
+}

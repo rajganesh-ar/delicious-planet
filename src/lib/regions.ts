@@ -31,13 +31,24 @@ export interface Region {
   /** Short blurb used on listing pages */
   description: string
   image: string
+  /** Drawn as the spotlight card: wider, framed and badged. */
+  highlighted: boolean
 }
 
-// Card art is one landmark per region (Eiffel Tower, Burj Khalifa, Giza,
-// Machu Picchu, Statue of Liberty, Taj Mahal, Sydney Opera House), so the row
-// reads as a map at a glance. All seven are Unsplash-licensed (free for
-// commercial use, no credit required) and cropped to the card's 3:4.
+// Card art is one landmark per region (Maqam Echahid, Eiffel Tower, Burj
+// Khalifa, Giza, Machu Picchu, Statue of Liberty, Taj Mahal, Sydney Opera
+// House), so the row reads as a map at a glance. All are free for commercial
+// use with no credit required, and cropped to the card's 3:4.
 export const REGIONS: Region[] = [
+  {
+    slug: 'algeria',
+    label: 'Algeria',
+    eyebrow: 'Our roots',
+    description:
+      'Deglet Nour dates, olive oil, couscous and spice from the country our sourcing grew from.',
+    image: siteImage('/images/regions/algeria-maqam-echahid.avif'),
+    highlighted: true,
+  },
   {
     slug: 'europe',
     label: 'Europe',
@@ -45,6 +56,7 @@ export const REGIONS: Region[] = [
     description:
       'Explore authentic European gourmet foods from Italy, France, Spain, Greece and more.',
     image: siteImage('/images/regions/europe-eiffel-tower.avif'),
+    highlighted: false,
   },
   {
     slug: 'middle-east',
@@ -52,6 +64,7 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description: 'Spices, mezze and confections from the Levant, the Gulf and Anatolia.',
     image: siteImage('/images/regions/middle-east-burj-khalifa.avif'),
+    highlighted: false,
   },
   {
     slug: 'africa',
@@ -60,6 +73,7 @@ export const REGIONS: Region[] = [
     description:
       'Single-origin coffee, honey, argan and heritage grains from across the continent.',
     image: siteImage('/images/regions/africa-giza.avif'),
+    highlighted: false,
   },
   {
     slug: 'latin-america',
@@ -67,6 +81,7 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description: 'Cacao, coffee, ancient grains and chillies from Mexico down to Patagonia.',
     image: siteImage('/images/regions/latin-america-machu-picchu.avif'),
+    highlighted: false,
   },
   {
     slug: 'north-america',
@@ -74,6 +89,7 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description: 'Maple, wild rice, craft preserves and small-batch pantry staples.',
     image: siteImage('/images/regions/north-america-statue-of-liberty.avif'),
+    highlighted: false,
   },
   {
     slug: 'asia',
@@ -81,6 +97,7 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description: 'Rice, tea, soy and spice traditions from East, South and Southeast Asia.',
     image: siteImage('/images/regions/asia-taj-mahal.avif'),
+    highlighted: false,
   },
   {
     slug: 'oceania',
@@ -88,6 +105,7 @@ export const REGIONS: Region[] = [
     eyebrow: 'Bite into',
     description: 'Manuka honey, macadamia and cool-climate produce from Australia and New Zealand.',
     image: siteImage('/images/regions/oceania-sydney-opera-house.avif'),
+    highlighted: false,
   },
 ]
 
@@ -126,6 +144,9 @@ export function resolveRegions(docs: RegionDoc[] = []): Region[] {
         eyebrow: doc.eyebrow || base?.eyebrow || '',
         description: doc.description || base?.description || '',
         image: mediaUrl(doc.image) ?? base?.image ?? '',
+        // A checkbox, so the row always has an answer: once rows exist the
+        // spotlight is the editor's call, not the bundled table's.
+        highlighted: doc.highlighted ?? base?.highlighted ?? false,
         sortOrder: doc.sortOrder ?? null,
       }
     })

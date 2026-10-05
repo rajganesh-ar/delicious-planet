@@ -22,6 +22,9 @@ export const REGION_SLUGS = [
   'north-america',
   'asia',
   'oceania',
+  // Last because Postgres appends new enum values. Display order lives in
+  // src/lib/regions.ts and the `regions` collection, not here.
+  'algeria',
 ] as const
 
 export type RegionSlug = (typeof REGION_SLUGS)[number]
@@ -78,7 +81,6 @@ const COUNTRIES_BY_REGION: Record<RegionSlug, CountryDef[]> = {
     { code: 'YE', name: 'Yemen' },
   ],
   africa: [
-    { code: 'DZ', name: 'Algeria' },
     { code: 'CI', name: "Côte d'Ivoire" },
     { code: 'EG', name: 'Egypt' },
     { code: 'ET', name: 'Ethiopia' },
@@ -142,6 +144,9 @@ const COUNTRIES_BY_REGION: Record<RegionSlug, CountryDef[]> = {
     { code: 'AU', name: 'Australia' },
     { code: 'NZ', name: 'New Zealand' },
   ],
+  // A one-country region. Algeria is where the business has its agricultural
+  // roots, so it is shown on its own instead of inside Africa.
+  algeria: [{ code: 'DZ', name: 'Algeria' }],
 }
 
 export const ALL_COUNTRIES: CountryDef[] = REGION_SLUGS.flatMap(
@@ -193,6 +198,8 @@ const COUNTRY_ALIASES: Record<string, string> = {
   'south korea': 'KR',
   'republic of korea': 'KR',
   'new zeland': 'NZ',
+  algerie: 'DZ',
+  'algérie': 'DZ',
 }
 
 /** Countries filed under a region, in name order. */

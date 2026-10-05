@@ -49,6 +49,9 @@ function fakePayload(overrides: Partial<Record<string, unknown>> = {}) {
   const sendEmail = vi.fn(async () => undefined)
 
   const payload = {
+    // No transaction support: markOrderPaid then runs unlocked, which is all
+    // these tests need. The lock itself is covered in order-payment.int.spec.ts.
+    db: { beginTransaction: vi.fn(async () => null) },
     findByID: vi.fn(async () => state),
     update: vi.fn(async ({ data }: { data: Record<string, unknown> }) => {
       Object.assign(state, data)

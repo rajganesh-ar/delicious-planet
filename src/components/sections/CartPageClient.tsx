@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { CartThumb } from '@/components/layout/CartThumb'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeIn } from '@/components/animations/FadeIn'
@@ -301,22 +301,12 @@ function LedgerRow({
             href={`/products/${item.slug}`}
             className="shrink-0 relative w-[74px] h-[92px] md:w-[88px] md:h-[110px] bg-mist rounded-sm overflow-hidden no-underline"
           >
-            {item.image ? (
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                sizes="(max-width: 768px) 74px, 88px"
-                className="object-cover"
-              />
-            ) : (
-              <span
-                aria-hidden
-                className="absolute inset-0 flex items-center justify-center font-luxury text-2xl text-obsidian/25"
-              >
-                {item.title.charAt(0)}
-              </span>
-            )}
+            <CartThumb
+              src={item.image}
+              title={item.title}
+              sizes="(max-width: 768px) 74px, 88px"
+              letterClassName="text-2xl"
+            />
           </Link>
 
           <div className="min-w-0 flex-1">
@@ -326,6 +316,7 @@ function LedgerRow({
               </span>
             </Link>
             <p className="m-0! mt-1.5! font-sans text-[12px] text-stone">
+              {item.size && <>{item.size} · </>}
               {formatPrice(item.price, item.currency)} each
             </p>
             <button

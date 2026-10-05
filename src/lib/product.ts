@@ -4,6 +4,13 @@ import { countryName } from './countries'
 /** The catalogue stores AED only; other currencies are a display-time concern. */
 export const BASE_CURRENCY = 'AED'
 
+/**
+ * The most of one size a single basket line may hold. Checkout refuses more
+ * (lib/cart-pricing.ts), so the basket stops there too rather than letting a
+ * shopper build a line that can only fail at the last step.
+ */
+export const MAX_QTY_PER_LINE = 99
+
 export type ProductVariant = NonNullable<Product['variants']>[number]
 
 export interface ProductPrice {
@@ -37,14 +44,24 @@ export function getVariants(product: Product): ProductVariant[] {
 }
 
 /**
- * The variant a product page opens on: the one flagged default, else the first
- * in stock, else the first that exists.
+ * The variant a product page opens on: the one flagged default if it can be
+ * bought, else the first that can, else the default, else the first.
+ *
+ * The in-stock preference has to come first. deriveVariantRollups guarantees
+ * exactly one default on every save, so a plain "default, else first in stock"
+ * never reached its fallback and opened the page on a sold-out size with
+ * another size available.
  */
 export function getDefaultVariant(product: Product): ProductVariant | null {
   const variants = getVariants(product)
   if (variants.length === 0) return null
+  const buyable = (v: ProductVariant) => v.inStock !== false
+  const flagged = variants.find((v) => v.isDefault)
   return (
-    variants.find((v) => v.isDefault) ?? variants.find((v) => v.inStock !== false) ?? variants[0]!
+    (flagged && buyable(flagged) ? flagged : undefined) ??
+    variants.find(buyable) ??
+    flagged ??
+    variants[0]!
   )
 }
 

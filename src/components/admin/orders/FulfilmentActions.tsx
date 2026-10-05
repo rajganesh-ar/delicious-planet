@@ -119,8 +119,11 @@ export default function FulfilmentActions() {
       Object.entries(action.patch).forEach(([path, value]) => {
         dispatchFields({ type: 'UPDATE', path, value })
       })
-      await submit({ overrides: action.patch, disableSuccessStatus: true })
-      toast.success(action.toast)
+      const result = await submit({ overrides: action.patch, disableSuccessStatus: true })
+      // A failed save does not throw: Payload shows its own error toast and
+      // returns nothing, or a 4xx/5xx response. Claiming success on top of that
+      // told staff "Marked shipped" for an order that was not.
+      if (result?.res?.ok) toast.success(action.toast)
     } catch {
       toast.error('Could not save the change. Nothing was altered.')
     } finally {

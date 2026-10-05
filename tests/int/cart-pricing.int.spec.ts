@@ -176,6 +176,17 @@ describe('priceCart', () => {
     expect(result.ok).toBe(false)
   })
 
+  it('rejects a variant priced at zero', async () => {
+    const free = product({
+      variants: [{ id: 'v1', sku: 'CAV-30', size: '30g', price: 0, inStock: true }],
+    } as unknown as Partial<Product>)
+
+    const result = await priceCart(fakePayload({ 1: free }), [
+      { productId: 1, variantSku: 'CAV-30', quantity: 1 },
+    ])
+    expect(result.ok).toBe(false)
+  })
+
   it('rounds the subtotal so float drift cannot desync it from the Stripe total', async () => {
     const odd = product({
       variants: [{ id: 'v1', sku: 'ODD', size: '10g', price: 0.1, inStock: true }],

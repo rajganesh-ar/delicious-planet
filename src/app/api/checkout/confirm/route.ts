@@ -81,6 +81,16 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Order not found.' }, { status: 404 })
   }
 
+  // A refunded order, revisited from history: Stripe still calls the session
+  // paid, but the order is closed and must not read as freshly confirmed.
+  if (result === 'not-payable') {
+    return NextResponse.json({
+      paid: false,
+      orderNumber: session.metadata?.orderNumber ?? null,
+      status: 'closed',
+    })
+  }
+
   return NextResponse.json({
     paid: true,
     orderNumber: session.metadata?.orderNumber ?? null,

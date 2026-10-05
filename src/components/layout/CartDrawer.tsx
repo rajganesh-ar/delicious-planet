@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
+import { CartThumb } from '@/components/layout/CartThumb'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCart, lineKey, type CartItem } from './CartContext'
 import { MENU_LOCK_EVENT } from './menu-events'
-import { BASE_CURRENCY, formatPrice } from '@/lib/product'
+import { BASE_CURRENCY, MAX_QTY_PER_LINE, formatPrice } from '@/lib/product'
 import { cn } from '@/lib/cn'
+import { useDialogFocus } from './useDialogFocus'
 
 /**
  * Slide-over basket.
@@ -39,6 +40,8 @@ export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, subtotal, totalItems } = useCart()
   const currency = items[0]?.currency ?? BASE_CURRENCY
   const closeRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
+  useDialogFocus(isOpen, panelRef)
 
   // Escape closes, matching the mega menu and mobile drawer.
   useEffect(() => {
@@ -83,6 +86,7 @@ export function CartDrawer() {
           />
 
           <motion.aside
+            ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label="Your basket"
@@ -261,16 +265,7 @@ function LineItem({
         onClick={onNavigate}
         className="shrink-0 relative w-[68px] h-[68px] bg-mist rounded-sm overflow-hidden no-underline"
       >
-        {item.image ? (
-          <Image src={item.image} alt={item.title} fill sizes="68px" className="object-cover" />
-        ) : (
-          <span
-            aria-hidden
-            className="absolute inset-0 flex items-center justify-center font-luxury text-lg text-obsidian/25"
-          >
-            {item.title.charAt(0)}
-          </span>
-        )}
+        <CartThumb src={item.image} title={item.title} sizes="68px" letterClassName="text-lg" />
       </Link>
 
       <div className="flex-1 min-w-0">
@@ -290,6 +285,7 @@ function LineItem({
         </div>
 
         <p className="m-0! mt-1! font-sans text-[11.5px] text-stone">
+          {item.size && <>{item.size} · </>}
           {formatPrice(item.price, item.currency)} each
         </p>
 
@@ -350,8 +346,10 @@ export function QuantityStepper({
       <button
         type="button"
         onClick={() => onChange(quantity + 1)}
+        // Checkout refuses more than this per line.
+        disabled={quantity >= MAX_QTY_PER_LINE}
         aria-label={`Increase quantity of ${title}`}
-        className="w-11 lg:w-8 h-full flex items-center justify-center bg-transparent border-0 cursor-pointer text-obsidian hover:bg-mist transition-colors"
+        className="w-11 lg:w-8 h-full flex items-center justify-center bg-transparent border-0 cursor-pointer text-obsidian hover:bg-mist transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
       >
         <span className="font-sans text-sm leading-none">+</span>
       </button>

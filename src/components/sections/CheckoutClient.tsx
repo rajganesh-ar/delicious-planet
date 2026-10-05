@@ -49,7 +49,9 @@ const EMPTY_ADDRESS: AddressForm = {
   city: '',
   state: '',
   postalCode: '',
-  country: '',
+  // Most orders ship within the UAE; prefilled rather than assumed, so it can
+  // still be changed.
+  country: 'United Arab Emirates',
 }
 
 export function CheckoutClient() {
@@ -57,7 +59,7 @@ export function CheckoutClient() {
   const searchParams = useSearchParams()
   // Stripe sends people back here with ?cancelled=1 if they abandon the payment page.
   const paymentCancelled = searchParams.get('cancelled') === '1'
-  const { items, subtotal, clearCart } = useCart()
+  const { items, subtotal, clearCart, removeItem } = useCart()
   const currency = items[0]?.currency ?? BASE_CURRENCY
 
   const [user, setUser] = useState<User | null>(null)
@@ -69,10 +71,23 @@ export function CheckoutClient() {
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // The basket line checkout refused, when the server named one.
+  const [refusedKey, setRefusedKey] = useState<string | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
     setHydrated(true)
+  }, [])
+
+  // Back from Stripe restores this page from the back/forward cache with
+  // `submitting` still true, which left the button stuck on "Redirecting to
+  // payment…" until a reload.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setSubmitting(false)
+    }
+    window.addEventListener('pageshow', onPageShow)
+    return () => window.removeEventListener('pageshow', onPageShow)
   }, [])
 
   useEffect(() => {
@@ -108,6 +123,8 @@ export function CheckoutClient() {
     }
   }, [hydrated, items.length, submitting, router])
 
+  const refusedItem = refusedKey ? items.find((i) => lineKey(i) === refusedKey) : undefined
+
   const savedAddresses: SavedAddress[] = (user?.addresses as SavedAddress[]) ?? []
   const selectedSaved = savedAddresses.find((a) => a.id === selectedAddressId)
 
@@ -132,9 +149,10 @@ export function CheckoutClient() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
+    setRefusedKey(null)
 
     const shipping = getShippingAddress()
-    if (!shipping.line1 || !shipping.city || !shipping.postalCode || !shipping.country) {
+    if (!shipping.line1 || !shipping.city || !shipping.country) {
       setError('Please fill in all required address fields.')
       return
     }
@@ -168,7 +186,6 @@ export function CheckoutClient() {
           items: lineItems,
           email,
           notes: notes.trim() || undefined,
-          type: 'retail',
           shippingAddress: shipping,
         }),
       })
@@ -177,6 +194,11 @@ export function CheckoutClient() {
 
       if (!res.ok) {
         setError(data?.error ?? 'Could not place your order. Please try again.')
+        if (data?.line?.productId && data.line.variantSku) {
+          setRefusedKey(
+            lineKey({ productId: String(data.line.productId), variantSku: data.line.variantSku }),
+          )
+        }
         setSubmitting(false)
         return
       }
@@ -228,11 +250,7 @@ export function CheckoutClient() {
               Place your order
             </Heading>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
             <ProseText size="md" tone="cream" className="mt-4! max-w-lg">
               Confirm your details, then pay securely by card. Our team arranges shipping once
               payment clears.
@@ -265,6 +283,7 @@ export function CheckoutClient() {
                 <FormField label="Email" required htmlFor="checkout-email">
                   <Input
                     id="checkout-email"
+                    autoComplete="email"
                     type="email"
                     required
                     value={email}
@@ -348,6 +367,7 @@ export function CheckoutClient() {
                     <FormField label="Full name" required htmlFor="checkout-name">
                       <Input
                         id="checkout-name"
+                        autoComplete="name"
                         type="text"
                         required
                         value={address.name}
@@ -357,6 +377,7 @@ export function CheckoutClient() {
                     <FormField label="Address line 1" required htmlFor="checkout-line1">
                       <Input
                         id="checkout-line1"
+                        autoComplete="address-line1"
                         type="text"
                         required
                         value={address.line1}
@@ -366,6 +387,7 @@ export function CheckoutClient() {
                     <FormField label="Address line 2" htmlFor="checkout-line2">
                       <Input
                         id="checkout-line2"
+                        autoComplete="address-line2"
                         type="text"
                         value={address.line2}
                         onChange={(e) => setAddress({ ...address, line2: e.target.value })}
@@ -375,6 +397,7 @@ export function CheckoutClient() {
                       <FormField label="City" required htmlFor="checkout-city">
                         <Input
                           id="checkout-city"
+                          autoComplete="address-level2"
                           type="text"
                           required
                           value={address.city}
@@ -384,6 +407,7 @@ export function CheckoutClient() {
                       <FormField label="State / Region" htmlFor="checkout-state">
                         <Input
                           id="checkout-state"
+                          autoComplete="address-level1"
                           type="text"
                           value={address.state}
                           onChange={(e) => setAddress({ ...address, state: e.target.value })}
@@ -391,11 +415,11 @@ export function CheckoutClient() {
                       </FormField>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <FormField label="Postal code" required htmlFor="checkout-postal">
+                      <FormField label="Postal code (if any)" htmlFor="checkout-postal">
                         <Input
                           id="checkout-postal"
+                          autoComplete="postal-code"
                           type="text"
-                          required
                           value={address.postalCode}
                           onChange={(e) => setAddress({ ...address, postalCode: e.target.value })}
                         />
@@ -403,6 +427,7 @@ export function CheckoutClient() {
                       <FormField label="Country" required htmlFor="checkout-country">
                         <Input
                           id="checkout-country"
+                          autoComplete="country-name"
                           type="text"
                           required
                           value={address.country}
@@ -425,13 +450,33 @@ export function CheckoutClient() {
               </FormField>
 
               {error && (
-                <p className="text-sm text-red-600 m-0" role="alert">
-                  {error}
-                </p>
+                <div className="text-sm text-red-700 m-0" role="alert">
+                  <p className="m-0">{error}</p>
+                  {refusedItem && (
+                    <p className="m-0 mt-2">
+                      {refusedItem.title}
+                      {refusedItem.size ? ` (${refusedItem.size})` : ''}{' '}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          removeItem(lineKey(refusedItem))
+                          setRefusedKey(null)
+                          setError(null)
+                        }}
+                        className="underline text-red-700 bg-transparent border-0 p-0 cursor-pointer"
+                      >
+                        Remove it from your basket
+                      </button>
+                    </p>
+                  )}
+                </div>
               )}
             </div>
 
-            <aside className="lg:sticky lg:self-start" style={{ top: 'calc(var(--header-h) + 16px)' }}>
+            <aside
+              className="lg:sticky lg:self-start"
+              style={{ top: 'calc(var(--header-h) + 16px)' }}
+            >
               <div className="border border-mist/60 rounded-sm p-5 sm:p-6 bg-white">
                 <Heading as="h2" variant="card" className="mb-6!">
                   Order summary
@@ -456,6 +501,7 @@ export function CheckoutClient() {
                       )}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-obsidian m-0 truncate">{item.title}</p>
+                        {item.size && <p className="text-xs text-stone m-0 mt-0.5">{item.size}</p>}
                         <p className="text-xs text-stone m-0 mt-1">
                           {formatMoney(item.price)} × {item.quantity}
                         </p>

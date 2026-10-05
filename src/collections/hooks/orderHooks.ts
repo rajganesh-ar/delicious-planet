@@ -96,8 +96,15 @@ export const stampFulfilmentDates: CollectionBeforeChangeHook = ({ data, origina
  *
  * `by` is null for machine writes. That is the point — an order that moved to
  * `paid` with nobody attached moved because Stripe said so.
+ *
+ * An incoming `timeline` is never kept: it is replaced below. The admin form submits every field on
+ * save, so a tab left open would otherwise write back a stale history over
+ * entries the webhook added since — and the history is an audit trail, which
+ * nobody should be able to edit. Events that change no field (a partial
+ * refund) are passed in as `context.timelineEvent` instead.
  */
 export const recordOrderTimeline: CollectionBeforeChangeHook = ({
+  context,
   data,
   operation,
   originalDoc,
@@ -111,6 +118,9 @@ export const recordOrderTimeline: CollectionBeforeChangeHook = ({
   const by = typeof req?.user?.id === 'number' ? req.user.id : null
   const added: TimelineRow[] = []
   const log = (event: string, note?: string) => added.push({ event, note: note ?? null, at, by })
+
+  const extra = context?.timelineEvent as { event?: string; note?: string } | undefined
+  if (extra?.event) log(extra.event, extra.note)
 
   if (operation === 'create') {
     log('Order placed', incoming.status ? STATUS_LABEL[incoming.status] : undefined)
@@ -138,11 +148,11 @@ export const recordOrderTimeline: CollectionBeforeChangeHook = ({
     }
   }
 
-  if (added.length === 0) return data
-
   const history = (previous.timeline ?? []).map((row) => ({ ...row, by: toUserId(row.by) }))
-  // Newest first: the entry that explains the current state should not be at the
-  // bottom of a year-old order.
+  // Always rebuilt from the stored order, even when nothing was added, so
+  // whatever timeline the request carried is replaced by the true one.
+  // Newest first: the entry that explains the current state should not be at
+  // the bottom of a year-old order.
   incoming.timeline = [...added, ...history].slice(0, 200)
 
   return data

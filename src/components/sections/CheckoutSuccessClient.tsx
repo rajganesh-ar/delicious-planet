@@ -22,8 +22,19 @@ function SuccessInner() {
 
   // The cart is kept through the Stripe redirect so a cancelled payment lands
   // back on a full basket. Reaching this page is what makes the sale final.
+  //
+  // Once per order, though: reopening this page from history used to empty a
+  // basket the shopper had filled again since.
   useEffect(() => {
-    if (orderNumber) clearCart()
+    if (!orderNumber) return
+    const key = 'dp-cart-cleared-for'
+    try {
+      if (localStorage.getItem(key) === orderNumber) return
+      localStorage.setItem(key, orderNumber)
+    } catch {
+      // Storage unavailable: clearing every time is the safer failure.
+    }
+    clearCart()
   }, [orderNumber, clearCart])
 
   /**

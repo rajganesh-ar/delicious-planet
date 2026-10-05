@@ -32,3 +32,10 @@ export function toMinorUnits(amount: number, currency: string): number {
   if (ZERO_DECIMAL.has(currency.toUpperCase())) return Math.round(amount)
   return Math.round(amount * 100)
 }
+
+/** The inverse of toMinorUnits, formatted for people: 2000 AED-fils → "AED 20.00". */
+export function formatMinorUnits(amount: number, currency: string): string {
+  const code = currency.toUpperCase()
+  if (ZERO_DECIMAL.has(code)) return `${code} ${amount}`
+  return `${code} ${(amount / 100).toFixed(2)}`
+}

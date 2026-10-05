@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { generateOrderNumber } from '@/collections/Orders'
 import { priceCart, type CartLineInput } from '@/lib/cart-pricing'
+import { isValidEmail } from '@/lib/email-address'
 import { clientKey, rateLimit } from '@/lib/rate-limit'
 import { SITE_URL, SITE_URL_IS_CONFIGURED } from '@/lib/site-url'
 import { getStripe, isStripeConfigured, toMinorUnits } from '@/lib/stripe'
@@ -25,7 +26,6 @@ interface Body {
   items?: CartLineInput[]
   email?: string
   notes?: string
-  type?: 'retail' | 'b2b'
   shippingAddress?: AddressInput
 }
 
@@ -71,26 +71,32 @@ export async function POST(req: Request) {
   }
 
   const address = cleanAddress(body.shippingAddress)
-  if (!address.line1 || !address.city || !address.postalCode || !address.country) {
+  // No postal code requirement: UAE addresses have none, and requiring one made
+  // every local shopper invent "00000".
+  if (!address.line1 || !address.city || !address.country) {
     return bad('Please fill in all required address fields.')
   }
 
-  const orderType = body.type === 'b2b' ? 'b2b' : 'retail'
   const payload = await getPayload({ config: await config })
 
   // Trust the session cookie for identity, never a user id from the body.
   const { user } = await payload.auth({ headers: req.headers })
   const email = (user?.email ?? body.email ?? '').trim()
   if (!email) return bad('Please enter your email address.')
+  // A typo the browser's type=email accepts ("name@gmailcom") would otherwise
+  // fail inside payload.create below and reach the shopper as a 500.
+  if (!isValidEmail(email)) return bad('Please check your email address — it looks incomplete.')
 
   // Checked before the order row exists, so a misconfigured deploy doesn't
   // leave a trail of unpayable pending orders.
-  if (orderType !== 'b2b' && !isStripeConfigured()) {
+  if (!isStripeConfigured()) {
     return bad('Card payments are not configured yet. Please contact us to complete this order.', 503)
   }
 
   const priced = await priceCart(payload, body.items ?? [])
-  if (!priced.ok) return bad(priced.error)
+  if (!priced.ok) {
+    return NextResponse.json({ error: priced.error, line: priced.line ?? null }, { status: 400 })
+  }
 
   const { lines, currency, subtotal } = priced
 
@@ -115,17 +121,16 @@ export async function POST(req: Request) {
       totals: { subtotal, shipping: 0, tax: 0, total: subtotal },
       currency: currency as Order['currency'],
       status: 'pending',
-      paymentStatus: orderType === 'b2b' ? 'invoice' : 'unpaid',
-      type: orderType,
+      // Always a card order. This route is public, and it used to accept
+      // `type: 'b2b'` from the request body, which skipped Stripe and wrote
+      // `invoice` — a status the fulfilment queue and the revenue figures
+      // treat as paid. Trade orders on terms are entered by staff in the admin.
+      paymentStatus: 'unpaid',
+      type: 'retail',
       shippingAddress: address,
       notes: body.notes?.trim() || null,
     },
   })
-
-  // Trade orders are invoiced by the team, so there's nothing to charge here.
-  if (orderType === 'b2b') {
-    return NextResponse.json({ orderNumber: order.orderNumber, url: null })
-  }
 
   /**
    * Where Stripe sends the buyer back to.

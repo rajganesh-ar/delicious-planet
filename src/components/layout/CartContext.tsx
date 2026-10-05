@@ -5,9 +5,11 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   useSyncExternalStore,
   type ReactNode,
 } from 'react'
+import { MAX_QTY_PER_LINE } from '@/lib/product'
 
 export interface CartItem {
   productId: string
@@ -54,6 +56,9 @@ interface CartContextValue {
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
+
+/** Checkout refuses more than this per line, so the basket never holds more. */
+const clampQuantity = (quantity: number) => Math.min(Math.max(1, Math.floor(quantity)), MAX_QTY_PER_LINE)
 
 const STORAGE_KEY = 'dp-cart-v2'
 
@@ -142,6 +147,50 @@ function setCart(update: (prev: CartItem[]) => CartItem[]) {
   emit()
 }
 
+/**
+ * A line's `image` is the URL saved when it was added, and photos change after
+ * that: a replaced product photo, the move to R2, a deleted product. Once per
+ * page load, re-read each product's current thumbnail and swap any stale URL.
+ * Prices are not touched here: checkout re-prices on the server regardless.
+ */
+let imagesRefreshed = false
+
+async function refreshLineImages() {
+  if (imagesRefreshed) return
+  imagesRefreshed = true
+  const ids = [...new Set(getSnapshot().map((i) => i.productId))]
+  if (ids.length === 0) return
+  const params = new URLSearchParams({
+    'where[id][in]': ids.join(','),
+    depth: '1',
+    limit: String(ids.length),
+    'select[images]': 'true',
+  })
+  try {
+    const res = await fetch(`/api/products?${params}`)
+    if (!res.ok) return
+    const { docs } = (await res.json()) as {
+      docs: Array<{
+        id: number | string
+        images?: Array<{ image?: { url?: string | null; sizes?: { thumbnail?: { url?: string | null } } } | null }>
+      }>
+    }
+    const current = new Map<string, string>()
+    for (const doc of docs) {
+      const media = doc.images?.[0]?.image
+      const url = media?.sizes?.thumbnail?.url ?? media?.url
+      if (url) current.set(String(doc.id), url)
+    }
+    if (getSnapshot().some((i) => current.has(i.productId) && current.get(i.productId) !== i.image)) {
+      setCart((prev) =>
+        prev.map((i) => (current.has(i.productId) ? { ...i, image: current.get(i.productId) } : i)),
+      )
+    }
+  } catch {
+    // Offline or the API is down: keep the saved URLs; CartThumb falls back.
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   const [isOpen, setIsOpen] = useState(false)
@@ -154,6 +203,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     () => false,
   )
 
+  useEffect(() => {
+    if (hydrated) void refreshLineImages()
+  }, [hydrated])
+
   const openCart = useCallback(() => setIsOpen(true), [])
   const closeCart = useCallback(() => setIsOpen(false), [])
   const toggleCart = useCallback(() => setIsOpen((o) => !o), [])
@@ -163,9 +216,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCart((prev) => {
       const existing = prev.find((i) => lineKey(i) === key)
       if (existing) {
-        return prev.map((i) => (lineKey(i) === key ? { ...i, quantity: i.quantity + quantity } : i))
+        return prev.map((i) =>
+          lineKey(i) === key ? { ...i, quantity: clampQuantity(i.quantity + quantity) } : i,
+        )
       }
-      return [...prev, { ...item, quantity }]
+      return [...prev, { ...item, quantity: clampQuantity(quantity) }]
     })
   }, [])
 
@@ -178,7 +233,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setCart((prev) => prev.filter((i) => lineKey(i) !== key))
       return
     }
-    setCart((prev) => prev.map((i) => (lineKey(i) === key ? { ...i, quantity } : i)))
+    setCart((prev) =>
+      prev.map((i) => (lineKey(i) === key ? { ...i, quantity: clampQuantity(quantity) } : i)),
+    )
   }, [])
 
   const clearCart = useCallback(() => setCart(() => []), [])

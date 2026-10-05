@@ -51,9 +51,17 @@ export const ORDER_QUEUES: OrderQueue[] = [
   {
     key: 'failed',
     label: 'Needs attention',
-    hint: 'Payment failed or refunded',
+    hint: 'Payment failed or refunded on an open order',
     tone: 'urgent',
-    where: { and: [{ paymentStatus: { in: ['failed', 'refunded'] } }] },
+    // Closed orders are left out. Every abandoned checkout ends cancelled +
+    // failed when its Stripe session expires, and every finished refund ends
+    // refunded + refunded; counting those buried the few that need a person.
+    where: {
+      and: [
+        { paymentStatus: { in: ['failed', 'refunded'] } },
+        { status: { not_in: ['cancelled', 'refunded'] } },
+      ],
+    },
   },
 ]
 

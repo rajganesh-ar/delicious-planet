@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { hasRole, isAdminField } from './access'
+import { hasRole, isAdminField, isStaffField } from './access'
 import { recordOrderTimeline, stampFulfilmentDates } from './hooks/orderHooks'
 
 /** Exported so server-side checkout can stamp the number it will show the buyer. */
@@ -167,6 +167,9 @@ export const Orders: CollectionConfig = {
             {
               name: 'internalNotes',
               type: 'textarea',
+              // Customers read their own orders through /api/orders (the account
+              // page), so without this the "never shown" note was in their browser.
+              access: { read: isStaffField },
               admin: {
                 description: 'Staff-only. Never shown to the customer.',
               },
@@ -246,6 +249,11 @@ export const Orders: CollectionConfig = {
             {
               name: 'timeline',
               type: 'array',
+              // Staff names and internal events, so staff-only to read. Never
+              // writable through the API: recordOrderTimeline rebuilds it from the
+              // stored order on every save, and Stripe writes run with access
+              // overridden.
+              access: { read: isStaffField, update: () => false },
               admin: {
                 hidden: true,
                 description: 'Raw audit rows. Rendered above.',

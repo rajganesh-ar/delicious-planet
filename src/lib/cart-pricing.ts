@@ -1,6 +1,6 @@
 import type { Payload } from 'payload'
 import type { Product } from '@/payload-types'
-import { BASE_CURRENCY, getVariantBySku } from './product'
+import { BASE_CURRENCY, MAX_QTY_PER_LINE, getVariantBySku } from './product'
 
 export interface CartLineInput {
   productId: number
@@ -21,10 +21,14 @@ export interface PricedLine {
 
 export type PricingResult =
   | { ok: true; lines: PricedLine[]; currency: string; subtotal: number }
-  | { ok: false; error: string }
+  /**
+   * `line` names the basket line at fault when there is one, so checkout can
+   * point at it. A product that has been deleted has no title to put in the
+   * message, and "one of the items" left the shopper guessing which to remove.
+   */
+  | { ok: false; error: string; line?: { productId: number; variantSku: string } }
 
 const MAX_LINES = 50
-const MAX_QTY_PER_LINE = 99
 
 function firstImageUrl(product: Product, variantImage: unknown): string | undefined {
   const image = variantImage ?? product.images?.[0]?.image
@@ -92,6 +96,7 @@ export async function priceCart(
       return { ok: false, error: 'Please choose a quantity between 1 and 99 for each item.' }
     }
 
+    const line = { productId, variantSku }
     let product: Product | null = null
     try {
       product = await payload.findByID({
@@ -105,7 +110,7 @@ export async function priceCart(
     }
 
     if (!product || product._status !== 'published') {
-      return { ok: false, error: 'One of the items in your cart is no longer available.' }
+      return { ok: false, error: 'One of the items in your cart is no longer available.', line }
     }
 
     const variant = getVariantBySku(product, variantSku)
@@ -113,13 +118,20 @@ export async function priceCart(
       return {
         ok: false,
         error: `The size you chose for "${product.title}" is no longer available.`,
+        line,
       }
     }
     if (variant.inStock === false) {
-      return { ok: false, error: `"${product.title}" (${variant.size}) is out of stock.` }
+      return { ok: false, error: `"${product.title}" (${variant.size}) is out of stock.`, line }
     }
-    if (typeof variant.price !== 'number' || variant.price < 0) {
-      return { ok: false, error: `"${product.title}" is not currently priced for online purchase.` }
+    // Zero is refused as well as missing: an imported size the supplier priced
+    // at 0.00 (as one Intermex listing still is) would otherwise be given away.
+    if (typeof variant.price !== 'number' || !(variant.price > 0)) {
+      return {
+        ok: false,
+        error: `"${product.title}" is not currently priced for online purchase.`,
+        line,
+      }
     }
 
     lines.push({

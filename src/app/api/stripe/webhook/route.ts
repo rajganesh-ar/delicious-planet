@@ -2,8 +2,15 @@ import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
-import { markOrderPaid, orderIdFromMetadata } from '@/lib/orders'
-import { getStripe } from '@/lib/stripe'
+import {
+  cancelIfAbandoned,
+  failIfUnpaid,
+  markOrderPaid,
+  orderIdFromMetadata,
+  refundTransition,
+  transitionOrder,
+} from '@/lib/orders'
+import { formatMinorUnits, getStripe } from '@/lib/stripe'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -54,9 +61,9 @@ export async function POST(req: Request) {
         // `unpaid` here means an async method (e.g. bank debit) hasn't settled yet.
         if (orderId && session.payment_status === 'paid') {
           // Shared with /api/checkout/confirm, which races this handler on the
-          // redirect. The helper's `paymentStatus` guard is what makes whichever
-          // loses a no-op — and stops a redelivered event from resetting an
-          // order an admin has since moved on to `shipped`.
+          // redirect. The helper's row lock makes whichever loses a no-op, and
+          // its allow-list stops a redelivered event from reviving an order
+          // that has since been refunded or moved on to `shipped`.
           await markOrderPaid(
             payload,
             orderId,
@@ -68,32 +75,20 @@ export async function POST(req: Request) {
         break
       }
 
+      // Each of the next three changes an order only if it still fits the
+      // order's current state — Stripe delivers out of order and retries for
+      // days. The rules, and why, are on the decision functions in lib/orders.
       case 'checkout.session.expired': {
         const orderId = orderIdFrom(event.data.object.metadata)
-        if (orderId) {
-          await payload.update({
-            collection: 'orders',
-            id: orderId,
-            overrideAccess: true,
-            data: { status: 'cancelled', paymentStatus: 'failed' },
-          })
-        }
+        if (orderId) await transitionOrder(payload, orderId, cancelIfAbandoned)
         break
       }
 
-      // A delayed method that bounces fires both of these. The write is the same
-      // either way, so whichever lands second is a harmless no-op.
+      // A declined card, or a delayed method that bounces (which fires both).
       case 'payment_intent.payment_failed':
       case 'checkout.session.async_payment_failed': {
         const orderId = orderIdFrom(event.data.object.metadata)
-        if (orderId) {
-          await payload.update({
-            collection: 'orders',
-            id: orderId,
-            overrideAccess: true,
-            data: { paymentStatus: 'failed' },
-          })
-        }
+        if (orderId) await transitionOrder(payload, orderId, failIfUnpaid)
         break
       }
 
@@ -108,15 +103,16 @@ export async function POST(req: Request) {
             collection: 'orders',
             where: { stripePaymentIntentId: { equals: intentId } },
             limit: 1,
+            depth: 0,
             overrideAccess: true,
           })
           if (docs[0]) {
-            await payload.update({
-              collection: 'orders',
-              id: docs[0].id,
-              overrideAccess: true,
-              data: { status: 'refunded', paymentStatus: 'refunded' },
-            })
+            const fullyRefunded = charge.refunded || charge.amount_refunded >= charge.amount
+            const refunded = formatMinorUnits(charge.amount_refunded, charge.currency)
+            const charged = formatMinorUnits(charge.amount, charge.currency)
+            await transitionOrder(payload, docs[0].id, () =>
+              refundTransition(fullyRefunded, `${refunded} of ${charged}`),
+            )
           }
         }
         break

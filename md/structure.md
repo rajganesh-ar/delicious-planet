@@ -1,6 +1,6 @@
 # Proposed Product Structure
 
-Target model for the catalogue rebuild. Companion to [wireframe.md](wireframe.md), which
+Target model for the catalogue rebuild. Companion to [wireframe.md](archive/wireframe.md), which
 documents the model as it exists today.
 
 Written on the assumption that **all products get deleted and re-imported**, so this
@@ -363,7 +363,7 @@ Order matters — this is the part that is easy to get wrong.
 
 3. ACCESS CONTROL         ⟳ Products, Categories, Suppliers, Warehouses, Brands and
                           ProductCollections still have no `access` block, so any
-                          logged-in customer can PATCH the catalogue. (AUDIT.md's
+                          logged-in customer can PATCH the catalogue. (archive/AUDIT.md's
                           separate "forgeable orders" item is now STALE — checkout
                           re-prices server-side via priceCart.)
 

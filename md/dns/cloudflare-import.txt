@@ -1,0 +1,14 @@
+;; Cloudflare DNS import for deliciousplanet.co
+;; Cloudflare > deliciousplanet.co > DNS > Records > Import and Export > Import.
+;; Leave "Proxy imported DNS records" UNTICKED: mail records must be DNS only.
+;;
+;; Holds only the two records missing from the zone (checked 2026-10-05).
+;; Import adds records, it never deletes, so the old SPF record
+;;   "v=spf1 include:spf.efwd.registrar-servers.com ~all"
+;; still has to be deleted by hand.
+
+;; Google Workspace inbound mail
+deliciousplanet.co.	3600	IN	MX	1 smtp.google.com.
+
+;; Google Workspace DKIM (split into two strings: a TXT string tops out at 255 characters)
+google._domainkey.deliciousplanet.co.	3600	IN	TXT	"v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApUR3lmwpXJw2nYb/Emgq/KFSYFIni5YSlzyxVb4Yk6RWFoVBzJGQzyRvs7BhIznvHbrSgYS6KU+SCiRxypI6UOaovxX4taXV9K/9EFyd1zxA3e8pMPoYcgbvp3w2PRVmHnJA180vCNOlbB708pwrJYMoEj0JIBRrWZafqjVmA7qVKi3gxlV1qYa03icllQ" "y1Y7J6RSaw7Z6ERrlQ0nJjcVz3kQj/iHtZIdJCH4Qt4d3dkgBeUuXV7wYK+grPOks4YpTAPPmhq2Iwz2Qm/iCExs5HddEMnYbkZU0y80hP0gldljESBZF6OghVx7GTjYgIaT3mtRbc42mRqIJZWkaxGwIDAQAB"

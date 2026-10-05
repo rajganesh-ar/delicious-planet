@@ -3,6 +3,12 @@
 First audit 2026-09-23. **Re-verified 2026-09-25** against the live database, R2,
 DNS, the supplier feeds and the test suites.
 
+> **Code-level findings** (security, payments, accessibility, performance) are in
+> [`md/PRODUCTION-AUDIT.md`](PRODUCTION-AUDIT.md), from 2026-10-05. That
+> document's §1 lists the launch decisions it found: the shipping charge, VAT,
+> the 10% newsletter claim and the public repository. This file stays the
+> record for data, supplier, DNS and content issues.
+
 Nothing on the site is broken. All 1,814 media files in R2 load, and every static
 image path in the code exists in `public/`. What remains is supplier data that has
 drifted since import, setup that was never finished, content that was never added,
@@ -149,17 +155,22 @@ sampler) and `8` (Pulparindo) from 2026-09-26. They're unique, so nothing
 breaks, but they aren't real SKUs. Changing a live product's SKU is your call.
 Only `"0"` is treated as missing, because several products share it.
 
-### 3.5 Bad product photos: 43 fixed on 2026-10-04, 13 left
+### 3.5 Bad product photos: 76 fixed on 2026-10-04/05, 1 left
 `pnpm images:audit` (read-only) measures each product's first photo the way the
-product card frames it, as a square with `object-cover`, and flags three faults:
+product card frames it, as a square with `object-cover`, and flags four faults:
 - **CUT:** part of the product falls outside the square.
+- **TOUCH:** something runs into the edge of the square on a plain backdrop.
+  This includes a product that already touches the edge of its own photo, which
+  CUT can't see. TOUCH was added on 2026-10-05, after the owner spotted
+  cut-off cards that CUT had missed.
 - **TINY:** a small product in a big plain frame.
 - **LOWRES:** narrower than 600px, so it goes soft on a 2× screen.
 
-It flagged 65 of the 279 products at the time. `pnpm images:fix` replaced 43
-primary photos with exact 1200×1200 squares, so Payload's `card` is exactly
-800×800. Photos that were fine were left alone. The plan is
-`md/scripts/product-image-fixes.json`:
+`pnpm images:fix` replaced 76 primary photos with exact 1200×1200 squares, so
+Payload's `card` is exactly 800×800. Photos that were fine were left alone. The
+plan is `md/scripts/product-image-fixes.json`.
+
+**2026-10-04: 43 products**
 - **9 La Costeña and Herdez cans (TINY):** re-cropped around the can, keeping
   Intermex's backdrop.
 - **30 Intermex screenshots (225–480px) and bad shots:** replaced with the
@@ -175,6 +186,31 @@ primary photos with exact 1200×1200 squares, so Payload's `card` is exactly
   showed 5 sticks for a 1-piece product. The mixed candy bag (yellow backdrop)
   was squared off with its own backdrop colour.
 
+**2026-10-05: 33 products**
+- **`apricot-in-syrup-820g`:** Intermex's listing said apricot in its title and
+  description, but its only photo was a 288px screenshot of La Costeña sliced
+  *peaches*. The owner confirmed apricots. It now shows La Costeña's official
+  Chabacanos en Almíbar Mitades 820g can, which is only published at 488×550, so
+  it is slightly soft when enlarged. The descriptions also said "Whole…
+  (800g)"; they now say apricot halves, 820g. An Intermex re-import of this
+  product would bring back their title, copy and photo.
+- **11 Intermex packs with no better photo anywhere:** the card cropped each
+  product, and its own photo was cut out and centred whole on cream. These are
+  the Ancho chillies, Maseca Azul, the assorted candy bag, the five Pepe Crunch
+  bags, both Japanese-style peanuts and the esquite pouch. Small sources are
+  placed smaller rather than enlarged more than 3×, so they stay sharp in the
+  card but are soft when zoomed. Better photos still need to come from Intermex
+  or be taken in-house.
+- **Milky Bear:** sat on the bottom edge. It is now centred with room, on white
+  like its sibling bears.
+- **15 Velsoro chocolate bars:** styled flat-lays where the centred crop cut the
+  box and flowers behind. They are recropped around the bars, keeping
+  Velsoro's look.
+- **Bonbon boxes of 12 and 48, and the custom box:** the crop window was moved
+  so the whole tray shows.
+- **The two salted-caramel boxes:** tall open boxes on a plain grey sweep,
+  squared off with the same grey so the whole box shows.
+
 Each product's gallery before and after is in
 `md/scripts/product-image-fixes.applied.json`. The replaced photos keep their
 media rows, so a fix can be reverted. `pnpm media:cleanup --orphans` will list
@@ -182,38 +218,27 @@ those rows, and deleting them removes the way back. A targeted re-import
 (`import:intermex --only=`) of one of these products resets its gallery to
 Intermex's photos.
 
-**After the fixes,** `pnpm images:audit` flags 23 of 254. Ten of those were
-looked at and kept on purpose:
-- the five Velsoro/Casinetto bonbon boxes and the two salted-caramel boxes,
-  which are lifestyle shots that still read well with the box edges trimmed
-- `alebrije-mango-and-habanero-jam-…` and `la-costena-whole-guavas-in-syrup`,
-  which sit right at the 45% TINY line, like the bottles that were left alone
-- `snack-wheel-chicharon-50gm`, a shop scene
+**Now** `pnpm images:audit` skips every fixed photo, plus six reviewed and kept
+on purpose (`"action": "keep"` entries in the plan, matched on media id):
+- the box of 24 (a close-up by design)
+- the box of 4 (already whole)
+- the mascarpone carton (only its board touches the edge)
+- the snack-wheel shop scene
+- two jars right at the 45% TINY line
 
-**The other 13 are still flagged.** None of these can be fixed without Intermex:
-- **No usable image anywhere.** These are Intermex's own packs or unbranded:
-  - `assorted-mexican-candy-bag`
-  - `white-corn-with-epazote-…` (plain foil pouch)
-  - `chile-ancho-150g-…-intermex`
-  - the five `pepe-crunch-peanuts-*-500g` flavours
-  - both 30g `japanese-style-peanuts-*`
+**It flags one product:** `rice-morelo-1kg-valle-verde`. The title says 1kg,
+but the photo is the 454g (1 lb) US bag. Decide which it is, then fix it the way
+the apricot was fixed.
 
-  They need photos taken in-house, or from Intermex.
-- `blue-corn-masa-flour-maseca`: the 1kg pack seems to have been replaced by
-  907g under the same barcode. A clean 907g image exists (heb.com) if that's
-  what's stocked.
-- **Title and photo disagree, so both were left alone:**
-  - `apricot-in-syrup-820g`: the photo is La Costeña sliced **peaches**
-    (Duraznos), not apricots (Chabacanos).
-  - `rice-morelo-1kg-valle-verde`: the photo is the 454g (1 lb) US bag.
-
-  Ask Intermex which product is actually sold.
-- **Catalogue errors found on the way:**
-  - The "chipotle" Pepe Crunch photo is a different product (Kronchito
-    chorizo-chipotle).
-  - The "mango" bag reads 900g, not 500g.
-  - Valentina peanuts look like a pairing Intermex put together, not a
-    manufacturer product.
+**Catalogue errors found on the way.** Raise these with Intermex, together with
+confirming that the apricot listing ships apricots:
+- The "chipotle" Pepe Crunch photo is a different product (Kronchito
+  chorizo-chipotle).
+- The "mango" bag reads 900g, not 500g.
+- Valentina peanuts look like a pairing Intermex put together, not a
+  manufacturer product.
+- Maseca Azul's 1kg pack seems to have been replaced by 907g under the same
+  barcode.
 
 ### 3.6 One draft product: resolved
 `e-gift-card` (Caputo) was the only draft. It was deleted on 2026-10-04 with the
@@ -250,10 +275,12 @@ All of these can be added in the Payload admin. No code changes are needed.
 
 | Collection | Missing | Where it shows | What visitors see now |
 |---|---|---|---|
-| Categories | 0 of 23 (fixed 2026-10-04) | `/categories` tiles, category page hero | Photos throughout |
+| Categories | 0 of 32 (the 9 North African Pantry categories got art 2026-10-06) | `/categories` tiles, category page hero | Photos throughout |
 | Team | 5 of 5 photos | About page | Grey placeholder boxes. These must be the real people, so no stock photos were used |
-| Banners | 2 of 9 (both slim text strips) | Homepage promo banners | Plain colour bar |
-| Brands | 51 of 55 stocked brands have no logo | `/brands` register, homepage "Brands We Carry", the /brands marque board | The brand name set as text. Only Velsoro, García de la Cruz, Admiral Caviar and Caputo have artwork, and theirs is bundled, not uploaded |
+| Brands | 17 of 85 stocked brands have no logo (fixed 64 on 2026-10-05/06) | `/brands` register, homepage "Brands We Carry", the /brands marque board | The brand name set as text |
+
+The two banners without an image are `strip` banners, which are text-only by
+design (`PromoBanner.tsx`), so they are not gaps.
 
 On 2026-10-04 `chilis`, `chocolate-boxes`, `flours`, `mexican-pantry` and
 `teddy-bear` got Unsplash/Pexels photos, with each media row's `sourceUrl` set to
@@ -261,11 +288,45 @@ the photo's page (`md/scripts/set-cms-images-2026-10-04.ts`). The flours photo
 is strong as a tile, but in the wide category-page hero its flour heap sits low
 and mostly the sack shows.
 
-Four categories still use product photos as stand-ins, chosen by eye by
-`pnpm fix:catalogue-2026-09-25` until there is proper category art:
-`pantry-staples` (Nopal Foods jar), `mexican-sauces` (La Meridana hot sauce
-basket), `mexican-candy` (Tomy candies) and `chocolate-bars` (Velsoro ruby
-pistachio bar).
+On 2026-10-05 the last four categories that used one of their own products'
+photos as their banner got Unsplash/Pexels art (`md/scripts/set-cms-images-2026-10-05.ts`):
+`chocolate-bars` (snapped milk and dark bars), `mexican-sauces` (salsas with
+chips), `pantry-staples` (a sack of pinto beans) and `mexican-candy` (loose candy
+at a Mexico City market). Before, the banner repeated a photo from the grid
+below it. No label-free photo of tamarind or chili candy exists, so the candy
+banner is mostly gummies.
+
+**Brand logos (2026-10-05):** 42 logos were uploaded from Wikimedia Commons or
+the brand's own site, each media row's `sourceUrl` naming the file. Every one is
+stored as a trimmed PNG (SVGs are rendered, never served). The `/brands` marque
+board sits on obsidian, where most marks are dark ink and vanished (Admiral and
+García de la Cruz already did), so each logo there now sits on a white tile.
+Still text only:
+- **No logo published anywhere:** Fit Panda (an Inzi product line), Nopal Foods,
+  Azteca, B Sweet (bsweet.ae is an unrelated bakery), Coronado (the brand moved to
+  Mondelez and its site is gone) and Pelon Pelo Rico.
+- **Only unusable files:** Naturelo (99px), Nopal Tenochtitlan (white ink only,
+  invisible on the white cells) and Maizena (only a third-party redraw in black;
+  the Mexican box prints it red-brown).
+
+- **North African brands with no findable logo (2026-10-06):** Boukhari, Facto
+  (only a pink campaign avatar), Safinet E’Sahraa (a Chinese exporter’s private
+  label), Izdihar, CAB, El Raki, Salha and Oum Walid. Their sites are gone or
+  are placeholders.
+
+Ask these brands, Intermex or Fennec for a logo file. Nine Algerian logos come from
+the brand’s official Facebook avatar; El Sanoubar, Aroma Café, Dreamy and El
+Fawaha are a badge on a coloured square, and Moula (168px, from a job-board
+profile) is small.
+
+Several logos are small originals (Maseca 136px, Omalli 113px, El Fresno 222px,
+Inzi 239px, Abuelita 286px, Cholula 294px, Vero 304px): they read fine at their
+40–72px cell height but are soft on a 2× screen. Maruchan and Mayamel only exist
+on white, which is fine because every logo cell is white now.
+
+**Brand title:** the logo for `valle-verde` reads "Verde Valle", which is the
+brand's real name, as the bag and Intermex's current listing say. The title
+(set from `md/seed/intermex-catalogue.ts`) has the words swapped.
 
 Also check the category filing: most of what's in `mexican-candy` is chips and
 chicharrón (Ruffles, Churritos, Chicharron, Tortilla Chips), not candy. And
@@ -309,6 +370,72 @@ Worth a look:
 - **Not slots:** `about-founder` in the doc is a Team photo (section 4), and
   the doc's broken `pasta.avif` reference no longer exists in the code.
 
+### 5.1 Placeholders and repeated photos: fixed on 2026-10-05
+
+An audit compared every image the site shows by a visual fingerprint and checked
+each match by eye. Two kinds of problem were fixed with 27 new Unsplash/Pexels
+photos, uploaded with `pnpm images:site` and recorded in
+`md/site-image-sources.json`:
+
+- **About → Development timeline:** the seven year cards had `src={null}`
+  hard-coded, so they always showed the hatched placeholder. Each now has its
+  own 4:3 photo and alt text, under `images/about/timeline-<year>.avif`.
+- **One photo in several places:**
+  - The homepage hero repeated the About manifesto, the Sourcing hero and the
+    oils category tile on the same page.
+  - The "Delicious Experience" carousel repeated the Experience page.
+  - The six Recipes plates were the category tiles, and their journal band
+    repeated `experience-dish` a third time.
+  - The four sign-in pages borrowed About and Sourcing photos. The farmer photo
+    was used four times.
+  - The `/brands` masthead repeated Sourcing.
+  - The restaurant photo appeared three times, including twice on the homepage
+    (sidebar tile and Shop menu card).
+
+  New homes: `images/home/`, `images/recipes/`, `images/auth/`,
+  `images/brands/` and `images/nav/`. The originals stay on their own pages.
+
+Choices worth knowing:
+- No ham, charcuterie, wine or other alcohol is visible: a hero with cured ham
+  and a timeline card of wine bottles were swapped out.
+- The candy and coffee-cupping shots are the closest free matches, not exact
+  briefs.
+
+**Product repeats left alone, because they are the supplier's own photos:**
+- `mexican-chicken-chorizo-intermex` and `mexican-beef-chorizo-intermex` show the
+  same photo. Intermex's store uses one byte-identical file for both.
+- `corn-tortilla-4-5-1kg` shows the same pack as the 6" 500g, which is the
+  photo Intermex has for it.
+- `a-trio-of-perfection-90g` and `the-grand-caviar-journey-150g` share a main
+  photo. Both sets hold the same three caviars, in different tin sizes.
+- `corn-tortilla-intermex-6inch-500g` / `corn-tortilla-6inch-intermex-500gm`
+  (same size and price) and `flour-tortillas-pre-cook-intermex-500gm` /
+  `flour-tortilla-500g` share every photo. They look like one product listed
+  twice, from Intermex's `-copy` listings. Whether to unpublish one of each is
+  your call.
+
+
+### 5.2 Branded and off-brief photos replaced: 2026-10-06
+
+A second review of every page photo replaced 12 that showed a third-party brand
+or a setting at odds with the business (founded in Algeria, sourcing across
+North Africa). New files are under new names, with sources in
+`md/site-image-sources.json`:
+- **Brands on show:** the About origin photo (a Thai market with a GrabFood apron),
+  the About regional-operations card and three Retail cards (shelves of readable
+  brands, a store sign in Chinese).
+- **Indian and South-East Asian scenes:** Sourcing social and quality, the three
+  Sustainability social/inclusive/quote photos, and the Experience dish
+  (chopsticks). All now Moroccan, Tunisian or Algerian, except the
+  quality-verification shot (rice sorting in Nigeria).
+- **Repeat:** Vendors processors was the same photo as the B2B factory card; it is
+  now a date-sorting line (US, the closest unbranded match).
+- **CMS:** the Curated Fine Beverages tile showed cocktails and labelled bottles;
+  it is now an iced hibiscus drink. `chocolate-bars` had been given the same
+  photo as the Velsoro banner on 2026-10-05; it now has its own.
+
+The Asia region card (Taj Mahal) stays: region cards show one landmark per region.
+The old files are still in R2 and `public/images`, unreferenced.
 ---
 
 ## 6. Tooling and technical debt
@@ -390,13 +517,20 @@ it would lose all of this for good.
   in the product card (3.5). Run it after any import.
 - `pnpm images:fix [--dry-run --preview=<dir>] --dir=<sources>`: applies
   `md/scripts/product-image-fixes.json`, creating exact 1200×1200 squares
-  (re-crop, cut-out on cream, or a ready-made file). It skips anything already
+  (re-crop around the product, a chosen crop window, padding with the photo's
+  own backdrop, cut-out on cream, or a ready-made file). It skips anything already
   done, and logs each gallery's before and after.
 - `pnpm images:site <file> images/<path> [--ratio=16:9 --width=1600]`: uploads a
   static site image to R2 (6.6), cropped and sized on the way. `--manifest=` does
   many at once, and `--dry-run` previews.
 - `md/scripts/set-cms-images-2026-10-04.ts`: the category art and supplier logos
   from section 4. Running it again changes nothing.
+- `md/scripts/set-cms-images-2026-10-05.ts --dir=<files> [--dry-run]
+  [--only=categories|brands]`: the four category banners and the 42 brand logos
+  in section 4, from the plan `md/scripts/cms-images-2026-10-05.json`. A brand
+  that already has a logo is skipped. The source files were in a session
+  scratch folder, so running it again needs the files fetched again from each
+  `sourceUrl`.
 
 ### 6.6 Static images load from R2 (2026-10-04)
 Every `/images/...` path in `src/` now goes through `siteImage()`
@@ -406,9 +540,11 @@ copied from `R2_PUBLIC_URL`, so nothing new needs setting in Vercel. The 71
 existing files were uploaded scaled to at most 2560px, which cut them from
 112 MB to 20 MB with no visible loss at 100%.
 - **`public/images/` is still in the repo but the site no longer reads it.**
-  Deleting it takes 112 MB out of every deploy. Two old one-off scripts read it:
-  `md/scripts/recover-media.ts` and `pnpm seed:collection-images`. Git holds the
-  only full-resolution originals.
+  Deleting it takes 112 MB out of every deploy. One old one-off script reads it,
+  `md/scripts/recover-media.ts`. The other, `seed:collection-images`, targeted a
+  deleted collection and was retired to `md/unused/` on 2026-10-05. Git holds the
+  only full-resolution originals. Moving the folder into `md/` (not deleting it)
+  is written up in `md/unused/README.md`.
 - **New page art goes to R2:** `pnpm images:site <file> images/<path>`. A file
   dropped into `public/images/` won't show.
 - **`pnpm media:cleanup` skips the `site/` prefix.** It used to report
@@ -432,6 +568,9 @@ existing files were uploaded scaled to at most 2560px, which cut them from
    components. Its photos have been dealt with (6.4).
 5. Ask Intermex about the two Pasilla listings, the 0.00 guacamole price, the
    discontinued tortilla (3.1, section 2), and the product photos in 3.5: the
-   apricot/peach and rice titles, plus photos of their own packs.
+   rice title, that the apricot listing really ships apricots, and photos of
+   their own packs.
 6. Team photos for the About page (section 4). They must be the real people.
+   Also ask for logo files from the nine brands still shown as text (section 4),
+   and decide on the two duplicate tortilla listings (5.1).
 7. Everything else as time allows.

@@ -1,78 +1,78 @@
-# Payload Blank Template
+# Delicious Planet
 
-This template comes configured with the bare minimum to get started on anything you need.
+Speciality-food storefront and trade portal for deliciousplanet.co, priced in AED
+and run from the UAE.
 
-## Quick start
+| Layer | What |
+|---|---|
+| App | Next.js 16 (App Router) with Payload CMS 3.80 mounted in the same app at `/admin` and `/api` |
+| Database | Postgres on Railway (`@payloadcms/db-postgres`), schema changed only by migrations |
+| Media | Cloudflare R2 through the S3 adapter. Static page art is in R2 too (`siteImage()`) |
+| Payments | Stripe Checkout, confirmed on the redirect and by webhook |
+| Email | Google Workspace SMTP through `@payloadcms/email-nodemailer` |
+| Hosting | Vercel |
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+## Getting started
 
-## Quick Start - local setup
+```sh
+cp .env.example .env      # every variable is explained in the file
+pnpm install
+pnpm dev                  # http://localhost:3000, admin at /admin
+```
 
-To spin up this template locally, follow these steps:
+Node `^20.19 || ^22.12 || >=24` and pnpm 9 or 10 are required (see
+[Node version](#node-version)).
 
-### Clone
+**`.env` points at the production database.** Treat local writes, seeds and the
+e2e suite as writes to the live shop.
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+## Everyday commands
 
-### Development
+| Command | Does |
+|---|---|
+| `pnpm dev` | Dev server (webpack) |
+| `pnpm build` / `pnpm start` | Production build and server. The build refuses to start in production mode without the R2 and SMTP variables |
+| `pnpm lint` | ESLint |
+| `npx tsc --noEmit` | Type-check |
+| `pnpm test:int` | Vitest integration suite. Read-only against the database |
+| `pnpm test:e2e` | Playwright. Seeds a test admin, so **don't** run it against production |
+| `pnpm generate:types` | Regenerate `src/payload-types.ts` after a schema change |
+| `pnpm generate:importmap` | Regenerate the admin import map after adding an admin component |
+| `pnpm migrate:create` / `pnpm migrate:apply` | Create a migration, or apply pending ones (see `scripts/apply-migration.cjs`) |
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+Catalogue importers, image tools and one-off fixes live in `md/scripts` and
+`md/seed`, and are wired up in `package.json` (`import:*`, `images:*`,
+`check:suppliers`, …).
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+## Where things are
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+```
+src/app/(frontend)/   storefront routes
+src/app/(payload)/    Payload admin and REST routes (generated)
+src/app/api/          checkout, Stripe webhook, partner portal endpoints
+src/collections/      collection configs; access rules in access.ts
+src/components/       storefront (layout, sections, ui) and admin components
+src/lib/              pricing, orders, email templates, helpers
+src/migrations/       database migrations
+md/                   docs, importers, one-off scripts, retired files (md/unused)
+```
 
-#### Docker (Optional)
+## Documentation
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
-
-To do so, follow these steps:
-
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
-
-## How it works
-
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
-
-### Collections
-
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
-
-- #### Users (Authentication)
-
-  Users are auth-enabled collections that have access to the admin panel.
-
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
-
-- #### Media
-
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
-
-### Docker
-
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+- [`md/OPEN-ISSUES.md`](md/OPEN-ISSUES.md): data, supplier and DNS issues still open
+- [`md/PRODUCTION-AUDIT.md`](md/PRODUCTION-AUDIT.md): the 2026-10-05 production
+  readiness audit (what was fixed, what still needs a decision)
+- [`md/unused/README.md`](md/unused/README.md): files retired from the build, and why
+- [`AGENTS.md`](AGENTS.md): Payload development rules for AI coding agents
 
 ## Node version
 
-`engines.node` is `^20.19.0 || ^22.12.0 || >=24.0.0`, and the floor is real
-rather than cautious: jsdom 28 (used by the Vitest integration suite) reaches a
-dependency that `require()`s an ES module, which only works from Node 20.19.
+`engines.node` is `^20.19.0 || ^22.12.0 || >=24.0.0`. The floor is a real
+requirement, not caution: jsdom 28 (used by the Vitest integration suite)
+reaches a dependency that `require()`s an ES module, which only works from Node
+20.19.
 
-The symptom on an older Node is quiet rather than loud — the worker fails to
+On an older Node the failure is quiet rather than loud. The worker fails to
 start and Vitest reports the file as "no tests" instead of failing it, so a
-suite can appear green while never having run. `node --version` before
+suite can look green without ever having run. Check `node --version` before
 trusting a passing `pnpm test:int`.

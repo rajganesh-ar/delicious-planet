@@ -45,6 +45,10 @@ export const isAdminField: FieldAccess = ({ req: { user } }) => hasRole(user, 'a
 export const isStaff: Access = ({ req: { user } }) =>
   hasRole(user, 'admin') || hasRole(user, 'fulfilment')
 
+/** `isStaff`, typed for a field — for what a customer may never read on their own order. */
+export const isStaffField: FieldAccess = ({ req: { user } }) =>
+  hasRole(user, 'admin') || hasRole(user, 'fulfilment')
+
 /** Anyone may read; only admins may write. */
 export const publicRead: Access = () => true
 

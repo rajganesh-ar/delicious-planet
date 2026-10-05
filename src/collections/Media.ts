@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { adminOnlyInNav, adminOnlyWrites, hasRole } from './access'
+import { adminOnlyInNav, adminOnlyWrites, hasRole, isAdminField } from './access'
 import { restrictContributorUploads } from './hooks/portalHooks'
 import { publicMediaUrl } from '@/lib/media-url'
 
@@ -38,6 +38,10 @@ export const Media: CollectionConfig = {
       name: 'sourceUrl',
       type: 'text',
       index: true,
+      // The importers reuse any media row whose sourceUrl matches a supplier
+      // image, so a chef who could set it could plant a picture on a catalogue
+      // product. Importers write it with access overridden.
+      access: { create: isAdminField, update: isAdminField },
       admin: {
         readOnly: true,
         description:

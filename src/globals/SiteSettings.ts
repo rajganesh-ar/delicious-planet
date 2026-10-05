@@ -1,5 +1,5 @@
 import type { GlobalConfig } from 'payload'
-import { adminOnlyInNav } from '../collections/access'
+import { adminOnlyInNav, isAdminField } from '../collections/access'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -55,6 +55,9 @@ export const SiteSettings: GlobalConfig = {
       name: 'notifications',
       type: 'group',
       label: 'Notifications',
+      // The global is public (the storefront reads it), but this group is the
+      // staff inbox. The mailer reads it with access overridden.
+      access: { read: isAdminField },
       admin: {
         description:
           'Where staff notifications are sent when an order is paid or an enquiry arrives.',

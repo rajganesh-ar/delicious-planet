@@ -7,10 +7,11 @@ import { cn } from '@/lib/cn'
 import { CONTACT } from '@/lib/contact'
 import type { Navigation as NavigationType, SiteSetting } from '@/payload-types'
 import { siteImage } from '@/lib/site-image'
+import { SUBSCRIBE_ERRORS, subscribeToNewsletter } from '@/lib/newsletter'
 
 interface FooterProps {
   navigation: NavigationType
-  siteSettings: SiteSetting
+  socials: SiteSetting['socials']
 }
 
 const FALLBACK_COLUMNS = [
@@ -113,7 +114,9 @@ const SERVICES = [
     href: '/contact',
     icon: SERVICE_ICONS.headset,
     title: 'Talk to a specialist',
-    detail: 'Mon-Fri, 9am-6pm GMT',
+    // From the one published source: this said GMT while contact.ts says GST,
+    // and 9–6 GMT is 1pm–10pm in the UAE.
+    detail: CONTACT.hours,
   },
 ]
 
@@ -183,8 +186,7 @@ const LEGAL_LINKS = [
  * Link colours therefore live on a child <span>, and the parallax image sizes
  * itself through an inline style.
  */
-export function Footer({ navigation, siteSettings }: FooterProps) {
-  const socials = siteSettings.socials
+export function Footer({ navigation, socials }: FooterProps) {
   const cmsColumns = navigation.footerColumns ?? []
   const columns = cmsColumns.length > 0 ? cmsColumns : FALLBACK_COLUMNS
 
@@ -222,24 +224,14 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
     e.preventDefault()
     setSubmitting(true)
     setError(null)
-    try {
-      const res = await fetch('/api/newsletter-subscribers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'footer' }),
-      })
-      // Treat duplicate-email errors (Payload returns 400 on unique violation) as success — idempotent UX
-      if (res.ok || res.status === 400 || res.status === 409) {
-        setSubscribed(true)
-        setEmail('')
-      } else {
-        setError('Something went wrong. Please try again.')
-      }
-    } catch {
-      setError('Network error. Please try again.')
-    } finally {
-      setSubmitting(false)
+    const result = await subscribeToNewsletter(email, 'footer')
+    if (result === 'subscribed') {
+      setSubscribed(true)
+      setEmail('')
+    } else {
+      setError(SUBSCRIBE_ERRORS[result])
     }
+    setSubmitting(false)
   }
 
   return (
@@ -319,7 +311,7 @@ export function Footer({ navigation, siteSettings }: FooterProps) {
                       placeholder="Your email address"
                       disabled={submitting}
                       aria-label="Email address"
-                      className="flex-1 min-w-0 bg-transparent border-0 text-cream text-sm px-4 py-2.5 outline-none placeholder:text-cream/30 disabled:opacity-50"
+                      className="flex-1 min-w-0 bg-transparent border-0 text-cream text-base md:text-sm px-4 py-2.5 outline-none placeholder:text-cream/30 disabled:opacity-50"
                     />
                     <button
                       type="submit"

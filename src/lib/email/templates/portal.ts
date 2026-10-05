@@ -224,15 +224,13 @@ export function recipeDecisionEmail(recipe: Recipe, chefName: string) {
 
   const blocks: Block[] = published
     ? [
+        // No link to the recipe itself: the storefront has no recipe page yet,
+        // and this button used to open a 404 under the words "it is live".
         {
           type: 'paragraph',
-          text: 'It is live on the site now, with your byline on it and every ingredient linked to the product a reader can order.',
+          text: 'An editor has approved and published it, with your byline on it and every ingredient linked to the product a reader can order.',
         },
-        {
-          type: 'button',
-          label: 'View it on the site',
-          href: absoluteUrl(`/recipes/${recipe.slug}`),
-        },
+        { type: 'button', label: 'Open your portal', href: absoluteUrl('/portal/chef') },
       ]
     : [
         {

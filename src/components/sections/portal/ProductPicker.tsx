@@ -149,6 +149,9 @@ export function ProductPicker({
         aria-expanded={open && results.length > 0}
         aria-autocomplete="list"
         aria-controls={listboxId}
+        // A placeholder is not a label: it disappears on typing and many
+        // screen readers skip it, so the combobox had no name.
+        aria-label="Search for a product"
         className={fieldClass}
         value={query}
         placeholder={placeholder}

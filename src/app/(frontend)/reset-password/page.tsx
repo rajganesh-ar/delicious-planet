@@ -26,7 +26,7 @@ import { siteImage } from '@/lib/site-image'
  * through the sign-in form.
  */
 
-const PANEL_IMAGE = { src: siteImage('/images/sourcing/sourcing-farmer.avif'), label: 'Reset panel' }
+const PANEL_IMAGE = { src: siteImage('/images/auth/reset-password.avif'), label: 'New password panel' }
 
 const PANEL_POINTS = [
   'Choose something you have not used on this account before',

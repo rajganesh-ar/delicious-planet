@@ -202,7 +202,7 @@ export function BuyBox({ product, variants, activeVariant, onSelectVariant }: Bu
         </div>
 
         <Link
-          href="/contact?type=b2b"
+          href="/contact?type=b2b#enquiry"
           className="group mt-2 h-11 flex items-center justify-center rounded-sm border border-forest-green/40 no-underline transition-colors hover:bg-forest-green"
         >
           {/* Colour lives on the span — the unlayered `a { color: currentColor }`

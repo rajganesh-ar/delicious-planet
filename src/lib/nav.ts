@@ -201,7 +201,7 @@ export function buildNav({
       {
         label: 'Partner with us',
         href: '/b2b',
-        image: siteImage('/images/b2b/commercial-resturant.avif'),
+        image: siteImage('/images/nav/partner-card.avif'),
         eyebrow: 'Trade & wholesale',
       },
     ],

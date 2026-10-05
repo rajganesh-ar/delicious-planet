@@ -6,7 +6,7 @@ import { siteImage } from '@/lib/site-image'
 
 const EXPERIENCE_SLIDES: CarouselSlide[] = [
   {
-    image: siteImage('/images/experience/experience-experts.avif'),
+    image: siteImage('/images/home/experience-curated.avif'),
     title: 'Curated by Experts',
     subtitle:
       'Our team of culinary specialists personally visits producers, tastes every offering, and selects only ingredients that meet our exacting standards.',
@@ -14,7 +14,7 @@ const EXPERIENCE_SLIDES: CarouselSlide[] = [
     href: '/about',
   },
   {
-    image: siteImage('/images/experience/experience-dish.avif'),
+    image: siteImage('/images/home/experience-source-to-table.avif'),
     title: 'From Source to Table',
     subtitle:
       'We work directly with artisans and growers — no middlemen, no compromise. Every product is traceable to its exact origin.',
@@ -22,7 +22,7 @@ const EXPERIENCE_SLIDES: CarouselSlide[] = [
     href: '/sourcing',
   },
   {
-    image: siteImage('/images/experience/experience-chef.avif'),
+    image: siteImage('/images/home/experience-cooks.avif'),
     title: 'For Chefs & Home Cooks',
     subtitle:
       'Whether you run a Michelin-starred kitchen or cook for family and friends, our ingredients elevate every dish to something extraordinary.',

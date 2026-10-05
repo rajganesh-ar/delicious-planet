@@ -16,14 +16,14 @@ import { siteImage } from '@/lib/site-image'
 const MEDIA = {
   hero: { src: siteImage('/images/retail/retail-grocery.avif'), label: 'Retail hero — 4:3' },
   fresh: { src: siteImage('/images/retail/retail-fresh.avif'), label: 'Fresh & perishable — 16:9' },
-  shelfStable: { src: siteImage('/images/retail/retail-breads.avif'), label: 'Packaged & shelf-stable — 16:9' },
-  specialty: { src: siteImage('/images/retail/retail-organic.avif'), label: 'Specialty & regional — 16:9' },
+  shelfStable: { src: siteImage('/images/retail/shelf-stable.avif'), label: 'Packaged & shelf-stable — 16:9', alt: 'Dried chickpeas sold loose and bagged at a market in Tunisia' },
+  specialty: { src: siteImage('/images/retail/specialty.avif'), label: 'Specialty & regional — 16:9', alt: 'An olive and preserved-lemon stall lined with pickle jars in Marrakesh' },
   privateLabel: { src: siteImage('/images/retail/retail-dairy.avif'), label: 'Private label — 16:9' },
   quality: { src: siteImage('/images/retail/retail-cold.avif'), label: 'Quality & compliance' },
   privateLabelFeature: { src: siteImage('/images/retail/retail-veg.avif'), label: 'Private label programme' },
   regionMature: { src: siteImage('/images/retail/retail-mature.avif'), label: 'Mature markets — 16:9', alt: 'Shelves of a specialty delicatessen' },
   regionGrowth: { src: siteImage('/images/retail/retail-growth.avif'), label: 'Growth markets — 16:9', alt: 'Shoppers in a busy covered market' },
-  regionLocal: { src: siteImage('/images/retail/retail-softdrinks.avif'), label: 'Local assortment — 16:9' },
+  regionLocal: { src: siteImage('/images/retail/local-assortment.avif'), label: 'Local assortment — 16:9', alt: 'Shoppers at a covered vegetable market in Sfax, Tunisia' },
 } satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */

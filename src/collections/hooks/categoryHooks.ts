@@ -49,6 +49,7 @@ export const deriveCategoryLineage: CollectionBeforeChangeHook = async ({ data, 
         id: parentId,
         depth: 0,
         overrideAccess: true,
+        req,
       })
     } catch {
       break
@@ -82,12 +83,16 @@ export const refreshChildLineage: CollectionAfterChangeHook = async ({
   if (context?.skipLineageRefresh) return doc
   if (previousDoc?.slug === doc.slug) return doc
 
+  // With `req`, so each child is re-saved inside this save's transaction and
+  // its lineage hook reads the parent's *new* slug. Outside it, the children
+  // were rebuilt from the old one.
   const children = await req.payload.find({
     collection: 'categories',
     where: { parent: { equals: doc.id } },
     limit: 200,
     depth: 0,
     overrideAccess: true,
+    req,
   })
 
   for (const child of children.docs) {
@@ -97,6 +102,7 @@ export const refreshChildLineage: CollectionAfterChangeHook = async ({
       data: {},
       overrideAccess: true,
       context: { skipLineageRefresh: true },
+      req,
     })
   }
 

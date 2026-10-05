@@ -17,6 +17,14 @@ export const NewsletterSubscribers: CollectionConfig = {
     delete: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
   },
   hooks: {
+    // Stored lower-cased, so the unique index catches "A@x.com" after "a@x.com"
+    // instead of saving (and welcoming) the same inbox twice.
+    beforeValidate: [
+      ({ data }) => {
+        if (data && typeof data.email === 'string') data.email = data.email.trim().toLowerCase()
+        return data
+      },
+    ],
     afterChange: [notifyNewsletterSignup],
   },
   fields: [

@@ -2,12 +2,13 @@
 
 @theme {
   /* ── Typography ───────────────────────────────────── */
-  --font-serif: 'Merriweather', 'Georgia', serif;
-  --font-display: 'Merriweather', 'Georgia', serif;
-  --font-sans: 'Lexend', 'Outfit', 'Poppins', system-ui, sans-serif;
+  /* The --font-<family> variables come from next/font in (frontend)/layout.tsx. */
+  --font-serif: var(--font-merriweather), 'Georgia', serif;
+  --font-display: var(--font-merriweather), 'Georgia', serif;
+  --font-sans: var(--font-lexend), system-ui, sans-serif;
   --font-mono: 'Geist Mono', 'Roboto Mono', monospace;
-  --font-heading: 'Poppins', system-ui, sans-serif;
-  --font-luxury: 'Merriweather', 'Georgia', serif;
+  --font-heading: var(--font-poppins), system-ui, sans-serif;
+  --font-luxury: var(--font-merriweather), 'Georgia', serif;
 
   /* ── Colour palette ───────────────────────────────── */
   --color-cream: #FAFAFA;
@@ -217,15 +218,21 @@ p {
 a {
   color: currentColor;
 
-  &:focus {
-    opacity: 0.8;
-    outline: none;
-  }
-
   &:active {
     opacity: 0.7;
-    outline: none;
   }
+}
+
+/* Keyboard focus. This used to be `a:focus { outline: none }` with nothing in
+   its place, so a keyboard user could not see where they were on any link.
+   :focus-visible keeps mouse clicks ring-free. Two tones so it shows on both
+   grounds: the green outline carries it on light sections, the cream gap
+   between element and outline carries it on the black ones. :where() keeps the
+   specificity at zero, so a component with its own focus style still wins. */
+:where(a, button, [role='button'], input, select, textarea, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: 2px solid var(--color-forest-green);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--color-cream);
 }
 
 svg {
@@ -252,169 +259,6 @@ input[type='search']::-webkit-search-results-button {
   appearance: none;
 }
 
-
-/* ── Hero ─────────────────────────────────────────────────── */
-.hero {
-  position: relative;
-  height: 100svh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-.hero__media {
-  position: absolute;
-  inset: 0;
-}
-.hero__video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.72) 0%,
-    rgba(0, 0, 0, 0.28) 55%,
-    rgba(0, 0, 0, 0.18) 100%
-  );
-}
-.hero__inner {
-  position: relative;
-  z-index: 10;
-  margin-top: auto;
-  padding: 0 4rem 5rem;
-  max-width: 780px;
-}
-.hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1.5rem;
-}
-.hero__eyebrow-line {
-  display: block;
-  width: 32px;
-  height: 1px;
-  background: var(--color-olivine);
-  flex-shrink: 0;
-}
-.hero__eyebrow-text {
-  font-size: 0.625rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: rgba(250, 250, 250, 0.65);
-  font-family: var(--font-heading);
-  font-weight: 500;
-}
-.hero__headline {
-  font-family: var(--font-luxury);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: #FAFAFA;
-  margin: 0 0 1.5rem;
-}
-.hero__sub {
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.3vw, 1.15rem);
-  font-style: normal;
-  line-height: 1.65;
-  color: rgba(250, 250, 250, 0.7);
-  margin: 0 0 2.75rem;
-  font-weight: 400;
-  max-width: 540px;
-}
-.hero__ctas {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.hero__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.875rem 2.25rem;
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
-  line-height: 1;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.hero__btn--primary {
-  background: var(--color-forest-green);
-  color: #FAFAFA;
-  border: 1px solid var(--color-forest-green);
-}
-.hero__btn--primary:hover {
-  background: var(--color-bud-green);
-  border-color: var(--color-bud-green);
-}
-.hero__btn--ghost {
-  background: transparent;
-  color: #FAFAFA;
-  border: 1px solid rgba(250, 250, 250, 0.45);
-}
-.hero__btn--ghost:hover {
-  border-color: #FAFAFA;
-  background: rgba(250, 250, 250, 0.08);
-}
-.hero__scroll {
-  position: absolute;
-  bottom: 2.5rem;
-  right: 4rem;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-.hero__scroll-text {
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(250, 250, 250, 0.45);
-  font-family: var(--font-heading);
-}
-.hero__scroll-bar {
-  width: 1px;
-  height: 48px;
-  background: linear-gradient(to bottom, rgba(250, 250, 250, 0.5), transparent);
-}
-
-@media (max-width: 768px) {
-  .hero__inner {
-    padding: 0 1.5rem 3rem;
-  }
-  .hero__scroll {
-    right: 1.5rem;
-    bottom: 2rem;
-  }
-  .hero__btn {
-    padding: 0.8rem 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero__ctas {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .hero__btn {
-    text-align: center;
-    justify-content: center;
-  }
-}
 
 /* ═══════════════════════════════════════════════════
    GLOBAL BUTTON SYSTEM
@@ -559,27 +403,4 @@ input[type='search']::-webkit-search-results-button {
     min-height: 44px;
   }
 }
-
-/* ═══════════════════════════════════════════════════
-   SECTION SPACING & ALTERNATING BACKGROUNDS
-   ═══════════════════════════════════════════════════ */
-
-.section-dark {
-  background: var(--color-obsidian);
-  color: #FAFAFA;
-}
-
-.section-light {
-  background: #FAFAFA;
-  color: var(--color-obsidian);
-}
-
-.section-muted {
-  background: var(--color-parchment);
-  color: var(--color-obsidian);
-}
-
-.section-forest {
-  background: var(--color-forest-green);
-  color: #FAFAFA;
-}
+

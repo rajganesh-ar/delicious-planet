@@ -20,7 +20,7 @@ const MEDIA = {
   specialty: { src: siteImage('/images/experience/experience-specialty.avif'), label: 'Vineyards & estates — 16:9', alt: 'Vineyard rows on a hillside estate in low sun' },
   processing: { src: siteImage('/images/experience/experience-processing.avif'), label: 'Processing & cold chain — 16:9', alt: 'Racks of cheese in a temperature-controlled room' },
   endUse: { src: siteImage('/images/experience/experience-chef.avif'), label: 'Foodservice — 16:9' },
-  retail: { src: siteImage('/images/experience/experience-dish.avif'), label: 'Retail & consumer — 16:9' },
+  retail: { src: siteImage('/images/experience/table-dish.avif'), label: 'Retail & consumer — 16:9', alt: 'A Moroccan tagine with prunes, walnuts and eggs served with flatbread' },
 } satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */

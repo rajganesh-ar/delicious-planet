@@ -13,6 +13,23 @@ interface Props {
 }
 
 /**
+ * Rendered on a product's first visit, then served from cache and refreshed in
+ * the background every 300s — the layout's window.
+ *
+ * Without a generateStaticParams the route was fully dynamic, so every view of
+ * every product re-ran a depth-3 product query plus the related-products one:
+ * about 6s to first byte, measured against the live database. The empty list
+ * builds nothing at deploy time; the cache fills as pages are visited. A price
+ * or stock change reaches the page within five minutes, and checkout re-prices
+ * the basket from the database regardless, so nobody is charged a stale price.
+ */
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  return []
+}
+
+/**
  * `generateMetadata` and the page component both need the product, and Next
  * calls them as two separate invocations. React's `cache` memoises the lookup
  * for the lifetime of one request, so this stays a single database round trip
@@ -94,7 +111,7 @@ function productJsonLd(product: Product, imageUrl: string | null) {
       price: v.price,
       priceCurrency: price?.currency ?? 'AED',
       availability:
-        v.inStock === false
+        v.inStock === false || product.inStock === false
           ? 'https://schema.org/OutOfStock'
           : 'https://schema.org/InStock',
       url: absoluteUrl(`/products/${product.slug}`),
@@ -145,10 +162,15 @@ export default async function SingleProductPage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        // The payload is built from our own database rows, not user input, and
-        // JSON.stringify escapes the quotes that would otherwise break out.
+        // Titles and descriptions come from supplier feeds. JSON.stringify escapes
+        // quotes but not '<', so a '</script>' in that text would end this tag
+        // early and run whatever followed. Its JSON escape (backslash-u003c) is
+        // the same character to a JSON parser and inert to the HTML one.
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(productJsonLd(product, getImageUrl(product))),
+          __html: JSON.stringify(productJsonLd(product, getImageUrl(product))).replace(
+            /</g,
+            '\\u003c',
+          ),
         }}
       />
       <ProductDetail product={product} relatedProducts={related.docs} />

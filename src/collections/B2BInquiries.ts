@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { adminOnlyInNav } from './access'
+import { adminOnlyInNav, isAdminField } from './access'
 import { notifyEnquiryReceived } from './hooks/notificationHooks'
 
 export const B2BInquiries: CollectionConfig = {
@@ -58,6 +58,10 @@ export const B2BInquiries: CollectionConfig = {
       type: 'select',
       defaultValue: 'new',
       required: true,
+      // Public submissions could arrive pre-marked won/lost and skip the "new"
+      // inbox. Payload drops a field the caller may not set and then applies
+      // the default, so every public enquiry still starts as `new`.
+      access: { create: isAdminField, update: isAdminField },
       options: [
         { label: 'New', value: 'new' },
         { label: 'In Review', value: 'in_review' },
@@ -70,10 +74,12 @@ export const B2BInquiries: CollectionConfig = {
       name: 'assignedOffice',
       type: 'relationship',
       relationTo: 'office-locations',
+      access: { create: isAdminField, update: isAdminField },
     },
     {
       name: 'notes',
       type: 'textarea',
+      access: { create: isAdminField, update: isAdminField },
       admin: {
         description: 'Internal notes (not visible to the customer).',
       },

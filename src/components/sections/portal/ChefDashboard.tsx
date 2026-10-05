@@ -232,13 +232,8 @@ export function ChefDashboard() {
                       </div>
 
                       <div className="flex items-center gap-4 shrink-0">
-                        {recipe.status === 'published' && recipe.slug ? (
-                          <Link href={`/recipes/${recipe.slug}`} className="no-underline">
-                            <span className="font-sans text-[12px] text-forest-green hover:underline underline-offset-2">
-                              View live
-                            </span>
-                          </Link>
-                        ) : null}
+                        {/* No "View live" link until the storefront has a recipe
+                            page — /recipes/<slug> is a 404 today. */}
                         <Link
                           href={`/portal/chef/recipes/${recipe.id}`}
                           className="no-underline"

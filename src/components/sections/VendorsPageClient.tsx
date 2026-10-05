@@ -20,7 +20,7 @@ const MEDIA = {
   hero: { src: siteImage('/images/vendor/vendor-hero.avif'), label: 'Vendors hero — 4:3', alt: 'A grower letting grain run through a cupped hand on a farm visit' },
   producers: { src: siteImage('/images/vendor/vendor-producers.avif'), label: 'Producers — 16:9', alt: 'A grower tipping sweet potatoes into field crates' },
   marine: { src: siteImage('/images/vendor/vendor-marine.avif'), label: 'Fisheries & aquaculture — 16:9', alt: 'Iced fish in crates on the floor of a fish auction hall' },
-  processors: { src: siteImage('/images/vendor/vendor-processors.avif'), label: 'Processors — 16:9', alt: 'Workers on a fruit packing line' },
+  processors: { src: siteImage('/images/vendor/processors.avif'), label: 'Processors — 16:9', alt: 'Dates moving along a stainless-steel sorting line' },
   aggregators: { src: siteImage('/images/vendor/vendor-aggregators.avif'), label: 'Aggregators & export — 16:9', alt: 'Workers carrying sacks through a dim warehouse' },
   logistics: { src: siteImage('/images/vendor/vendor-logistics.avif'), label: 'Cold chain & logistics — 16:9', alt: 'A row of refrigerated trailers at a cold-storage depot' },
   philosophy: { src: siteImage('/images/vendor/vendor-philosophy.avif'), label: 'Partnership philosophy' },

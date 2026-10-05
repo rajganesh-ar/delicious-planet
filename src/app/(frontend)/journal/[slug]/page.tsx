@@ -4,6 +4,13 @@ import { notFound } from 'next/navigation'
 import { JournalPostClient } from '@/components/sections/JournalPostClient'
 import type { Metadata } from 'next'
 
+/** Cached per post on first visit and refreshed every 300s, like product pages. */
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  return []
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -12,9 +19,11 @@ export async function generateMetadata({
   const { slug } = await params
   const payload = await getPayload({ config: await config })
 
+  // Published only, like the page below: without it a draft's title and
+  // description were served on its URL even though the page itself 404s.
   const result = await payload.find({
     collection: 'blog-posts',
-    where: { slug: { equals: slug } },
+    where: { slug: { equals: slug }, _status: { equals: 'published' } },
     limit: 1,
     depth: 0,
   })
@@ -22,9 +31,16 @@ export async function generateMetadata({
   const post = result.docs[0]
   if (!post) return { title: 'Post Not Found' }
 
+  // The layout's title template appends "— Delicious Planet"; adding it here
+  // too doubled it.
+  const title = post.meta?.title || `${post.title} — Journal`
+  const description = post.meta?.description || post.excerpt || undefined
+
   return {
-    title: post.meta?.title || `${post.title} — Delicious Planet Journal`,
-    description: post.meta?.description || post.excerpt || undefined,
+    title,
+    description,
+    alternates: { canonical: `/journal/${post.slug}` },
+    openGraph: { type: 'article', title, description, url: `/journal/${post.slug}` },
   }
 }
 

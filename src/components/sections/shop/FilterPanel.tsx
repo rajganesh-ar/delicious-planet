@@ -266,7 +266,9 @@ function OptionRow({
     <Link
       href={href}
       onClick={onNavigate}
-      aria-pressed={active}
+      // aria-pressed is only valid on buttons; on a link screen readers drop it
+      // and could not tell which filters were on.
+      aria-current={active ? 'true' : undefined}
       /* Roomier rows below lg, where this panel is the mobile filter sheet and
          these anchors are the only tap targets in it. */
       className="group flex items-center gap-2 py-2.5 lg:py-1 no-underline"

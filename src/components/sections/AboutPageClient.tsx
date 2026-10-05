@@ -31,11 +31,11 @@ function memberAlt(member: Team): string {
  * ────────────────────────────────────────────────────────────── */
 const MEDIA = {
   hero: { src: siteImage('/images/about/about-timeline.avif'), label: 'Hero — 4:3' },
-  originA: { src: siteImage('/images/about/about-customer.avif'), label: 'Producer — 4:3' },
+  originA: { src: siteImage('/images/about/origin-producer.avif'), label: 'Producer — 4:3', alt: 'A fruit seller in a djellaba holding oranges in Marrakesh' },
   originB: { src: siteImage('/images/about/about-apiary.avif'), label: 'Apiary — 4:3', alt: 'A beekeeper lifting a frame from a hive' },
   originC: { src: siteImage('/images/about/about-harvest.avif'), label: 'Harvest — 4:3', alt: 'Freshly harvested olives in yellow crates' },
   manifesto: { src: siteImage('/images/about/about-cover.avif'), label: 'Manifesto backdrop' },
-  reach: { src: siteImage('/images/about/about-retail.avif'), label: 'Regional operations — 4:3' },
+  reach: { src: siteImage('/images/about/regional-operations.avif'), label: 'Regional operations — 4:3', alt: 'Ships moored in the harbour of Algiers below the white city' },
   capability: { src: siteImage('/images/about/about-resturant.avif'), label: 'Coordination layer' },
 } satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
@@ -117,36 +117,50 @@ const timeline = [
     year: '2020',
     title: 'Foundation',
     description: 'Foundation in honey production within Algerian agricultural environments.',
+    image: siteImage('/images/about/timeline-2020.avif'),
+    alt: 'Weathered wooden beehives on dry, stony ground beneath a rocky hillside',
   },
   {
     year: '2021',
     title: 'Initial partnerships',
     description: 'Sourcing partnerships established for olive oil and dried fruit categories.',
+    image: siteImage('/images/about/timeline-2021.avif'),
+    alt: 'Dried apricots, figs, prunes, raisins and dates',
   },
   {
     year: '2022',
     title: 'Network expansion',
     description: 'Expansion of supplier network across North Africa and Southern Europe.',
+    image: siteImage('/images/about/timeline-2022.avif'),
+    alt: 'Olive groves covering rolling hills below a limestone ridge',
   },
   {
     year: '2023',
     title: 'Procurement framework',
     description: 'Structured procurement framework supporting multi-category sourcing.',
+    image: siteImage('/images/about/timeline-2023.avif'),
+    alt: 'A warehouse worker checking stock on a tablet beside shrink-wrapped pallets',
   },
   {
     year: '2024',
     title: 'Private label',
     description: 'Introduction of private label supply coordination.',
+    image: siteImage('/images/about/timeline-2024.avif'),
+    alt: 'Rows of unlabelled glass jars with gold lids',
   },
   {
     year: '2025',
     title: 'Distribution growth',
     description: 'Expansion of distribution capability across Middle East markets.',
+    image: siteImage('/images/about/timeline-2025.avif'),
+    alt: 'A container ship crossing open sea, seen from above',
   },
   {
     year: '2026',
     title: 'International structure',
     description: 'Headquarters in the UAE with regional offices across multiple markets.',
+    image: siteImage('/images/about/timeline-2026.avif'),
+    alt: 'The towers of the Abu Dhabi business district above calm water',
   },
 ]
 
@@ -473,7 +487,8 @@ export function AboutPageClient({ offices, team }: AboutPageClientProps) {
                 <FadeIn key={item.year} delay={Math.min(i, 4) * 0.04}>
                   <article className="w-56 md:w-64">
                     <ImagePlaceholder
-                      src={null}
+                      src={item.image}
+                      alt={item.alt}
                       label={item.year}
                       ratio="4/3"
                       sizes="256px"

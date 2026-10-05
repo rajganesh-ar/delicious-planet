@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FadeIn } from '@/components/animations/FadeIn'
+import { SUBSCRIBE_ERRORS, subscribeToNewsletter } from '@/lib/newsletter'
 
 export function NewsletterBar() {
   const [email, setEmail] = useState('')
@@ -13,24 +14,14 @@ export function NewsletterBar() {
     e.preventDefault()
     setSubmitting(true)
     setError(null)
-    try {
-      const res = await fetch('/api/newsletter-subscribers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'homepage' }),
-      })
-      // Payload returns 400 on the unique-email violation — treat re-signup as success
-      if (res.ok || res.status === 400 || res.status === 409) {
-        setSubscribed(true)
-        setEmail('')
-      } else {
-        setError('Something went wrong. Please try again.')
-      }
-    } catch {
-      setError('Network error. Please try again.')
-    } finally {
-      setSubmitting(false)
+    const result = await subscribeToNewsletter(email, 'homepage')
+    if (result === 'subscribed') {
+      setSubscribed(true)
+      setEmail('')
+    } else {
+      setError(SUBSCRIBE_ERRORS[result])
     }
+    setSubmitting(false)
   }
 
   return (
@@ -73,7 +64,7 @@ export function NewsletterBar() {
                     /* min-w-0: without it the field keeps its placeholder's
                        intrinsic width and the shrink-0 Subscribe button pushes
                        the form past a 320px viewport. */
-                    className="flex-1 min-w-0 bg-transparent border-0 font-sans text-obsidian text-[13px] px-4 h-11 outline-none placeholder:text-stone/45 disabled:opacity-50"
+                    className="flex-1 min-w-0 bg-transparent border-0 font-sans text-obsidian text-base md:text-[13px] px-4 h-11 outline-none placeholder:text-stone/45 disabled:opacity-50"
                   />
                   <button
                     type="submit"

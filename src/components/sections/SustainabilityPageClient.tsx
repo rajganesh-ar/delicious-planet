@@ -16,7 +16,7 @@ import { siteImage } from '@/lib/site-image'
 const MEDIA = {
   hero: { src: siteImage('/images/sustainability/sustainability-cover.avif'), label: 'Sustainability hero — 4:3' },
   environmental: { src: siteImage('/images/sustainability/sustainability-environmental.avif'), label: 'Environmental — 4:3', alt: 'Aerial view of farmland bordered by hedgerows' },
-  social: { src: siteImage('/images/sustainability/sustainability-social.avif'), label: 'Social — 4:3', alt: 'Women sorting red chillies drying in the sun' },
+  social: { src: siteImage('/images/sustainability/social.avif'), label: 'Social — 4:3', alt: 'Two women in Morocco cracking argan nuts with stones' },
   governance: { src: siteImage('/images/sustainability/sustainability-lab.avif'), label: 'Governance — 4:3' },
   climate: { src: siteImage('/images/sustainability/sustainabilty-logisitcs.avif'), label: 'Climate & emissions — 16:9' },
   // Not sustainability-misc.avif: that is an abstract yellow texture, nothing
@@ -25,9 +25,9 @@ const MEDIA = {
   sourcing: { src: siteImage('/images/sustainability/sustainability-factory.avif'), label: 'Sustainable sourcing — 16:9' },
   // Decorative, under a forest-green overlay: no alt. Landscape and capped at
   // 2560px, unlike the 24MP portrait that kept this slot empty before.
-  quote: { src: siteImage('/images/sustainability/sustainability-quote.avif'), label: 'Quote backdrop' },
+  quote: { src: siteImage('/images/sustainability/quote-band.avif'), label: 'Quote backdrop' },
   fair: { src: siteImage('/images/sustainability/sustainability-fair.avif'), label: 'Fair & ethical practices — 16:9', alt: 'Workers in hairnets grading produce on a packing line' },
-  inclusive: { src: siteImage('/images/sustainability/sustainability-inclusive.avif'), label: 'Inclusive supply chains — 16:9', alt: 'Smallholder farmers sharing seed in a field' },
+  inclusive: { src: siteImage('/images/sustainability/inclusive.avif'), label: 'Inclusive supply chains — 16:9', alt: 'A farmer in Jendouba, Tunisia, selling tomatoes and herbs at an outdoor market' },
 } satisfies Record<string, { src: string | null; label: string; alt?: string }>
 
 /* ── Content ── */

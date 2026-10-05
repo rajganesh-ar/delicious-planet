@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FadeIn } from '@/components/animations/FadeIn'
@@ -138,6 +138,13 @@ const FIELD_CLASS =
 export function ContactPageClient({ offices }: ContactPageClientProps) {
   const [activeTab, setActiveTab] = useState<FormTab>('general')
   const [selectedOffice, setSelectedOffice] = useState<number | null>(offices[0]?.id ?? null)
+
+  // "Request a quote" and "Enquire for wholesale" link here as ?type=b2b, which
+  // used to be ignored, so trade buyers landed on the general form. Read after
+  // mount rather than through useSearchParams so the page stays static.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('type') === 'b2b') setActiveTab('b2b')
+  }, [])
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)

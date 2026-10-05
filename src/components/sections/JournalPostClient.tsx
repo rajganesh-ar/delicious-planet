@@ -24,6 +24,8 @@ function formatDate(value?: string | null) {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    // Fixed, so the server (UTC) and a UAE browser render the same day.
+    timeZone: 'Asia/Dubai',
   })
 }
 

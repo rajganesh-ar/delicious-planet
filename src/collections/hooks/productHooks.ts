@@ -72,6 +72,7 @@ export const assertUniqueVariantSkus: CollectionBeforeValidateHook = async ({
     limit: 1,
     depth: 0,
     overrideAccess: true,
+    req,
   })
 
   if (clash.docs.length > 0) {

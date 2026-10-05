@@ -1,5 +1,7 @@
 import React from 'react'
 import type { Metadata, Viewport } from 'next'
+import { Lexend, Merriweather, Poppins } from 'next/font/google'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { ClientShell } from '@/components/layout/ClientShell'
@@ -13,6 +15,33 @@ import { resolveRegions } from '@/lib/regions'
 import { SITE_URL } from '@/lib/site-url'
 import { siteImage } from '@/lib/site-image'
 import './styles.css'
+
+/**
+ * Self-hosted through next/font rather than a fonts.googleapis.com stylesheet.
+ * That link was render-blocking and cross-origin on every first visit, and sat
+ * in <body> where React does not hoist it. next/font serves the files from this
+ * deployment and adds metric-matched fallbacks, so text does not jump when the
+ * real face arrives. The CSS variables feed the @theme font stacks in
+ * styles.css. Outfit is no longer loaded: it only ever sat behind Lexend in
+ * the sans stack, where it was never reached.
+ */
+const lexend = Lexend({ subsets: ['latin'], variable: '--font-lexend', display: 'swap' })
+const merriweather = Merriweather({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  variable: '--font-merriweather',
+  display: 'swap',
+})
+// Static family, so each weight is its own file — not preloaded, or every
+// page would fetch all ten up front.
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-poppins',
+  display: 'swap',
+  preload: false,
+})
 
 const SITE_NAME = 'Delicious Planet'
 const DEFAULT_TITLE = 'Delicious Planet — Premium Food Ingredients'
@@ -41,18 +70,19 @@ export const metadata: Metadata = {
   },
   description: DEFAULT_DESCRIPTION,
   applicationName: SITE_NAME,
+  // Site-wide values only. Next merges `openGraph` per key rather than deriving
+  // it from `title`, so a title, description and url set here were inherited
+  // by every page that did not set its own — /about, /contact and every journal
+  // post shared as the homepage. Without them, link previews fall back to the
+  // page's own <title> and description; pages that want more set their own
+  // (home, products, categories, journal posts).
   openGraph: {
     type: 'website',
     siteName: SITE_NAME,
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
-    url: SITE_URL,
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -67,9 +97,8 @@ export const metadata: Metadata = {
  * Declared explicitly rather than left to Next's default. This layout used to
  * render its own <head> element, which suppresses the framework's automatic
  * metadata injection — the tag went missing entirely and every phone laid the
- * site out at 980px and shrank it to fit, so no `lg:` rule ever applied. The
- * font links below are now plain children that React hoists into <head>; keep
- * it that way, and keep this export.
+ * site out at 980px and shrank it to fit, so no `lg:` rule ever applied. Keep
+ * this export, and keep <head> out of this layout.
  */
 export const viewport: Viewport = {
   width: 'device-width',
@@ -83,16 +112,40 @@ export const viewport: Viewport = {
  * stays invisible site-wide until the next deploy.
  *
  * Routes that await `searchParams`/`params` (`/products`, `/categories/[slug]`,
- * `/journal`) are dynamic already and unaffected.
+ * `/journal`) are dynamic already, which is why the reads themselves are
+ * cached too — see loadLayoutData.
  */
 export const revalidate = 300
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
-  const payload = await getPayload({ config: await config })
+/**
+ * The layout's reads, cached across requests on the same 300s window.
+ *
+ * `revalidate` only helps statically rendered pages. On the dynamic routes this
+ * layout re-ran all six queries — a 1,000-row product scan among them — for
+ * every visitor, which is most of the database work behind a /products page.
+ * The window matches the facet cache in products/page.tsx, so the menus and the
+ * filter counts pick up admin changes on the same cadence.
+ */
+const loadLayoutData = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: await config })
+    const [siteSettings, navigation, categoriesRes, brandsRes, regionsRes, productsRes] =
+      await loadLayoutQueries(payload)
+    return {
+      siteSettings,
+      navigation,
+      categories: categoriesRes.docs,
+      brands: brandsRes.docs,
+      regions: regionsRes.docs,
+      products: productsRes.docs,
+    }
+  },
+  ['storefront-layout'],
+  { revalidate: 300, tags: ['layout', 'products'] },
+)
 
-  const [siteSettings, navigation, categoriesRes, brandsRes, regionsRes, productsRes] =
-    await Promise.all([
+function loadLayoutQueries(payload: Awaited<ReturnType<typeof getPayload>>) {
+  return Promise.all([
       payload.findGlobal({ slug: 'site-settings' }),
       payload.findGlobal({ slug: 'navigation' }),
       // Departments only. The menu lists top-level product types; a
@@ -119,9 +172,15 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         select: { origin: true, brand: true },
       }),
     ])
+}
+
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const { children } = props
+  const { siteSettings, navigation, categories, brands, regions, products } =
+    await loadLayoutData()
 
   const originCounts = new Map<string, number>()
-  for (const doc of productsRes.docs) {
+  for (const doc of products) {
     const country = countryName(doc.origin?.country)
     if (country) originCounts.set(country, (originCounts.get(country) ?? 0) + 1)
   }
@@ -132,17 +191,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // The navbar is generated from the live catalogue so its menus can't drift
   // from it; anything an editor added in the CMS is appended.
   const nav = buildNav({
-    categories: categoriesRes.docs,
-    brands: stockedBrands(brandsRes.docs, productsRes.docs).map(({ brand }) => ({
+    categories,
+    brands: stockedBrands(brands, products).map(({ brand }) => ({
       slug: brand.slug,
       title: brand.title,
     })),
-    regions: resolveRegions(regionsRes.docs),
+    regions: resolveRegions(regions),
     originCountries,
     cmsItems: (navigation.mainNav ?? []).map((item) => ({ label: item.label, href: item.href })),
   })
 
-  const searchScopes: SearchScope[] = categoriesRes.docs.map((cat) => ({
+  const searchScopes: SearchScope[] = categories.map((cat) => ({
     label: cat.title,
     slug: cat.slug,
   }))
@@ -154,18 +213,24 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       : undefined
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${lexend.variable} ${merriweather.variable} ${poppins.variable}`}>
       <body>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
-          rel="stylesheet"
-        />
+        {/* First focusable thing on every page, so keyboard and switch users
+            are not walked through the whole header before the content. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-1000 focus:bg-obsidian focus:text-cream focus:px-4 focus:py-3 focus:text-sm focus:no-underline"
+        >
+          Skip to content
+        </a>
         <ClientShell nav={nav} searchScopes={searchScopes} announcements={announcements}>
-          <main>{children}</main>
+          <main id="main" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
         </ClientShell>
-        <Footer navigation={navigation} siteSettings={siteSettings} />
+        {/* Only the socials: the footer is a client component, and the whole
+            settings global would ship the staff alert address to the browser. */}
+        <Footer navigation={navigation} socials={siteSettings.socials} />
         <FloatingElements />
       </body>
     </html>

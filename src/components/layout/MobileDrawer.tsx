@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import type { NavEntry } from '@/lib/nav'
 import { siteImage } from '@/lib/site-image'
+import { useDialogFocus } from './useDialogFocus'
 
 interface MobileDrawerProps {
   nav: NavEntry[]
@@ -28,6 +29,9 @@ const SUPPORT_LINKS = [
 export function MobileDrawer({ nav, onClose }: MobileDrawerProps) {
   // Everything starts collapsed so the whole nav is scannable at a glance.
   const [openSection, setOpenSection] = useState<string | null>(null)
+  const panelRef = useRef<HTMLElement>(null)
+  // Mounted only while open, so it is always "open" from the hook's side.
+  useDialogFocus(true, panelRef)
 
   return (
     <motion.div
@@ -37,14 +41,18 @@ export function MobileDrawer({ nav, onClose }: MobileDrawerProps) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
     >
+      {/* The tap-outside target. Out of the tab order: it was the first stop,
+          ahead of the menu itself, and the close button inside does its job. */}
       <button
         type="button"
         aria-label="Close menu"
+        tabIndex={-1}
         onClick={onClose}
         className="absolute inset-0 w-full h-full bg-obsidian/55 border-0 cursor-pointer"
       />
 
       <motion.aside
+        ref={panelRef}
         className="absolute inset-y-0 left-0 w-[86%] max-w-88 bg-cream flex flex-col"
         initial={{ x: '-100%' }}
         animate={{ x: 0 }}

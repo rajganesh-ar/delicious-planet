@@ -229,7 +229,7 @@ export function Header({ nav, searchScopes, announcements }: HeaderProps) {
         onChange={(e) => setTerm(e.target.value)}
         placeholder="Search caviar, truffles, olive oil…"
         aria-label="Search products"
-        className="flex-1 min-w-0 h-full px-3.5 bg-transparent border-0 outline-none font-sans text-[13px] text-obsidian placeholder:text-stone/60"
+        className="flex-1 min-w-0 h-full px-3.5 bg-transparent border-0 outline-none font-sans text-base md:text-[13px] text-obsidian placeholder:text-stone/60"
       />
 
       <button

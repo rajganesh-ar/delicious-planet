@@ -10,6 +10,13 @@ interface FadeInProps {
   direction?: 'up' | 'down' | 'left' | 'right' | 'none'
   className?: string
   once?: boolean
+  /**
+   * False for content above the fold. The fade's start state is rendered by
+   * the server as inline `opacity: 0`, so wrapped content stays invisible
+   * until the JavaScript has loaded and hydrated — on a slow phone a blank
+   * product page, and a late Largest Contentful Paint for search ranking.
+   */
+  appear?: boolean
 }
 
 const directionMap = {
@@ -27,13 +34,14 @@ export function FadeIn({
   direction = 'up',
   className,
   once = true,
+  appear = true,
 }: FadeInProps) {
   const offset = directionMap[direction]
 
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, ...offset }}
+      initial={appear ? { opacity: 0, ...offset } : false}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once, margin: '-10%' }}
       transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}

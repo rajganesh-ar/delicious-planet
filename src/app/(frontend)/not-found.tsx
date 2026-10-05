@@ -30,7 +30,7 @@ export default function NotFound() {
 
         <p className="m-0! mt-4! font-sans text-stone text-sm md:text-[15px] leading-relaxed">
           The link may be out of date, or the product may no longer be part of the
-          catalogue. The shelves below are a good place to pick the thread back up.
+          catalogue. The full shop or the category index are good places to pick the thread back up.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">

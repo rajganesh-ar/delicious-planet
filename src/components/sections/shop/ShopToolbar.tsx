@@ -106,18 +106,19 @@ export function ShopToolbar({
             onChange={(e) => onSearch(e.target.value)}
             placeholder="Search in results…"
             aria-label="Search in results"
-            className="w-full min-w-0 bg-transparent border-0 outline-none font-sans text-[12.5px] text-obsidian placeholder:text-stone/40"
+            className="w-full min-w-0 bg-transparent border-0 outline-none font-sans text-base md:text-[12.5px] text-obsidian placeholder:text-stone/40"
           />
         </label>
 
         <label className="flex items-center gap-2 shrink-0 ml-auto md:ml-0">
-          <span className="hidden md:inline font-heading text-[10px] uppercase tracking-[0.14em] font-semibold text-stone/60">
+          {/* sr-only rather than hidden below md, so the select keeps its name on phones. */}
+          <span className="sr-only md:not-sr-only md:inline font-heading text-[10px] uppercase tracking-[0.14em] font-semibold text-stone/60">
             Sort
           </span>
           <select
             value={activeSort}
             onChange={(e) => apply({ sort: e.target.value })}
-            className="h-11 md:h-9 pl-2.5 pr-7 rounded-sm border border-stone/20 bg-white font-sans text-[12px] text-obsidian outline-none cursor-pointer transition-colors hover:border-forest-green focus:border-forest-green appearance-none bg-no-repeat"
+            className="h-11 md:h-9 pl-2.5 pr-7 rounded-sm border border-stone/20 bg-white font-sans text-base md:text-[12px] text-obsidian outline-none cursor-pointer transition-colors hover:border-forest-green focus:border-forest-green appearance-none bg-no-repeat"
             style={{
               backgroundImage:
                 "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2.4'><path d='M5 8l7 7 7-7'/></svg>\")",

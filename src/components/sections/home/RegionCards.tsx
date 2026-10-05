@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { FadeIn } from '@/components/animations/FadeIn'
 import { SectionHeader } from './SectionHeader'
 import type { Region } from '@/lib/regions'
+import { cn } from '@/lib/cn'
 
 interface RegionCardsProps {
   /** Resolved regions — CMS rows merged over the bundled table. */
@@ -34,34 +35,78 @@ export function RegionCards({ regions }: RegionCardsProps) {
         style={{ scrollbarWidth: 'none' }}
       >
         {regions.map((region, i) => {
-          const { eyebrow, label, image: imgUrl } = region
+          const { eyebrow, label, image: imgUrl, highlighted } = region
 
           return (
             <FadeIn
               key={region.slug}
               delay={i * 0.06}
-              className="snap-start shrink-0 grow-0 basis-[46%] sm:basis-[32%] md:basis-[25%] lg:basis-[20%] xl:shrink xl:grow xl:basis-0 xl:min-w-0"
+              className={cn(
+                'snap-start shrink-0 grow-0 xl:shrink xl:basis-0 xl:min-w-0',
+                // The spotlight card is about half as wide again as its
+                // neighbours. Its height still comes from them: it drops the
+                // 3:4 ratio and fills the stretched flex item instead.
+                highlighted
+                  ? 'basis-[72%] sm:basis-[50%] md:basis-[40%] lg:basis-[32%] xl:grow-[1.6]'
+                  : 'basis-[46%] sm:basis-[32%] md:basis-[25%] lg:basis-[20%] xl:grow',
+              )}
             >
               <Link
                 href={`/products?region=${region.slug}`}
-                className="group relative block no-underline overflow-hidden rounded-sm aspect-3/4 bg-charcoal"
+                className={cn(
+                  'group relative block no-underline overflow-hidden rounded-sm bg-charcoal',
+                  // The min-h only matters if every other region is hidden; it
+                  // stays below the shortest neighbour so it never sets the height.
+                  highlighted ? 'h-full min-h-32' : 'aspect-3/4',
+                )}
               >
                 {imgUrl && (
                   <Image
                     src={imgUrl}
                     alt={label}
                     fill
-                    sizes="(max-width: 768px) 46vw, (max-width: 1280px) 25vw, 14vw"
+                    sizes={
+                      highlighted
+                        ? '(max-width: 768px) 72vw, (max-width: 1280px) 40vw, 22vw'
+                        : '(max-width: 768px) 46vw, (max-width: 1280px) 25vw, 14vw'
+                    }
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 )}
                 {/* Strong bottom scrim — the region artwork is busy and bright */}
                 <div className="absolute inset-0 bg-linear-to-t from-obsidian via-obsidian/55 to-obsidian/10 transition-opacity duration-500 opacity-90 group-hover:opacity-100" />
 
+                {highlighted && (
+                  <>
+                    {/* A border, not a ring: the row's overflow clips anything
+                        drawn outside the first card, and an inset shadow would
+                        sit under the photo. */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 z-20 rounded-sm border-2 border-gold pointer-events-none"
+                    />
+                    <span className="absolute top-3 left-3 md:top-4 md:left-4 z-10 rounded-pill bg-gold px-2.5 py-1 font-heading text-[10px] font-semibold uppercase tracking-[0.14em] text-obsidian leading-none">
+                      Featured origin
+                    </span>
+                  </>
+                )}
+
                 <div className="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-4">
-                  <p className="font-sans text-[10px] text-cream/70 m-0 leading-none">{eyebrow}</p>
+                  <p
+                    className={cn(
+                      'font-sans text-[10px] m-0 leading-none',
+                      highlighted ? 'text-gold-light' : 'text-cream/70',
+                    )}
+                  >
+                    {eyebrow}
+                  </p>
                   <h3 className="m-0! mt-1!">
-                    <span className="block font-luxury text-cream font-semibold leading-tight tracking-tight text-sm md:text-base lg:text-lg">
+                    <span
+                      className={cn(
+                        'block font-luxury text-cream font-semibold leading-tight tracking-tight',
+                        highlighted ? 'text-lg md:text-xl' : 'text-sm md:text-base lg:text-lg',
+                      )}
+                    >
                       {label}
                     </span>
                   </h3>

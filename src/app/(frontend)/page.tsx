@@ -17,6 +17,10 @@ import { BRAND_STRIP_MARKS } from '@/components/sections/home/BrandStrip'
 export const metadata: Metadata = {
   title: { absolute: 'Delicious Planet — Premium Food Ingredients' },
   alternates: { canonical: '/' },
+  openGraph: {
+    title: 'Delicious Planet — Premium Food Ingredients',
+    url: '/',
+  },
 }
 
 const PUBLISHED = { _status: { equals: 'published' } } as const
@@ -145,16 +149,16 @@ export default async function HomePage() {
     .sort((a, b) => b.count - a.count || a.country.localeCompare(b.country))
     .slice(0, MAX_COUNTRIES)
 
-  // Only surface dietary facets that actually match something.
+  // Only surface dietary facets that actually match something. A count query,
+  // not a find: `limit: 0` means "no limit" to Payload, so each of these used to
+  // load every matching product in full just to read `totalDocs`.
   const dietaryCounts = await Promise.all(
     DIETARY_FACETS.map(async (facet) => {
-      const res = await payload.find({
+      const { totalDocs } = await payload.count({
         collection: 'products',
         where: { and: [PUBLISHED, dietaryWhere(facet)] },
-        limit: 0,
-        depth: 0,
       })
-      return { slug: facet.slug, label: facet.label, count: res.totalDocs }
+      return { slug: facet.slug, label: facet.label, count: totalDocs }
     }),
   )
   const dietaryFacets = dietaryCounts

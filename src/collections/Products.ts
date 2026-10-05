@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { adminOnlyInNav, catalogueAccess, publishedOrStaff } from './access'
+import { adminOnlyInNav, catalogueAccess, isAdmin, publishedOrStaff } from './access'
 import { COUNTRY_OPTIONS, REGION_BY_COUNTRY, REGION_SLUGS } from '../lib/countries'
 import {
   assertUniqueVariantSkus,
@@ -20,6 +20,9 @@ export const Products: CollectionConfig = {
   access: {
     ...catalogueAccess,
     read: publishedOrStaff,
+    // Unset, Payload lets any signed-in user read versions, so a shopper with
+    // an account could list unpublished products and every past price.
+    readVersions: isAdmin,
   },
   versions: {
     drafts: {

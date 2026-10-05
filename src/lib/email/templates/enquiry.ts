@@ -49,14 +49,18 @@ export function enquiryAdminAlertEmail(inquiry: B2BInquiry) {
   return { subject: `Enquiry from ${inquiry.company}`, html, text }
 }
 
-export function enquiryAcknowledgementEmail(inquiry: B2BInquiry) {
+/**
+ * Fixed wording, deliberately. The form is public and this goes to whatever
+ * address was typed in, so echoing the submitted name and message let anyone
+ * send their own text to any inbox from the company mailbox, DKIM-signed by
+ * Google. The staff alert above still carries everything.
+ */
+export function enquiryAcknowledgementEmail(_inquiry: B2BInquiry) {
   const { html, text } = renderEmail({
     preheader: 'We have your enquiry and will come back to you shortly.',
     heading: 'Thank you for getting in touch',
-    intro: `${inquiry.contactName}, we have received your enquiry and a member of the team will reply shortly.`,
+    intro: 'We have received your enquiry and a member of the team will reply shortly.',
     blocks: [
-      // Their own words back to them, so they can see what actually arrived.
-      { type: 'lines', title: 'What you sent us', lines: inquiry.message.split(/\r?\n/) },
       {
         type: 'paragraph',
         text: 'We typically reply within one business day. If your enquiry is urgent, call or message us on the number below.',

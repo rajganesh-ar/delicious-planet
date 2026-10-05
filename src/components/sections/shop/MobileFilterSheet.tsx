@@ -7,6 +7,7 @@ import { MENU_LOCK_EVENT } from '@/components/layout/menu-events'
 import { FilterPanel } from './FilterPanel'
 import { useShopFilters } from './useShopFilters'
 import type { ShopFacets, ShopSelection } from '@/lib/shop-facets'
+import { useDialogFocus } from '@/components/layout/useDialogFocus'
 
 interface MobileFilterSheetProps {
   open: boolean
@@ -36,6 +37,8 @@ export function MobileFilterSheet({
 }: MobileFilterSheetProps) {
   const { clearedHref } = useShopFilters()
   const closeRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
+  useDialogFocus(open, panelRef)
 
   useEffect(() => {
     if (!open) return
@@ -74,6 +77,7 @@ export function MobileFilterSheet({
           />
 
           <motion.aside
+            ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label="Filter products"

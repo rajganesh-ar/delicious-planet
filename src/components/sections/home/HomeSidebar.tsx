@@ -48,7 +48,7 @@ function Group({ children }: { children: React.ReactNode }) {
  * Nav links use a child <span> for colour: the unlayered `a { color: currentColor }`
  * rule in styles.css outranks text utilities set on the anchor itself.
  */
-function NavLink({ href, label }: { href: string; label: string }) {
+function NavLink({ href, label, badge }: { href: string; label: string; badge?: string }) {
   return (
     <li className="m-0">
       <Link href={href} className="group flex items-center gap-1.5 py-1 no-underline">
@@ -56,6 +56,11 @@ function NavLink({ href, label }: { href: string; label: string }) {
         <span className="font-sans text-[12.5px] text-stone group-hover:text-forest-green transition-colors leading-snug">
           {label}
         </span>
+        {badge && (
+          <span className="ml-auto rounded-pill bg-gold/30 px-1.5 py-0.5 font-heading text-[9px] font-semibold uppercase tracking-[0.12em] text-forest-green leading-none">
+            {badge}
+          </span>
+        )}
       </Link>
     </li>
   )
@@ -145,6 +150,7 @@ export function HomeSidebar({ categories, regions, dietaryFacets, picks }: HomeS
                         key={region.slug}
                         href={`/products?region=${region.slug}`}
                         label={region.label}
+                        badge={region.highlighted ? 'Featured' : undefined}
                       />
                     ))}
                   </ul>
@@ -237,7 +243,7 @@ export function HomeSidebar({ categories, regions, dietaryFacets, picks }: HomeS
             className="group relative block no-underline overflow-hidden rounded-sm border border-stone/15 aspect-3/4 bg-charcoal"
           >
             <Image
-              src={siteImage('/images/b2b/commercial-resturant.avif')}
+              src={siteImage('/images/home/partner-sidebar.avif')}
               alt=""
               fill
               sizes="240px"

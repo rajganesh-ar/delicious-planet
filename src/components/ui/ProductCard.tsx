@@ -9,6 +9,7 @@ import {
   getThumbUrl,
   getPrice,
   getCheapestVariant,
+  hasMultipleSizes,
   getCategoryTitle,
   getBrandName,
   isOnSale,
@@ -39,11 +40,20 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
   // The card shows a "from" price, so quick-add must add the variant that
   // price belongs to — never a different size at a different amount.
   const quickAddVariant = getCheapestVariant(product)
+  const multipleSizes = hasMultipleSizes(product)
+  // `product.inStock` is true when *any* size is. When the cheapest size — the
+  // one the card prices — is the sold-out one, quick-add would put an
+  // unbuyable line in the basket that only fails at checkout, so the button
+  // sends the shopper to pick a size instead.
+  const canQuickAdd = Boolean(
+    price && product.inStock && quickAddVariant?.sku && quickAddVariant.inStock !== false,
+  )
+  const chooseSize = Boolean(price && product.inStock && !canQuickAdd)
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (!price || !product.inStock || !quickAddVariant?.sku) return
+    if (!canQuickAdd || !price || !quickAddVariant?.sku) return
     addItem({
       productId: String(product.id),
       variantSku: quickAddVariant.sku,
@@ -104,9 +114,12 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
       </div>
 
       {/* Image */}
+      {/* Out of the tab order: the title and "View" below go to the same page,
+          and three stops per card made a 24-card grid 72 stops long. */}
       <Link
         href={`/products/${product.slug}`}
         aria-label={product.title}
+        tabIndex={-1}
         className="block no-underline shrink-0"
       >
         <div className="relative aspect-square w-full overflow-hidden bg-[#f5f4f1]">
@@ -176,6 +189,9 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
         {price && (
           <div className="flex items-baseline gap-1.5" style={{ marginTop: '3px' }}>
             <span className="text-[13px] sm:text-xs font-semibold text-obsidian tracking-tight">
+              {multipleSizes && (
+                <span className="font-normal text-stone">From </span>
+              )}
               {formatPrice(price.amount)}
             </span>
             {onSale && price.compareAt && (
@@ -190,24 +206,36 @@ export function ProductCard({ product, index, isNew = false }: ProductCardProps)
             Single column at the 2-up mobile grid: side by side the cells are
             ~70px and both labels wrap onto two lines inside a 36px button. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-auto pt-2">
-          <button
-            type="button"
-            onClick={handleQuickAdd}
-            disabled={!product.inStock || !price}
-            className="flex items-center justify-center gap-1 h-11 sm:h-8 bg-obsidian text-cream text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-obsidian cursor-pointer transition-colors hover:bg-forest-green hover:border-forest-green disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-obsidian rounded-sm"
-          >
-            <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 0 1-8 0" />
-            </svg>
-            <span className="whitespace-nowrap">
-              {product.inStock ? 'Add to Cart' : 'Sold Out'}
-            </span>
-          </button>
+          {chooseSize ? (
+            <Link
+              href={`/products/${product.slug}`}
+              aria-label={`Choose a size of ${product.title}`}
+              className="flex items-center justify-center gap-1 h-11 sm:h-8 bg-obsidian text-cream text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-obsidian no-underline transition-colors hover:bg-forest-green hover:border-forest-green rounded-sm"
+            >
+              <span className="whitespace-nowrap">Choose Size</span>
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={handleQuickAdd}
+              disabled={!canQuickAdd}
+              aria-label={canQuickAdd ? `Add ${product.title} to cart` : `${product.title} is sold out`}
+              className="flex items-center justify-center gap-1 h-11 sm:h-8 bg-obsidian text-cream text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-obsidian cursor-pointer transition-colors hover:bg-forest-green hover:border-forest-green disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-obsidian rounded-sm"
+            >
+              <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              <span className="whitespace-nowrap">
+                {product.inStock ? 'Add to Cart' : 'Sold Out'}
+              </span>
+            </button>
+          )}
 
           <Link
             href={`/products/${product.slug}`}
+            aria-label={`View ${product.title}`}
             className="flex items-center justify-center gap-1 h-11 sm:h-8 bg-transparent text-obsidian text-[9px] sm:text-[8px] uppercase tracking-[0.14em] font-semibold border border-forest-green/40 no-underline transition-colors hover:bg-forest-green hover:text-cream hover:border-forest-green rounded-sm"
           >
             <span className="whitespace-nowrap">View More</span>

@@ -26,7 +26,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   'artisan-heritage-breads': siteImage('/images/collections/breads.avif'),
   'specialty-coffee-reserve': siteImage('/images/collections/coffee.avif'),
   'botanical-seed-selection': siteImage('/images/collections/seeds.avif'),
-  'curated-fine-beverages': siteImage('/images/collections/beverages.avif'),
+  'curated-fine-beverages': siteImage('/images/collections/fine-beverages.avif'),
 
   caviar: siteImage('/images/collections/caviar.avif'),
   'caviar-gift-sets': siteImage('/images/collections/caviar.avif'),

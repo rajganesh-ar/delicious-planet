@@ -13,6 +13,7 @@ import {
   type ShopSelection,
 } from '@/lib/shop-facets'
 import type { Where } from 'payload'
+import { pageParam } from '@/lib/pagination'
 
 interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>
@@ -87,7 +88,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   const params = await searchParams
   const payload = await getPayload({ config: await config })
 
-  const page = Number(params.page) || 1
+  const page = pageParam(params.page)
   const sort = str(params.sort) || '-createdAt'
   // `?collection=` is the old product-collections param. Those rows are
   // categories now and kept their slugs, so links already in the wild resolve.

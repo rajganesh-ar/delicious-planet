@@ -1,3 +1,4 @@
+import { isValidEmail } from './email-address'
 import type { SelectOption } from './portal-options'
 
 /**
@@ -26,9 +27,10 @@ export function str(value: unknown, maxLength = 2000): string | undefined {
 export function email(value: unknown): string | undefined {
   const text = str(value, 254)
   if (!text) return undefined
-  // Deliberately loose. The authority on whether an address exists is whether
-  // the message arrives; this only rejects what is obviously not one.
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text) ? text.toLowerCase() : undefined
+  // Payload's own rule, so an address it would reject inside the create is
+  // turned away here with a field error instead of a 500. Whether it exists is
+  // still for the inbox to decide.
+  return isValidEmail(text) ? text.toLowerCase() : undefined
 }
 
 export function bool(value: unknown): boolean {

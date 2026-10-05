@@ -43,7 +43,7 @@ interface BrandsPageClientProps {
 }
 
 const MEDIA = {
-  masthead: { src: siteImage('/images/sourcing/sourcing-agriculture.avif'), label: 'Producer network — 3:2' },
+  masthead: { src: siteImage('/images/brands/masthead.avif'), label: 'Producer network — 3:2' },
 }
 
 /**
@@ -139,16 +139,20 @@ export function BrandsPageClient({ brands, brandMarks }: BrandsPageClientProps) 
                       className="relative aspect-3/2 border-r border-b border-cream/12 flex items-center justify-center p-4 md:p-5"
                     >
                       {mark.src ? (
+                        // A white tile under each logo: most brand marks are dark
+                        // ink drawn for a light pack, and vanish on obsidian.
                         // `fill` + a sized parent: unlayered `img { height: auto }`
                         // in styles.css beats height utilities on a sized <Image>.
-                        <span className="relative block w-full h-full">
-                          <Image
-                            src={mark.src}
-                            alt={mark.name}
-                            fill
-                            sizes="(max-width: 1024px) 30vw, 15vw"
-                            className="object-contain opacity-70 hover:opacity-100 transition-opacity"
-                          />
+                        <span className="block w-full h-full bg-white rounded-sm p-2.5 md:p-3">
+                          <span className="relative block w-full h-full">
+                            <Image
+                              src={mark.src}
+                              alt={mark.name}
+                              fill
+                              sizes="(max-width: 1024px) 30vw, 15vw"
+                              className="object-contain"
+                            />
+                          </span>
                         </span>
                       ) : (
                         <span className="font-luxury text-sm md:text-base font-semibold text-cream/70 text-center leading-tight">
@@ -197,7 +201,7 @@ export function BrandsPageClient({ brands, brandMarks }: BrandsPageClientProps) 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search producers"
-              className="h-10 w-full sm:w-64 px-3 rounded-sm border border-stone/25 bg-white font-sans text-[13px] text-obsidian placeholder:text-stone/60 outline-none focus:border-forest-green transition-colors"
+              className="h-10 w-full sm:w-64 px-3 rounded-sm border border-stone/25 bg-white font-sans text-base md:text-[13px] text-obsidian placeholder:text-stone/60 outline-none focus:border-forest-green transition-colors"
             />
 
             <div className="flex items-center gap-1.5 flex-wrap">

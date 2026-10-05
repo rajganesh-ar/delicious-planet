@@ -21,9 +21,9 @@ const MEDIA = {
   networkDirect: { src: siteImage('/images/sourcing/sourcing-1.avif'), label: 'Producer relationships — 16:9' },
   networkStrategic: { src: siteImage('/images/sourcing/sourcing-agriculture.avif'), label: 'Regional partnerships — 16:9' },
   networkPhased: { src: siteImage('/images/sourcing/sourcing-network-phased.avif'), label: 'Measured expansion — 16:9', alt: 'Rows of young trees on newly planted farmland' },
-  standards: { src: siteImage('/images/sourcing/sourcing-standards.avif'), label: 'Quality verification — 4:5', alt: 'A technician testing coffee beans with a moisture meter' },
+  standards: { src: siteImage('/images/sourcing/quality-verification.avif'), label: 'Quality verification — 4:5', alt: 'A woman in Nigeria sorting rice by hand in a woven basket' },
   environmental: { src: siteImage('/images/sourcing/sourcing-environmental.avif'), label: 'Environmental responsibility — 16:9', alt: 'Young wheat rows growing in tilled soil' },
-  social: { src: siteImage('/images/sourcing/sourcing-social.avif'), label: 'Social impact — 16:9', alt: 'Tea pluckers gathered at a weighing station' },
+  social: { src: siteImage('/images/sourcing/social-impact.avif'), label: 'Social impact — 16:9', alt: 'Farmers in Taounate, Morocco, bagging freshly threshed wheat' },
   partnership: { src: siteImage('/images/sourcing/sourcing-partnership.avif'), label: 'Supplier partnership — 4:3', alt: 'A handshake across a wheat field' },
 } satisfies Record<string, { src: string | null; label: string; alt?: string }>
 

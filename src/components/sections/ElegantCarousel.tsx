@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useReducedMotion } from 'framer-motion'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { FadeIn } from '@/components/animations/FadeIn'
 
@@ -34,6 +35,27 @@ export default function ElegantCarousel({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [progress, setProgress] = useState(0)
   const touchStartX = useRef(0)
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  /*
+   * Autoplay holds while the pointer or keyboard focus is inside (WCAG 2.2.2
+   * — this one never paused), never starts for reduced-motion users, and
+   * sleeps while the carousel is off-screen, where its 50ms progress tick
+   * re-rendered the component for nobody.
+   */
+  const [hovered, setHovered] = useState(false)
+  const [focusWithin, setFocusWithin] = useState(false)
+  const reduceMotion = useReducedMotion()
+  const [onScreen, setOnScreen] = useState(true)
+  const autoplay = !hovered && !focusWithin && !reduceMotion && onScreen
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry?.isIntersecting ?? true))
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   // These read `currentIndex`/`isTransitioning` straight from state rather than
   // through mirror refs. The autoplay effect below already re-subscribes on every
@@ -61,6 +83,7 @@ export default function ElegantCarousel({
 
   // Autoplay & progress
   useEffect(() => {
+    if (!autoplay) return
     const progressInterval = setInterval(() => {
       setProgress((prev) => (prev >= 100 ? 100 : prev + 100 / (autoPlayInterval / 50)))
     }, 50)
@@ -71,7 +94,7 @@ export default function ElegantCarousel({
       clearInterval(autoPlayTimer)
       clearInterval(progressInterval)
     }
-  }, [currentIndex, autoPlayInterval, goNext])
+  }, [currentIndex, autoPlayInterval, goNext, autoplay])
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
@@ -88,7 +111,18 @@ export default function ElegantCarousel({
   const slide = items[currentIndex]
 
   return (
-    <div className="relative" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div
+      ref={rootRef}
+      className="relative"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocusWithin(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusWithin(false)
+      }}
+    >
       {/* Main content */}
       <div className={`w-full ${pad}`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-100 sm:min-h-110 lg:min-h-125">

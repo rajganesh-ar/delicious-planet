@@ -14,7 +14,7 @@ import {
 import { safeRedirect, withRedirect } from '@/lib/redirect'
 import { siteImage } from '@/lib/site-image'
 
-const PANEL_IMAGE = { src: siteImage('/images/about/about-retail.avif'), label: 'Account panel — portrait' }
+const PANEL_IMAGE = { src: siteImage('/images/auth/login.avif'), label: 'Account panel — portrait' }
 
 const PANEL_POINTS = [
   'Track every dispatch from the warehouse to your door',

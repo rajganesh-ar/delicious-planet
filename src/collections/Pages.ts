@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { adminOnlyInNav, adminOnlyWrites } from './access'
+import { adminOnlyInNav, adminOnlyWrites, isAdmin, publishedOrStaff } from './access'
 import {
   HeroBlock,
   FeaturedProductsBlock,
@@ -29,10 +29,10 @@ export const Pages: CollectionConfig = {
   },
   access: {
     ...adminOnlyWrites,
-    read: ({ req: { user } }) => {
-      if (user) return true
-      return { _status: { equals: 'published' } }
-    },
+    // Any signed-in user used to read drafts here, and every shopper can make
+    // an account. Drafts and their history are for staff.
+    read: publishedOrStaff,
+    readVersions: isAdmin,
   },
   fields: [
     { name: 'title', type: 'text', required: true },

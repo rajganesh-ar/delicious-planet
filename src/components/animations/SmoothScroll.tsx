@@ -16,10 +16,20 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
 
+    // Someone who has asked their system for less motion gets the browser's own
+    // scrolling. Nothing else depends on Lenis being there: the menu lock below
+    // only pauses it, and the page itself is locked separately.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      // Leave gestures inside a dialog to the browser. An open overlay stops
+      // Lenis, and a stopped Lenis cancels every wheel and touchmove it sees —
+      // which made the basket, the mobile menu and the filter sheet impossible
+      // to scroll. Matching the role covers those three and any added later.
+      prevent: (node) => node.getAttribute('role') === 'dialog',
     })
 
     lenisRef.current = lenis

@@ -23,7 +23,7 @@ export const Users: CollectionConfig = {
     group: 'Customers',
     hidden: adminOnlyInNav,
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'role'],
+    defaultColumns: ['email', 'name', 'roles'],
   },
   auth: {
     forgotPassword: {

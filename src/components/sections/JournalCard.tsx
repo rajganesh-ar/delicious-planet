@@ -25,6 +25,8 @@ export function readPost(post: BlogPost, size: 'card' | 'hero' = 'card') {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
+          // Fixed, so the server (UTC) and a UAE browser render the same day.
+          timeZone: 'Asia/Dubai',
         })
       : null,
   }

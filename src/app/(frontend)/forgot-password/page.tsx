@@ -13,7 +13,7 @@ import {
 } from '@/components/sections/AuthShell'
 import { siteImage } from '@/lib/site-image'
 
-const PANEL_IMAGE = { src: siteImage('/images/sourcing/sourcing-farmer.avif'), label: 'Reset panel' }
+const PANEL_IMAGE = { src: siteImage('/images/auth/forgot-password.avif'), label: 'Reset panel' }
 
 const PANEL_POINTS = [
   'Reset links expire shortly after they are issued',
@@ -33,13 +33,23 @@ export default function ForgotPasswordPage() {
     setLoading(true)
 
     try {
-      // The same confirmation shows either way: telling a visitor whether an
-      // address is registered would leak account existence.
-      await fetch('/api/users/forgot-password', {
+      // The same confirmation shows whether or not the address is registered —
+      // Payload answers 200 for both, so checking `ok` leaks nothing. What it
+      // does catch is a request that never reached the mailer (rate limit,
+      // server error), which used to say "check your email" all the same.
+      const res = await fetch('/api/users/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
+      if (res.status === 429) {
+        setError('Too many attempts. Please wait a minute and try again.')
+        return
+      }
+      if (!res.ok && res.status !== 400) {
+        setError('We could not send the link just now. Please try again.')
+        return
+      }
       setSubmitted(true)
     } catch {
       setError('An error occurred. Please try again.')

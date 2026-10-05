@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { JournalPageClient } from '@/components/sections/JournalPageClient'
+import { pageParam } from '@/lib/pagination'
 
 export const metadata = {
   title: 'Journal',
@@ -14,7 +15,7 @@ export default async function JournalPage({
   searchParams: Promise<{ page?: string; category?: string }>
 }) {
   const params = await searchParams
-  const page = parseInt(params.page || '1', 10)
+  const page = pageParam(params.page)
   const limit = 12
 
   const payload = await getPayload({ config: await config })

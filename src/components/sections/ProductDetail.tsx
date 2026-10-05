@@ -140,7 +140,9 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                 image is right on a phone, but at 1440 an unconstrained one
                 towers over the buy box and opens a hole beside it. */}
             <div className="mx-auto w-full max-w-sm lg:max-w-none lg:mx-0 lg:col-span-5 xl:col-span-4 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
-              <FadeIn>
+              {/* appear={false}: these three are the fold, and the gallery
+                  image is the page's largest paint. */}
+              <FadeIn appear={false}>
                 <ProductGallery
                   images={images}
                   active={Math.min(activeImage, Math.max(images.length - 1, 0))}
@@ -156,7 +158,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
 
             <div className="lg:col-span-7 xl:col-span-8 grid grid-cols-1 xl:grid-cols-12 gap-5 xl:gap-7 items-start">
               {/* Identity — the reading half of the fold */}
-              <FadeIn className="xl:col-span-7">
+              <FadeIn appear={false} className="xl:col-span-7">
                 <div>
                   {(brand || category) && (
                     <p className="font-heading text-[10px] uppercase tracking-[0.2em] font-semibold text-forest-green m-0 mb-2">
@@ -257,7 +259,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </FadeIn>
 
               {/* Buy box — sticky on its own at xl, where it has a column */}
-              <FadeIn delay={0.08} className="xl:col-span-5 xl:sticky xl:top-[calc(var(--header-h)+1.5rem)]">
+              <FadeIn appear={false} className="xl:col-span-5 xl:sticky xl:top-[calc(var(--header-h)+1.5rem)]">
                 <BuyBox
                   product={product}
                   variants={variants}
@@ -409,7 +411,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
 
           <div className="flex flex-wrap gap-2 shrink-0">
             <Link
-              href="/contact?type=b2b"
+              href="/contact?type=b2b#enquiry"
               className="h-11 px-5 inline-flex items-center rounded-sm bg-cream no-underline transition-colors hover:bg-olivine"
             >
               <span className="font-heading text-[10px] uppercase tracking-[0.14em] font-semibold text-obsidian">

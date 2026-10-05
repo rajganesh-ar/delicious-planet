@@ -68,8 +68,8 @@ export default function GlobalError({
                 color: '#5c564e',
               }}
             >
-              We hit an error we couldn&rsquo;t recover from. Our team has been notified — please
-              try again in a moment.
+              We hit an error we couldn&rsquo;t recover from. Please try again in a moment, and
+              contact us if it keeps happening.
             </p>
             {error.digest && (
               <p

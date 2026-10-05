@@ -21,6 +21,18 @@ describe('safeRedirect', () => {
     expect(safeRedirect('javascript:alert(1)')).toBe('/account')
     expect(safeRedirect('checkout')).toBe('/account')
   })
+
+  it('refuses paths a browser turns into another host', () => {
+    // What arrives after searchParams has decoded %5C, %09 and %0a.
+    expect(safeRedirect('/\\evil.example')).toBe('/account')
+    expect(safeRedirect('/\\/evil.example')).toBe('/account')
+    expect(safeRedirect('/\t/evil.example')).toBe('/account')
+    expect(safeRedirect('/\n/evil.example')).toBe('/account')
+  })
+
+  it('keeps the query and hash of a same-origin path', () => {
+    expect(safeRedirect('/products?category=oils#grid')).toBe('/products?category=oils#grid')
+  })
 })
 
 describe('withRedirect', () => {

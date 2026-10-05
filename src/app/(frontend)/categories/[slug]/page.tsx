@@ -6,6 +6,7 @@ import config from '@/payload.config'
 import { CategoryPageClient } from '@/components/sections/CategoryPageClient'
 import { absoluteUrl } from '@/lib/site-url'
 import type { Category } from '@/payload-types'
+import { pageParam } from '@/lib/pagination'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -53,7 +54,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const category = await loadCategory(slug)
   if (!category) notFound()
 
-  const page = Number(sp.page) || 1
+  const page = pageParam(sp.page)
   const sort = (typeof sp.sort === 'string' ? sp.sort : '-createdAt') as string
 
   // Products attach to leaves, so a department has none of its own once it has

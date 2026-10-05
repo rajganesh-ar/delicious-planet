@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { siteImage } from '@/lib/site-image'
 
 interface HeroSlide {
@@ -19,7 +19,7 @@ interface HeroSlide {
 
 const SLIDES: HeroSlide[] = [
   {
-    image: siteImage('/images/about/about-cover.avif'),
+    image: siteImage('/images/home/hero-world-flavours.avif'),
     lead: 'Discover',
     accent: 'Authentic Flavors',
     tail: 'From Around the World',
@@ -28,7 +28,7 @@ const SLIDES: HeroSlide[] = [
     secondary: { label: 'Explore Regions', href: '/products?region=europe' },
   },
   {
-    image: siteImage('/images/sourcing/sourcing-farmer.avif'),
+    image: siteImage('/images/home/hero-producers.avif'),
     lead: 'Sourced Direct',
     accent: 'From the Producers',
     tail: 'Who Know Them Best',
@@ -37,7 +37,7 @@ const SLIDES: HeroSlide[] = [
     secondary: { label: 'Shop Best Sellers', href: '/products?featured=true' },
   },
   {
-    image: siteImage('/images/collections/oils.avif'),
+    image: siteImage('/images/home/hero-collections.avif'),
     lead: 'Curated',
     accent: 'Gourmet Collections',
     tail: 'For Every Kitchen',
@@ -51,7 +51,18 @@ const AUTOPLAY_MS = 7000
 
 export function HomeHero() {
   const [index, setIndex] = useState(0)
-  const [paused, setPaused] = useState(false)
+  /*
+   * Four reasons to hold a slide, kept apart so one ending does not cancel
+   * another. Moving content needs a way to stop it (WCAG 2.2.2) that works
+   * without a mouse: the button below, and keyboard focus inside — otherwise
+   * the slide changed under a focused "Shop Now" link, unmounted it, and
+   * dropped focus to the top of the page. Reduced-motion users get no autoplay.
+   */
+  const [hovered, setHovered] = useState(false)
+  const [focusWithin, setFocusWithin] = useState(false)
+  const [stopped, setStopped] = useState(false)
+  const reduceMotion = useReducedMotion()
+  const paused = hovered || focusWithin || stopped || Boolean(reduceMotion)
 
   const goTo = useCallback((i: number) => setIndex(((i % SLIDES.length) + SLIDES.length) % SLIDES.length), [])
 
@@ -68,8 +79,12 @@ export function HomeHero() {
       /* svh, not vh: with vh the hero resizes every time mobile browser chrome
          collapses on scroll, which shifts the headline mid-read. */
       className="relative w-full h-[68svh] min-h-105 max-h-170 overflow-hidden bg-obsidian"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocusWithin(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusWithin(false)
+      }}
       aria-roledescription="carousel"
       aria-label="Featured"
     >
@@ -152,7 +167,23 @@ export function HomeHero() {
       {/* The dot is the mark; the button around it is the target. Bare 6px dots
           are unhittable on a phone, so each one carries a 44px-tall hit area
           and the visual bar lives on an inner span. */}
-      <div className="absolute z-10 bottom-2 md:bottom-4 left-0 right-0 flex justify-center">
+      <div className="absolute z-10 bottom-2 md:bottom-4 left-0 right-0 flex justify-center items-center">
+        <button
+          type="button"
+          onClick={() => setStopped((v) => !v)}
+          aria-label={stopped ? 'Play slideshow' : 'Pause slideshow'}
+          className="h-11 w-11 flex items-center justify-center bg-transparent border-0 cursor-pointer text-cream/70 hover:text-cream"
+        >
+          {stopped ? (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M7 4v16l13-8z" />
+            </svg>
+          ) : (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+            </svg>
+          )}
+        </button>
         {SLIDES.map((s, i) => (
           <button
             key={s.image}

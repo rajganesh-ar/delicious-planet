@@ -188,6 +188,15 @@ export default buildConfig({
         })
       : undefined,
   editor: lexicalEditor(),
+  /**
+   * Nothing uses GraphQL: the storefront reads through the Local API and REST,
+   * and the admin through REST. Left on, /api/graphql was a second write path
+   * the REST rate limits in proxy.ts never saw, and one request could alias
+   * hundreds of logins, sign-ups or enquiry submissions. The generated route
+   * files are parked in md/unused/app — this flag alone does not stop them
+   * serving.
+   */
+  graphQL: { disable: true },
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -41,6 +41,7 @@
   ],
   "exclude": [
     "node_modules",
+    "md/unused",
     "md/unused-assets"
   ]
 }
